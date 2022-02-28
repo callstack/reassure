@@ -25,7 +25,7 @@ export interface MeasureRenderStats {
 
 export async function measureRender(
   ui: React.ReactElement,
-  options: MeasureRenderOptions
+  options?: MeasureRenderOptions
 ): Promise<MeasureRenderStats> {
   const scale = options?.scale ?? 1;
   const wrapper = options?.wrapper;
