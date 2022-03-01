@@ -1,1 +1,1 @@
-export { measureRender } from './measureRender';
+export { measureRender, writeTestStats, clearTestStats } from './measure';
