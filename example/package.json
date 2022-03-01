@@ -7,6 +7,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js"
   },
   "dependencies": {
@@ -16,10 +17,12 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/runtime": "^7.12.5",
+    "@callstack/eslint-config": "^12.0.2",
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^9.0.0",
     "babel-jest": "^27.5.1",
     "babel-plugin-module-resolver": "^4.0.0",
+    "eslint": "^8.10.0",
     "jest": "^27.5.1",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "^17.0.2"

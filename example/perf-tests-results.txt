@@ -1,0 +1,1 @@
+{"name":"AsyncComponent","meanDuration":38.7,"stdevDuration":3.0568684048294337,"meanCount":7,"stdevCount":0,"runs":10}

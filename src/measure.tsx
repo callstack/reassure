@@ -3,14 +3,18 @@ import React from 'react';
 import { render, RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
 
-const config = {
+export const defaultConfig = {
   count: 10,
   dropFirst: 1,
   outputFile: 'perf-tests-results.txt',
 };
 
+let config = defaultConfig;
+
 interface MeasureRenderOptions {
   scale?: number;
+  count?: number;
+  dropFirst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
 }
@@ -23,20 +27,33 @@ export interface MeasureRenderStats {
   runs: number;
 }
 
+export function configure(customConfig: typeof defaultConfig) {
+  config = {
+    ...defaultConfig,
+    ...customConfig,
+  };
+}
+
+export function resetToDefault() {
+  config = defaultConfig;
+}
+
 export async function measureRender(
   ui: React.ReactElement,
   options?: MeasureRenderOptions
 ): Promise<MeasureRenderStats> {
   const scale = options?.scale ?? 1;
+  const count = options?.count ?? config.count;
   const wrapper = options?.wrapper;
   const scenario = options?.scenario;
+  const dropFirst = options?.dropFirst ?? config.dropFirst;
 
   const durations = [];
   const counts = [];
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
 
-  for (let i = 0; i < config.count + config.dropFirst; i += 1) {
+  for (let i = 0; i < count + dropFirst; i += 1) {
     let duration = 0;
     let count = 0;
 
@@ -87,24 +104,29 @@ export async function measureRender(
   };
 }
 
-export async function clearTestStats(): Promise<void> {
+export async function clearTestStats(
+  outputFilePath: string = config.outputFile
+): Promise<void> {
   try {
-    await fs.unlink(config.outputFile);
+    await fs.unlink(outputFilePath);
   } catch (error) {
-    console.error(`Error while removing ${config.outputFile}`, error);
+    console.warn(
+      `Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`
+    );
   }
 }
 
 export async function writeTestStats(
   name: string,
-  stats: MeasureRenderStats
+  stats: MeasureRenderStats,
+  outputFilePath: string = config.outputFile
 ): Promise<void> {
   const line = JSON.stringify({ name, ...stats }) + '\n';
 
   try {
-    await fs.appendFile(config.outputFile, line);
+    await fs.appendFile(outputFilePath, line);
   } catch (error) {
-    console.error(`Error writing ${config.outputFile}`, error);
+    console.error(`Error writing ${outputFilePath}`, error);
     throw error;
   }
 }

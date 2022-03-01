@@ -21,7 +21,7 @@ interface ItemProps {
 }
 
 const SlowListItem = ({ title }: ItemProps) => {
-  const [_, forceRender] = React.useState();
+  const [, forceRender] = React.useState<{}>();
 
   React.useEffect(() => {
     forceRender({});

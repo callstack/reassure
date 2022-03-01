@@ -51,7 +51,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/runtime": "^7.12.5",
-    "@callstack/eslint-config": "^11.0.0",
+    "@callstack/eslint-config": "^12.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
     "@testing-library/react-native": "^9.0.0",

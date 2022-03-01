@@ -26,7 +26,7 @@ const AsyncComponent = () => {
 
       <Text>Count: {count}</Text>
 
-      {memoizedList} */}
+      {/* {memoizedList} */}
       {/* {/* <SlowList count={200} /> */}
     </View>
   );
@@ -49,7 +49,10 @@ test('Async Component', async () => {
     await screen.findByText('Count: 5');
   };
 
-  const stats = await measureRender(<AsyncComponent />, {scenario});
+  const stats = await measureRender(<AsyncComponent />, {
+    scenario,
+    name: 'AsyncComponent',
+  });
   await writeTestStats('AsyncComponent', stats);
   expect(true).toBeTruthy();
 });
