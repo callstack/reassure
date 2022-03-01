@@ -120,6 +120,7 @@
     ]
   },
   "dependencies": {
-    "mathjs": "^10.1.1"
+    "mathjs": "^10.1.1",
+    "minimist": "^1.2.5"
   }
 }

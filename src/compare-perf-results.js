@@ -1,7 +1,7 @@
 const fs = require('fs/promises');
 
-const BASELINE_INPUT = 'baseline-results.txt';
-const CURRENT_INPUT = 'perf-tests-results.txt';
+const { baselineFilePath = 'baseline.txt', currentFilePath = 'current.txt' } =
+  require('minimist')(process.argv);
 
 async function loadFile(file) {
   try {
@@ -22,8 +22,8 @@ async function loadFile(file) {
 }
 
 async function main() {
-  const baseline = await loadFile(BASELINE_INPUT);
-  const current = await loadFile(CURRENT_INPUT);
+  const baseline = await loadFile(baselineFilePath);
+  const current = await loadFile(currentFilePath);
 
   const keys = [
     ...new Set([...Object.keys(baseline), ...Object.keys(current)]),

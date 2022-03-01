@@ -6,7 +6,7 @@ import * as math from 'mathjs';
 export const defaultConfig = {
   count: 10,
   dropFirst: 1,
-  outputFile: 'perf-tests-results.txt',
+  outputFile: 'current.txt',
 };
 
 let config = defaultConfig;
