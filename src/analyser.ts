@@ -1,8 +1,15 @@
 import * as fs from 'fs/promises';
+import * as path from 'path';
 import minimist from 'minimist';
+
 import type { MeasureRenderStats } from './measure';
-const { baselineFilePath = 'baseline.txt', currentFilePath = 'current.txt' } =
-  minimist(process.argv);
+
+type ScriptArguments = {
+  baselineFilePath: string;
+  currentFilePath: string;
+  output: 'console' | 'json' | 'all';
+  outputFilePath: string;
+};
 
 /**
  * Defines output of one specific test
@@ -70,7 +77,18 @@ type Stats = StatsRemoved | StatsAdded | StatsFull;
 type PrintStatsInput = { [key: string]: Stats[] };
 
 /**
- * Below constants are tightly related to the `computeZ(baseline_avg: number,
+ * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
+ * e.g. --baselineFilePath="./myOutputFile.txt"
+ */
+const {
+  baselineFilePath = 'baseline.txt',
+  currentFilePath = 'current.txt',
+  output = 'all',
+  outputFilePath = 'analyser-output.json',
+} = minimist<ScriptArguments>(process.argv);
+
+/**
+ * Constants below are tightly related to the `computeZ(baseline_avg: number,
  * baseline_sigma: number, mean: number, n: number): number` function and
  * SHOULD NOT be changed without the full understanding of their significance.
  *
@@ -131,7 +149,8 @@ const analyse = async () => {
     .map((key) => generateLineStats(key, _baseline?.[key], _current?.[key]))
     .filter(Boolean);
 
-  printStats(stats);
+  if (output === 'console' || output === 'all') printStats(stats);
+  if (output === 'json' || output === 'all') writeToJson(stats);
 };
 
 /**
@@ -182,7 +201,7 @@ const generateLineStats = (
   };
 };
 
-await analyse();
+analyse();
 
 /**
  * Utility functions used for computing statistical probabilities of certain types of
@@ -265,7 +284,7 @@ function formatCountChange(value: number): string {
  */
 function printLine(item: StatsFull) {
   console.log(
-    ` - ${item.name}: ${formatPercentChange(
+    `|  - ${item.name}: ${formatPercentChange(
       item.durationDiffPercent
     )} (${formatDuration(item.baseline.meanDuration)} => ${formatDuration(
       item.current.meanDuration
@@ -276,14 +295,14 @@ function printLine(item: StatsFull) {
 }
 function printAdded(item: StatsAdded) {
   console.log(
-    ` - ${item.name}: ${formatDuration(
+    `|  - ${item.name}: ${formatDuration(
       item.current.meanDuration
     )} | ${formatCount(item.current.meanCount)}`
   );
 }
 function printRemoved(item: StatsRemoved) {
   console.log(
-    ` - ${item.name}: ${formatDuration(
+    `|  - ${item.name}: ${formatDuration(
       item.baseline.meanDuration
     )} | ${formatCount(item.baseline.meanCount)}`
   );
@@ -299,7 +318,7 @@ function printStats(stats: Stats[]) {
     (item) => item.status === 'MEANINGLESS'
   ) as StatsFull[];
   const countChanges = stats.filter(
-    (item) => typeof (item as StatsFull).countDiff !== 'undefined'
+    (item) => (item as StatsFull).countDiff
   ) as StatsFull[];
   const added = stats.filter(
     (item) => !(item as StatsFull).baseline
@@ -323,10 +342,12 @@ function printStats(stats: Stats[]) {
     ),
   };
 
+  console.log('\n| ----- Analyser.js output > console -----');
+
   for (const key of Object.keys(input)) {
     const _key = key;
 
-    console.log(`${_key.toUpperCase()} changes:`);
+    console.log(`| ${_key.toUpperCase()} changes:`);
 
     if (_key === 'added') {
       (input[_key] as StatsAdded[]).forEach(printAdded);
@@ -335,7 +356,24 @@ function printStats(stats: Stats[]) {
     } else {
       (input[_key] as StatsFull[]).forEach(printLine);
     }
-
-    console.log();
   }
+
+  console.log('| ----------------------------------------\n');
+}
+
+async function writeToJson(stats: Stats[]) {
+  console.log('\n| ----- Analyser.js output > json -----');
+
+  try {
+    await fs.writeFile(outputFilePath, JSON.stringify({ statistics: stats }));
+
+    console.log(`| ✅  Written output file ${outputFilePath}`);
+    console.log(`| 🔗 ${path.resolve(outputFilePath)}`);
+  } catch (error) {
+    console.log(`| ❌  Could not write file ${outputFilePath}`);
+    console.log(`| 🔗 ${path.resolve(outputFilePath)}`);
+    console.error(error);
+  }
+
+  console.log('| -------------------------------------\n');
 }
