@@ -7,8 +7,8 @@ import type { MeasureRenderStats } from './measure';
 type ScriptArguments = {
   baselineFilePath: string;
   currentFilePath: string;
-  output: 'console' | 'json' | 'all';
   outputFilePath: string;
+  output?: 'console' | 'json' | 'all';
 };
 
 /**
@@ -81,9 +81,9 @@ type PrintStatsInput = { [key: string]: Stats[] };
  * e.g. --baselineFilePath="./myOutputFile.txt"
  */
 const {
-  baselineFilePath = 'baseline.txt',
+  output,
   currentFilePath = 'current.txt',
-  output = 'all',
+  baselineFilePath = 'baseline.txt',
   outputFilePath = 'analyser-output.json',
 } = minimist<ScriptArguments>(process.argv);
 
@@ -130,7 +130,7 @@ const loadFile = async (path: string): Promise<LoadFileResult | Error> => {
  * from comparison of the current.txt and baseline.txt diff and returning that data in
  * easily digestible format
  */
-const analyse = async () => {
+export const analyse = async (): Promise<Stats[]> => {
   const current = await loadFile(currentFilePath);
   const baseline = await loadFile(baselineFilePath);
   let _current: LoadFileResult | undefined;
@@ -151,6 +151,8 @@ const analyse = async () => {
 
   if (output === 'console' || output === 'all') printStats(stats);
   if (output === 'json' || output === 'all') writeToJson(stats);
+
+  return stats;
 };
 
 /**

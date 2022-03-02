@@ -30,7 +30,7 @@
     "release": "release-it",
     "build:ts": "tsc --build",
     "build:ts:watch": "",
-    "run:analyse": "yarn prepare && node ./lib/commonjs/analyser.js",
+    "run:analyse": "yarn prepare && node ./lib/commonjs/analyser.js --output='all'",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods"
