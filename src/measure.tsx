@@ -12,6 +12,7 @@ export const defaultConfig = {
 let config = defaultConfig;
 
 interface MeasureRenderOptions {
+  name?: string;
   scale?: number;
   count?: number;
   dropFirst?: number;
@@ -20,10 +21,15 @@ interface MeasureRenderOptions {
 }
 
 export interface MeasureRenderStats {
+  /* average render duration measured by the test */
   meanDuration: number;
+  /* standard deviation from average render duration measured by the test */
   stdevDuration: number;
+  /* average render count measured by the test */
   meanCount: number;
+  /* standard deviation from average render count measured by the test */
   stdevCount: number;
+  /* number of test runs */
   runs: number;
 }
 
@@ -78,8 +84,7 @@ export async function measureRender(
       }
     }
 
-    // @ts-expect-error: node internals
-    global.gc();
+    global.gc?.();
 
     durations.push(duration / scale);
     counts.push(count / scale);

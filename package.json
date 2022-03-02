@@ -23,6 +23,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "test:example": "cd ./example && jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
