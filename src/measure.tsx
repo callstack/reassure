@@ -57,7 +57,6 @@ export async function measureRender(
     let duration = 0;
     let count = 0;
 
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const handleRender = (
       _id: string,
       _phase: string,
@@ -93,6 +92,7 @@ export async function measureRender(
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(counts);
 
+  //@ts-ignore
   console.log(`🟢 ${options?.name}`, meanDuration, stdevDuration, durations);
 
   return {
