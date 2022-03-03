@@ -12,7 +12,6 @@ export const defaultConfig = {
 let config = defaultConfig;
 
 interface MeasureRenderOptions {
-  name?: string;
   scale?: number;
   count?: number;
   dropFirst?: number;
