@@ -23,12 +23,14 @@
   ],
   "scripts": {
     "test": "jest",
+    "test:example": "cd ./example && jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
     "release": "release-it",
     "build:ts": "tsc --build",
     "build:ts:watch": "",
+    "run:analyse": "yarn prepare && node ./lib/commonjs/analyser.js --output='all' --baselineFilePath='./example/baseline.txt' --currentFilePath='./example/current.txt'",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods"
@@ -120,6 +122,7 @@
     ]
   },
   "dependencies": {
-    "mathjs": "^10.1.1"
+    "mathjs": "^10.1.1",
+    "minimist": "^1.2.5"
   }
 }
