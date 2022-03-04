@@ -27,28 +27,25 @@ type LoadFileResult = { [key: string]: Entry };
 /**
  * Type of the performance measure change as compared to the baseline.txt file
  */
-type StatStatusType = 'NON-SIGNIFICANT' | 'SIGNIFICANT' | 'MEANINGLESS';
+type StatStatusType = 'INSIGNIFICANT' | 'SIGNIFICANT' | 'MEANINGLESS';
 
 /**
- * Base Stats object as returned by test which were either added or removed, therefore
- * offering no comparison data to return
+ * Base properties of Stats object shared between all subtypes
  */
 type StatsBase = {
   name: string;
-  status: StatStatusType | undefined;
+  durationDiffStatus: StatStatusType | undefined;
 };
 
 /**
- * Base Stats object as returned by test which were either added or removed, therefore
- * offering no comparison data to return
+ * Stats object for an added test, that does not exist in baseline.txt file
  */
 type StatsAdded = StatsBase & {
   current: Entry;
 };
 
 /**
- * Base Stats object as returned by test which were either added or removed, therefore
- * offering no comparison data to return
+ * Stats object for a removed test, that does not exist in current.txt file
  */
 type StatsRemoved = StatsBase & {
   baseline: Entry;
@@ -67,14 +64,32 @@ type StatsFull = StatsAdded &
   };
 
 /**
- * Shorthand for either of the Stats types
+ * Shorthands for different Stats objects depending on their `durationDiffStatus`
  */
-type Stats = StatsRemoved | StatsAdded | StatsFull;
+type StatsSignificant = StatsFull & {
+  durationDiffStatus: 'SIGNIFICANT';
+};
+type StatsInsignificant = StatsFull & {
+  durationDiffStatus: 'INSIGNIFICANT';
+};
+type StatsMeaningless = StatsFull & {
+  durationDiffStatus: 'MEANINGLESS';
+};
 
 /**
- * Indexer type for `printStats(input: PrintStatsInput):void` function
+ * Shorthand for either of the Stats object types
  */
-type PrintStatsInput = { [key: string]: Stats[] };
+type Stats =
+  | StatsRemoved
+  | StatsAdded
+  | StatsSignificant
+  | StatsInsignificant
+  | StatsMeaningless;
+
+/**
+ * Output data structure to be consumed by any of the outputting functions
+ */
+type Output = { [key: string]: Stats[] };
 
 /**
  * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
@@ -100,7 +115,6 @@ const PROBABILITY_CONSIDERED_MEANINGLESS = 0.05;
 /**
  * Responsible for loading a measurer output file, parsing and return its data
  * as LoadFileResult or Error in case the supplied file cannot be read from destination
- * @param path
  */
 const loadFile = async (path: string): Promise<LoadFileResult | Error> => {
   try {
@@ -157,9 +171,6 @@ export const analyse = async (): Promise<Stats[]> => {
 
 /**
  * Generates statistics from all tests based on current.txt and baseline.txt file entries
- * @param name
- * @param baseline
- * @param current
  */
 const generateLineStats = (
   name: string,
@@ -167,9 +178,9 @@ const generateLineStats = (
   current?: Entry
 ): Stats => {
   if (!baseline) {
-    return { name, current, status: undefined } as StatsAdded;
+    return { name, current, durationDiffStatus: undefined } as StatsAdded;
   } else if (!current) {
-    return { name, baseline, status: undefined } as StatsRemoved;
+    return { name, baseline, durationDiffStatus: undefined } as StatsRemoved;
   }
 
   const durationDiff = current.meanDuration - baseline.meanDuration;
@@ -185,15 +196,15 @@ const generateLineStats = (
   );
   const prob = computeProbability(z);
 
-  let status: StatStatusType = 'NON-SIGNIFICANT';
+  let durationDiffStatus: StatStatusType = 'INSIGNIFICANT';
   if (prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) > 3)
-    status = 'SIGNIFICANT';
+    durationDiffStatus = 'SIGNIFICANT';
   if (prob > PROBABILITY_CONSIDERED_MEANINGLESS || Math.abs(durationDiff) < 1)
-    status = 'MEANINGLESS';
+    durationDiffStatus = 'MEANINGLESS';
 
   return {
     name,
-    status,
+    durationDiffStatus,
     baseline,
     current,
     durationDiff,
@@ -203,11 +214,9 @@ const generateLineStats = (
   };
 };
 
-analyse();
-
 /**
  * Utility functions used for computing statistical probabilities of certain types of
- * results statuses occurring based on fed data allowing for better avoidance of
+ * results durationDiffStatuses occurring based on fed data allowing for better avoidance of
  * measurement errors nad outliers
  *
  * Based on :: https://github.com/v8/v8/blob/master/test/benchmarks/csuite/compare-baseline.py
@@ -259,6 +268,27 @@ function computeProbability(z: number) {
 }
 
 /**
+ * Generates main output data object for any of the outputting functions
+ */
+const generateOutput = (stats: Stats[]): Output => {
+  const added = stats.filter(isStatsAdded);
+  const removed = stats.filter(isStatsRemoved);
+  const significant = stats.filter(isStatsSignificant);
+  const meaningless = stats.filter(isStatsMeaningless);
+  const insignificant = stats.filter(isStatsInsignificant);
+  const countChanged = stats.filter(isStatsCountChanged);
+
+  return {
+    significant: sortByKey<StatsSignificant>(significant, 'durationDiff'),
+    insignificant: sortByKey<StatsInsignificant>(insignificant, 'durationDiff'),
+    meaningless: sortByKey<StatsMeaningless>(meaningless, 'durationDiff'),
+    countChanged: sortByKey<StatsFull>(countChanged, 'countDiff'),
+    added: sortByKey<StatsAdded>(added, 'current.meanDuration'),
+    removed: sortByKey<StatsRemoved>(removed, 'baseline.meanDuration'),
+  };
+};
+
+/**
  * Utility functions used for formatting data into strings
  */
 function formatPercentChange(value: number): string {
@@ -278,7 +308,7 @@ function formatCount(value: number) {
 function formatCountChange(value: number): string {
   if (value > 0) return `+${value}`;
   if (value < 0) return `${value}`;
-  return `±${value}`;
+  return '±0';
 }
 
 /**
@@ -310,64 +340,37 @@ function printRemoved(item: StatsRemoved) {
   );
 }
 function printStats(stats: Stats[]) {
-  const significant = stats.filter(
-    (item) => item.status === 'SIGNIFICANT'
-  ) as StatsFull[];
-  const nonSignificant = stats.filter(
-    (item) => item.status === 'NON-SIGNIFICANT'
-  ) as StatsFull[];
-  const meaningless = stats.filter(
-    (item) => item.status === 'MEANINGLESS'
-  ) as StatsFull[];
-  const countChanges = stats.filter(
-    (item) => (item as StatsFull).countDiff
-  ) as StatsFull[];
-  const added = stats.filter(
-    (item) => !(item as StatsFull).baseline
-  ) as StatsAdded[];
-  const removed = stats.filter(
-    (item) => !(item as StatsFull).current
-  ) as StatsRemoved[];
-
-  const input: PrintStatsInput = {
-    significant: significant.sort((a, b) => b.durationDiff - a.durationDiff),
-    nonSignificant: nonSignificant.sort(
-      (a, b) => b.durationDiff - a.durationDiff
-    ),
-    meaningless: meaningless.sort((a, b) => b.durationDiff - a.durationDiff),
-    countChanges: countChanges.sort((a, b) => b.countDiff - a.countDiff),
-    added: added.sort(
-      (a, b) => b.current.meanDuration - a.current.meanDuration
-    ),
-    removed: removed.sort(
-      (a, b) => b.baseline.meanDuration - a.baseline.meanDuration
-    ),
-  };
+  const output = generateOutput(stats);
 
   console.log('\n| ----- Analyser.js output > console -----');
 
-  for (const key of Object.keys(input)) {
+  for (const key of Object.keys(output)) {
     const _key = key;
 
     console.log(`| ${_key.toUpperCase()} changes:`);
 
     if (_key === 'added') {
-      (input[_key] as StatsAdded[]).forEach(printAdded);
+      (output[_key] as StatsAdded[]).forEach(printAdded);
     } else if (_key === 'removed') {
-      (input[_key] as StatsRemoved[]).forEach(printRemoved);
+      (output[_key] as StatsRemoved[]).forEach(printRemoved);
     } else {
-      (input[_key] as StatsFull[]).forEach(printLine);
+      (output[_key] as StatsFull[]).forEach(printLine);
     }
   }
 
   console.log('| ----------------------------------------\n');
 }
-
+/**
+ * Utility function responsible for writing output data into a specified JSON file
+ */
 async function writeToJson(stats: Stats[]) {
   console.log('\n| ----- Analyser.js output > json -----');
 
   try {
-    await fs.writeFile(outputFilePath, JSON.stringify({ statistics: stats }));
+    await fs.writeFile(
+      outputFilePath,
+      JSON.stringify({ data: generateOutput(stats) })
+    );
 
     console.log(`| ✅  Written output file ${outputFilePath}`);
     console.log(`| 🔗 ${path.resolve(outputFilePath)}`);
@@ -379,3 +382,58 @@ async function writeToJson(stats: Stats[]) {
 
   console.log('| -------------------------------------\n');
 }
+
+/**
+ * Utility function allowing to sort an array by proving it
+ * as well as the path of a parameter to sort with
+ * --------
+ * @param data
+ * Generically typed array of objects to be sorted by the function
+ * @param path
+ * Provided path should either be a string if it's one level deep,
+ * or a chain of string separated by dot mark, e.g.
+ * `keyLevelOne.keyLevelTwo.keyLevelThree`
+ */
+const sortByKey = <T extends { [key: string]: any }>(
+  data: T[],
+  path: string
+): T[] =>
+  data.sort((a, b) => {
+    let _a: any = a[path];
+    let _b: any = b[path];
+
+    if (path.includes('.')) {
+      const subKeys = path.split('.');
+
+      for (const subKey in subKeys) {
+        _a = _a[subKey];
+        _b = _b[subKey];
+      }
+    }
+
+    if (!_a || !_b) return -1;
+    if (typeof _a !== 'number' || typeof _b !== 'number') return -1;
+
+    return _b - _a;
+  });
+
+/**
+ * Type guard functions
+ */
+const isStatsSignificant = (data: any): data is StatsSignificant =>
+  data?.durationDiffStatus === 'SIGNIFICANT';
+const isStatsInsignificant = (data: any): data is StatsInsignificant =>
+  data?.durationDiffStatus === 'INSIGNIFICANT';
+const isStatsMeaningless = (data: any): data is StatsMeaningless =>
+  data?.durationDiffStatus === 'MEANINGLESS';
+const isStatsCountChanged = (data: any): data is StatsFull =>
+  typeof data?.countDiff === 'number' && data?.countDiff !== 0;
+const isStatsAdded = (data: any): data is StatsAdded =>
+  !data?.baseline && typeof data?.current !== undefined;
+const isStatsRemoved = (data: any): data is StatsRemoved =>
+  !data?.current && typeof data?.baseline !== undefined;
+
+/**
+ * Main script function call
+ */
+analyse();
