@@ -19,19 +19,6 @@ interface MeasureRenderOptions {
   scenario?: (view: RenderAPI) => Promise<any>;
 }
 
-export interface MeasureRenderStats {
-  /* average render duration measured by the test */
-  meanDuration: number;
-  /* standard deviation from average render duration measured by the test */
-  stdevDuration: number;
-  /* average render count measured by the test */
-  meanCount: number;
-  /* standard deviation from average render count measured by the test */
-  stdevCount: number;
-  /* number of test runs */
-  runs: number;
-}
-
 export function configure(customConfig: typeof defaultConfig) {
   config = {
     ...defaultConfig,

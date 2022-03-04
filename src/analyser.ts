@@ -2,7 +2,27 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import minimist from 'minimist';
 
-import type { MeasureRenderStats } from './measure';
+import {
+  Entry,
+  Stats,
+  StatsAdded,
+  StatsFull,
+  StatsRemoved,
+  AnalyserOutput,
+  isStatsAdded,
+  isStatsCountChanged,
+  isStatsInsignificant,
+  isStatsMeaningless,
+  isStatsRemoved,
+  isStatsSignificant,
+  DurationStatStatusType,
+} from './shared';
+import {
+  formatCount,
+  formatCountChange,
+  formatDuration,
+  formatPercentChange,
+} from './utils';
 
 type ScriptArguments = {
   baselineFilePath: string;
@@ -11,85 +31,7 @@ type ScriptArguments = {
   output?: 'console' | 'json' | 'all';
 };
 
-/**
- * Defines output of one specific test
- */
-type Entry = {
-  /* name parameter passed down to measureRender function */
-  name: string;
-} & MeasureRenderStats;
-
-/**
- * Serialised result from entries found in files consumed by the script
- */
 type LoadFileResult = { [key: string]: Entry };
-
-/**
- * Type of the performance measure change as compared to the baseline.txt file
- */
-type StatStatusType = 'INSIGNIFICANT' | 'SIGNIFICANT' | 'MEANINGLESS';
-
-/**
- * Base properties of Stats object shared between all subtypes
- */
-type StatsBase = {
-  name: string;
-  durationDiffStatus: StatStatusType | undefined;
-};
-
-/**
- * Stats object for an added test, that does not exist in baseline.txt file
- */
-type StatsAdded = StatsBase & {
-  current: Entry;
-};
-
-/**
- * Stats object for a removed test, that does not exist in current.txt file
- */
-type StatsRemoved = StatsBase & {
-  baseline: Entry;
-};
-
-/**
- * Full Stats object as returned by test which was able to compare data between
- * a baseline.txt file Entry and its counterpart in the current.txt file
- */
-type StatsFull = StatsAdded &
-  StatsRemoved & {
-    durationDiff: number;
-    durationDiffPercent: number;
-    countDiff: number;
-    countDiffPercent: number;
-  };
-
-/**
- * Shorthands for different Stats objects depending on their `durationDiffStatus`
- */
-type StatsSignificant = StatsFull & {
-  durationDiffStatus: 'SIGNIFICANT';
-};
-type StatsInsignificant = StatsFull & {
-  durationDiffStatus: 'INSIGNIFICANT';
-};
-type StatsMeaningless = StatsFull & {
-  durationDiffStatus: 'MEANINGLESS';
-};
-
-/**
- * Shorthand for either of the Stats object types
- */
-type Stats =
-  | StatsRemoved
-  | StatsAdded
-  | StatsSignificant
-  | StatsInsignificant
-  | StatsMeaningless;
-
-/**
- * Output data structure to be consumed by any of the outputting functions
- */
-type Output = { [key: string]: Stats[] };
 
 /**
  * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
@@ -196,7 +138,7 @@ const generateLineStats = (
   );
   const prob = computeProbability(z);
 
-  let durationDiffStatus: StatStatusType = 'INSIGNIFICANT';
+  let durationDiffStatus: DurationStatStatusType = 'INSIGNIFICANT';
   if (prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) > 3)
     durationDiffStatus = 'SIGNIFICANT';
   if (prob > PROBABILITY_CONSIDERED_MEANINGLESS || Math.abs(durationDiff) < 1)
@@ -270,7 +212,7 @@ function computeProbability(z: number) {
 /**
  * Generates main output data object for any of the outputting functions
  */
-const generateOutput = (stats: Stats[]): Output => {
+const generateOutput = (stats: Stats[]): AnalyserOutput => {
   const added = stats.filter(isStatsAdded);
   const removed = stats.filter(isStatsRemoved);
   const significant = stats.filter(isStatsSignificant);
@@ -293,29 +235,6 @@ const generateOutput = (stats: Stats[]): Output => {
     ),
   };
 };
-
-/**
- * Utility functions used for formatting data into strings
- */
-function formatPercentChange(value: number): string {
-  if (value >= 0.05) return `+${value.toFixed(1)}%`;
-  if (value <= -0.05) return `${value.toFixed(1)}%`;
-  return `±${value.toFixed(1)}`;
-}
-function formatDuration(duration: number): string {
-  if (duration < 10) {
-    return `${duration.toFixed(1)} ms`;
-  }
-  return `${duration.toFixed(1)} ms`;
-}
-function formatCount(value: number) {
-  return value;
-}
-function formatCountChange(value: number): string {
-  if (value > 0) return `+${value}`;
-  if (value < 0) return `${value}`;
-  return '±0';
-}
 
 /**
  * Utility functions used for printing analysed results
@@ -351,16 +270,16 @@ function printStats(stats: Stats[]) {
   console.log('\n| ----- Analyser.js output > console -----');
 
   for (const key of Object.keys(output)) {
-    const _key = key;
+    const _key = key as keyof typeof output;
 
     console.log(`| ${_key.toUpperCase()} changes:`);
 
     if (_key === 'added') {
-      (output[_key] as StatsAdded[]).forEach(printAdded);
+      output[_key].forEach(printAdded);
     } else if (_key === 'removed') {
-      (output[_key] as StatsRemoved[]).forEach(printRemoved);
+      output[_key].forEach(printRemoved);
     } else {
-      (output[_key] as StatsFull[]).forEach(printLine);
+      output[_key].forEach(printLine);
     }
   }
 
@@ -388,22 +307,6 @@ async function writeToJson(stats: Stats[]) {
 
   console.log('| -------------------------------------\n');
 }
-
-/**
- * Type guard functions
- */
-const isStatsSignificant = (data: any): data is StatsSignificant =>
-  data?.durationDiffStatus === 'SIGNIFICANT';
-const isStatsInsignificant = (data: any): data is StatsInsignificant =>
-  data?.durationDiffStatus === 'INSIGNIFICANT';
-const isStatsMeaningless = (data: any): data is StatsMeaningless =>
-  data?.durationDiffStatus === 'MEANINGLESS';
-const isStatsCountChanged = (data: any): data is StatsFull =>
-  typeof data?.countDiff === 'number' && data?.countDiff !== 0;
-const isStatsAdded = (data: any): data is StatsAdded =>
-  !data?.baseline && typeof data?.current !== undefined;
-const isStatsRemoved = (data: any): data is StatsRemoved =>
-  !data?.current && typeof data?.baseline !== undefined;
 
 /**
  * Main script function call
