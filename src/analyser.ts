@@ -279,12 +279,18 @@ const generateOutput = (stats: Stats[]): Output => {
   const countChanged = stats.filter(isStatsCountChanged);
 
   return {
-    significant: sortByKey<StatsSignificant>(significant, 'durationDiff'),
-    insignificant: sortByKey<StatsInsignificant>(insignificant, 'durationDiff'),
-    meaningless: sortByKey<StatsMeaningless>(meaningless, 'durationDiff'),
-    countChanged: sortByKey<StatsFull>(countChanged, 'countDiff'),
-    added: sortByKey<StatsAdded>(added, 'current.meanDuration'),
-    removed: sortByKey<StatsRemoved>(removed, 'baseline.meanDuration'),
+    significant: significant.sort((a, b) => b.durationDiff - a.durationDiff),
+    insignificant: insignificant.sort(
+      (a, b) => b.durationDiff - a.durationDiff
+    ),
+    meaningless: meaningless.sort((a, b) => b.durationDiff - a.durationDiff),
+    countChanged: countChanged.sort((a, b) => b.countDiff - a.countDiff),
+    added: added.sort(
+      (a, b) => b.current.meanDuration - a.current.meanDuration
+    ),
+    removed: removed.sort(
+      (a, b) => b.baseline.meanDuration - a.baseline.meanDuration
+    ),
   };
 };
 
@@ -382,40 +388,6 @@ async function writeToJson(stats: Stats[]) {
 
   console.log('| -------------------------------------\n');
 }
-
-/**
- * Utility function allowing to sort an array by proving it
- * as well as the path of a parameter to sort with
- * --------
- * @param data
- * Generically typed array of objects to be sorted by the function
- * @param path
- * Provided path should either be a string if it's one level deep,
- * or a chain of string separated by dot mark, e.g.
- * `keyLevelOne.keyLevelTwo.keyLevelThree`
- */
-const sortByKey = <T extends { [key: string]: any }>(
-  data: T[],
-  path: string
-): T[] =>
-  data.sort((a, b) => {
-    let _a: any = a[path];
-    let _b: any = b[path];
-
-    if (path.includes('.')) {
-      const subKeys = path.split('.');
-
-      for (const subKey in subKeys) {
-        _a = _a[subKey];
-        _b = _b[subKey];
-      }
-    }
-
-    if (!_a || !_b) return -1;
-    if (typeof _a !== 'number' || typeof _b !== 'number') return -1;
-
-    return _b - _a;
-  });
 
 /**
  * Type guard functions
