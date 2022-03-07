@@ -2,6 +2,7 @@ import * as fs from 'fs/promises';
 import React from 'react';
 import { render, RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
+import type { MeasureRenderStats } from './shared';
 
 export const defaultConfig = {
   count: 10,
@@ -12,6 +13,7 @@ export const defaultConfig = {
 let config = defaultConfig;
 
 interface MeasureRenderOptions {
+  name?: string;
   scale?: number;
   count?: number;
   dropFirst?: number;
@@ -31,9 +33,10 @@ export function resetToDefault() {
 }
 
 export async function measureRender(
-  ui: React.ReactElement,
+  ui: React.ReactElement & { type: { name?: string } },
   options?: MeasureRenderOptions
 ): Promise<MeasureRenderStats> {
+  const name = options?.name ?? ui.type.name;
   const scale = options?.scale ?? 1;
   const count = options?.count ?? config.count;
   const wrapper = options?.wrapper;
@@ -83,10 +86,10 @@ export async function measureRender(
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(counts);
 
-  //@ts-ignore
-  console.log(`🟢 ${options?.name}`, meanDuration, stdevDuration, durations);
+  console.log(`🟢 ${name}`, meanDuration, stdevDuration, durations);
 
   return {
+    name,
     meanDuration,
     stdevDuration,
     meanCount,
@@ -108,11 +111,17 @@ export async function clearTestStats(
 }
 
 export async function writeTestStats(
-  name: string,
   stats: MeasureRenderStats,
+  name: string | undefined = stats.name,
   outputFilePath: string = config.outputFile
 ): Promise<void> {
-  const line = JSON.stringify({ name, ...stats }) + '\n';
+  if (!name) {
+    const errMsg = `You have to provide name in order to save stats properly`;
+    console.error(errMsg);
+    throw new Error(errMsg);
+  }
+
+  const line = JSON.stringify({ ...stats, name }) + '\n';
 
   try {
     await fs.appendFile(outputFilePath, line);

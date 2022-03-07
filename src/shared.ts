@@ -24,6 +24,8 @@ export interface MeasureRenderStats {
   stdevCount: number;
   /* number of test runs */
   runs: number;
+  /*name of the component being tested*/
+  name?: string;
 }
 
 /**
@@ -108,19 +110,12 @@ export type Stats =
  */
 
 export type AnalyserOutput = {
-  [K in typeof STATUSES[number]]: Array<
-    K extends 'added'
-      ? StatsAdded
-      : K extends 'removed'
-      ? StatsRemoved
-      : K extends 'significant'
-      ? StatsSignificant
-      : K extends 'insignificant'
-      ? StatsInsignificant
-      : K extends 'meaningless'
-      ? StatsMeaningless
-      : StatsFull
-  >;
+  significant: StatsSignificant[];
+  insignificant: StatsInsignificant[];
+  meaningless: StatsMeaningless[];
+  countChanged: StatsFull[];
+  added: StatsAdded[];
+  removed: StatsRemoved[];
 };
 
 /**

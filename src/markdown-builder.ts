@@ -20,7 +20,7 @@ type ScriptArguments = {
 const {
   outputMarkdownFilePath = 'analyser-output.md',
   analyserOutputFilePath = 'analyser-output.json',
-} = {};
+} = minimist<ScriptArguments>(process.argv);
 
 type LoadFileResult = {
   data: AnalyserOutput;
@@ -62,29 +62,52 @@ export const buildMarkdown = async () => {
   try {
     const { data } = await loadFile(analyserOutputFilePath);
     const content = STATUSES.map((status) => {
-      return data[status].map((stats) => {
-        const name = stats.name;
-        if (status === 'countChanged') {
-          const renderCountChange = emphasis.b(formatRenderCountChange(stats));
-          return [
-            name,
-            emphasis.b('RENDER_COUNT_CHANGED'),
-            '-',
-            renderCountChange,
-          ];
-        }
-        const statsStatus = stats.durationDiffStatus;
-        const renderDurationChange = emphasis.b(
-          formatRenderDurationChange(stats)
-        );
+      return data[status]
+        .map((stats) => {
+          const name = stats.name;
+          if (status === 'countChanged') {
+            const renderCountChange = emphasis.b(
+              formatRenderCountChange(stats)
+            );
+            return [
+              name,
+              emphasis.b('RENDER_COUNT_CHANGED'),
+              '-',
+              renderCountChange,
+            ];
+          }
+          const statsStatus = stats.durationDiffStatus;
+          const renderDurationChange = emphasis.b(
+            formatRenderDurationChange(stats)
+          );
 
-        return [name, emphasis.b(statsStatus), renderDurationChange, '-'];
-      });
+          return [name, emphasis.b(statsStatus), renderDurationChange, '-'];
+        })
+        .concat([[]]); // adding empty row after each status
     }).flat();
-    console.log(markdownTable([[...COLUMNS], ...content]));
+    const markdownContent = markdownTable([[...COLUMNS], ...content]);
+    console.log(markdownContent);
+    writeToJson(markdownContent);
   } catch (error: any) {
     console.error(`Error loading file from: ${path}`, error);
   }
 };
+
+async function writeToJson(markdownContent: string) {
+  console.log('\n| ----- markdown-builder.ts output > json -----');
+
+  try {
+    await fs.writeFile(outputMarkdownFilePath, JSON.stringify(markdownContent));
+
+    console.log(`| ✅  Written output file ${outputMarkdownFilePath}`);
+    console.log(`| 🔗 ${path.resolve(outputMarkdownFilePath)}`);
+  } catch (error) {
+    console.log(`| ❌  Could not write file ${outputMarkdownFilePath}`);
+    console.log(`| 🔗 ${path.resolve(outputMarkdownFilePath)}`);
+    console.error(error);
+  }
+
+  console.log('| -------------------------------------\n');
+}
 
 buildMarkdown();
