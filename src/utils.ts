@@ -3,7 +3,7 @@
  */
 export function formatPercentChange(value: number): string {
   if (value >= 0.05) return `+${value.toFixed(1)}%`;
-  if (value <= -0.05) return `-${value.toFixed(1)}%`;
+  if (value <= -0.05) return `${value.toFixed(1)}%`;
   return `±${value.toFixed(1)}%`;
 }
 export function formatDuration(duration: number): string {
@@ -15,7 +15,7 @@ export function formatDurationChange(value: number): string {
     return `+${formatDuration(value)}`;
   }
   if (value < 0) {
-    return `-${formatDuration(value)}`;
+    return `${formatDuration(value)}`;
   }
   return '0 ms';
 }
@@ -31,6 +31,6 @@ export function formatCountChange(value: number): string {
 
 export function formatChange(value: number): string {
   if (value > 0) return `+${value}`;
-  if (value < 0) return `-${value}`;
+  if (value < 0) return `${value}`;
   return '0';
 }
