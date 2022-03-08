@@ -27,7 +27,7 @@ jobs:
         run: yarn
 
       - name: Run comparative test script
-        run: ./scripts/run-tests.sh
+        run: cd example && ../scripts/run-tests.sh
 
       - name: Run danger.js
         run: yarn danger ci
