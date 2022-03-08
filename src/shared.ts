@@ -92,8 +92,6 @@ type StatsMeaningless = StatsFull & {
   durationDiffStatus: 'MEANINGLESS';
 };
 
-type StatsAddedOrRemoved = StatsAdded | StatsRemoved;
-
 /**
  * Shorthand for either of the Stats object types
  */
@@ -131,12 +129,16 @@ export const isStatsInsignificant = (data: Stats): data is StatsInsignificant =>
 export const isStatsMeaningless = (data: Stats): data is StatsMeaningless =>
   data?.durationDiffStatus === 'MEANINGLESS';
 
-export const isStatsAdded = (data: StatsAddedOrRemoved): data is StatsAdded =>
-  'current' in data && data?.current !== undefined;
-export const isStatsRemoved = (
-  data: StatsAddedOrRemoved
-): data is StatsRemoved =>
-  'baseline' in data && typeof data?.baseline !== undefined;
+export const isStatsAdded = (data: Stats): data is StatsAdded =>
+  'current' in data &&
+  data.durationDiffStatus === undefined &&
+  data?.current !== undefined &&
+  !('durationDiff' in data);
+export const isStatsRemoved = (data: Stats): data is StatsRemoved =>
+  'baseline' in data &&
+  data.durationDiffStatus === undefined &&
+  data?.baseline !== undefined &&
+  !('durationDiff' in data);
 
 export const isStatsCountChanged = (data: Stats): data is StatsFull =>
   data.durationDiffStatus === undefined &&
