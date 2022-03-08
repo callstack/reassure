@@ -45,7 +45,7 @@ const plugin = async (
   `;
 
     if (config.debug) {
-      if (perfFileContents) {
+      if (!perfFileContents) {
         console.log(_warning);
       } else {
         console.log(_message);
