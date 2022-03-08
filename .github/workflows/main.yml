@@ -1,5 +1,5 @@
 name: Test Performance
-on: [push, pull_request, workflow_dispatch]
+on: [pull_request, workflow_dispatch]
 jobs:
   test:
     name: Install and test
@@ -32,4 +32,4 @@ jobs:
       - name: Run danger.js
         uses: danger/danger-js@9.1.6
         env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
