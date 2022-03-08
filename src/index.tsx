@@ -6,3 +6,5 @@ export {
   configure,
   resetToDefault,
 } from './measure';
+
+// import './markdown-builder';

@@ -1,5 +1,1 @@
-{"name":"AsyncComponent","meanDuration":8.2,"stdevDuration":2.7406406388125952,"meanCount":6,"stdevCount":0,"runs":10}
-{"name":"AsyncComponent2","meanDuration":9.2,"stdevDuration":2.7406406388125952,"meanCount":6,"stdevCount":0,"runs":10}
-{"name":"AsyncComponent3","meanDuration":8.5,"stdevDuration":2.7406406388125952,"meanCount":6,"stdevCount":0,"runs":10}
-{"name":"AsyncComponent4","meanDuration":8.9,"stdevDuration":2.7406406388125952,"meanCount":7,"stdevCount":0,"runs":10}
-{"name":"AsyncComponent5","meanDuration":12.2,"stdevDuration":2.7406406388125952,"meanCount":8,"stdevCount":0,"runs":10}
+{"name":"AsyncComponent","meanDuration":3.8,"stdevDuration":1.3984117975602022,"meanCount":6,"stdevCount":0,"runs":10}
