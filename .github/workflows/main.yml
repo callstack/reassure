@@ -1,7 +1,7 @@
 name: Test Performance
 on: workflow_dispatch
 jobs:
-  publish:
+  test:
     name: Install and test
     runs-on: ubuntu-latest
     steps:
