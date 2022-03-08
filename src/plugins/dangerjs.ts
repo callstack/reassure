@@ -44,17 +44,17 @@ const plugin = async (
   ${perfFileContents}
   `;
 
-    if (!config.debug) {
-      if (!perfFileContents) {
-        warn(_warning);
-      } else {
-        message(_message);
-      }
-    } else {
+    if (config.debug) {
       if (perfFileContents) {
         console.log(_warning);
       } else {
         console.log(_message);
+      }
+    } else {
+      if (!perfFileContents) {
+        warn(_warning);
+      } else {
+        message(_message);
       }
     }
   } catch (error) {
