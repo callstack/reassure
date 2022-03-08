@@ -22,7 +22,7 @@ export type Config = { inputFilePath: string; debug?: boolean };
 
 const plugin = async (
   config: Config = {
-    inputFilePath: './.rn-perf/generated/dangerInput.md',
+    inputFilePath: './analyser-output.md',
   }
 ) => {
   const _warning = `
