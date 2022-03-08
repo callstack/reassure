@@ -39,7 +39,7 @@ const plugin = async (
     const perfFilePath = path.resolve(config.inputFilePath);
     const perfFileContents = fs.readFileSync(perfFilePath, 'utf8');
     const _message = `
-  ✅ Test analysis
+  ✅  Performance test suite analysis report
 
   ${perfFileContents}
   `;

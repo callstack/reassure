@@ -5,9 +5,6 @@
  * configuration object of exported as `DangerPerformanceConfig`
  */
 
-import {
-  plugin as dangerPerformance,
-  Config as DangerPerformanceConfig,
-} from './dangerjs';
+import { plugin as dangerJs, Config as DangerJsConfig } from './dangerjs';
 
-export { dangerPerformance, DangerPerformanceConfig };
+export { dangerJs, DangerJsConfig };
