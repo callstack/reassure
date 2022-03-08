@@ -56,6 +56,6 @@ test('Async Component', async () => {
     //@ts-ignore
     name: 'AsyncComponent',
   });
-  await writeTestStats('AsyncComponent', stats);
+  await writeTestStats(stats, 'AsyncComponent');
   expect(true).toBeTruthy();
 });
