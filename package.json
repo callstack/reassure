@@ -87,6 +87,11 @@
       "@commitlint/config-conventional"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn prepare"
+    }
+  },
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",
