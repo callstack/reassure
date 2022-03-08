@@ -9,7 +9,7 @@
     "start": "react-native start",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
-    "test": "node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js"
+    "test": "../scripts/run-tests.sh"
   },
   "dependencies": {
     "react": "^17.0.2",
