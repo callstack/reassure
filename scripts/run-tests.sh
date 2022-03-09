@@ -26,5 +26,5 @@ node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 no
 mv "$current_file".txt "$base_file".txt;
 git checkout "$current_branch";
 mv "$current_file"_temp.txt "$current_file.txt";
-node "$rootDir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" && node "$rootDir/lib/commonjs/markdown-builder.js";
+node "$rootDir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" --unhandled-rejections=strict && node "$rootDir/lib/commonjs/markdown-builder.js" --unhandled-rejections=strict;
 
