@@ -89,7 +89,6 @@ export async function measureRender(
   console.log(`🟢 ${name}`, meanDuration, stdevDuration, durations);
 
   return {
-    name,
     meanDuration,
     stdevDuration,
     meanCount,
@@ -112,7 +111,7 @@ export async function clearTestStats(
 
 export async function writeTestStats(
   stats: MeasureRenderStats,
-  name: string | undefined = stats.name,
+  name: string,
   outputFilePath: string = config.outputFile
 ): Promise<void> {
   if (!name) {
