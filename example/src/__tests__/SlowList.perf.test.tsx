@@ -57,5 +57,6 @@ test('Async Component', async () => {
     name: 'AsyncComponent',
   });
   await writeTestStats(stats, 'AsyncComponent');
+  await writeTestStats(stats, 'AsyncComponent');
   expect(true).toBeTruthy();
 });
