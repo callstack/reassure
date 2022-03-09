@@ -1,5 +1,5 @@
 name: Test Performance
-on: workflow_dispatch
+on: [pull_request, workflow_dispatch]
 jobs:
   test:
     name: Install and test
@@ -30,6 +30,6 @@ jobs:
         run: cd example && ../scripts/run-tests.sh
 
       - name: Run danger.js
-        run: yarn danger ci
+        uses: danger/danger-js@9.1.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

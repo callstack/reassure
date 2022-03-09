@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-while [[ "$#" > 0 ]]; do
+while [[ "$#" -gt 0 ]]; do
     case $1 in
         -base|--base_branch) base_branch="$2"; shift ;;
         -b|--base_file) base_file="$2"; shift ;;
@@ -26,5 +26,5 @@ node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 no
 mv "$current_file".txt "$base_file".txt;
 git checkout "$current_branch";
 mv "$current_file"_temp.txt "$current_file.txt";
-node "$rootDir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" && node "$rootDir/lib/commonjs/markdown-builder.js";
+node --unhandled-rejections=throw "$rootDir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$rootDir/lib/commonjs/markdown-builder.js"
 

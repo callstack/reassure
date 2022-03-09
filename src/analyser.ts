@@ -55,60 +55,65 @@ const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 const PROBABILITY_CONSIDERED_MEANINGLESS = 0.05;
 
 /**
- * Responsible for loading a measurer output file, parsing and return its data
- * as LoadFileResult or Error in case the supplied file cannot be read from destination
- */
-const loadFile = async (path: string): Promise<LoadFileResult | Error> => {
-  try {
-    const data = await fs.readFile(path, 'utf8');
-    const lines = data.split(/\r?\n/);
-    const entries: Entry[] = lines
-      .filter((line) => !!line.trim())
-      .map((line) => JSON.parse(line));
-
-    const result: LoadFileResult = {};
-    for (const item of entries) {
-      result[item.name] = item;
-    }
-    return result;
-  } catch (error: any) {
-    const _error = new Error(error);
-
-    // Add log level options in future e.g. --error --warn --verbose
-    console.error(`Error loading file from: ${path}`, _error);
-
-    return _error;
-  }
-};
-
-/**
  * Main executor function of the analyser tool. Responsible for aggregating data generated
  * from comparison of the current.txt and baseline.txt diff and returning that data in
  * easily digestible format
  */
-export const analyse = async (): Promise<Stats[]> => {
-  const current = await loadFile(currentFilePath);
-  const baseline = await loadFile(baselineFilePath);
-  let _current: LoadFileResult | undefined;
-  let _baseline: LoadFileResult | undefined;
+export const main = async () => {
+  try {
+    const current = await loadFile(currentFilePath);
+    const baseline = await loadFile(baselineFilePath);
+    const outputData = analyse(current, baseline);
 
-  const isStats = (data: any): data is Stats =>
-    typeof data.current !== undefined || typeof data.baseline !== undefined;
+    if (output === 'console' || output === 'all') printStats(outputData);
+    if (output === 'json' || output === 'all') writeToJson(outputData);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
-  if (isStats(baseline)) _baseline = baseline as LoadFileResult;
-  if (isStats(current)) _current = current as LoadFileResult;
+/**
+ * Responsible for loading a measurer output file, parsing and returning its data
+ */
+const loadFile = async (path: string): Promise<LoadFileResult> => {
+  const data = await fs.readFile(path, 'utf8');
 
+  const lines = data.split(/\r?\n/);
+  const entries: Entry[] = lines
+    .filter((line) => !!line.trim())
+    .map((line) => JSON.parse(line));
+
+  const names = entries.map((entry) => entry.name);
+
+  if (hasDuplicatedEntryNames(names)) {
+    throw new Error(
+      `Your test output files include records with duplicated names.
+      Please remove any non-unique names from your test suites and try again
+      `
+    );
+  }
+
+  const result: LoadFileResult = {};
+
+  for (const item of entries) {
+    result[item.name] = item;
+  }
+
+  return result;
+};
+
+/**
+ * Responsible for comparing results from baseline and current data sets
+ */
+const analyse = (current: LoadFileResult, baseline: LoadFileResult) => {
   const keys = [
     ...new Set([...Object.keys(baseline), ...Object.keys(current)]),
   ];
-  const stats = keys
-    .map((key) => generateLineStats(key, _baseline?.[key], _current?.[key]))
+
+  return keys
+    .map((key) => generateLineStats(key, baseline?.[key], current?.[key]))
     .filter(Boolean);
-
-  if (output === 'console' || output === 'all') printStats(stats);
-  if (output === 'json' || output === 'all') writeToJson(stats);
-
-  return stats;
 };
 
 /**
@@ -237,6 +242,12 @@ const generateOutput = (stats: Stats[]): AnalyserOutput => {
 };
 
 /**
+ * Utility function returning true if input array of strings consists of any non-unique members
+ */
+const hasDuplicatedEntryNames = (arr: string[]) =>
+  arr.length !== new Set(arr).size;
+
+/**
  * Utility functions used for printing analysed results
  */
 function printLine(item: StatsFull) {
@@ -311,4 +322,4 @@ async function writeToJson(stats: Stats[]) {
 /**
  * Main script function call
  */
-analyse();
+main();
