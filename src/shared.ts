@@ -50,7 +50,6 @@ export type DurationStatStatusType = typeof DURATION_STATUSES[number];
  */
 type StatsBase = {
   name: string;
-  durationDiffStatus: DurationStatStatusType | undefined;
 };
 
 /**
@@ -121,18 +120,21 @@ export type AnalyserOutput = {
  */
 
 export const isStatsSignificant = (data: Stats): data is StatsSignificant =>
-  data.durationDiffStatus === 'SIGNIFICANT';
+  'durationDiffStatus' in data && data.durationDiffStatus === 'SIGNIFICANT';
 
 export const isStatsInsignificant = (data: Stats): data is StatsInsignificant =>
-  data.durationDiffStatus === 'INSIGNIFICANT';
+  'durationDiffStatus' in data && data.durationDiffStatus === 'INSIGNIFICANT';
 
 export const isStatsMeaningless = (data: Stats): data is StatsMeaningless =>
-  data.durationDiffStatus === 'MEANINGLESS';
+  'durationDiffStatus' in data && data.durationDiffStatus === 'MEANINGLESS';
 
 export const isStatsAdded = (data: Stats): data is StatsAdded =>
   'current' in data && !('baseline' in data);
 
 export const isStatsRemoved = (data: Stats): data is StatsRemoved =>
-  'baseline' in data && data.baseline !== undefined && !('current' in data);
+  'baseline' in data && !('current' in data);
 export const isStatsCountChanged = (data: Stats): data is StatsFull =>
-  'durationDiff' in data && data.durationDiffStatus === undefined;
+  'current' in data &&
+  'baseline' in data &&
+  'durationDiff' in data &&
+  !('durationDiffStatus' in data);
