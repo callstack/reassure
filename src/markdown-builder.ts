@@ -4,9 +4,17 @@ import minimist from 'minimist';
 //@ts-ignore
 import { emphasis } from 'markdown-builder';
 import { markdownTable } from './markdown-table';
-import { AnalyserOutput, STATUSES } from './shared';
+import {
+  AnalyserOutput,
+  isStatsAdded,
+  isStatsCountChanged,
+  isStatsRemoved,
+  StatsFull,
+  STATUSES,
+} from './shared';
 import {
   formatChange,
+  formatCount,
   formatDuration,
   formatDurationChange,
   formatPercentChange,
@@ -38,7 +46,7 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
   return JSON.parse(data);
 };
 
-const formatRenderDurationChange = (stats: any) => {
+const formatRenderDurationChange = (stats: StatsFull) => {
   const { durationDiff, durationDiffPercent } = stats;
   const { meanDuration: baselineMeanDuration } = stats.baseline;
   const { meanDuration: currentMeanDuration } = stats.current;
@@ -49,7 +57,7 @@ const formatRenderDurationChange = (stats: any) => {
   )}`;
 };
 
-const formatRenderCountChange = (stats: any) => {
+const formatRenderCountChange = (stats: StatsFull) => {
   const { countDiff, countDiffPercent } = stats;
   const { meanCount: baselineMeanCount } = stats.baseline;
   const { meanCount: currentMeanCount } = stats.current;
@@ -64,7 +72,7 @@ export const buildMarkdown = async () => {
     const content = STATUSES.map((status) => {
       const rows = data[status].map((stats) => {
         const name = stats.name;
-        if (status === 'countChanged') {
+        if (status === 'countChanged' && isStatsCountChanged(stats)) {
           const renderCountChange = emphasis.b(formatRenderCountChange(stats));
           return [
             name,
@@ -73,12 +81,33 @@ export const buildMarkdown = async () => {
             renderCountChange,
           ];
         }
-        const statsStatus = stats.durationDiffStatus;
+        if (isStatsAdded(stats)) {
+          return [
+            name,
+            emphasis.b(status.toUpperCase()),
+            formatDuration(stats.current.meanDuration),
+            formatCount(stats.current.meanCount),
+          ];
+        }
+        if (isStatsRemoved(stats)) {
+          return [
+            name,
+            emphasis.b(status.toUpperCase()),
+            formatDuration(stats.baseline.meanDuration),
+            formatCount(stats.baseline.meanCount),
+          ];
+        }
+        const statsWithDurationDiffStatus = stats as StatsFull;
         const renderDurationChange = emphasis.b(
-          formatRenderDurationChange(stats)
+          formatRenderDurationChange(statsWithDurationDiffStatus)
         );
 
-        return [name, emphasis.b(statsStatus), renderDurationChange, '-'];
+        return [
+          name,
+          emphasis.b(status.toUpperCase()),
+          renderDurationChange,
+          '-',
+        ];
       });
 
       return rows.length === 0 ? rows : rows.concat([[]]); // adding empty row after each status
@@ -87,7 +116,8 @@ export const buildMarkdown = async () => {
     console.log(markdownContent);
     writeToJson(markdownContent);
   } catch (error: any) {
-    console.error(`Error loading file from: ${path}`, error);
+    console.error(error);
+    throw error;
   }
 };
 
@@ -103,6 +133,7 @@ async function writeToJson(markdownContent: string) {
     console.log(`| ❌  Could not write file ${outputMarkdownFilePath}`);
     console.log(`| 🔗 ${path.resolve(outputMarkdownFilePath)}`);
     console.error(error);
+    throw error;
   }
 
   console.log('| -------------------------------------\n');
