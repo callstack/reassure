@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-while [[ "$#" > 0 ]]; do
+while [[ "$#" -gt 0 ]]; do
     case $1 in
         -base|--base_branch) base_branch="$2"; shift ;;
         -b|--base_file) base_file="$2"; shift ;;
