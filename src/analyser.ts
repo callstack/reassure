@@ -301,7 +301,6 @@ function printStats(stats: Stats[]) {
  */
 async function writeToJson(stats: Stats[]) {
   console.log('\n| ----- Analyser.js output > json -----');
-
   try {
     await fs.writeFile(
       outputFilePath,

@@ -5,6 +5,8 @@
  * configuration object of exported as `DangerPerformanceConfig`
  */
 
-import { plugin as dangerJs, Config as DangerJsConfig } from './dangerjs';
+import { plugin as dangerJs } from './dangerjs';
+import type { Config as DangerJsConfig } from './dangerjs';
 
-export { dangerJs, DangerJsConfig };
+export default dangerJs;
+export type { DangerJsConfig };
