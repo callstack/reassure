@@ -137,4 +137,5 @@ export const isStatsCountChanged = (data: Stats): data is StatsFull =>
   'current' in data &&
   'baseline' in data &&
   'countDiff' in data &&
-  !('durationDiffStatus' in data) && data.countDiff !== 0;
+  !('durationDiffStatus' in data) &&
+  data.countDiff !== 0;

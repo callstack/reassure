@@ -20,7 +20,7 @@ declare function message(message: string): void;
  */
 export type Config = { inputFilePath: string; debug?: boolean };
 
-const plugin = async (
+const plugin = (
   config: Config = {
     inputFilePath: './analyser-output.md',
   }
