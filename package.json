@@ -7,8 +7,13 @@
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
+  "bin": {
+    "run-tests": "scripts/run-tests.sh"
+  },
   "files": [
     "src",
+    "scripts",
+    "plugins.js",
     "lib",
     "android",
     "ios",
@@ -29,7 +34,6 @@
     "prepare": "bob build",
     "release": "release-it",
     "build:ts": "tsc --build",
-    "build:ts:watch": "",
     "run:analyse": "yarn prepare && node ./lib/commonjs/analyser.js --output='all' --baselineFilePath='./example/baseline.txt' --currentFilePath='./example/current.txt'",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",

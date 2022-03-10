@@ -1,5 +1,5 @@
 /* RN Performance Plugin setup */
-const path = require('path');
-const perfPlugins = require(path.resolve('lib/commonjs/plugins'));
+//@ts-ignore
+import { plugin as perfPlugins } from './plugins';
 
 perfPlugins.dangerJs();
