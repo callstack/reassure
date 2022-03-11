@@ -35,8 +35,6 @@ running them on two branches (feature branch and repository's main branch), one 
 the results we received and calculate statistical data for each test. Lastly, the analysis is printed out and passed
 onto a specific plugin (dangerJs by default), to be printed out in given PR's comment or be handled otherwise.
 
----
-
 ## Installation and setup
 
 There are a couple of steps that are required for the proper setup. Additionally, even though we do our best
@@ -99,8 +97,6 @@ perfPlugins.dangerJs();
 
 This basic setup will allow you to run the toolset based on your pipeline setup, ideally every time a PR is created for
 your repository.
-
----
 
 ## Writing performance tests
 
@@ -239,8 +235,6 @@ Looking at the example we can notice certain statuses that are assigned to certa
 - **_Added_** marks a test which does not exist in the baseline branch (the one we compare against)
 - **_Removed_** marks a test which exists in baseline but does not exist in the current PR branch
 
----
-
 ## Testing API
 
 ### defaultConfig
@@ -318,8 +312,6 @@ Reset current config to the original `defaultConfig` object
 resetToDefault(): void
 ```
 
----
-
 ## Main script
 To run the main script of the tool, you need to execute the main binary of the package, with the following command
 
@@ -346,8 +338,6 @@ npx rn-perf-tool --base_branch v1.0.0 --current_branch v1.1.0 --test_files_regex
 
 The script above will test branch `v1.1.0` performance results against branch `v1.0.0` performance results and match all
 files ending with `.perf.test.tsx` only.
-
----
 
 ## Analyser script
 Node script responsible to comparing two output files from two separate runs of Jest test suites intended to be run on
@@ -387,8 +377,6 @@ node "node_modules/rn-perf-tool/lib/commonjs/analyser.js" --baselineFilePath="" 
 
 This will print output to your terminal as well as create an `analyser-output.json` file in location from which the script had been triggered
 
----
-
 ## Danger.js plugin
 By default, rn-perf-tool supports outputting the results of its analyses in PR/MR comment by using [Danger.js](https://danger.systems/js/).
 
@@ -407,8 +395,6 @@ consumed by the plugin had been generated.
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
-
----
 
 ## License
 
