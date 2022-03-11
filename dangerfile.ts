@@ -1,5 +1,5 @@
 /* RN Performance Plugin setup */
 //@ts-ignore
-import { plugin as perfPlugins } from './plugins';
+import dangerJs from './plugins';
 
-perfPlugins.dangerJs();
+dangerJs();

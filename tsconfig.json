@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
+    "allowJs": true,
     "baseUrl": "./",
     "paths": {
       "rn-perf-tool": ["./src/index"]
     },
+    "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
@@ -11,7 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["esnext"],
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
