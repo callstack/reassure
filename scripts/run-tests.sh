@@ -14,9 +14,8 @@ done
 base_branch=${base_branch:="main"}
 base_file=${base_file:="baseline"}
 current_file=${current_file:="current"}
-current_branch=$(git rev-parse --short HEAD )
+current_branch=$(git rev-parse --short HEAD)
 test_files_regex=".*\.perf\.(test|spec)\.(js|ts)x?$"
-
 
 
 if [[ -z "$(readlink $0)" ]]; then
@@ -24,7 +23,7 @@ if [[ -z "$(readlink $0)" ]]; then
     root_dir="$(dirname $(dirname $0))"
 else
     # resolving symlink when script is executed by npx or yarn
-    root_dir="$(dirname $(dirname $(readlink $0)))";
+    root_dir="node_modules/rn-perf-tool";
 fi
 
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
