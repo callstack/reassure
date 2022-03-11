@@ -35,6 +35,8 @@ running them on two branches (feature branch and repository's main branch), one 
 the results we received and calculate statistical data for each test. Lastly, the analysis is printed out and passed
 onto a specific plugin (dangerJs by default), to be printed out in given PR's comment or be handled otherwise.
 
+---
+
 ## Installation and setup
 
 There are a couple of steps that are required for the proper setup. Additionally, even though we do our best
@@ -97,6 +99,7 @@ perfPlugins.dangerJs();
 
 This basic setup will allow you to run the toolset based on your pipeline setup, ideally every time a PR is created for
 your repository.
+
 ---
 
 ## Writing performance tests
@@ -235,6 +238,7 @@ Looking at the example we can notice certain statuses that are assigned to certa
 - **_Count changed_** marks a change in render count
 - **_Added_** marks a test which does not exist in the baseline branch (the one we compare against)
 - **_Removed_** marks a test which exists in baseline but does not exist in the current PR branch
+
 ---
 
 ## Testing API
@@ -313,6 +317,7 @@ Reset current config to the original `defaultConfig` object
 ```ts
 resetToDefault(): void
 ```
+
 ---
 
 ## Main script
@@ -341,6 +346,7 @@ npx rn-perf-tool --base_branch v1.0.0 --current_branch v1.1.0 --test_files_regex
 
 The script above will test branch `v1.1.0` performance results against branch `v1.0.0` performance results and match all
 files ending with `.perf.test.tsx` only.
+
 ---
 
 ## Analyser script
