@@ -27,13 +27,16 @@ fi
 
 # Gather current perf test results
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-mv pert-test-results.txt "$current_file";
+mv perf-test-results.txt "$current_file";
 
 # Gather baseline perf test results
 git checkout "$base_branch";
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-mv "$current_file".txt "$base_file".txt;
+
+mv perf-test-results.txt "$base_file";
 git stash
+
+# Compare
 git checkout "$current_branch";
 git stash pop
 mv "$current_file"_temp.txt "$current_file.txt";
