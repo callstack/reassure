@@ -56,14 +56,14 @@ Lines below should be added right before the danger step in the CI confg file:
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tool
+  run: npx rn-perf-tests
 ```
 
 Together with dangerJs setup, in case of GitHub Actions, it could look something like this:
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tool
+  run: npx rn-perf-tests
 
 - name: Run danger.js
   uses: danger/danger-js@9.1.6
@@ -80,7 +80,7 @@ In order to change that behavior you need to pass the `base_branch` argument to 
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tool --base_branch lts
+  run: npx rn-perf-tests --base_branch lts
 ```
 
 With this, each current test run will be compared against test runs made in branch `lts`.
@@ -90,9 +90,9 @@ With this, each current test run will be compared against test runs made in bran
 Danger only requires importing the danger plugin and executing it inside your dangerfile, like such:
 
 ```ts
-import { plugin as perfPlugins } from './plugins';
+import dangerJs from './plugins';
 
-perfPlugins.dangerJs();
+dangerJs();
 ```
 
 This basic setup will allow you to run the toolset based on your pipeline setup, ideally every time a PR is created for
@@ -102,7 +102,7 @@ your repository.
 
 ### Defining file structure
 
-RN-perf-tool will automatically look for and run test files which names end with `.perf.test.(js|jsx|ts}tsx)`.
+rn-perf-tool will automatically look for and run test files which names end with `.perf.(test|spec).(js|jsx|ts}tsx)`.
 We encourage placing your performance tests either next to your existing tests or in their own separate folders, e.g.
 
 ```
@@ -128,7 +128,7 @@ or alternatively:
 
 ### My first perf test!
 
-Rn-perf-tool uses Jest in order to run its performance tests which are written using React-Native-Testing-Library
+rn-perf-tool uses Jest in order to run its performance tests which are written using React-Native-Testing-Library
 with addition of performance specific functions. With that in mind, the syntax should already be familiar to you,
 let us consider the following example test:
 
@@ -316,7 +316,7 @@ resetToDefault(): void
 To run the main script of the tool, you need to execute the main binary of the package, with the following command
 
 ```shell
-npx rn-perf-tool
+npx rn-perf-tests
 ```
 
 It will start the full process of running tests, saving intermediary files, swapping branches and generating outputs
@@ -326,25 +326,23 @@ to be later digested by Danger using the default settings.
 
 * **`--base_branch`** name of the branch to compare against (DEFAULT: `"main"`)
 * **`--base_file`** name of the baseline output file generated from the `base_branch` (DEFAULT: `"baseline"`)
-* **`--current_branch`** name of the current PR branch (DEFAULT: `$(git branch --show-current)`)
 * **`--current_file`** name of the current output file generated from the `current_branch` (DEFAULT: `"current"`)
-* **`--test_files_regex`** regex used by Jest to identify files containing performance tests (DEFAULT: `".*\.perf\.(test|spec)\.(js|ts)x?$"`)
 
 Below, exemplary usage of these arguments:
 
 ```shell
-npx rn-perf-tool --base_branch v1.0.0 --current_branch v1.1.0 --test_files_regex ".*\.perf\.test\.tsx?$"
+npx rn-perf-tests --base_branch v1.0.0 --base_file v1_0_0_baseline --current_file v1_1_0_current
 ```
 
-The script above will test branch `v1.1.0` performance results against branch `v1.0.0` performance results and match all
-files ending with `.perf.test.tsx` only.
+The script above will test branch `v1.1.0` performance results against current PR branch performance results and output
+both results respectively to files `v1_0_0_baseline.txt` and `v1_1_0_current.txt`.
 
 ## Analyser script
 Node script responsible to comparing two output files from two separate runs of Jest test suites intended to be run on
 your PR branch and compare against your main branch.
 
 ### Analyser script arguments
-By default, the analyser script is run when `npx rn-perf-tool` is executed, as a part of the whole process and changing
+By default, the analyser script is run when `npx rn-perf-tests` is executed, as a part of the whole process and changing
 its parameters is handled by passing parameters to the command itself as described in the [Main Script](#Main-script)
 section of this documentation. However, if executed directly, the script accepts the following arguments:
 
