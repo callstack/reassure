@@ -27,5 +27,6 @@
     "strict": true,
     "target": "esnext"
   },
-  "include": ["src/**/*.ts", "dangerfile.ts"]
+  "include": ["src/**/*", "dangerfile.ts"],
+  "exclude": ["**/__tests__/**"]
 }
