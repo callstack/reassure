@@ -10,10 +10,9 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-
 base_branch=${base_branch:="main"}
-base_file=${base_file:="baseline"}
-current_file=${current_file:="current"}
+base_file=${base_file:="baseline-test-results.txt"}
+current_file=${current_file:="current-test-results.txt"}
 current_branch=$(git rev-parse --short HEAD)
 test_files_regex=".*\.perf\.(test|spec)\.(js|ts)x?$"
 
@@ -26,8 +25,11 @@ else
     root_dir="node_modules/rn-perf-tool";
 fi
 
+# Gather current perf test results
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-mv "$current_file.txt" "$current_file"_temp.txt;
+mv pert-test-results.txt "$current_file";
+
+# Gather baseline perf test results
 git checkout "$base_branch";
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
 mv "$current_file".txt "$base_file".txt;
