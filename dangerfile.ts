@@ -1,5 +1,7 @@
-/* RN Performance Plugin setup */
-//@ts-ignore
+import path from 'path';
 import dangerJs from './plugins';
+import type { Config } from './src/plugins/dangerjs';
 
-dangerJs();
+dangerJs({
+  inputFilePath: path.join(__dirname, './example/analyser-output.md'),
+} as Config);
