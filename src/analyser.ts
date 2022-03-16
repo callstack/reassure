@@ -6,7 +6,6 @@ import {
   Entry,
   Stats,
   StatsAdded,
-  StatsFull,
   StatsRemoved,
   AnalyserOutput,
   isStatsAdded,
@@ -16,6 +15,7 @@ import {
   isStatsRemoved,
   isStatsSignificant,
   DurationStatStatusType,
+  RenderDurationStatsTypes,
 } from './shared';
 import {
   formatCount,
@@ -250,7 +250,7 @@ const hasDuplicatedEntryNames = (arr: string[]) =>
 /**
  * Utility functions used for printing analysed results
  */
-function printLine(item: StatsFull) {
+function printLine(item: RenderDurationStatsTypes) {
   console.log(
     `|  - ${item.name}: ${formatPercentChange(
       item.durationDiffPercent

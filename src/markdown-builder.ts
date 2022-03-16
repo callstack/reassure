@@ -9,7 +9,7 @@ import {
   isStatsAdded,
   isStatsCountChanged,
   isStatsRemoved,
-  StatsFull,
+  RenderDurationStatsTypes,
   STATUSES,
 } from './shared';
 import {
@@ -46,7 +46,7 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
   return JSON.parse(data);
 };
 
-const formatRenderDurationChange = (stats: StatsFull) => {
+const formatRenderDurationChange = (stats: RenderDurationStatsTypes) => {
   const { durationDiff, durationDiffPercent } = stats;
   const { meanDuration: baselineMeanDuration } = stats.baseline;
   const { meanDuration: currentMeanDuration } = stats.current;
@@ -57,7 +57,7 @@ const formatRenderDurationChange = (stats: StatsFull) => {
   )}`;
 };
 
-const formatRenderCountChange = (stats: StatsFull) => {
+const formatRenderCountChange = (stats: RenderDurationStatsTypes) => {
   const { countDiff, countDiffPercent } = stats;
   const { meanCount: baselineMeanCount } = stats.baseline;
   const { meanCount: currentMeanCount } = stats.current;
@@ -77,7 +77,7 @@ export const buildMarkdown = async () => {
           return [
             name,
             emphasis.b('RENDER_COUNT_CHANGED'),
-            '-',
+            formatRenderDurationChange(stats),
             renderCountChange,
           ];
         }
@@ -97,16 +97,18 @@ export const buildMarkdown = async () => {
             formatCount(stats.baseline.meanCount),
           ];
         }
-        const statsWithDurationDiffStatus = stats as StatsFull;
+        const statsWithDurationDiffStatus = stats as RenderDurationStatsTypes;
         const renderDurationChange = emphasis.b(
           formatRenderDurationChange(statsWithDurationDiffStatus)
         );
 
         return [
           name,
-          emphasis.b(status.toUpperCase()),
+          status === 'significant'
+            ? emphasis.b(status.toUpperCase())
+            : status.toUpperCase(),
           renderDurationChange,
-          '-',
+          formatRenderCountChange(stats),
         ];
       });
 

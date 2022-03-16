@@ -70,7 +70,7 @@ export type StatsRemoved = StatsBase & {
  * Full Stats object as returned by test which was able to compare data between
  * a baseline.txt file Entry and its counterpart in the current.txt file
  */
-export type StatsFull = StatsAdded &
+type StatsFull = StatsAdded &
   StatsRemoved & {
     durationDiff: number;
     durationDiffPercent: number;
@@ -91,16 +91,15 @@ type StatsMeaningless = StatsFull & {
   durationDiffStatus: 'MEANINGLESS';
 };
 
-/**
- * Shorthand for either of the Stats object types
- */
-export type Stats =
-  | StatsFull
-  | StatsRemoved
-  | StatsAdded
+export type RenderDurationStatsTypes =
   | StatsSignificant
   | StatsInsignificant
   | StatsMeaningless;
+
+/**
+ * Shorthand for either of the Stats object types
+ */
+export type Stats = StatsRemoved | StatsAdded | RenderDurationStatsTypes;
 
 /**
  * Output data structure to be consumed by any of the outputting functions
@@ -110,7 +109,7 @@ export type AnalyserOutput = {
   significant: StatsSignificant[];
   insignificant: StatsInsignificant[];
   meaningless: StatsMeaningless[];
-  countChanged: StatsFull[];
+  countChanged: RenderDurationStatsTypes[];
   added: StatsAdded[];
   removed: StatsRemoved[];
 };
@@ -133,9 +132,13 @@ export const isStatsAdded = (data: Stats): data is StatsAdded =>
 
 export const isStatsRemoved = (data: Stats): data is StatsRemoved =>
   'baseline' in data && !('current' in data);
-export const isStatsCountChanged = (data: Stats): data is StatsFull =>
-  'current' in data &&
-  'baseline' in data &&
-  'countDiff' in data &&
-  !('durationDiffStatus' in data) &&
-  data.countDiff !== 0;
+export const isStatsCountChanged = (
+  data: Stats
+): data is RenderDurationStatsTypes => {
+  return (
+    'current' in data &&
+    'baseline' in data &&
+    'countDiff' in data &&
+    data.countDiff !== 0
+  );
+};
