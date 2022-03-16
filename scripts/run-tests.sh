@@ -14,8 +14,6 @@ base_branch=${base_branch:="main"}
 base_file=${base_file:="baseline-test-results.txt"}
 current_file=${current_file:="current-test-results.txt"}
 current_branch=$(git rev-parse --short HEAD)
-test_files_regex=".*\.perf\.(test|spec)\.(js|ts)x?$"
-
 
 if [[ -z "$(readlink $0)" ]]; then
  # ../node_modules/rn-perf-tool/scripts/run-test.sh -> ../node_modules/rn-perf-tool
@@ -26,8 +24,8 @@ else
 fi
 
 # Gather baseline perf test results
-git checkout "$base_branch";
-yarn perf-test
+#git checkout "$base_branch";
+npx perf-test
 mv perf-test-results.txt "$base_file";
 git stash
 
@@ -35,8 +33,9 @@ git stash
 git checkout "$current_branch";
 git stash pop
 yarn perf-test
+#git checkout "$current_branch";
+npx perf-test
 mv perf-test-results.txt "$current_file";
 
 # Compare
 node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file" --currentFilePath="$current_file" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
-
