@@ -2,13 +2,13 @@
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -base|--base_branch|--base-branch) BASE_BRANCH="$2"; shift ;;
+        -b|--baseline_branch|--baseline-branch) BASELINE_BRANCH="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
 done
 
-BASE_BRANCH=${BASE_BRANCH:="main"}
+BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 CURRENT_BRANCH=$(git rev-parse --short HEAD)
 
 BASELINE_FILE="baseline-results.txt"
@@ -23,14 +23,14 @@ else
 fi
 
 # Gather baseline perf test results
-# git checkout "$base_branch";
+git checkout "$BASELINE_BRANCH";
 sh "$ROOT_DIR/scripts/perf-test.sh"
 mv perf-results.txt "$BASELINE_FILE";
 git stash
 
 # Gather current perf test results
-# git checkout "$current_branch";
-# git stash pop
+git checkout "$CURRENT_BRANCH";
+git stash pop
 sh "$ROOT_DIR/scripts/perf-test.sh"
 
 # Compare results
