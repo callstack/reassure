@@ -132,7 +132,7 @@ export const isStatsAdded = (data: Stats): data is StatsAdded =>
 
 export const isStatsRemoved = (data: Stats): data is StatsRemoved =>
   'baseline' in data && !('current' in data);
-export const isStatsCountChanged = (
+export const isStatsRenderCountChanged = (
   data: Stats
 ): data is RenderDurationStatsTypes => {
   return (

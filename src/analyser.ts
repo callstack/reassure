@@ -9,7 +9,7 @@ import {
   StatsRemoved,
   AnalyserOutput,
   isStatsAdded,
-  isStatsCountChanged,
+  isStatsRenderCountChanged,
   isStatsInsignificant,
   isStatsMeaningless,
   isStatsRemoved,
@@ -223,7 +223,7 @@ const generateOutput = (stats: Stats[]): AnalyserOutput => {
   const significant = stats.filter(isStatsSignificant);
   const meaningless = stats.filter(isStatsMeaningless);
   const insignificant = stats.filter(isStatsInsignificant);
-  const countChanged = stats.filter(isStatsCountChanged);
+  const countChanged = stats.filter(isStatsRenderCountChanged);
 
   return {
     significant: significant.sort((a, b) => b.durationDiff - a.durationDiff),

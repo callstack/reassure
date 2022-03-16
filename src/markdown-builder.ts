@@ -7,7 +7,7 @@ import { markdownTable } from './markdown-table';
 import {
   AnalyserOutput,
   isStatsAdded,
-  isStatsCountChanged,
+  isStatsRenderCountChanged,
   isStatsRemoved,
   RenderDurationStatsTypes,
   STATUSES,
@@ -72,7 +72,7 @@ export const buildMarkdown = async () => {
     const content = STATUSES.map((status) => {
       const rows = data[status].map((stats) => {
         const name = stats.name;
-        if (status === 'countChanged' && isStatsCountChanged(stats)) {
+        if (status === 'countChanged' && isStatsRenderCountChanged(stats)) {
           const renderCountChange = emphasis.b(formatRenderCountChange(stats));
           return [
             name,
