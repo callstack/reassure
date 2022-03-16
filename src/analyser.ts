@@ -40,8 +40,8 @@ type LoadFileResult = { [key: string]: Entry };
  */
 const {
   output,
-  currentFilePath = 'current.txt',
-  baselineFilePath = 'baseline.txt',
+  currentFilePath = 'perf-results.txt',
+  baselineFilePath = 'baseline-results.txt',
   outputFilePath = 'analyser-output.json',
 } = minimist<ScriptArguments>(process.argv);
 

@@ -9,8 +9,8 @@
     "start": "react-native start",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
-    "perf-test": "node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js \".*.perf-test.(js|ts)x?$\"",
-    "full-perf-test": "../scripts/run-tests.sh"
+    "perf-test": "../scripts/perf-test.sh",
+    "perf-compare": "../scripts/perf-compare.sh"
   },
   "dependencies": {
     "react": "^17.0.2",

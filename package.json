@@ -9,8 +9,7 @@
   "source": "src/index",
   "bin": {
     "rn-perf-tests": "scripts/run-tests.sh",
-    "rn-perf-stability": "scripts/run-stability-tests.sh",
-    "perf-test": "scripts/perf-test.sh"
+    "rn-perf-stability": "scripts/run-stability-tests.sh"
   },
   "files": [
     "src",

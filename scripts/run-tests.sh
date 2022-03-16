@@ -2,7 +2,7 @@
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -base|--base_branch) BASE_BRANCH="$2"; shift ;;
+        -base|--base_branch|--base-branch) BASE_BRANCH="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
@@ -34,4 +34,4 @@ git stash
 sh "$ROOT_DIR/scripts/perf-test.sh"
 
 # Compare results
-sh "$ROOT_DIR/scripts/compare-results.sh"
+sh "$ROOT_DIR/scripts/perf-compare.sh"
