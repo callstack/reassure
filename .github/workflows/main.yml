@@ -1,5 +1,5 @@
 name: Test Performance
-on: [pull_request, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch]
 jobs:
   test:
     name: Install and test
