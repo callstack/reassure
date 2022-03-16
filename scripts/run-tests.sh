@@ -25,20 +25,18 @@ else
     root_dir="node_modules/rn-perf-tool";
 fi
 
-# Gather current perf test results
-node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-mv perf-test-results.txt "$current_file";
-
 # Gather baseline perf test results
 git checkout "$base_branch";
-node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-
+yarn perf-test
 mv perf-test-results.txt "$base_file";
 git stash
 
-# Compare
+# Gather current perf test results
 git checkout "$current_branch";
 git stash pop
-mv "$current_file"_temp.txt "$current_file.txt";
-node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
+yarn perf-test
+mv perf-test-results.txt "$current_file";
+
+# Compare
+node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file" --currentFilePath="$current_file" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
 
