@@ -2,7 +2,7 @@
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -b|--baseline_branch|--baseline-branch) BASELINE_BRANCH="$2"; shift ;;
+        --baseline_branch|--baseline-branch) BASELINE_BRANCH="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift

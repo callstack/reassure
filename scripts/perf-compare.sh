@@ -2,8 +2,8 @@
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -b|--base_file|--base-file) BASELINE_FILE="$2"; shift ;;
-        -c|--current_file|--current-file) CURRENT_FILE="$2"; shift ;;
+        --baseline_file|--baseline-file) BASELINE_FILE="$2"; shift ;;
+        --current_file|--current-file) CURRENT_FILE="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
