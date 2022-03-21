@@ -24,14 +24,14 @@ fi
 
 # Gather baseline perf test results
 git checkout "$BASELINE_BRANCH";
-sh "$ROOT_DIR/scripts/perf-test.sh"
+"$ROOT_DIR/scripts/perf-test.sh"
 mv perf-results.txt "$BASELINE_FILE";
 git stash
 
 # Gather current perf test results
 git checkout "$CURRENT_BRANCH";
 git stash pop
-sh "$ROOT_DIR/scripts/perf-test.sh"
+"$ROOT_DIR/scripts/perf-test.sh"
 
 # Compare results
-sh "$ROOT_DIR/scripts/perf-compare.sh"
+"$ROOT_DIR/scripts/perf-compare.sh"
