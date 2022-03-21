@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Run stability test script
+        run: cd example && ../scripts/run-stability-tests.sh
+
       - name: Run comparative test script
         run: cd example && ../scripts/run-tests.sh
 
