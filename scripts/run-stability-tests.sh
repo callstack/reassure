@@ -2,8 +2,6 @@
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-        -base|--base_branch) base_branch="$2"; shift ;;
-        -b|--base_file) base_file="$2"; shift ;;
         -c|--current_file) current_file="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -12,7 +10,6 @@ done
 
 
 current_file=${current_file:="current"}
-current_branch=$(git rev-parse --short HEAD)
 test_files_regex=".*\.perf\.(test|spec)\.(js|ts)x?$"
 
 
@@ -26,12 +23,6 @@ fi
 
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
 mv "$current_file.txt" "$current_file"_temp.txt;
-git checkout "$base_branch";
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-mv "$current_file".txt "$base_file".txt;
-git stash
-git checkout "$current_branch";
-git stash pop
-mv "$current_file"_temp.txt "$current_file.txt";
-node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
+node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$current_file"_temp.txt --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
 
