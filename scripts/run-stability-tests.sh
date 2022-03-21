@@ -22,7 +22,7 @@ else
 fi
 
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-mv "$current_file.txt" "$current_file"_temp.txt;
+mv "$current_file.txt" "$current_file"_first.txt;
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
-node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$current_file"_temp.txt --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
+node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$current_file"_first.txt --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
 
