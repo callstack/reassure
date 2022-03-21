@@ -1,4 +1,4 @@
-name: Test Performance
+name: Test Performance Stability
 on: [pull_request, workflow_dispatch]
 jobs:
   test:
@@ -26,8 +26,9 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Run comparative test script
-        run: cd example && ../scripts/run-tests.sh
+      - name: Run stability test script
+        run: cd example && ../scripts/run-stability-tests.sh
+
 
       - name: Run danger.js
         uses: danger/danger-js@9.1.6
