@@ -8,7 +8,8 @@
   "react-native": "src/index",
   "source": "src/index",
   "bin": {
-    "rn-perf-tests": "scripts/run-tests.sh"
+    "rn-perf-tests": "scripts/run-tests.sh",
+    "rn-perf-tests:stability": "scripts/run-stability-tests.sh"
   },
   "files": [
     "src",
