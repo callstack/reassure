@@ -1,5 +1,5 @@
 name: Test Performance Stability
-on: [pull_request, workflow_dispatch]
+on: [workflow_dispatch]
 jobs:
   test:
     name: Install and test
@@ -28,9 +28,3 @@ jobs:
 
       - name: Run stability test script
         run: cd example && ../scripts/run-stability-tests.sh
-
-
-      - name: Run danger.js
-        uses: danger/danger-js@9.1.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
