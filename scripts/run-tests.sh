@@ -31,7 +31,9 @@ mv "$current_file.txt" "$current_file"_temp.txt;
 git checkout "$base_branch";
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
 mv "$current_file".txt "$base_file".txt;
+git stash
 git checkout "$current_branch";
+git stash pop
 mv "$current_file"_temp.txt "$current_file.txt";
 node --unhandled-rejections=throw "$root_dir/lib/commonjs/analyser.js" --output=all --baselineFilePath="$base_file.txt" --currentFilePath="$current_file.txt" && node --unhandled-rejections=throw "$root_dir/lib/commonjs/markdown-builder.js"
 

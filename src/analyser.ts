@@ -6,16 +6,16 @@ import {
   Entry,
   Stats,
   StatsAdded,
-  StatsFull,
   StatsRemoved,
   AnalyserOutput,
   isStatsAdded,
-  isStatsCountChanged,
+  isStatsRenderCountChanged,
   isStatsInsignificant,
   isStatsMeaningless,
   isStatsRemoved,
   isStatsSignificant,
   DurationStatStatusType,
+  RenderDurationStatsTypes,
 } from './shared';
 import {
   formatCount,
@@ -223,7 +223,7 @@ const generateOutput = (stats: Stats[]): AnalyserOutput => {
   const significant = stats.filter(isStatsSignificant);
   const meaningless = stats.filter(isStatsMeaningless);
   const insignificant = stats.filter(isStatsInsignificant);
-  const countChanged = stats.filter(isStatsCountChanged);
+  const countChanged = stats.filter(isStatsRenderCountChanged);
 
   return {
     significant: significant.sort((a, b) => b.durationDiff - a.durationDiff),
@@ -250,7 +250,7 @@ const hasDuplicatedEntryNames = (arr: string[]) =>
 /**
  * Utility functions used for printing analysed results
  */
-function printLine(item: StatsFull) {
+function printLine(item: RenderDurationStatsTypes) {
   console.log(
     `|  - ${item.name}: ${formatPercentChange(
       item.durationDiffPercent
