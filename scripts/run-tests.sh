@@ -26,11 +26,9 @@ fi
 git checkout "$BASELINE_BRANCH";
 "$ROOT_DIR/scripts/perf-test.sh"
 mv perf-results.txt "$BASELINE_FILE";
-git stash
 
 # Gather current perf test results
 git checkout "$CURRENT_BRANCH";
-git stash pop
 "$ROOT_DIR/scripts/perf-test.sh"
 
 # Compare results
