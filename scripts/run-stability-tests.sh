@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 BASELINE_FILE="baseline-results.txt"
-CURRENT_FILE="perf-results.txt"
 
 if [[ -z "$(readlink $0)" ]]; then
  # ../node_modules/rn-perf-tool/scripts/run-test.sh -> ../node_modules/rn-perf-tool
