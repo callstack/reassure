@@ -64,13 +64,7 @@ android/keystores/debug.keystore
 lib/
 
 # operational files generated via testing
-current.txt
-current_temp.txt
-baseline.txt
+perf-results.txt
+baseline-results.txt
 analyser-output.md
 analyser-output.json
-example/current.txt
-example/current_temp.txt
-example/baseline.txt
-example/analyser-output.md
-example/analyser-output.json

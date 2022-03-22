@@ -1,4 +1,5 @@
 import * as fs from 'fs/promises';
+import * as fsSync from 'fs';
 import * as path from 'path';
 import minimist from 'minimist';
 
@@ -39,8 +40,8 @@ type LoadFileResult = { [key: string]: Entry };
  */
 const {
   output,
-  currentFilePath = 'current.txt',
-  baselineFilePath = 'baseline.txt',
+  currentFilePath = 'perf-results.txt',
+  baselineFilePath = 'baseline-results.txt',
   outputFilePath = 'analyser-output.json',
 } = minimist<ScriptArguments>(process.argv);
 
@@ -61,8 +62,25 @@ const PROBABILITY_CONSIDERED_MEANINGLESS = 0.05;
  */
 export const main = async () => {
   try {
+    const hasCurrentFile = fsSync.existsSync(currentFilePath);
+    if (!hasCurrentFile) {
+      console.warn(
+        `Current results files "${currentFilePath}" does not exists. Check your setup.`
+      );
+      process.exit(1);
+    }
+
     const current = await loadFile(currentFilePath);
-    const baseline = await loadFile(baselineFilePath);
+
+    const hasBaslineFile = fsSync.existsSync(baselineFilePath);
+    if (!hasBaslineFile) {
+      console.warn(
+        `Baseline results files "${baselineFilePath}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
+      );
+    }
+
+    const baseline = hasBaslineFile ? await loadFile(baselineFilePath) : null;
+
     const outputData = analyse(current, baseline);
 
     if (output === 'console' || output === 'all') printStats(outputData);
@@ -106,23 +124,23 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
 /**
  * Responsible for comparing results from baseline and current data sets
  */
-const analyse = (current: LoadFileResult, baseline: LoadFileResult) => {
+const analyse = (current: LoadFileResult, baseline: LoadFileResult | null) => {
   const keys = [
-    ...new Set([...Object.keys(baseline), ...Object.keys(current)]),
+    ...new Set([...Object.keys(current), ...Object.keys(baseline || {})]),
   ];
 
   return keys
-    .map((key) => generateLineStats(key, baseline?.[key], current?.[key]))
+    .map((key) => generateLineStats(key, current[key], baseline?.[key]))
     .filter(Boolean);
 };
 
 /**
- * Generates statistics from all tests based on current.txt and baseline.txt file entries
+ * Generates statistics from all tests based on current-perf-results.txt and baseline-perf-results.txt file entries
  */
 const generateLineStats = (
   name: string,
-  baseline?: Entry,
-  current?: Entry
+  current?: Entry,
+  baseline?: Entry
 ): Stats => {
   if (!baseline) {
     return { name, current, durationDiffStatus: undefined } as StatsAdded;

@@ -7,10 +7,6 @@ import { fireEvent, RenderAPI } from '@testing-library/react-native';
 
 // import { SlowList } from 'components/SlowList';
 
-beforeAll(async () => {
-  await clearTestStats();
-});
-
 const AsyncComponent = () => {
   const [count, setCount] = React.useState(0);
 

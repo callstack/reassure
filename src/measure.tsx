@@ -7,7 +7,7 @@ import type { MeasureRenderStats } from './shared';
 export const defaultConfig = {
   count: 10,
   dropFirst: 1,
-  outputFile: 'current.txt',
+  outputFile: 'perf-results.txt',
 };
 
 let config = defaultConfig;
