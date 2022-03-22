@@ -65,7 +65,7 @@ export const main = async () => {
     const hasCurrentFile = fsSync.existsSync(currentFilePath);
     if (!hasCurrentFile) {
       console.warn(
-        `Current results files "${hasCurrentFile}" does not exists. Check your setup.`
+        `Current results files "${currentFilePath}" does not exists. Check your setup.`
       );
       process.exit(1);
     }
