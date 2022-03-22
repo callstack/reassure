@@ -4,14 +4,7 @@ import minimist from 'minimist';
 //@ts-ignore
 import { emphasis } from 'markdown-builder';
 import { markdownTable } from './markdown-table';
-import {
-  AnalyserOutput,
-  isStatsAdded,
-  isStatsRenderCountChanged,
-  isStatsRemoved,
-  RenderDurationStatsTypes,
-  STATUSES,
-} from './shared';
+import type { ComparisonOutput, ComparisonRegularResult } from './shared';
 import {
   formatChange,
   formatCount,
@@ -30,91 +23,95 @@ const {
   analyserOutputFilePath = 'analyser-output.json',
 } = minimist<ScriptArguments>(process.argv);
 
-type LoadFileResult = {
-  data: AnalyserOutput;
-};
+const COLUMNS = ['Name', 'Status', 'Render Duration', 'Render Count'] as const;
 
-const COLUMNS = [
-  'Name',
-  'Status',
-  'Render duration change',
-  'Render count change',
-] as const;
-
-const loadFile = async (path: string): Promise<LoadFileResult> => {
+const loadFile = async (path: string): Promise<ComparisonOutput> => {
   const data = await fs.readFile(path, 'utf8');
   return JSON.parse(data);
 };
 
-const formatRenderDurationChange = (stats: RenderDurationStatsTypes) => {
-  const { durationDiff, durationDiffPercent } = stats;
-  const { meanDuration: baselineMeanDuration } = stats.baseline;
-  const { meanDuration: currentMeanDuration } = stats.current;
-  return `${formatDuration(baselineMeanDuration)} -> ${formatDuration(
-    currentMeanDuration
+const formatRenderDurationChange = (item: ComparisonRegularResult) => {
+  const { durationDiff, durationDiffPercent } = item;
+
+  return `${formatDuration(item.baseline.meanDuration)} -> ${formatDuration(
+    item.current.meanDuration
   )}, ${formatDurationChange(durationDiff)}, ${formatPercentChange(
     durationDiffPercent
   )}`;
 };
 
-const formatRenderCountChange = (stats: RenderDurationStatsTypes) => {
-  const { countDiff, countDiffPercent } = stats;
-  const { meanCount: baselineMeanCount } = stats.baseline;
-  const { meanCount: currentMeanCount } = stats.current;
-  return `${baselineMeanCount} -> ${currentMeanCount}, ${formatChange(
-    countDiff
-  )}, ${formatPercentChange(countDiffPercent)}`;
+const formatRenderCountChange = (item: ComparisonRegularResult) => {
+  const { countDiff, countDiffPercent } = item;
+  if (item.baseline.meanCount === item.current.meanCount) {
+    return `${item.baseline.meanCount} -> ${item.current.meanCount}`;
+  }
+
+  return `${item.baseline.meanCount} -> ${
+    item.current.meanCount
+  }, ${formatChange(countDiff)}, ${formatPercentChange(countDiffPercent)}`;
 };
 
 export const buildMarkdown = async () => {
   try {
-    const { data } = await loadFile(analyserOutputFilePath);
-    const content = STATUSES.map((status) => {
-      const rows = data[status].map((stats) => {
-        const name = stats.name;
-        if (status === 'countChanged' && isStatsRenderCountChanged(stats)) {
-          const renderCountChange = emphasis.b(formatRenderCountChange(stats));
-          return [
-            name,
-            emphasis.b('RENDER_COUNT_CHANGED'),
-            formatRenderDurationChange(stats),
-            renderCountChange,
-          ];
-        }
-        if (isStatsAdded(stats)) {
-          return [
-            name,
-            emphasis.b(status.toUpperCase()),
-            formatDuration(stats.current.meanDuration),
-            formatCount(stats.current.meanCount),
-          ];
-        }
-        if (isStatsRemoved(stats)) {
-          return [
-            name,
-            emphasis.b(status.toUpperCase()),
-            formatDuration(stats.baseline.meanDuration),
-            formatCount(stats.baseline.meanCount),
-          ];
-        }
-        const statsWithDurationDiffStatus = stats as RenderDurationStatsTypes;
-        const renderDurationChange = emphasis.b(
-          formatRenderDurationChange(statsWithDurationDiffStatus)
-        );
+    const output = await loadFile(analyserOutputFilePath);
 
-        return [
-          name,
-          status === 'significant'
-            ? emphasis.b(status.toUpperCase())
-            : status.toUpperCase(),
-          renderDurationChange,
-          formatRenderCountChange(stats),
-        ];
-      });
+    let content: any[][] = [];
 
-      return rows.length === 0 ? rows : rows.concat([[]]); // adding empty row after each status
-    }).flat();
-    const markdownContent = markdownTable([[...COLUMNS], ...content]);
+    content = content.concat(
+      output.significant.map((item) => [
+        item.name,
+        emphasis.b('Significant'),
+        emphasis.b(formatRenderDurationChange(item)),
+        formatRenderCountChange(item),
+      ])
+    );
+
+    content = content.concat(
+      output.insignificant.map((item) => [
+        item.name,
+        'Insignificant',
+        formatRenderDurationChange(item),
+        formatRenderCountChange(item),
+      ])
+    );
+
+    content = content.concat(
+      output.meaningless.map((item) => [
+        item.name,
+        'Meaningless',
+        formatRenderDurationChange(item),
+        formatRenderCountChange(item),
+      ])
+    );
+
+    content = content.concat(
+      output.countChanged.map((item) => [
+        item.name,
+        emphasis.b('Render count changed'),
+        formatRenderDurationChange(item),
+        emphasis.b(formatRenderCountChange(item)),
+      ])
+    );
+
+    content = content.concat(
+      output.added.map((item) => [
+        item.name,
+        'Added',
+        formatDuration(item.current.meanDuration),
+        formatCount(item.current.meanCount),
+      ])
+    );
+
+    content = content.concat(
+      output.removed.map((item) => [
+        item.name,
+        'Removed',
+        formatDuration(item.baseline.meanDuration),
+        formatCount(item.baseline.meanCount),
+      ])
+    );
+
+    const markdownContent = markdownTable([COLUMNS, ...content]);
     console.log(markdownContent);
     writeToJson(markdownContent);
   } catch (error: any) {

@@ -3,20 +3,13 @@ import * as fsSync from 'fs';
 import * as path from 'path';
 import minimist from 'minimist';
 
-import {
-  Entry,
-  Stats,
-  StatsAdded,
-  StatsRemoved,
-  AnalyserOutput,
-  isStatsAdded,
-  isStatsRenderCountChanged,
-  isStatsInsignificant,
-  isStatsMeaningless,
-  isStatsRemoved,
-  isStatsSignificant,
-  DurationStatStatusType,
-  RenderDurationStatsTypes,
+import type {
+  PerfResultEntry,
+  StatisticSignificance,
+  ComparisonAddedResult,
+  ComparisonRemovedResult,
+  ComparisonRegularResult,
+  ComparisonOutput,
 } from './shared';
 import {
   formatCount,
@@ -32,7 +25,7 @@ type ScriptArguments = {
   output?: 'console' | 'json' | 'all';
 };
 
-type LoadFileResult = { [key: string]: Entry };
+type LoadFileResult = { [key: string]: PerfResultEntry };
 
 /**
  * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
@@ -54,6 +47,8 @@ const {
  */
 const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 const PROBABILITY_CONSIDERED_MEANINGLESS = 0.05;
+const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
+const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 
 /**
  * Main executor function of the analyser tool. Responsible for aggregating data generated
@@ -81,7 +76,7 @@ export const main = async () => {
 
     const baseline = hasBaslineFile ? await loadFile(baselineFilePath) : null;
 
-    const outputData = analyse(current, baseline);
+    const outputData = compareResults(current, baseline);
 
     if (output === 'console' || output === 'all') printStats(outputData);
     if (output === 'json' || output === 'all') writeToJson(outputData);
@@ -98,7 +93,7 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
   const data = await fs.readFile(path, 'utf8');
 
   const lines = data.split(/\r?\n/);
-  const entries: Entry[] = lines
+  const entries: PerfResultEntry[] = lines
     .filter((line) => !!line.trim())
     .map((line) => JSON.parse(line));
 
@@ -124,30 +119,67 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
 /**
  * Responsible for comparing results from baseline and current data sets
  */
-const analyse = (current: LoadFileResult, baseline: LoadFileResult | null) => {
+const compareResults = (
+  currentEntries: LoadFileResult,
+  baselineEntries: LoadFileResult | null
+): ComparisonOutput => {
   const keys = [
-    ...new Set([...Object.keys(current), ...Object.keys(baseline || {})]),
+    ...new Set([
+      ...Object.keys(currentEntries),
+      ...Object.keys(baselineEntries || {}),
+    ]),
   ];
 
-  return keys
-    .map((key) => generateLineStats(key, current[key], baseline?.[key]))
-    .filter(Boolean);
+  const regular: ComparisonRegularResult[] = [];
+  const added: ComparisonAddedResult[] = [];
+  const removed: ComparisonRemovedResult[] = [];
+
+  keys.forEach((name) => {
+    const current = currentEntries[name];
+    const baseline = baselineEntries?.[name];
+
+    if (baseline && current) {
+      regular.push(generateCompareResult(name, current, baseline));
+    } else if (current) {
+      added.push({ name, current });
+    } else if (baseline) {
+      removed.push({ name, baseline });
+    }
+  });
+
+  const significant = regular
+    .filter((item) => item.durationDiffSignificance === 'SIGNIFICANT')
+    .sort((a, b) => b.durationDiff - a.durationDiff);
+  const insignificant = regular
+    .filter((item) => item.durationDiffSignificance === 'INSIGNIFICANT')
+    .sort((a, b) => b.durationDiff - a.durationDiff);
+  const meaningless = regular
+    .filter((item) => item.durationDiffSignificance === 'MEANINGLESS')
+    .sort((a, b) => b.durationDiff - a.durationDiff);
+  const countChanged = regular
+    .filter((item) => item.countDiff !== 0)
+    .sort((a, b) => b.countDiff - a.countDiff);
+  added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
+  removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
+
+  return {
+    significant,
+    insignificant,
+    meaningless,
+    countChanged,
+    added,
+    removed,
+  };
 };
 
 /**
  * Generates statistics from all tests based on current-perf-results.txt and baseline-perf-results.txt file entries
  */
-const generateLineStats = (
+const generateCompareResult = (
   name: string,
-  current?: Entry,
-  baseline?: Entry
-): Stats => {
-  if (!baseline) {
-    return { name, current, durationDiffStatus: undefined } as StatsAdded;
-  } else if (!current) {
-    return { name, baseline, durationDiffStatus: undefined } as StatsRemoved;
-  }
-
+  current: PerfResultEntry,
+  baseline: PerfResultEntry
+): ComparisonRegularResult => {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const durationDiffPercent = (durationDiff / baseline.meanDuration) * 100;
   const countDiff = current.meanCount - baseline.meanCount;
@@ -159,21 +191,29 @@ const generateLineStats = (
     current.meanDuration,
     current.runs
   );
+
   const prob = computeProbability(z);
 
-  let durationDiffStatus: DurationStatStatusType = 'INSIGNIFICANT';
-  if (prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) > 3)
-    durationDiffStatus = 'SIGNIFICANT';
-  if (prob > PROBABILITY_CONSIDERED_MEANINGLESS || Math.abs(durationDiff) < 1)
-    durationDiffStatus = 'MEANINGLESS';
+  let durationDiffSignificance: StatisticSignificance = 'INSIGNIFICANT';
+  if (
+    prob < PROBABILITY_CONSIDERED_SIGNIFICANT &&
+    Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT
+  )
+    durationDiffSignificance = 'SIGNIFICANT';
+
+  if (
+    prob > PROBABILITY_CONSIDERED_MEANINGLESS ||
+    Math.abs(durationDiff) <= DURATION_DIFF_THRESHOLD_MININGLESS
+  )
+    durationDiffSignificance = 'MEANINGLESS';
 
   return {
     name,
-    durationDiffStatus,
     baseline,
     current,
     durationDiff,
     durationDiffPercent,
+    durationDiffSignificance,
     countDiff,
     countDiffPercent,
   };
@@ -233,33 +273,6 @@ function computeProbability(z: number) {
 }
 
 /**
- * Generates main output data object for any of the outputting functions
- */
-const generateOutput = (stats: Stats[]): AnalyserOutput => {
-  const added = stats.filter(isStatsAdded);
-  const removed = stats.filter(isStatsRemoved);
-  const significant = stats.filter(isStatsSignificant);
-  const meaningless = stats.filter(isStatsMeaningless);
-  const insignificant = stats.filter(isStatsInsignificant);
-  const countChanged = stats.filter(isStatsRenderCountChanged);
-
-  return {
-    significant: significant.sort((a, b) => b.durationDiff - a.durationDiff),
-    insignificant: insignificant.sort(
-      (a, b) => b.durationDiff - a.durationDiff
-    ),
-    meaningless: meaningless.sort((a, b) => b.durationDiff - a.durationDiff),
-    countChanged: countChanged.sort((a, b) => b.countDiff - a.countDiff),
-    added: added.sort(
-      (a, b) => b.current.meanDuration - a.current.meanDuration
-    ),
-    removed: removed.sort(
-      (a, b) => b.baseline.meanDuration - a.baseline.meanDuration
-    ),
-  };
-};
-
-/**
  * Utility function returning true if input array of strings consists of any non-unique members
  */
 const hasDuplicatedEntryNames = (arr: string[]) =>
@@ -268,7 +281,7 @@ const hasDuplicatedEntryNames = (arr: string[]) =>
 /**
  * Utility functions used for printing analysed results
  */
-function printLine(item: RenderDurationStatsTypes) {
+function printLine(item: ComparisonRegularResult) {
   console.log(
     `|  - ${item.name}: ${formatPercentChange(
       item.durationDiffPercent
@@ -279,23 +292,24 @@ function printLine(item: RenderDurationStatsTypes) {
     )} => ${formatCount(item.current.meanCount)})`
   );
 }
-function printAdded(item: StatsAdded) {
+
+function printAdded(item: ComparisonAddedResult) {
   console.log(
     `|  - ${item.name}: ${formatDuration(
       item.current.meanDuration
     )} | ${formatCount(item.current.meanCount)}`
   );
 }
-function printRemoved(item: StatsRemoved) {
+
+function printRemoved(item: ComparisonRemovedResult) {
   console.log(
     `|  - ${item.name}: ${formatDuration(
       item.baseline.meanDuration
     )} | ${formatCount(item.baseline.meanCount)}`
   );
 }
-function printStats(stats: Stats[]) {
-  const output = generateOutput(stats);
 
+function printStats(output: ComparisonOutput) {
   console.log('\n| ----- Analyser.js output > console -----');
 
   for (const key of Object.keys(output)) {
@@ -317,13 +331,10 @@ function printStats(stats: Stats[]) {
 /**
  * Utility function responsible for writing output data into a specified JSON file
  */
-async function writeToJson(stats: Stats[]) {
+async function writeToJson(output: ComparisonOutput) {
   console.log('\n| ----- Analyser.js output > json -----');
   try {
-    await fs.writeFile(
-      outputFilePath,
-      JSON.stringify({ data: generateOutput(stats) })
-    );
+    await fs.writeFile(outputFilePath, JSON.stringify(output));
 
     console.log(`| ✅  Written output file ${outputFilePath}`);
     console.log(`| 🔗 ${path.resolve(outputFilePath)}`);

@@ -1,144 +1,76 @@
-export const DURATION_STATUSES = [
+export interface MeasureRenderResult {
+  /* average render duration measured by the tests */
+  meanDuration: number;
+
+  /* standard deviation from average render duration measured by the tests */
+  stdevDuration: number;
+
+  /* average render count measured by the tests */
+  meanCount: number;
+
+  /* standard deviation from average render count measured by the tests */
+  stdevCount: number;
+
+  /* number of test runs */
+  runs: number;
+}
+
+/**
+ * Output of specific test scenarion as written to perf results file.
+ */
+export interface PerfResultEntry extends MeasureRenderResult {
+  name: string;
+}
+
+export const STATISTIC_SIGNIFICANCE = [
   'SIGNIFICANT',
   'INSIGNIFICANT',
   'MEANINGLESS',
 ] as const;
 
-export const STATUSES = [
-  'significant',
-  'insignificant',
-  'meaningless',
-  'countChanged',
-  'added',
-  'removed',
-] as const;
-
-export interface MeasureRenderStats {
-  /* average render duration measured by the test */
-  meanDuration: number;
-  /* standard deviation from average render duration measured by the test */
-  stdevDuration: number;
-  /* average render count measured by the test */
-  meanCount: number;
-  /* standard deviation from average render count measured by the test */
-  stdevCount: number;
-  /* number of test runs */
-  runs: number;
-  /*name of the component being tested*/
-  name?: string;
-}
-
-/**
- * Defines output of one specific test
- */
-export type Entry = {
-  /* name parameter passed down to measureRender function */
-  name: string;
-} & MeasureRenderStats;
-
-/**
- * Serialised result from entries found in files consumed by the script
- */
-
 /**
  * Type of the performance measure change as compared to the baseline.txt file
  */
-export type DurationStatStatusType = typeof DURATION_STATUSES[number];
+export type StatisticSignificance = typeof STATISTIC_SIGNIFICANCE[number];
 
 /**
- * Base properties of Stats object shared between all subtypes
+ * Comparison entry for tests that have both baseline and current entry
  */
-type StatsBase = {
+export interface ComparisonRegularResult {
   name: string;
-};
+  current: PerfResultEntry;
+  baseline: PerfResultEntry;
+  durationDiff: number;
+  durationDiffPercent: number;
+  durationDiffSignificance: StatisticSignificance;
+  countDiff: number;
+  countDiffPercent: number;
+}
 
 /**
- * Stats object for an added test, that does not exist in baseline.txt file
+ * Comparison entry for tests that have only current entry
  */
-export type StatsAdded = StatsBase & {
-  current: Entry;
-};
+export interface ComparisonAddedResult {
+  name: string;
+  current: PerfResultEntry;
+}
 
 /**
- * Stats object for a removed test, that does not exist in current.txt file
+ * Comparison entry for tests that have only baseline entry
  */
-export type StatsRemoved = StatsBase & {
-  baseline: Entry;
-};
-
-/**
- * Full Stats object as returned by test which was able to compare data between
- * a baseline.txt file Entry and its counterpart in the current.txt file
- */
-type StatsFull = StatsAdded &
-  StatsRemoved & {
-    durationDiff: number;
-    durationDiffPercent: number;
-    countDiff: number;
-    countDiffPercent: number;
-  };
-
-/**
- * Shorthands for different Stats objects depending on their `durationDiffStatus`
- */
-type StatsSignificant = StatsFull & {
-  durationDiffStatus: 'SIGNIFICANT';
-};
-type StatsInsignificant = StatsFull & {
-  durationDiffStatus: 'INSIGNIFICANT';
-};
-type StatsMeaningless = StatsFull & {
-  durationDiffStatus: 'MEANINGLESS';
-};
-
-export type RenderDurationStatsTypes =
-  | StatsSignificant
-  | StatsInsignificant
-  | StatsMeaningless;
-
-/**
- * Shorthand for either of the Stats object types
- */
-export type Stats = StatsRemoved | StatsAdded | RenderDurationStatsTypes;
+export interface ComparisonRemovedResult {
+  name: string;
+  baseline: PerfResultEntry;
+}
 
 /**
  * Output data structure to be consumed by any of the outputting functions
  */
-
-export type AnalyserOutput = {
-  significant: StatsSignificant[];
-  insignificant: StatsInsignificant[];
-  meaningless: StatsMeaningless[];
-  countChanged: RenderDurationStatsTypes[];
-  added: StatsAdded[];
-  removed: StatsRemoved[];
-};
-
-/**
- * Type guard functions
- */
-
-export const isStatsSignificant = (data: Stats): data is StatsSignificant =>
-  'durationDiffStatus' in data && data.durationDiffStatus === 'SIGNIFICANT';
-
-export const isStatsInsignificant = (data: Stats): data is StatsInsignificant =>
-  'durationDiffStatus' in data && data.durationDiffStatus === 'INSIGNIFICANT';
-
-export const isStatsMeaningless = (data: Stats): data is StatsMeaningless =>
-  'durationDiffStatus' in data && data.durationDiffStatus === 'MEANINGLESS';
-
-export const isStatsAdded = (data: Stats): data is StatsAdded =>
-  'current' in data && !('baseline' in data);
-
-export const isStatsRemoved = (data: Stats): data is StatsRemoved =>
-  'baseline' in data && !('current' in data);
-export const isStatsRenderCountChanged = (
-  data: Stats
-): data is RenderDurationStatsTypes => {
-  return (
-    'current' in data &&
-    'baseline' in data &&
-    'countDiff' in data &&
-    data.countDiff !== 0
-  );
+export type ComparisonOutput = {
+  significant: ComparisonRegularResult[];
+  insignificant: ComparisonRegularResult[];
+  meaningless: ComparisonRegularResult[];
+  countChanged: ComparisonRegularResult[];
+  added: ComparisonAddedResult[];
+  removed: ComparisonRemovedResult[];
 };

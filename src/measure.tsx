@@ -2,7 +2,7 @@ import * as fs from 'fs/promises';
 import React from 'react';
 import { render, RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
-import type { MeasureRenderStats } from './shared';
+import type { MeasureRenderResult } from './shared';
 
 export const defaultConfig = {
   count: 10,
@@ -33,10 +33,9 @@ export function resetToDefault() {
 }
 
 export async function measureRender(
-  ui: React.ReactElement & { type: { name?: string } },
+  ui: React.ReactElement,
   options?: MeasureRenderOptions
-): Promise<MeasureRenderStats> {
-  const name = options?.name ?? ui.type.name;
+): Promise<MeasureRenderResult> {
   const scale = options?.scale ?? 1;
   const count = options?.count ?? config.count;
   const wrapper = options?.wrapper;
@@ -86,8 +85,6 @@ export async function measureRender(
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(counts);
 
-  console.log(`🟢 ${name}`, meanDuration, stdevDuration, durations);
-
   return {
     meanDuration,
     stdevDuration,
@@ -110,7 +107,7 @@ export async function clearTestStats(
 }
 
 export async function writeTestStats(
-  stats: MeasureRenderStats,
+  result: MeasureRenderResult,
   name: string,
   outputFilePath: string = config.outputFile
 ): Promise<void> {
@@ -120,7 +117,7 @@ export async function writeTestStats(
     throw new Error(errMsg);
   }
 
-  const line = JSON.stringify({ ...stats, name }) + '\n';
+  const line = JSON.stringify({ ...result, name }) + '\n';
 
   try {
     await fs.appendFile(outputFilePath, line);
