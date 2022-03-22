@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
+RESULTS_FILE="perf-results.txt"
 BASELINE_FILE="baseline-results.txt"
-CURRENT_FILE="perf-results.txt"
 
 if [[ -z "$(readlink $0)" ]]; then
  # ../node_modules/rn-perf-tool/scripts/run-test.sh -> ../node_modules/rn-perf-tool
@@ -13,7 +13,7 @@ fi
 
 # Gather baseline perf test results
 "$ROOT_DIR/scripts/perf-test.sh"
-mv perf-results.txt "$BASELINE_FILE";
+mv "$RESULTS_FILE" "$BASELINE_FILE";
 
 # Gather current perf test results
 "$ROOT_DIR/scripts/perf-test.sh"
