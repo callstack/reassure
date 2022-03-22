@@ -76,11 +76,11 @@ Together with dangerJs setup, in case of GitHub Actions, it could look something
 Bear in mind that, by default, the tool will be comparing results from your current branch (PR branch)
 against results from branch `main`.
 
-In order to change that behavior you need to pass the `base_branch` argument to your CI step, e.g.:
+In order to change that behavior you need to pass the `--baseline_branch|--baseline-branch` argument to your CI step, e.g.:
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tests --base_branch lts
+  run: npx rn-perf-tests --baseline_branch lts
 ```
 
 With this, each current test run will be compared against test runs made in branch `lts`.
@@ -102,7 +102,7 @@ your repository.
 
 ### Defining file structure
 
-rn-perf-tool will automatically look for and run test files which names end with `.perf.(test|spec).(js|jsx|ts}tsx)`.
+rn-perf-tool will automatically match test filenames using jest `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
 We encourage placing your performance tests either next to your existing tests or in their own separate folders, e.g.
 
 ```
@@ -111,7 +111,7 @@ We encourage placing your performance tests either next to your existing tests o
     | -- Home.tsx
     | -- __tests__
        | -- Home.test.tsx
-       | -- Home.perf.test.tsx
+       | -- Home.perf-test.tsx
 ```
 
 or alternatively:
@@ -123,7 +123,7 @@ or alternatively:
     | -- __tests__
        | -- Home.test.tsx
     | -- __perf__
-       | -- Home.perf.test.tsx
+       | -- Home.perf-test.tsx
 ```
 
 ### My first perf test!
@@ -196,12 +196,18 @@ While developing your tests, you will likely want to test them before deployment
 implemented tool. In order to do that you can run Jest using our node command present in rn-perf-tool's scripts
 
 ```shell
-# provide an appropriate test_files_regex or use our default ".*\.perf\.(test|spec)\.(js|ts)x?$"
-node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
+# provide an appropriate --testMatch glob or use our default "<rootDir>/**/*.perf-test.[jt]s?(x)"
+node \
+  --jitless \
+  --expose-gc \
+  --no-concurrent-sweeping \
+  --max-old-space-size=4096 \
+  node_modules/jest/bin/jest.js \
+   --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"
 ```
 
-This will run your tests as matched by provided regexp and output the `current.txt` file containing results of your tests.
-Please bear in mind however, that running repeated tests will result in adding more and more results to your `current.txt`
+This will run your tests as matched by provided regexp and output the `perf-results.txt` file containing results of your tests.
+Please bear in mind however, that running repeated tests will result in adding more and more results to your `perf-results.txt`
 file. In order to avoid that we recommend running `await clearTestStats();` function before all your test suites are executed.
 To achieve this we recommend using a `jest.config` file and passing this function [as a `globalSetup` option](https://jestjs.io/docs/configuration#globalsetup-string).
 
@@ -246,7 +252,7 @@ of the `configure` function.
 export const defaultConfig = {
   count: 10,
   dropFirst: 1,
-  outputFile: 'current.txt',
+  outputFile: 'perf-results.txt',
 };
 ```
 
@@ -324,18 +330,15 @@ to be later digested by Danger using the default settings.
 
 ### Main script arguments
 
-* **`--base_branch`** name of the branch to compare against (DEFAULT: `"main"`)
-* **`--base_file`** name of the baseline output file generated from the `base_branch` (DEFAULT: `"baseline"`)
-* **`--current_file`** name of the current output file generated from the `current_branch` (DEFAULT: `"current"`)
+* **`--baseline_branch|--baseline-branch`** name of the branch to compare against (DEFAULT: `"main"`)
 
-Below, exemplary usage of these arguments:
+For example:
 
 ```shell
-npx rn-perf-tests --base_branch v1.0.0 --base_file v1_0_0_baseline --current_file v1_1_0_current
+npx rn-perf-tests --baseline_branch v1.0.0
 ```
 
-The script above will test branch `v1.1.0` performance results against current PR branch performance results and output
-both results respectively to files `v1_0_0_baseline.txt` and `v1_1_0_current.txt`.
+will test branch `v1.1.0` performance results against current PR branch performance results and output all pertinent files.
 
 ## Analyser script
 Node script responsible to comparing two output files from two separate runs of Jest test suites intended to be run on
@@ -355,8 +358,8 @@ type ScriptArguments = {
 };
 ```
 
-* **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `baseline.txt`)
-* **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `current.txt`)
+* **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `baseline-results.txt`)
+* **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `perf-results.txt`)
 * **`output`** type of the desired output. Can be set to `'console' | 'json' | 'all'` or left unspecified (DEFAULT: `undefined`)
 * **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `analyser-output.json`)
 
