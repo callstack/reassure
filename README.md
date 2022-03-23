@@ -262,7 +262,7 @@ Custom wrapper for the RNTL `render` function responsible for rendering the pass
 and measuring its performance. However, adding an optional `options` object allows for a more advanced manipulation of the process.
 
 ```ts
-measureRender(ui: React.ReactElement & { type: { name?: string } }, options?: 1): Promise<MeasureRenderResult>;
+measureRender(ui: React.ReactElement, options?: 1): Promise<MeasureRenderResult>;
 ```
 
 **MeasureRenderOptions type**
