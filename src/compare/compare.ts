@@ -3,14 +3,14 @@ import * as fsSync from 'fs';
 import * as path from 'path';
 import minimist from 'minimist';
 
+import type { PerfResultEntry } from '../measure/types';
 import type {
-  PerfResultEntry,
   StatisticSignificance,
   ComparisonAddedResult,
   ComparisonRemovedResult,
   ComparisonRegularResult,
   ComparisonOutput,
-} from './shared';
+} from './types';
 import { printToConsole } from './outputConsole';
 
 type ScriptArguments = {
@@ -54,9 +54,7 @@ export const main = async () => {
   try {
     const hasCurrentFile = fsSync.existsSync(currentFilePath);
     if (!hasCurrentFile) {
-      console.warn(
-        `Current results files "${currentFilePath}" does not exists. Check your setup.`
-      );
+      console.warn(`Current results files "${currentFilePath}" does not exists. Check your setup.`);
       process.exit(1);
     }
 
@@ -88,9 +86,7 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
   const data = await fs.readFile(path, 'utf8');
 
   const lines = data.split(/\r?\n/);
-  const entries: PerfResultEntry[] = lines
-    .filter((line) => !!line.trim())
-    .map((line) => JSON.parse(line));
+  const entries: PerfResultEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
 
   const names = entries.map((entry) => entry.name);
 
@@ -114,16 +110,8 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
 /**
  * Responsible for comparing results from baseline and current data sets
  */
-const compareResults = (
-  currentEntries: LoadFileResult,
-  baselineEntries: LoadFileResult | null
-): ComparisonOutput => {
-  const keys = [
-    ...new Set([
-      ...Object.keys(currentEntries),
-      ...Object.keys(baselineEntries || {}),
-    ]),
-  ];
+const compareResults = (currentEntries: LoadFileResult, baselineEntries: LoadFileResult | null): ComparisonOutput => {
+  const keys = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
 
   const regular: ComparisonRegularResult[] = [];
   const added: ComparisonAddedResult[] = [];
@@ -151,9 +139,7 @@ const compareResults = (
   const meaningless = regular
     .filter((item) => item.durationDiffSignificance === 'MEANINGLESS')
     .sort((a, b) => b.durationDiff - a.durationDiff);
-  const countChanged = regular
-    .filter((item) => item.countDiff !== 0)
-    .sort((a, b) => b.countDiff - a.countDiff);
+  const countChanged = regular.filter((item) => item.countDiff !== 0).sort((a, b) => b.countDiff - a.countDiff);
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
@@ -180,26 +166,15 @@ const generateCompareResult = (
   const countDiff = current.meanCount - baseline.meanCount;
   const countDiffPercent = (countDiff / baseline.meanCount) * 100;
 
-  const z = computeZ(
-    baseline.meanDuration,
-    baseline.stdevDuration,
-    current.meanDuration,
-    current.runs
-  );
+  const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
 
   const prob = computeProbability(z);
 
   let durationDiffSignificance: StatisticSignificance = 'INSIGNIFICANT';
-  if (
-    prob < PROBABILITY_CONSIDERED_SIGNIFICANT &&
-    Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT
-  )
+  if (prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT)
     durationDiffSignificance = 'SIGNIFICANT';
 
-  if (
-    prob > PROBABILITY_CONSIDERED_MEANINGLESS ||
-    Math.abs(durationDiff) <= DURATION_DIFF_THRESHOLD_MININGLESS
-  )
+  if (prob > PROBABILITY_CONSIDERED_MEANINGLESS || Math.abs(durationDiff) <= DURATION_DIFF_THRESHOLD_MININGLESS)
     durationDiffSignificance = 'MEANINGLESS';
 
   return {
@@ -221,12 +196,7 @@ const generateCompareResult = (
  *
  * Based on :: https://github.com/v8/v8/blob/master/test/benchmarks/csuite/compare-baseline.py
  */
-function computeZ(
-  baseline_avg: number,
-  baseline_sigma: number,
-  mean: number,
-  n: number
-) {
+function computeZ(baseline_avg: number, baseline_sigma: number, mean: number, n: number) {
   if (baseline_sigma == 0) return 1000;
   return Math.abs((mean - baseline_avg) / (baseline_sigma / Math.sqrt(n)));
 }
@@ -270,8 +240,7 @@ function computeProbability(z: number) {
 /**
  * Utility function returning true if input array of strings consists of any non-unique members
  */
-const hasDuplicatedEntryNames = (arr: string[]) =>
-  arr.length !== new Set(arr).size;
+const hasDuplicatedEntryNames = (arr: string[]) => arr.length !== new Set(arr).size;
 
 /**
  * Utility function responsible for writing output data into a specified JSON file

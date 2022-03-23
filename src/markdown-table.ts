@@ -186,10 +186,7 @@ export function markdownTable(table: any[], options: any = {}) {
         const size = stringLength(cell);
         sizes[columnIndex] = size;
 
-        if (
-          longestCellByColumn[columnIndex] === undefined ||
-          size > longestCellByColumn[columnIndex]
-        ) {
+        if (longestCellByColumn[columnIndex] === undefined || size > longestCellByColumn[columnIndex]) {
           longestCellByColumn[columnIndex] = size;
         }
       }
@@ -241,10 +238,7 @@ export function markdownTable(table: any[], options: any = {}) {
     let size: number =
       options.alignDelimiters === false
         ? 1
-        : Math.max(
-            1,
-            longestCellByColumn[columnIndex] - before.length - after.length
-          );
+        : Math.max(1, longestCellByColumn[columnIndex] - before.length - after.length);
 
     const cell = before + '-'.repeat(size) + after;
 
@@ -282,8 +276,7 @@ export function markdownTable(table: any[], options: any = {}) {
       let after = '';
 
       if (options.alignDelimiters !== false) {
-        const size =
-          longestCellByColumn[columnIndex] - (sizes[columnIndex] || 0);
+        const size = longestCellByColumn[columnIndex] - (sizes[columnIndex] || 0);
         const code = alignments[columnIndex];
 
         if (code === 114 /* `r` */) {
@@ -329,19 +322,12 @@ export function markdownTable(table: any[], options: any = {}) {
         line.push(' ');
       }
 
-      if (
-        options.delimiterEnd !== false ||
-        columnIndex !== mostCellsPerRow - 1
-      ) {
+      if (options.delimiterEnd !== false || columnIndex !== mostCellsPerRow - 1) {
         line.push('|');
       }
     }
 
-    lines.push(
-      options.delimiterEnd === false
-        ? line.join('').replace(/ +$/, '')
-        : line.join('')
-    );
+    lines.push(options.delimiterEnd === false ? line.join('').replace(/ +$/, '') : line.join(''));
   }
 
   return lines.join('\n');

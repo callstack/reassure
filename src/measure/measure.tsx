@@ -2,7 +2,7 @@ import * as fs from 'fs/promises';
 import React from 'react';
 import { render, RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
-import type { MeasureRenderResult } from './shared';
+import type { MeasureRenderResult } from './types';
 
 export const defaultConfig = {
   count: 10,
@@ -51,11 +51,7 @@ export async function measureRender(
     let duration = 0;
     let count = 0;
 
-    const handleRender = (
-      _id: string,
-      _phase: string,
-      actualDuration: number
-    ) => {
+    const handleRender = (_id: string, _phase: string, actualDuration: number) => {
       duration += actualDuration;
       count += 1;
     };
@@ -94,15 +90,11 @@ export async function measureRender(
   };
 }
 
-export async function clearTestStats(
-  outputFilePath: string = config.outputFile
-): Promise<void> {
+export async function clearTestStats(outputFilePath: string = config.outputFile): Promise<void> {
   try {
     await fs.unlink(outputFilePath);
   } catch (error) {
-    console.warn(
-      `Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`
-    );
+    console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
   }
 }
 

@@ -1,10 +1,16 @@
+import {
+  formatCount,
+  formatCountChange,
+  formatDuration,
+  formatDurationChange,
+  formatPercentChange,
+} from '../utils/format';
 import type {
   ComparisonAddedResult,
   ComparisonOutput,
   ComparisonRegularResult,
   ComparisonRemovedResult,
-} from './shared';
-import { formatCount, formatCountChange, formatDuration, formatDurationChange, formatPercentChange } from './utils';
+} from './types';
 
 export function printToConsole(output: ComparisonOutput) {
   console.log('⏱  Performance Comparison Results ⏱');

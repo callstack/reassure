@@ -22,7 +22,7 @@ fi
 
 node \
     --unhandled-rejections=throw \
-    "$ROOT_DIR/lib/commonjs/analyser.js" \
+    "$ROOT_DIR/lib/commonjs/compare/compare.js" \
     --output=all \
     --baselineFilePath="$BASELINE_FILE" \
     --currentFilePath="$CURRENT_FILE" \

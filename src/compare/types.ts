@@ -1,32 +1,6 @@
-export interface MeasureRenderResult {
-  /* average render duration measured by the tests */
-  meanDuration: number;
+import type { PerfResultEntry } from 'src/measure/types';
 
-  /* standard deviation from average render duration measured by the tests */
-  stdevDuration: number;
-
-  /* average render count measured by the tests */
-  meanCount: number;
-
-  /* standard deviation from average render count measured by the tests */
-  stdevCount: number;
-
-  /* number of test runs */
-  runs: number;
-}
-
-/**
- * Output of specific test scenarion as written to perf results file.
- */
-export interface PerfResultEntry extends MeasureRenderResult {
-  name: string;
-}
-
-export const STATISTIC_SIGNIFICANCE = [
-  'SIGNIFICANT',
-  'INSIGNIFICANT',
-  'MEANINGLESS',
-] as const;
+export const STATISTIC_SIGNIFICANCE = ['SIGNIFICANT', 'INSIGNIFICANT', 'MEANINGLESS'] as const;
 
 /**
  * Type of the performance measure change as compared to the baseline.txt file

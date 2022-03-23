@@ -4,24 +4,16 @@ import minimist from 'minimist';
 //@ts-ignore
 import { emphasis } from 'markdown-builder';
 import { markdownTable } from './markdown-table';
-import type { ComparisonOutput, ComparisonRegularResult } from './shared';
-import {
-  formatChange,
-  formatCount,
-  formatDuration,
-  formatDurationChange,
-  formatPercentChange,
-} from './utils';
+import type { ComparisonOutput, ComparisonRegularResult } from './compare/types';
+import { formatChange, formatCount, formatDuration, formatDurationChange, formatPercentChange } from './utils/format';
 
 type ScriptArguments = {
   analyserOutputFilePath: string;
   outputMarkdownFilePath: string;
 };
 
-const {
-  outputMarkdownFilePath = 'analyser-output.md',
-  analyserOutputFilePath = 'analyser-output.json',
-} = minimist<ScriptArguments>(process.argv);
+const { outputMarkdownFilePath = 'analyser-output.md', analyserOutputFilePath = 'analyser-output.json' } =
+  minimist<ScriptArguments>(process.argv);
 
 const COLUMNS = ['Name', 'Status', 'Render Duration', 'Render Count'] as const;
 
@@ -35,9 +27,7 @@ const formatRenderDurationChange = (item: ComparisonRegularResult) => {
 
   return `${formatDuration(item.baseline.meanDuration)} -> ${formatDuration(
     item.current.meanDuration
-  )}, ${formatDurationChange(durationDiff)}, ${formatPercentChange(
-    durationDiffPercent
-  )}`;
+  )}, ${formatDurationChange(durationDiff)}, ${formatPercentChange(durationDiffPercent)}`;
 };
 
 const formatRenderCountChange = (item: ComparisonRegularResult) => {
@@ -46,9 +36,9 @@ const formatRenderCountChange = (item: ComparisonRegularResult) => {
     return `${item.baseline.meanCount} -> ${item.current.meanCount}`;
   }
 
-  return `${item.baseline.meanCount} -> ${
-    item.current.meanCount
-  }, ${formatChange(countDiff)}, ${formatPercentChange(countDiffPercent)}`;
+  return `${item.baseline.meanCount} -> ${item.current.meanCount}, ${formatChange(countDiff)}, ${formatPercentChange(
+    countDiffPercent
+  )}`;
 };
 
 export const buildMarkdown = async () => {
