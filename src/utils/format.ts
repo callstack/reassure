@@ -38,32 +38,54 @@ export function formatChange(value: number): string {
   return '0';
 }
 
-export function formatRenderDurationChange(item: CompareEntry) {
-  const { baseline, current } = item;
+export function formatRenderDurationChange(entry: CompareEntry) {
+  const { baseline, current } = entry;
 
   let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
 
   if (baseline.meanDuration != current.meanDuration) {
-    output += ` (${formatDurationChange(item.durationDiff)}, ${formatPercentChange(item.durationDiffPercent)})`;
+    output += ` (${formatDurationChange(entry.durationDiff)}, ${formatPercentChange(entry.durationDiffPercent)})`;
   }
 
-  if (current.meanDuration > baseline.meanDuration) output += ' 🔴';
-  if (baseline.meanDuration > current.meanDuration) output += ' 🟢';
+  output += ` ${getRenderDurationSymbols(entry)}`;
 
   return output;
 }
 
-export function formatRenderCountChange(item: CompareEntry) {
-  const { baseline, current } = item;
+function getRenderDurationSymbols(entry: CompareEntry) {
+  if (entry.durationDiffSignificance !== 'SIGNIFICANT') return '';
+
+  if (entry.durationDiffPercent > 50) return '🔴🔴🔴';
+  if (entry.durationDiffPercent > 20) return ' 🔴🔴';
+  if (entry.durationDiffPercent > 5) return ' 🔴';
+  if (entry.durationDiffPercent < -50) return ' 🟢🟢🟢';
+  if (entry.durationDiffPercent < -20) return ' 🟢🟢';
+  if (entry.durationDiffPercent < -5) return ' 🟢';
+
+  return '';
+}
+
+export function formatRenderCountChange(entry: CompareEntry) {
+  const { baseline, current } = entry;
 
   let output = `${formatCount(baseline.meanCount)} → ${formatCount(current.meanCount)}`;
 
   if (baseline.meanCount != current.meanCount) {
-    output += ` (${formatCountChange(item.countDiff)}, ${formatPercentChange(item.countDiffPercent)})`;
+    output += ` (${formatCountChange(entry.countDiff)}, ${formatPercentChange(entry.countDiffPercent)})`;
   }
 
-  if (current.meanCount > baseline.meanCount) output += ' 🔴';
-  if (baseline.meanCount > current.meanCount) output += ' 🟢';
+  output += ` ${getRenderCountSymbols(entry)}`;
 
   return output;
+}
+
+function getRenderCountSymbols(entry: CompareEntry) {
+  if (entry.countDiff > 2) return '🔴🔴🔴';
+  if (entry.countDiff > 1) return ' 🔴🔴';
+  if (entry.countDiff > 0) return ' 🔴';
+  if (entry.countDiff < -2) return ' 🟢🟢🟢';
+  if (entry.countDiff < -1) return ' 🟢🟢';
+  if (entry.countDiff < 0) return ' 🟢';
+
+  return '';
 }
