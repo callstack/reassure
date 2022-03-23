@@ -1,3 +1,5 @@
+import type { ComparisonRegularResult } from 'src/compare/types';
+
 /**
  * Utility functions used for formatting data into strings
  */
@@ -34,4 +36,28 @@ export function formatChange(value: number): string {
   if (value > 0) return `+${value}`;
   if (value < 0) return `${value}`;
   return '0';
+}
+
+export function formatRenderDurationChange(item: ComparisonRegularResult) {
+  const { baseline, current } = item;
+
+  let output = `${formatDuration(baseline.meanDuration)} => ${formatDuration(current.meanDuration)}`;
+
+  if (baseline.meanDuration != current.meanDuration) {
+    output += ` (${formatDurationChange(item.durationDiff)}, ${formatPercentChange(item.durationDiffPercent)})`;
+  }
+
+  return output;
+}
+
+export function formatRenderCountChange(item: ComparisonRegularResult) {
+  const { baseline, current } = item;
+
+  let output = `${formatCount(baseline.meanCount)} => ${formatCount(current.meanCount)}`;
+
+  if (baseline.meanCount != current.meanCount) {
+    output += ` (${formatCountChange(item.countDiff)}, ${formatPercentChange(item.countDiffPercent)})`;
+  }
+
+  return output;
 }

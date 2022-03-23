@@ -1,6 +1,5 @@
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
-import * as path from 'path';
 import minimist from 'minimist';
 
 import type { PerfResultEntry } from '../measure/types';
@@ -12,12 +11,14 @@ import type {
   ComparisonOutput,
 } from './types';
 import { printToConsole } from './outputConsole';
+import { writeToJson } from './outputJson';
+import { writeToMarkdown } from './outputMarkdown';
 
 type ScriptArguments = {
   baselineFilePath: string;
   currentFilePath: string;
   outputFilePath: string;
-  output?: 'console' | 'json' | 'all';
+  output?: 'console' | 'json' | 'markdown' | 'all';
 };
 
 type LoadFileResult = { [key: string]: PerfResultEntry };
@@ -72,7 +73,8 @@ export const main = async () => {
     const outputData = compareResults(current, baseline);
 
     if (output === 'console' || output === 'all') printToConsole(outputData);
-    if (output === 'json' || output === 'all') writeToJson(outputData);
+    if (output === 'json' || output === 'all') writeToJson(outputFilePath, outputData);
+    if (output === 'markdown' || output === 'all') writeToMarkdown('analyser-output.md', outputData);
   } catch (error) {
     console.error(error);
     throw error;
@@ -245,21 +247,6 @@ const hasDuplicatedEntryNames = (arr: string[]) => arr.length !== new Set(arr).s
 /**
  * Utility function responsible for writing output data into a specified JSON file
  */
-async function writeToJson(output: ComparisonOutput) {
-  console.log('\n| ----- Analyser.js output > json -----');
-  try {
-    await fs.writeFile(outputFilePath, JSON.stringify(output));
-
-    console.log(`| ✅  Written output file ${outputFilePath}`);
-    console.log(`| 🔗 ${path.resolve(outputFilePath)}`);
-  } catch (error) {
-    console.log(`| ❌  Could not write file ${outputFilePath}`);
-    console.log(`| 🔗 ${path.resolve(outputFilePath)}`);
-    console.error(error);
-  }
-
-  console.log('| -------------------------------------\n');
-}
 
 /**
  * Main script function call

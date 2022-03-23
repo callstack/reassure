@@ -1,10 +1,4 @@
-import {
-  formatCount,
-  formatCountChange,
-  formatDuration,
-  formatDurationChange,
-  formatPercentChange,
-} from '../utils/format';
+import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
 import type {
   ComparisonAddedResult,
   ComparisonOutput,
@@ -37,33 +31,15 @@ export function printToConsole(output: ComparisonOutput) {
 }
 
 function printRegularLine(item: ComparisonRegularResult) {
-  const { baseline, current } = item;
-
-  let output = ` - ${item.name}:`;
-
-  output += ` ${formatDuration(baseline.meanDuration)} => ${formatDuration(current.meanDuration)}`;
-  if (baseline.meanDuration != current.meanDuration) {
-    output += ` (${formatDurationChange(item.durationDiff)}, ${formatPercentChange(item.durationDiffPercent)})`;
-  }
-
-  output += ` | ${formatCount(item.baseline.meanCount)} => ${formatCount(item.current.meanCount)}`;
-  if (baseline.meanCount != current.meanCount) {
-    output += ` (${formatCountChange(item.countDiff)}, ${formatPercentChange(item.countDiffPercent)})`;
-  }
-
-  console.log(output);
+  console.log(` - ${item.name}: ${formatRenderDurationChange(item)} | ${formatRenderCountChange(item)}`);
 }
 
 function printAddedLine(item: ComparisonAddedResult) {
   const { current } = item;
-
-  let output = ` - ${item.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`;
-  console.log(output);
+  console.log(` - ${item.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`);
 }
 
 function printRemovedLine(item: ComparisonRemovedResult) {
   const { baseline } = item;
-
-  let output = ` - ${item.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`;
-  console.log(output);
+  console.log(` - ${item.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`);
 }
