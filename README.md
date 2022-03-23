@@ -343,14 +343,14 @@ npx rn-perf-tests --base_branch v1.0.0 --base_file v1_0_0_baseline --current_fil
 The script above will test branch `v1.1.0` performance results against current PR branch performance results and output
 both results respectively to files `v1_0_0_baseline.txt` and `v1_1_0_current.txt`.
 
-## Analyser script
+## Compare script
 
 Node script responsible to comparing two output files from two separate runs of Jest test suites intended to be run on
 your PR branch and compare against your main branch.
 
-### Analyser script arguments
+### Compare script arguments
 
-By default, the analyser script is run when `npx rn-perf-tests` is executed, as a part of the whole process and changing
+By default, the compare script is run when `npx rn-perf-tests` is executed, as a part of the whole process and changing
 its parameters is handled by passing parameters to the command itself as described in the [Main Script](#Main-script)
 section of this documentation. However, if executed directly, the script accepts the following arguments:
 
@@ -359,18 +359,18 @@ type ScriptArguments = {
   baselineFilePath: string;
   currentFilePath: string;
   outputFilePath: string;
-  output?: 'console' | 'json' | 'all';
+  output?: 'console' | 'json' | 'markdown' | 'all';
 };
 ```
 
 - **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `baseline.txt`)
 - **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `current.txt`)
 - **`output`** type of the desired output. Can be set to `'console' | 'json' | 'all'` or left unspecified (DEFAULT: `undefined`)
-- **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `analyser-output.json`)
+- **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `compare-output.json`)
 
 ### Running locally
 
-To run the analyser script locally, follow this steps:
+To run the compare script locally, follow this steps:
 
 1. Manually checkout to your main branch
 2. Run the test suite to generate baseline output file
@@ -380,10 +380,10 @@ To run the analyser script locally, follow this steps:
 6. Run the following command, providing values for listed arguments
 
 ```shell
-node "node_modules/rn-perf-tool/lib/commonjs/analyser.js" --baselineFilePath="" --currentFilePath=""
+node "node_modules/rn-perf-tool/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
 ```
 
-This will print output to your terminal as well as create an `analyser-output.json` file in location from which the script had been triggered
+This will print output to your terminal as well as create an `compare-output.json` file in location from which the script had been triggered
 
 ## Danger.js plugin
 

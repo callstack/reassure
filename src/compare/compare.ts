@@ -31,7 +31,7 @@ const {
   output,
   currentFilePath = 'perf-results.txt',
   baselineFilePath = 'baseline-results.txt',
-  outputFilePath = 'analyser-output.json',
+  outputFilePath = 'compare-output.json',
 } = minimist<ScriptArguments>(process.argv);
 
 /**
@@ -47,7 +47,7 @@ const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
 const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 
 /**
- * Main executor function of the analyser tool. Responsible for aggregating data generated
+ * Main executor function of the compare tool. Responsible for aggregating data generated
  * from comparison of the current.txt and baseline.txt diff and returning that data in
  * easily digestible format
  */
@@ -74,7 +74,7 @@ export const main = async () => {
 
     if (output === 'console' || output === 'all') printToConsole(outputData);
     if (output === 'json' || output === 'all') writeToJson(outputFilePath, outputData);
-    if (output === 'markdown' || output === 'all') writeToMarkdown('analyser-output.md', outputData);
+    if (output === 'markdown' || output === 'all') writeToMarkdown('compare-output.md', outputData);
   } catch (error) {
     console.error(error);
     throw error;
