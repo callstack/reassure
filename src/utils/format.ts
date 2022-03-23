@@ -41,7 +41,7 @@ export function formatChange(value: number): string {
 export function formatRenderDurationChange(item: ComparisonRegularResult) {
   const { baseline, current } = item;
 
-  let output = `${formatDuration(baseline.meanDuration)} => ${formatDuration(current.meanDuration)}`;
+  let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
 
   if (baseline.meanDuration != current.meanDuration) {
     output += ` (${formatDurationChange(item.durationDiff)}, ${formatPercentChange(item.durationDiffPercent)})`;
@@ -53,7 +53,7 @@ export function formatRenderDurationChange(item: ComparisonRegularResult) {
 export function formatRenderCountChange(item: ComparisonRegularResult) {
   const { baseline, current } = item;
 
-  let output = `${formatCount(baseline.meanCount)} => ${formatCount(current.meanCount)}`;
+  let output = `${formatCount(baseline.meanCount)} → ${formatCount(current.meanCount)}`;
 
   if (baseline.meanCount != current.meanCount) {
     output += ` (${formatCountChange(item.countDiff)}, ${formatPercentChange(item.countDiffPercent)})`;
