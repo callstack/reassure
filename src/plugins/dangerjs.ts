@@ -38,23 +38,18 @@ const plugin = (
   try {
     const perfFilePath = path.resolve(config.inputFilePath);
     const perfFileContents = fs.readFileSync(perfFilePath, 'utf8');
-    const _message = `
-  ✅  Performance test suite analysis report
-
-  ${perfFileContents}
-  `;
 
     if (config.debug) {
       if (!perfFileContents) {
         console.log(_warning);
       } else {
-        console.log(_message);
+        console.log(perfFileContents);
       }
     } else {
       if (!perfFileContents) {
         warn(_warning);
       } else {
-        message(_message);
+        message(perfFileContents);
       }
     }
   } catch (error) {
