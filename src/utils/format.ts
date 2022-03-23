@@ -47,6 +47,9 @@ export function formatRenderDurationChange(item: ComparisonRegularResult) {
     output += ` (${formatDurationChange(item.durationDiff)}, ${formatPercentChange(item.durationDiffPercent)})`;
   }
 
+  if (current.meanDuration > baseline.meanDuration) output += ' 🔴';
+  if (baseline.meanDuration > current.meanDuration) output += ' 🟢';
+
   return output;
 }
 
@@ -58,6 +61,9 @@ export function formatRenderCountChange(item: ComparisonRegularResult) {
   if (baseline.meanCount != current.meanCount) {
     output += ` (${formatCountChange(item.countDiff)}, ${formatPercentChange(item.countDiffPercent)})`;
   }
+
+  if (current.meanCount > baseline.meanCount) output += ' 🔴';
+  if (baseline.meanCount > current.meanCount) output += ' 🟢';
 
   return output;
 }
