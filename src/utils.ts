@@ -6,6 +6,7 @@ export function formatPercentChange(value: number): string {
   if (value <= -0.05) return `${value.toFixed(1)}%`;
   return `±${value.toFixed(1)}%`;
 }
+
 export function formatDuration(duration: number): string {
   return `${duration.toFixed(1)} ms`;
 }

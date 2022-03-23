@@ -11,12 +11,7 @@ import type {
   ComparisonRegularResult,
   ComparisonOutput,
 } from './shared';
-import {
-  formatCount,
-  formatCountChange,
-  formatDuration,
-  formatPercentChange,
-} from './utils';
+import { printToConsole } from './outputConsole';
 
 type ScriptArguments = {
   baselineFilePath: string;
@@ -78,7 +73,7 @@ export const main = async () => {
 
     const outputData = compareResults(current, baseline);
 
-    if (output === 'console' || output === 'all') printStats(outputData);
+    if (output === 'console' || output === 'all') printToConsole(outputData);
     if (output === 'json' || output === 'all') writeToJson(outputData);
   } catch (error) {
     console.error(error);
@@ -278,56 +273,6 @@ function computeProbability(z: number) {
 const hasDuplicatedEntryNames = (arr: string[]) =>
   arr.length !== new Set(arr).size;
 
-/**
- * Utility functions used for printing analysed results
- */
-function printLine(item: ComparisonRegularResult) {
-  console.log(
-    `|  - ${item.name}: ${formatPercentChange(
-      item.durationDiffPercent
-    )} (${formatDuration(item.baseline.meanDuration)} => ${formatDuration(
-      item.current.meanDuration
-    )}) | ${formatCountChange(item.countDiff)} (${formatCount(
-      item.baseline.meanCount
-    )} => ${formatCount(item.current.meanCount)})`
-  );
-}
-
-function printAdded(item: ComparisonAddedResult) {
-  console.log(
-    `|  - ${item.name}: ${formatDuration(
-      item.current.meanDuration
-    )} | ${formatCount(item.current.meanCount)}`
-  );
-}
-
-function printRemoved(item: ComparisonRemovedResult) {
-  console.log(
-    `|  - ${item.name}: ${formatDuration(
-      item.baseline.meanDuration
-    )} | ${formatCount(item.baseline.meanCount)}`
-  );
-}
-
-function printStats(output: ComparisonOutput) {
-  console.log('\n| ----- Analyser.js output > console -----');
-
-  for (const key of Object.keys(output)) {
-    const _key = key as keyof typeof output;
-
-    console.log(`| ${_key.toUpperCase()} changes:`);
-
-    if (_key === 'added') {
-      output[_key].forEach(printAdded);
-    } else if (_key === 'removed') {
-      output[_key].forEach(printRemoved);
-    } else {
-      output[_key].forEach(printLine);
-    }
-  }
-
-  console.log('| ----------------------------------------\n');
-}
 /**
  * Utility function responsible for writing output data into a specified JSON file
  */

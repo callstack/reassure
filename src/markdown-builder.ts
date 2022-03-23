@@ -113,14 +113,14 @@ export const buildMarkdown = async () => {
 
     const markdownContent = markdownTable([COLUMNS, ...content]);
     console.log(markdownContent);
-    writeToJson(markdownContent);
+    writeToFile(markdownContent);
   } catch (error: any) {
     console.error(error);
     throw error;
   }
 };
 
-async function writeToJson(markdownContent: string) {
+async function writeToFile(markdownContent: string) {
   console.log('\n| ----- markdown-builder.ts output > json -----');
 
   try {
