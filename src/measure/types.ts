@@ -18,6 +18,6 @@ export interface MeasureRenderResult {
 /**
  * Output of specific test scenarion as written to perf results file.
  */
-export interface PerfResultEntry extends MeasureRenderResult {
+export interface PerformanceEntry extends MeasureRenderResult {
   name: string;
 }

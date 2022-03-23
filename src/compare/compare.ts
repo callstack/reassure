@@ -2,14 +2,8 @@ import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import minimist from 'minimist';
 
-import type { PerfResultEntry } from '../measure/types';
-import type {
-  StatisticSignificance,
-  ComparisonAddedResult,
-  ComparisonRemovedResult,
-  ComparisonRegularResult,
-  ComparisonOutput,
-} from './types';
+import type { PerformanceEntry } from '../measure/types';
+import type { StatisticalSignificance, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
 import { printToConsole } from './outputConsole';
 import { writeToJson } from './outputJson';
 import { writeToMarkdown } from './outputMarkdown';
@@ -21,7 +15,7 @@ type ScriptArguments = {
   output?: 'console' | 'json' | 'markdown' | 'all';
 };
 
-type LoadFileResult = { [key: string]: PerfResultEntry };
+type LoadFileResult = { [key: string]: PerformanceEntry };
 
 /**
  * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
@@ -88,7 +82,7 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
   const data = await fs.readFile(path, 'utf8');
 
   const lines = data.split(/\r?\n/);
-  const entries: PerfResultEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
+  const entries: PerformanceEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
 
   const names = entries.map((entry) => entry.name);
 
@@ -112,12 +106,12 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
 /**
  * Responsible for comparing results from baseline and current data sets
  */
-const compareResults = (currentEntries: LoadFileResult, baselineEntries: LoadFileResult | null): ComparisonOutput => {
+const compareResults = (currentEntries: LoadFileResult, baselineEntries: LoadFileResult | null): CompareResult => {
   const keys = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
 
-  const regular: ComparisonRegularResult[] = [];
-  const added: ComparisonAddedResult[] = [];
-  const removed: ComparisonRemovedResult[] = [];
+  const regular: CompareEntry[] = [];
+  const added: AddedEntry[] = [];
+  const removed: RemovedEntry[] = [];
 
   keys.forEach((name) => {
     const current = currentEntries[name];
@@ -158,11 +152,7 @@ const compareResults = (currentEntries: LoadFileResult, baselineEntries: LoadFil
 /**
  * Generates statistics from all tests based on current-perf-results.txt and baseline-perf-results.txt file entries
  */
-const generateCompareResult = (
-  name: string,
-  current: PerfResultEntry,
-  baseline: PerfResultEntry
-): ComparisonRegularResult => {
+const generateCompareResult = (name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry => {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const durationDiffPercent = (durationDiff / baseline.meanDuration) * 100;
   const countDiff = current.meanCount - baseline.meanCount;
@@ -172,7 +162,7 @@ const generateCompareResult = (
 
   const prob = computeProbability(z);
 
-  let durationDiffSignificance: StatisticSignificance = 'INSIGNIFICANT';
+  let durationDiffSignificance: StatisticalSignificance = 'INSIGNIFICANT';
   if (prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT)
     durationDiffSignificance = 'SIGNIFICANT';
 

@@ -4,11 +4,11 @@ import * as path from 'path';
 import { headers, emphasis } from 'markdown-builder';
 import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
 import { markdownTable } from '../utils/markdown-table';
-import type { ComparisonOutput } from './types';
+import type { CompareResult } from './types';
 
 const HEADER = ['Name', 'Render Duration', 'Render Count'] as const;
 
-export const writeToMarkdown = async (filePath: string, data: ComparisonOutput) => {
+export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
     const markdown = buildMarkdown(data);
     writeToFile(filePath, markdown);
@@ -18,7 +18,7 @@ export const writeToMarkdown = async (filePath: string, data: ComparisonOutput) 
   }
 };
 
-function buildMarkdown(data: ComparisonOutput) {
+function buildMarkdown(data: CompareResult) {
   let result = headers.h1('Performance Comparison Results');
 
   result += `\n\n${headers.h3('Significant Changes To Render Duration')}\n`;

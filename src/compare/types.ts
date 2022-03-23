@@ -1,50 +1,50 @@
-import type { PerfResultEntry } from 'src/measure/types';
+import type { PerformanceEntry } from 'src/measure/types';
 
-export const STATISTIC_SIGNIFICANCE = ['SIGNIFICANT', 'INSIGNIFICANT', 'MEANINGLESS'] as const;
+export const STATISTICAL_SIGNIFICANCE = ['SIGNIFICANT', 'INSIGNIFICANT', 'MEANINGLESS'] as const;
 
 /**
  * Type of the performance measure change as compared to the baseline.txt file
  */
-export type StatisticSignificance = typeof STATISTIC_SIGNIFICANCE[number];
+export type StatisticalSignificance = typeof STATISTICAL_SIGNIFICANCE[number];
 
 /**
- * Comparison entry for tests that have both baseline and current entry
+ * Compare entry for tests that have both baseline and current entry
  */
-export interface ComparisonRegularResult {
+export interface CompareEntry {
   name: string;
-  current: PerfResultEntry;
-  baseline: PerfResultEntry;
+  current: PerformanceEntry;
+  baseline: PerformanceEntry;
   durationDiff: number;
   durationDiffPercent: number;
-  durationDiffSignificance: StatisticSignificance;
+  durationDiffSignificance: StatisticalSignificance;
   countDiff: number;
   countDiffPercent: number;
 }
 
 /**
- * Comparison entry for tests that have only current entry
+ * Compare entry for tests that have only current entry
  */
-export interface ComparisonAddedResult {
+export interface AddedEntry {
   name: string;
-  current: PerfResultEntry;
+  current: PerformanceEntry;
 }
 
 /**
- * Comparison entry for tests that have only baseline entry
+ * Compare entry for tests that have only baseline entry
  */
-export interface ComparisonRemovedResult {
+export interface RemovedEntry {
   name: string;
-  baseline: PerfResultEntry;
+  baseline: PerformanceEntry;
 }
 
 /**
- * Output data structure to be consumed by any of the outputting functions
+ * Output of compare function
  */
-export type ComparisonOutput = {
-  significant: ComparisonRegularResult[];
-  insignificant: ComparisonRegularResult[];
-  meaningless: ComparisonRegularResult[];
-  countChanged: ComparisonRegularResult[];
-  added: ComparisonAddedResult[];
-  removed: ComparisonRemovedResult[];
+export type CompareResult = {
+  significant: CompareEntry[];
+  insignificant: CompareEntry[];
+  meaningless: CompareEntry[];
+  countChanged: CompareEntry[];
+  added: AddedEntry[];
+  removed: RemovedEntry[];
 };

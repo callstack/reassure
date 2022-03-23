@@ -1,4 +1,4 @@
-import type { ComparisonRegularResult } from 'src/compare/types';
+import type { CompareEntry } from 'src/compare/types';
 
 /**
  * Utility functions used for formatting data into strings
@@ -38,7 +38,7 @@ export function formatChange(value: number): string {
   return '0';
 }
 
-export function formatRenderDurationChange(item: ComparisonRegularResult) {
+export function formatRenderDurationChange(item: CompareEntry) {
   const { baseline, current } = item;
 
   let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
@@ -53,7 +53,7 @@ export function formatRenderDurationChange(item: ComparisonRegularResult) {
   return output;
 }
 
-export function formatRenderCountChange(item: ComparisonRegularResult) {
+export function formatRenderCountChange(item: CompareEntry) {
   const { baseline, current } = item;
 
   let output = `${formatCount(baseline.meanCount)} → ${formatCount(current.meanCount)}`;
