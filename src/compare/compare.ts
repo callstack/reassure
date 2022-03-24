@@ -3,6 +3,7 @@ import * as fsSync from 'fs';
 import minimist from 'minimist';
 
 import type { PerformanceEntry } from '../measure/types';
+import { hasDuplicateValues } from '../utils/strings';
 import type { StatisticalSignificance, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
 import { printToConsole } from './outputConsole';
 import { writeToJson } from './outputJson';
@@ -249,10 +250,5 @@ function computeProbability(z: number) {
   // two sided p >= 0.20
   return 0.2;
 }
-
-/**
- * Check if array has duplicates.
- */
-const hasDuplicateValues = (elements: string[]) => elements.length !== new Set(elements).size;
 
 main();
