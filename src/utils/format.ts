@@ -54,12 +54,10 @@ export function formatRenderDurationChange(entry: CompareEntry) {
 
 function getRenderDurationSymbols(entry: CompareEntry) {
   if (entry.durationDiffSignificance === 'SIGNIFICANT') {
-    if (entry.durationDiffPercent > 50) return '🔴🔴🔴';
-    if (entry.durationDiffPercent > 20) return '🔴🔴';
-    if (entry.durationDiffPercent > 0) return '🔴';
-    if (entry.durationDiffPercent < -50) return '🟢🟢🟢';
-    if (entry.durationDiffPercent < -20) return '🟢🟢';
-    if (entry.durationDiffPercent < 0) return ' 🟢';
+    if (entry.durationDiffPercent > 33) return '🔴🔴';
+    if (entry.durationDiffPercent > 5) return '🔴';
+    if (entry.durationDiffPercent < -33) return '🟢🟢';
+    if (entry.durationDiffPercent < -5) return ' 🟢';
   }
 
   if (entry.durationDiffSignificance === 'INSIGNIFICANT') {
@@ -85,12 +83,10 @@ export function formatRenderCountChange(entry: CompareEntry) {
 }
 
 function getRenderCountSymbols(entry: CompareEntry) {
-  if (entry.countDiff > 2) return '🔴🔴🔴';
-  if (entry.countDiff > 1) return '🔴🔴';
-  if (entry.countDiff > 0) return '🔴';
-  if (entry.countDiff < -2) return '🟢🟢🟢';
-  if (entry.countDiff < -1) return '🟢🟢';
-  if (entry.countDiff < 0) return '🟢';
+  if (entry.countDiff > 1.5) return '🔴🔴';
+  if (entry.countDiff > 0.5) return '🔴';
+  if (entry.countDiff < -1.5) return '🟢🟢';
+  if (entry.countDiff < -0.5) return '🟢';
 
   return '';
 }

@@ -3,7 +3,7 @@ import type { PerformanceEntry } from 'src/measure/types';
 export const STATISTICAL_SIGNIFICANCE = ['SIGNIFICANT', 'INSIGNIFICANT', 'MEANINGLESS'] as const;
 
 /**
- * Type of the performance measure change as compared to the baseline.txt file
+ * Type of the performance measure change as compared to the baseline results
  */
 export type StatisticalSignificance = typeof STATISTICAL_SIGNIFICANCE[number];
 

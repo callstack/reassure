@@ -200,18 +200,9 @@ implemented tool. In order to do that you can run Jest using our node command pr
 node --jitless --expose-gc --no-concurrent-sweeping --max-old-space-size=4096 node_modules/jest/bin/jest.js "$test_files_regex";
 ```
 
-This will run your tests as matched by provided regexp and output the `current.txt` file containing results of your tests.
-Please bear in mind however, that running repeated tests will result in adding more and more results to your `current.txt`
-file. In order to avoid that we recommend running `await clearTestStats();` function before all your test suites are executed.
-To achieve this we recommend using a `jest.config` file and passing this function [as a `globalSetup` option](https://jestjs.io/docs/configuration#globalsetup-string).
-
-Alternatively, you could add the following snippet to the first test which is run in your suite.
-
-```ts
-beforeAll(async () => {
-  await clearTestStats();
-});
-```
+This will run your tests as matched by provided regexp and output the `perf-results.txt` file containing results of your tests.
+Please bear in mind however, that running repeated tests will result in adding more and more results to your `perf-results.txt`
+file.
 
 ### Example output
 
@@ -246,7 +237,7 @@ of the `configure` function.
 export const defaultConfig = {
   count: 10,
   dropFirst: 1,
-  outputFile: 'current.txt',
+  outputFile: 'perf-results.txt',
 };
 ```
 
@@ -363,8 +354,8 @@ type ScriptArguments = {
 };
 ```
 
-- **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `baseline.txt`)
-- **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `current.txt`)
+- **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `baseline-results.txt`)
+- **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `perf-results.txt`)
 - **`output`** type of the desired output. Can be set to `'console' | 'json' | 'all'` or left unspecified (DEFAULT: `undefined`)
 - **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `compare-output.json`)
 

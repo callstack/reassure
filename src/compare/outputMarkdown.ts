@@ -25,7 +25,7 @@ function buildMarkdown(data: CompareResult) {
   if (data.significant.length > 0) {
     let rows = data.significant.map((item) => [
       item.name,
-      emphasis.b(formatRenderDurationChange(item)),
+      formatRenderDurationChange(item),
       formatRenderCountChange(item),
     ]);
     result += markdownTable([HEADER, ...rows]);
@@ -62,7 +62,7 @@ function buildMarkdown(data: CompareResult) {
     let rows = data.countChanged.map((item) => [
       item.name,
       formatRenderDurationChange(item),
-      emphasis.b(formatRenderCountChange(item)),
+      formatRenderCountChange(item),
     ]);
     result += markdownTable([HEADER, ...rows]);
   } else {

@@ -42,7 +42,7 @@ const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 
 /**
  * Main executor function of the compare tool. Responsible for aggregating data generated
- * from comparison of the current.txt and baseline.txt diff and returning that data in
+ * from comparison of the perf-results.txt and baseline-results.txt diff and returning that data in
  * easily digestible format
  */
 export const main = async () => {
