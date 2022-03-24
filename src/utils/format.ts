@@ -61,8 +61,8 @@ function getRenderDurationSymbols(entry: CompareEntry) {
   }
 
   if (entry.durationDiffSignificance === 'INSIGNIFICANT') {
-    if (entry.durationDiffPercent > 0) return '🔴';
-    if (entry.durationDiffPercent < 0) return '🟢';
+    if (entry.durationDiffPercent > 5) return '🔴';
+    if (entry.durationDiffPercent < -5) return '🟢';
   }
 
   return '';

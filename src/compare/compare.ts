@@ -15,7 +15,10 @@ type ScriptArguments = {
   output?: 'console' | 'json' | 'markdown' | 'all';
 };
 
-type LoadFileResult = { [key: string]: PerformanceEntry };
+/**
+ * Record type holding `PerformanceEntry` objects keyed by entry name.
+ */
+type PerformanceRecord = { [name: string]: PerformanceEntry };
 
 /**
  * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
@@ -29,23 +32,37 @@ const {
 } = minimist<ScriptArguments>(process.argv);
 
 /**
- * Constants below are tightly related to the `computeZ(baseline_avg: number,
- * baseline_sigma: number, mean: number, n: number): number` function and
- * SHOULD NOT be changed without the full understanding of their significance.
- *
- * For more information refer to https://github.com/v8/v8/blob/master/test/benchmarks/csuite/compare-baseline.py
+ * Probability threshold for considering given difference signficiant.
  */
 const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
+
+/**
+ * Probability threshold for considering given difference meaningless.
+ */
 const PROBABILITY_CONSIDERED_MEANINGLESS = 0.05;
+
+/**
+ * Render duration threshold (in ms) for treating given difference as significant.
+ *
+ * This is additional filter, in addition to probability threshold above.
+ * Too small duration difference might be result of measurement grain of 1 ms.
+ */
 const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
+
+/**
+ * Render duration threshold (in ms) for treating given difference as meaningless.
+ *
+ * This is an overriding filter that can override probability threshold above.
+ * Too small duration difference might be result of measurement grain of 1 ms.
+ */
 const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 
 /**
- * Main executor function of the compare tool. Responsible for aggregating data generated
- * from comparison of the perf-results.txt and baseline-results.txt diff and returning that data in
- * easily digestible format
+ * Main routine.
+ *
+ * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
-export const main = async () => {
+export async function main() {
   try {
     const hasCurrentFile = fsSync.existsSync(currentFilePath);
     if (!hasCurrentFile) {
@@ -71,22 +88,21 @@ export const main = async () => {
     if (output === 'markdown' || output === 'all') writeToMarkdown('compare-output.md', outputData);
   } catch (error) {
     console.error(error);
-    throw error;
+    process.exit(1);
   }
-};
+}
 
 /**
- * Responsible for loading a measurer output file, parsing and returning its data
+ * Load performance file and parse it to `PerformanceRecord` object.
  */
-const loadFile = async (path: string): Promise<LoadFileResult> => {
+async function loadFile(path: string): Promise<PerformanceRecord> {
   const data = await fs.readFile(path, 'utf8');
 
   const lines = data.split(/\r?\n/);
+  // TODO: add data format validation
   const entries: PerformanceEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
 
-  const names = entries.map((entry) => entry.name);
-
-  if (hasDuplicatedEntryNames(names)) {
+  if (hasDuplicateValues(entries.map((entry) => entry.name))) {
     throw new Error(
       `Your test output files include records with duplicated names.
       Please remove any non-unique names from your test suites and try again
@@ -94,31 +110,31 @@ const loadFile = async (path: string): Promise<LoadFileResult> => {
     );
   }
 
-  const result: LoadFileResult = {};
-
-  for (const item of entries) {
-    result[item.name] = item;
-  }
+  const result: PerformanceRecord = {};
+  entries.forEach((entry) => {
+    result[entry.name] = entry;
+  });
 
   return result;
-};
+}
 
 /**
- * Responsible for comparing results from baseline and current data sets
+ * Compare results between baseline and current entries and categorize.
  */
-const compareResults = (currentEntries: LoadFileResult, baselineEntries: LoadFileResult | null): CompareResult => {
-  const keys = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
+function compareResults(currentEntries: PerformanceRecord, baselineEntries: PerformanceRecord | null): CompareResult {
+  // unique keys
+  const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
 
   const regular: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
 
-  keys.forEach((name) => {
+  names.forEach((name) => {
     const current = currentEntries[name];
     const baseline = baselineEntries?.[name];
 
     if (baseline && current) {
-      regular.push(generateCompareResult(name, current, baseline));
+      regular.push(buildCompareEntry(name, current, baseline));
     } else if (current) {
       added.push({ name, current });
     } else if (baseline) {
@@ -147,19 +163,18 @@ const compareResults = (currentEntries: LoadFileResult, baselineEntries: LoadFil
     added,
     removed,
   };
-};
+}
 
 /**
- * Generates statistics from all tests based on current-perf-results.txt and baseline-perf-results.txt file entries
+ * Establish statisticial signficance of render duration difference build compare entry.
  */
-const generateCompareResult = (name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry => {
+function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const durationDiffPercent = (durationDiff / baseline.meanDuration) * 100;
   const countDiff = current.meanCount - baseline.meanCount;
   const countDiffPercent = (countDiff / baseline.meanCount) * 100;
 
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
-
   const prob = computeProbability(z);
 
   let durationDiffSignificance: StatisticalSignificance = 'INSIGNIFICANT';
@@ -179,66 +194,65 @@ const generateCompareResult = (name: string, current: PerformanceEntry, baseline
     countDiff,
     countDiffPercent,
   };
-};
+}
 
 /**
- * Utility functions used for computing statistical probabilities of certain types of
- * results durationDiffStatuses occurring based on fed data allowing for better avoidance of
- * measurement errors nad outliers
+ * Calculate z-score for given baseline and current performance results.
  *
  * Based on :: https://github.com/v8/v8/blob/master/test/benchmarks/csuite/compare-baseline.py
  */
-function computeZ(baseline_avg: number, baseline_sigma: number, mean: number, n: number) {
-  if (baseline_sigma == 0) return 1000;
-  return Math.abs((mean - baseline_avg) / (baseline_sigma / Math.sqrt(n)));
+function computeZ(baselineMean: number, baselineStdev: number, currentMean: number, runs: number) {
+  if (baselineStdev == 0) return 1000;
+
+  return Math.abs((currentMean - baselineMean) / (baselineStdev / Math.sqrt(runs)));
 }
+
+/**
+ * Compute statisticial hyphotesis probability based on z-score.
+ *
+ * Based on :: https://github.com/v8/v8/blob/master/test/benchmarks/csuite/compare-baseline.py
+ */
 function computeProbability(z: number) {
-  if (z > 2.575_829)
-    // p 0.005: two sided < 0.01
-    return 0;
-  if (z > 2.326_348)
-    // p 0.010
-    return 0.01;
-  if (z > 2.170_091)
-    // p 0.015
-    return 0.02;
-  if (z > 2.053_749)
-    // p 0.020
-    return 0.03;
-  if (z > 1.959_964)
-    // p 0.025: two sided < 0.05
-    return 0.04;
-  if (z > 1.880_793)
-    // p 0.030
-    return 0.05;
-  if (z > 1.811_91)
-    // p 0.035
-    return 0.06;
-  if (z > 1.750_686)
-    // p 0.040
-    return 0.07;
-  if (z > 1.695_397)
-    // p 0.045
-    return 0.08;
-  if (z > 1.644_853)
-    // p 0.050: two sided < 0.10
-    return 0.09;
-  if (z > 1.281_551)
-    // p 0.100: two sided < 0.20
-    return 0.1;
-  return 0.2; // two sided p >= 0.20
+  // p 0.005: two sided < 0.01
+  if (z > 2.575_829) return 0;
+
+  // p 0.010
+  if (z > 2.326_348) return 0.01;
+
+  // p 0.015
+  if (z > 2.170_091) return 0.02;
+
+  // p 0.020
+  if (z > 2.053_749) return 0.03;
+
+  // p 0.025: two sided < 0.05
+  if (z > 1.959_964) return 0.04;
+
+  // p 0.030
+  if (z > 1.880_793) return 0.05;
+
+  // p 0.035
+  if (z > 1.811_91) return 0.06;
+
+  // p 0.040
+  if (z > 1.750_686) return 0.07;
+
+  // p 0.045
+  if (z > 1.695_397) return 0.08;
+
+  // p 0.050: two sided < 0.10
+  if (z > 1.644_853) return 0.09;
+
+  // p 0.100: two sided < 0.20
+  if (z > 1.281_551) return 0.1;
+
+  // two sided p >= 0.20
+  return 0.2;
 }
 
 /**
- * Utility function returning true if input array of strings consists of any non-unique members
+ * Check if array has duplicates.
  */
-const hasDuplicatedEntryNames = (arr: string[]) => arr.length !== new Set(arr).size;
+const hasDuplicateValues = (elements: string[]) => elements.length !== new Set(elements).size;
 
-/**
- * Utility function responsible for writing output data into a specified JSON file
- */
-
-/**
- * Main script function call
- */
 main();
