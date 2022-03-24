@@ -5,4 +5,4 @@ export {
   defaultConfig,
   configure,
   resetToDefault,
-} from './measure';
+} from './measure/measure';

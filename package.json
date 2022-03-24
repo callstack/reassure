@@ -34,11 +34,9 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
     "release": "release-it",
-    "build:ts": "tsc --build",
-    "run:analyse": "yarn prepare && node ./lib/commonjs/analyser.js --output='all' --baselineFilePath='./example/baseline.txt' --currentFilePath='./example/current.txt'",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "yarn example && yarn"
   },
   "keywords": [
     "react-native",

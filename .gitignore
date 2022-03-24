@@ -66,5 +66,5 @@ lib/
 # operational files generated via testing
 perf-results.txt
 baseline-results.txt
-analyser-output.md
-analyser-output.json
+compare-output.md
+compare-output.json
