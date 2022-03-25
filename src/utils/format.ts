@@ -24,7 +24,7 @@ export function formatDurationChange(value: number): string {
 }
 
 export function formatCount(value: number) {
-  return value;
+  return Number.isInteger(value) ? `${value}` : `${value.toFixed(2)}`;
 }
 export function formatCountChange(value: number): string {
   if (value > 0) return `+${value}`;
