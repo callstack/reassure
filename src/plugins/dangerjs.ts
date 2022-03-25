@@ -12,7 +12,7 @@ import * as path from 'path';
  * - allows for displaying messages in markdown format
  */
 declare function warn(message: string): void;
-declare function message(message: string): void;
+declare function markdown(message: string): void;
 
 /**
  * Configuration object which can optionally be passed down to plugin's call.
@@ -49,7 +49,7 @@ const plugin = (
       if (!perfFileContents) {
         warn(_warning);
       } else {
-        message(perfFileContents);
+        markdown(perfFileContents);
       }
     }
   } catch (error) {
