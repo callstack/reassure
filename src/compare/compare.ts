@@ -79,6 +79,8 @@ function logWarning(message: string) {
 export async function main() {
   logError('Test error');
   logWarning('Test warning');
+  logError('Test error 2');
+  logWarning('Test warning 2');
 
   try {
     const hasCurrentFile = fsSync.existsSync(currentFilePath);

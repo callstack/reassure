@@ -96,16 +96,16 @@ function buildMarkdown(data: CompareResult) {
   }
 
   if (data.errors?.length) {
-    result += `\n${headers.h1('Errors')}\n`;
+    result += `\n${headers.h3('Errors')}\n`;
     data.errors.forEach((message) => {
-      result += ` * 🛑 ${message}\n`;
+      result += ` 1. 🛑 ${message}\n`;
     });
   }
 
   if (data.warnings?.length) {
-    result += `\n${headers.h1('Warnings')}\n`;
+    result += `\n${headers.h3('Warnings')}\n`;
     data.warnings.forEach((message) => {
-      result += ` * 🟡 ${message}\n`;
+      result += ` 1. 🟡 ${message}\n`;
     });
   }
 
