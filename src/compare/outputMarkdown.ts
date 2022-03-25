@@ -1,12 +1,14 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-//@ts-ignore
+// @ts-ignore
 import { headers, emphasis } from 'markdown-builder';
+// @ts-ignore
+import markdownTable from 'markdown-table';
 import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
-import { markdownTable } from '../utils/markdown-table';
 import type { CompareResult } from './types';
 
-const HEADER = ['Name', 'Render Duration', 'Render Count'] as const;
+const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
+const tableOptions = { align: ['l', 'r', 'r'] } as const;
 
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
@@ -28,7 +30,7 @@ function buildMarkdown(data: CompareResult) {
       formatRenderDurationChange(item),
       formatRenderCountChange(item),
     ]);
-    result += markdownTable([HEADER, ...rows]);
+    result += markdownTable([tableHeader, ...rows], tableOptions);
   } else {
     result += emphasis.i('There are no significant changes');
   }
@@ -40,7 +42,7 @@ function buildMarkdown(data: CompareResult) {
       formatRenderDurationChange(item),
       formatRenderCountChange(item),
     ]);
-    result += markdownTable([HEADER, ...rows]);
+    result += markdownTable([tableHeader, ...rows], tableOptions);
   } else {
     result += emphasis.i('There are no insignificant changes');
   }
@@ -52,7 +54,7 @@ function buildMarkdown(data: CompareResult) {
       formatRenderDurationChange(item),
       formatRenderCountChange(item),
     ]);
-    result += markdownTable([HEADER, ...rows]);
+    result += markdownTable([tableHeader, ...rows], tableOptions);
   } else {
     result += emphasis.i('There are no meaningless changes');
   }
@@ -64,7 +66,7 @@ function buildMarkdown(data: CompareResult) {
       formatRenderDurationChange(item),
       formatRenderCountChange(item),
     ]);
-    result += markdownTable([HEADER, ...rows]);
+    result += markdownTable([tableHeader, ...rows], tableOptions);
   } else {
     result += emphasis.i('There are no render count changes');
   }
@@ -76,7 +78,7 @@ function buildMarkdown(data: CompareResult) {
       formatDuration(item.current.meanDuration),
       formatCount(item.current.meanCount),
     ]);
-    result += markdownTable([HEADER, ...rows]);
+    result += markdownTable([tableHeader, ...rows], tableOptions);
   } else {
     result += emphasis.i('There are no added scenarios');
   }
@@ -88,7 +90,7 @@ function buildMarkdown(data: CompareResult) {
       formatDuration(item.baseline.meanDuration),
       formatCount(item.baseline.meanCount),
     ]);
-    result += markdownTable([HEADER, ...rows]);
+    result += markdownTable([tableHeader, ...rows], tableOptions);
   } else {
     result += emphasis.i('There are no removed scenarios');
   }
