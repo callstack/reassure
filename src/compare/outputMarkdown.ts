@@ -95,7 +95,22 @@ function buildMarkdown(data: CompareResult) {
     result += emphasis.i('There are no removed scenarios');
   }
 
+  if (data.errors?.length) {
+    result += `\n${headers.h1('Errors')}\n`;
+    data.errors.forEach((message) => {
+      result += ` * 🛑 ${message}\n`;
+    });
+  }
+
+  if (data.warnings?.length) {
+    result += `\n${headers.h1('Warnings')}\n`;
+    data.warnings.forEach((message) => {
+      result += ` * 🟡 ${message}\n`;
+    });
+  }
+
   result += '\n';
+
   return result;
 }
 

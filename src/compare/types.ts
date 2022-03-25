@@ -47,4 +47,6 @@ export type CompareResult = {
   countChanged: CompareEntry[];
   added: AddedEntry[];
   removed: RemovedEntry[];
+  errors: string[];
+  warnings: string[];
 };

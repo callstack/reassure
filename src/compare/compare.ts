@@ -58,16 +58,32 @@ const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
  */
 const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 
+const errors: string[] = [];
+const warnings: string[] = [];
+
+function logError(message: string, ...args: any[]) {
+  errors.push(message);
+  console.error(`🛑 ${message}`, ...args);
+}
+
+function logWarning(message: string) {
+  warnings.push(message);
+  console.warn(`🟡 ${message}`);
+}
+
 /**
  * Main routine.
  *
  * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
 export async function main() {
+  logError('Test error');
+  logWarning('Test warning');
+
   try {
     const hasCurrentFile = fsSync.existsSync(currentFilePath);
     if (!hasCurrentFile) {
-      console.warn(`Current results files "${currentFilePath}" does not exists. Check your setup.`);
+      logError(`Current results files "${currentFilePath}" does not exists. Check your setup.`);
       process.exit(1);
     }
 
@@ -75,7 +91,7 @@ export async function main() {
 
     const hasBaslineFile = fsSync.existsSync(baselineFilePath);
     if (!hasBaslineFile) {
-      console.warn(
+      logWarning(
         `Baseline results files "${baselineFilePath}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
       );
     }
@@ -88,7 +104,7 @@ export async function main() {
     if (output === 'json' || output === 'all') writeToJson(outputFilePath, outputData);
     if (output === 'markdown' || output === 'all') writeToMarkdown('compare-output.md', outputData);
   } catch (error) {
-    console.error(error);
+    logError(`Error.`, error);
     process.exit(1);
   }
 }
@@ -104,11 +120,11 @@ async function loadFile(path: string): Promise<PerformanceRecord> {
   const entries: PerformanceEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
 
   if (hasDuplicateValues(entries.map((entry) => entry.name))) {
-    throw new Error(
-      `Your test output files include records with duplicated names.
-      Please remove any non-unique names from your test suites and try again
-      `
-    );
+    const msg = `Your performance result file ${path} contains records with duplicated names.
+      Please remove any non-unique names from your test suites and try again.
+      `;
+    logError(msg);
+    throw new Error(msg);
   }
 
   const result: PerformanceRecord = {};
@@ -163,6 +179,8 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
     countChanged,
     added,
     removed,
+    errors,
+    warnings,
   };
 }
 
