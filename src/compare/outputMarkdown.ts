@@ -129,8 +129,10 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)}`,
-    entry.durations ? `Runs:<br/>${entry.durations.map(formatDuration).join('<br/>')}` : '',
-  ].join(`<br/>`);
+    entry.durations ? `Runs: ${entry.durations.map(formatDuration).join(', ')}` : '',
+  ]
+    .filter(Boolean)
+    .join(`<br/>`);
 }
 
 function buildCountDetails(title: string, entry: PerformanceEntry) {
@@ -138,6 +140,8 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatCount(entry.meanCount)}`,
     `Stdev: ${formatCount(entry.stdevCount)}`,
-    entry.counts ? `Runs:<br/>${entry.counts.map(formatCount).join('<br/>')}` : '',
-  ].join(`<br/>`);
+    entry.counts ? `Runs: ${entry.counts.map(formatCount).join(', ')}` : '',
+  ]
+    .filter(Boolean)
+    .join(`<br/>`);
 }
