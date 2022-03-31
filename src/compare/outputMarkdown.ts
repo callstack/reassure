@@ -37,7 +37,21 @@ async function writeToFile(filePath: string, content: string) {
 }
 
 function buildMarkdown(data: CompareResult) {
-  let result = headers.h1('Performance Comparison Results');
+  let result = headers.h1('Performance Comparison Report');
+
+  if (data.errors?.length) {
+    result += `\n${headers.h3('Errors')}\n`;
+    data.errors.forEach((message) => {
+      result += ` 1. 🛑 ${message}\n`;
+    });
+  }
+
+  if (data.warnings?.length) {
+    result += `\n${headers.h3('Warnings')}\n`;
+    data.warnings.forEach((message) => {
+      result += ` 1. 🟡 ${message}\n`;
+    });
+  }
 
   result += `\n\n${headers.h3('Significant Changes To Render Duration')}\n`;
   if (data.significant.length > 0) {
@@ -95,20 +109,6 @@ function buildMarkdown(data: CompareResult) {
     result += emphasis.i('There are no removed scenarios');
   }
 
-  if (data.errors?.length) {
-    result += `\n${headers.h3('Errors')}\n`;
-    data.errors.forEach((message) => {
-      result += ` 1. 🛑 ${message}\n`;
-    });
-  }
-
-  if (data.warnings?.length) {
-    result += `\n${headers.h3('Warnings')}\n`;
-    data.warnings.forEach((message) => {
-      result += ` 1. 🟡 ${message}\n`;
-    });
-  }
-
   result += '\n';
 
   return result;
@@ -116,7 +116,7 @@ function buildMarkdown(data: CompareResult) {
 
 function buildDurationSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
   if ('baseline' in entry && 'current' in entry && entry.baseline.durations && entry.current.durations) {
-    return `${formatRenderDurationChange(entry)}\n\n
+    return `${formatRenderDurationChange(entry)}<br/><br/>
     ${expandableSection(
       'Show details',
       `${buildDurationDetails('Baseline', entry.baseline)}${buildDurationDetails('Current', entry.current)}}`
@@ -124,12 +124,12 @@ function buildDurationSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
   }
 
   if (`baseline` in entry && entry.baseline.durations) {
-    return `${formatDuration(entry.baseline.meanDuration)}\n\n
+    return `${formatDuration(entry.baseline.meanDuration)}<br/><br/>
     ${expandableSection('Show details', buildDurationDetails('Baseline', entry.baseline))}`;
   }
 
   if (`current` in entry && entry.current.durations) {
-    return `${formatDuration(entry.current.meanDuration)}\n\n
+    return `${formatDuration(entry.current.meanDuration)}<br/><br/>
     ${expandableSection('Show details', buildDurationDetails('Current', entry.current))}`;
   }
 
@@ -138,7 +138,7 @@ function buildDurationSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
 
 function buildCountSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
   if ('baseline' in entry && 'current' in entry && entry.baseline.counts && entry.current.counts) {
-    return `${formatRenderCountChange(entry)}\n\n
+    return `${formatRenderCountChange(entry)}<br/><br/>
     ${expandableSection(
       'Show details',
       `${buildCountDetails('Baseline', entry.baseline)}${buildCountDetails('Current', entry.current)}}`
@@ -146,12 +146,12 @@ function buildCountSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
   }
 
   if (`baseline` in entry && entry.baseline.counts) {
-    return `${formatCount(entry.baseline.meanCount)}\n\n
+    return `${formatCount(entry.baseline.meanCount)}<br/><br/>
     ${expandableSection('Show details', buildCountDetails('Baseline', entry.baseline))}`;
   }
 
   if (`current` in entry && entry.current.counts) {
-    return `${formatCount(entry.current.meanCount)}\n\n
+    return `${formatCount(entry.current.meanCount)}<br/><br/>
     ${expandableSection('Show details', buildCountDetails('Current', entry.current))}`;
   }
 
@@ -159,13 +159,15 @@ function buildCountSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
 }
 
 function buildDurationDetails(title: string, entry: PerformanceEntry) {
-  return `${headers.h3(title)}\n\n
-    Stdev: ${formatDuration(entry.stdevDuration)}\n\n
-    ${entry.durations.map(formatDuration).join('\n')}\n\n`;
+  return `${headers.h3(title)}<br/><br/>
+    Mean: ${formatDuration(entry.meanDuration)}<br/><br/>
+    Stdev: ${formatDuration(entry.stdevDuration)}<br/><br/>
+    Runs:<br/>${entry.durations.map(formatDuration).join('\n')}<br/><br/>`;
 }
 
 function buildCountDetails(title: string, entry: PerformanceEntry) {
-  return `${headers.h3(title)}\n\n
-    Stdev: ${formatCount(entry.stdevCount)}\n\n
-    ${entry.counts.map(formatCount).join('\n')}\n\n`;
+  return `${headers.h3(title)}<br/><br/>
+    Mean: ${formatCount(entry.meanCount)}<br/><br/>
+    Stdev: ${formatCount(entry.stdevCount)}<br/><br/>
+    Runs:<br/>${entry.counts.map(formatCount).join('\n')}<br/><br/>`;
 }
