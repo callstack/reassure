@@ -4,7 +4,13 @@ import * as path from 'path';
 import { headers, emphasis } from 'markdown-builder';
 // @ts-ignore
 import markdownTable from 'markdown-table';
-import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
+import {
+  formatCount,
+  formatDuration,
+  formatPercent,
+  formatRenderCountChange,
+  formatRenderDurationChange,
+} from '../utils/format';
 import { collapsibleSection } from '../utils/markdown';
 import type { PerformanceEntry } from '../measure/types';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
@@ -125,10 +131,12 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
 }
 
 function buildDurationDetails(title: string, entry: PerformanceEntry) {
+  const relativeStdev = entry.stdevDuration / entry.meanDuration;
+
   return [
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
-    `Stdev: ${formatDuration(entry.stdevDuration)}`,
+    `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev * 100)})`,
     entry.durations ? `Runs: ${entry.durations.join(' ')}` : '',
   ]
     .filter(Boolean)
@@ -136,10 +144,12 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
 }
 
 function buildCountDetails(title: string, entry: PerformanceEntry) {
+  const relativeStdev = entry.stdevCount / entry.meanCount;
+
   return [
     emphasis.b(title),
     `Mean: ${formatCount(entry.meanCount)}`,
-    `Stdev: ${formatCount(entry.stdevCount)}`,
+    `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev * 100)})`,
     entry.counts ? `Runs: ${entry.counts.map(formatCount).join(' ')}` : '',
   ]
     .filter(Boolean)

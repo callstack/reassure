@@ -3,6 +3,10 @@ import type { CompareEntry } from 'src/compare/types';
 /**
  * Utility functions used for formatting data into strings
  */
+export function formatPercent(value: number): string {
+  return `${value.toFixed(1)}%`;
+}
+
 export function formatPercentChange(value: number): string {
   if (value >= 0.05) return `+${value.toFixed(1)}%`;
   if (value <= -0.05) return `${value.toFixed(1)}%`;
