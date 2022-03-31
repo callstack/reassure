@@ -23,10 +23,6 @@ export function formatDurationChange(value: number): string {
   return '0 ms';
 }
 
-export function formatDurationWithoutUnit(duration: number): string {
-  return duration.toFixed(1);
-}
-
 export function formatCount(value: number) {
   return Number.isInteger(value) ? `${value}` : `${value.toFixed(2)}`;
 }

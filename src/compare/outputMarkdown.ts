@@ -4,13 +4,7 @@ import * as path from 'path';
 import { headers, emphasis } from 'markdown-builder';
 // @ts-ignore
 import markdownTable from 'markdown-table';
-import {
-  formatCount,
-  formatDuration,
-  formatDurationWithoutUnit,
-  formatRenderCountChange,
-  formatRenderDurationChange,
-} from '../utils/format';
+import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
 import { collapsibleSection } from '../utils/markdown';
 import type { PerformanceEntry } from '../measure/types';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
@@ -135,7 +129,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)}`,
-    entry.durations ? `Runs: ${entry.durations.map(formatDurationWithoutUnit).join(' ')}` : '',
+    entry.durations ? `Runs: ${entry.durations.join(' ')}` : '',
   ]
     .filter(Boolean)
     .join(`<br/>`);
