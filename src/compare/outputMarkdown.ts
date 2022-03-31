@@ -40,134 +40,104 @@ function buildMarkdown(data: CompareResult) {
   let result = headers.h1('Performance Comparison Report');
 
   if (data.errors?.length) {
-    result += `\n${headers.h3('Errors')}\n`;
+    result += `\n\n${headers.h3('Errors')}\n`;
     data.errors.forEach((message) => {
       result += ` 1. 🛑 ${message}\n`;
     });
   }
 
   if (data.warnings?.length) {
-    result += `\n${headers.h3('Warnings')}\n`;
+    result += `\n\n${headers.h3('Warnings')}\n`;
     data.warnings.forEach((message) => {
       result += ` 1. 🟡 ${message}\n`;
     });
   }
 
-  result += `\n\n${headers.h3('Significant Changes To Render Duration')}\n`;
-  if (data.significant.length > 0) {
-    let rows = data.significant.map((item) => [item.name, buildDurationSection(item), buildCountSection(item)]);
-    result += markdownTable([tableHeader, ...rows], tableOptions);
-  } else {
-    result += emphasis.i('There are no significant changes');
-  }
-
-  result += `\n\n${headers.h3('Insignificant Changes To Render Duration')}\n`;
-  if (data.insignificant.length > 0) {
-    let rows = data.insignificant.map((item) => [item.name, buildDurationSection(item), buildCountSection(item)]);
-    result += markdownTable([tableHeader, ...rows], tableOptions);
-  } else {
-    result += emphasis.i('There are no insignificant changes');
-  }
-
-  result += `\n\n${headers.h3('Meaningless Changes To Render Duration')}\n`;
-  if (data.meaningless.length > 0) {
-    let rows = data.meaningless.map((item) => [item.name, buildDurationSection(item), buildCountSection(item)]);
-    result += markdownTable([tableHeader, ...rows], tableOptions);
-  } else {
-    result += emphasis.i('There are no meaningless changes');
-  }
-
-  result += `\n\n${headers.h3('Changes To Render Count')}\n`;
-  if (data.countChanged.length > 0) {
-    let rows = data.countChanged.map((item) => [item.name, buildDurationSection(item), buildCountSection(item)]);
-    result += markdownTable([tableHeader, ...rows], tableOptions);
-  } else {
-    result += emphasis.i('There are no render count changes');
-  }
-
-  result += `\n\n${headers.h3('Added Scenarios')}\n`;
-  if (data.added.length > 0) {
-    let rows = data.added.map((item) => [
-      item.name,
-      formatDuration(item.current.meanDuration),
-      formatCount(item.current.meanCount),
-    ]);
-    result += markdownTable([tableHeader, ...rows], tableOptions);
-  } else {
-    result += emphasis.i('There are no added scenarios');
-  }
-
-  result += `\n\n${headers.h3('Removed Scenarios')}\n`;
-  if (data.removed.length > 0) {
-    let rows = data.removed.map((item) => [
-      item.name,
-      formatDuration(item.baseline.meanDuration),
-      formatCount(item.baseline.meanCount),
-    ]);
-    result += markdownTable([tableHeader, ...rows], tableOptions);
-  } else {
-    result += emphasis.i('There are no removed scenarios');
-  }
-
+  result += `\n\n${headers.h3('Significant Changes To Render Duration')}`;
+  result += `\n${buildSummaryTable(data.significant)}`;
+  result += `\n${buildDetailsTable(data.significant)}`;
+  result += `\n\n${headers.h3('Insignificant Changes To Render Duration')}`;
+  result += `\n${buildSummaryTable(data.insignificant)}`;
+  result += `\n${buildDetailsTable(data.insignificant)}`;
+  result += `\n\n${headers.h3('Meaningless Changes To Render Duration')}`;
+  result += `\n${buildSummaryTable(data.meaningless)}`;
+  result += `\n${buildDetailsTable(data.meaningless)}`;
+  result += `\n\n${headers.h3('Changes To Render Count')}`;
+  result += `\n${buildSummaryTable(data.countChanged)}`;
+  result += `\n${buildDetailsTable(data.countChanged)}`;
+  result += `\n\n${headers.h3('Added Scenarios')}`;
+  result += `\n${buildSummaryTable(data.added)}`;
+  result += `\n${buildDetailsTable(data.added)}`;
+  result += `\n\n${headers.h3('Removed Scenarios')}`;
+  result += `\n\n${buildSummaryTable(data.removed)}`;
+  result += `\n${buildDetailsTable(data.removed)}`;
   result += '\n';
 
   return result;
 }
 
-function buildDurationSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry && entry.baseline.durations && entry.current.durations) {
-    return `${formatRenderDurationChange(entry)}<br/><br/>
-    ${expandableSection(
-      'Show details',
-      `${buildDurationDetails('Baseline', entry.baseline)}${buildDurationDetails('Current', entry.current)}}`
-    )}`;
-  }
+function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
+  if (!entries.length) return emphasis.i('There are no entries');
 
-  if (`baseline` in entry && entry.baseline.durations) {
-    return `${formatDuration(entry.baseline.meanDuration)}<br/><br/>
-    ${expandableSection('Show details', buildDurationDetails('Baseline', entry.baseline))}`;
-  }
+  const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
+  return markdownTable([tableHeader, ...rows], tableOptions);
+}
 
-  if (`current` in entry && entry.current.durations) {
-    return `${formatDuration(entry.current.meanDuration)}<br/><br/>
-    ${expandableSection('Show details', buildDurationDetails('Current', entry.current))}`;
-  }
+function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
+  if (!entries.length) return '';
 
+  const rows = entries.map((entry) => [entry.name, buildDurationDetailsEntry(entry), buildCountDetailsEntry(entry)]);
+  const content = markdownTable([tableHeader, ...rows], tableOptions);
+
+  return expandableSection('Show details', content);
+}
+
+function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
+  if ('baseline' in entry && 'current' in entry) return formatRenderDurationChange(entry);
+  if ('baseline' in entry) return formatDuration(entry.baseline.meanDuration);
+  if ('current' in entry) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
-function buildCountSection(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry && entry.baseline.counts && entry.current.counts) {
-    return `${formatRenderCountChange(entry)}<br/><br/>
-    ${expandableSection(
-      'Show details',
-      `${buildCountDetails('Baseline', entry.baseline)}${buildCountDetails('Current', entry.current)}}`
-    )}`;
-  }
-
-  if (`baseline` in entry && entry.baseline.counts) {
-    return `${formatCount(entry.baseline.meanCount)}<br/><br/>
-    ${expandableSection('Show details', buildCountDetails('Baseline', entry.baseline))}`;
-  }
-
-  if (`current` in entry && entry.current.counts) {
-    return `${formatCount(entry.current.meanCount)}<br/><br/>
-    ${expandableSection('Show details', buildCountDetails('Current', entry.current))}`;
-  }
-
+function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
+  if ('baseline' in entry && 'current' in entry) return formatRenderCountChange(entry);
+  if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
+  if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';
+}
+
+function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
+  return [
+    'baseline' in entry ? buildDurationDetails('Baseline', entry.baseline) : '',
+    'current' in entry ? buildDurationDetails('Current', entry.current) : '',
+  ]
+    .filter(Boolean)
+    .join('<br/><br/>');
+}
+
+function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
+  return [
+    'baseline' in entry ? buildCountDetails('Baseline', entry.baseline) : '',
+    'current' in entry ? buildCountDetails('Current', entry.current) : '',
+  ]
+    .filter(Boolean)
+    .join('<br/><br/>');
 }
 
 function buildDurationDetails(title: string, entry: PerformanceEntry) {
-  return `${headers.h3(title)}<br/><br/>
-    Mean: ${formatDuration(entry.meanDuration)}<br/><br/>
-    Stdev: ${formatDuration(entry.stdevDuration)}<br/><br/>
-    Runs:<br/>${entry.durations.map(formatDuration).join('\n')}<br/><br/>`;
+  return [
+    emphasis.b(title),
+    `Mean: ${formatDuration(entry.meanDuration)}`,
+    `Stdev: ${formatDuration(entry.stdevDuration)}`,
+    `Runs:<br/>${entry.durations?.map(formatDuration).join('<br/>')}`,
+  ].join(`<br/>`);
 }
 
 function buildCountDetails(title: string, entry: PerformanceEntry) {
-  return `${headers.h3(title)}<br/><br/>
-    Mean: ${formatCount(entry.meanCount)}<br/><br/>
-    Stdev: ${formatCount(entry.stdevCount)}<br/><br/>
-    Runs:<br/>${entry.counts.map(formatCount).join('\n')}<br/><br/>`;
+  return [
+    emphasis.b(title),
+    `Mean: ${formatCount(entry.meanCount)}`,
+    `Stdev: ${formatCount(entry.stdevCount)}`,
+    `Runs:<br/>${entry.counts?.map(formatCount).join('<br/>')}`,
+  ].join(`<br/>`);
 }
