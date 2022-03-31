@@ -4,13 +4,17 @@ import type { CompareEntry } from 'src/compare/types';
  * Utility functions used for formatting data into strings
  */
 export function formatPercent(value: number): string {
-  return `${value.toFixed(1)}%`;
+  const valueAsPercent = value * 100;
+  return `${valueAsPercent.toFixed(1)}%`;
 }
 
 export function formatPercentChange(value: number): string {
-  if (value >= 0.05) return `+${value.toFixed(1)}%`;
-  if (value <= -0.05) return `${value.toFixed(1)}%`;
-  return `±${value.toFixed(1)}%`;
+  const absValue = Math.abs(value);
+
+  // Round to zero
+  if (absValue < 0.005) return `±0.0%`;
+
+  return value >= 0 ? `+${formatPercent(absValue)}%` : `-${formatPercent(absValue)}%`;
 }
 
 export function formatDuration(duration: number): string {
@@ -48,7 +52,7 @@ export function formatRenderDurationChange(entry: CompareEntry) {
   let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
 
   if (baseline.meanDuration != current.meanDuration) {
-    output += ` (${formatDurationChange(entry.durationDiff)}, ${formatPercentChange(entry.durationDiffPercent)})`;
+    output += ` (${formatDurationChange(entry.durationDiff)}, ${formatPercentChange(entry.relativeDurationDiff)})`;
   }
 
   output += ` ${getRenderDurationSymbols(entry)}`;
@@ -58,15 +62,15 @@ export function formatRenderDurationChange(entry: CompareEntry) {
 
 function getRenderDurationSymbols(entry: CompareEntry) {
   if (entry.durationDiffSignificance === 'SIGNIFICANT') {
-    if (entry.durationDiffPercent > 33) return '🔴🔴';
-    if (entry.durationDiffPercent > 5) return '🔴';
-    if (entry.durationDiffPercent < -33) return '🟢🟢';
-    if (entry.durationDiffPercent < -5) return ' 🟢';
+    if (entry.relativeDurationDiff > 0.33) return '🔴🔴';
+    if (entry.relativeDurationDiff > 0.05) return '🔴';
+    if (entry.relativeDurationDiff < -0.33) return '🟢🟢';
+    if (entry.relativeDurationDiff < -0.05) return ' 🟢';
   }
 
   if (entry.durationDiffSignificance === 'INSIGNIFICANT') {
-    if (entry.durationDiffPercent > 5) return '🔴';
-    if (entry.durationDiffPercent < -5) return '🟢';
+    if (entry.relativeDurationDiff > 0.05) return '🔴';
+    if (entry.relativeDurationDiff < -0.05) return '🟢';
   }
 
   return '';
@@ -78,7 +82,7 @@ export function formatRenderCountChange(entry: CompareEntry) {
   let output = `${formatCount(baseline.meanCount)} → ${formatCount(current.meanCount)}`;
 
   if (baseline.meanCount != current.meanCount) {
-    output += ` (${formatCountChange(entry.countDiff)}, ${formatPercentChange(entry.countDiffPercent)})`;
+    output += ` (${formatCountChange(entry.countDiff)}, ${formatPercentChange(entry.relativeCountDiff)})`;
   }
 
   output += ` ${getRenderCountSymbols(entry)}`;

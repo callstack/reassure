@@ -136,7 +136,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
   return [
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
-    `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev * 100)})`,
+    `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
     entry.durations ? `Runs: ${entry.durations.join(' ')}` : '',
   ]
     .filter(Boolean)
@@ -149,7 +149,7 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
   return [
     emphasis.b(title),
     `Mean: ${formatCount(entry.meanCount)}`,
-    `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev * 100)})`,
+    `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev)})`,
     entry.counts ? `Runs: ${entry.counts.map(formatCount).join(' ')}` : '',
   ]
     .filter(Boolean)
