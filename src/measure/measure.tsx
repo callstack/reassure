@@ -42,8 +42,8 @@ export async function measureRender(
   const scenario = options?.scenario;
   const dropFirst = options?.dropFirst ?? config.dropFirst;
 
-  const durations = [];
-  const counts = [];
+  let durations = [];
+  let counts = [];
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
 
@@ -74,28 +74,24 @@ export async function measureRender(
     counts.push(count / scale);
   }
 
-  const relevantDurations = durations.slice(config.dropFirst);
+  // Drop first measurement as usually is very high due to warm up
+  durations = durations.slice(dropFirst);
+  counts = counts.slice(dropFirst);
 
-  const meanDuration = math.mean(relevantDurations) as number;
-  const stdevDuration = math.std(relevantDurations);
+  const meanDuration = math.mean(durations) as number;
+  const stdevDuration = math.std(durations);
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(counts);
 
   return {
+    runs: count,
     meanDuration,
     stdevDuration,
+    durations,
     meanCount,
     stdevCount,
-    runs: config.count,
+    counts,
   };
-}
-
-export async function clearTestStats(outputFilePath: string = config.outputFile): Promise<void> {
-  try {
-    await fs.unlink(outputFilePath);
-  } catch (error) {
-    console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
-  }
 }
 
 export async function writeTestStats(
@@ -109,12 +105,20 @@ export async function writeTestStats(
     throw new Error(errMsg);
   }
 
-  const line = JSON.stringify({ ...result, name }) + '\n';
+  const line = JSON.stringify({ name, ...result }) + '\n';
 
   try {
     await fs.appendFile(outputFilePath, line);
   } catch (error) {
     console.error(`Error writing ${outputFilePath}`, error);
     throw error;
+  }
+}
+
+export async function clearTestStats(outputFilePath: string = config.outputFile): Promise<void> {
+  try {
+    await fs.unlink(outputFilePath);
+  } catch (error) {
+    console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
   }
 }

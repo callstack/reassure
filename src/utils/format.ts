@@ -1,5 +1,4 @@
 import type { CompareEntry } from 'src/compare/types';
-import { tooltip } from './markdown';
 
 /**
  * Utility functions used for formatting data into strings
@@ -42,9 +41,7 @@ export function formatChange(value: number): string {
 export function formatRenderDurationChange(entry: CompareEntry) {
   const { baseline, current } = entry;
 
-  let output = `${tooltip(formatDuration(baseline.meanDuration), '1, 2, 3, 4, 5')} → ${formatDuration(
-    current.meanDuration
-  )}`;
+  let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
 
   if (baseline.meanDuration != current.meanDuration) {
     output += ` (${formatDurationChange(entry.durationDiff)}, ${formatPercentChange(entry.durationDiffPercent)})`;
