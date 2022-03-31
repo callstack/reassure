@@ -121,7 +121,7 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
     'current' in entry ? buildCountDetails('Current', entry.current) : '',
   ]
     .filter(Boolean)
-    .join('<br/>');
+    .join('<br/><br/>');
 }
 
 function buildDurationDetails(title: string, entry: PerformanceEntry) {

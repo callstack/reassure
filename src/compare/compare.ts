@@ -77,11 +77,6 @@ function logWarning(message: string) {
  * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
 export async function main() {
-  logError('Test error');
-  logWarning('Test warning');
-  logError('Test error 2');
-  logWarning('Test warning 2');
-
   try {
     const hasCurrentFile = fsSync.existsSync(currentFilePath);
     if (!hasCurrentFile) {
