@@ -2,6 +2,8 @@ import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurat
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from './types';
 
 export function printToConsole(data: CompareResult) {
+  // No need to log errors or warnings as these were be logged on the fly
+
   console.log('⏱  Performance Comparison Results ⏱');
 
   console.log('\n➡️  Signficant changes to render duration');
