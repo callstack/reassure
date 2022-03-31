@@ -5,7 +5,7 @@ import { headers, emphasis } from 'markdown-builder';
 // @ts-ignore
 import markdownTable from 'markdown-table';
 import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
-import { expandableSection } from '../utils/markdown';
+import { collapsibleSection } from '../utils/markdown';
 import type { PerformanceEntry } from '../measure/types';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
 
@@ -87,9 +87,9 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
   if (!entries.length) return '';
 
   const rows = entries.map((entry) => [entry.name, buildDurationDetailsEntry(entry), buildCountDetailsEntry(entry)]);
-  const content = markdownTable([tableHeader, ...rows], tableOptions);
+  const content = markdownTable([tableHeader, ...rows]);
 
-  return expandableSection('Show details', content);
+  return collapsibleSection('Show details', content);
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
@@ -121,7 +121,7 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
     'current' in entry ? buildCountDetails('Current', entry.current) : '',
   ]
     .filter(Boolean)
-    .join('<br/><br/>');
+    .join('<br/>');
 }
 
 function buildDurationDetails(title: string, entry: PerformanceEntry) {
@@ -129,7 +129,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)}`,
-    `Runs:<br/>${entry.durations?.map(formatDuration).join('<br/>') ?? ''}`,
+    entry.durations ? `Runs:<br/>${entry.durations.map(formatDuration).join('<br/>')}` : '',
   ].join(`<br/>`);
 }
 
@@ -138,6 +138,6 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatCount(entry.meanCount)}`,
     `Stdev: ${formatCount(entry.stdevCount)}`,
-    `Runs:<br/>${entry.counts?.map(formatCount).join('<br/>') ?? ''}`,
+    entry.counts ? `Runs:<br/>${entry.counts.map(formatCount).join('<br/>')}` : '',
   ].join(`<br/>`);
 }
