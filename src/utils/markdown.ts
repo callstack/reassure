@@ -1,10 +1,3 @@
 export function expandableSection(title: string, content: string) {
-  return `
-    <details>
-      <summary>${title}</summery>
-
-      ${content}
-    </details>
-
-  `;
+  return `<details>\n<summary>${title}</summery>\n\n${content}\n</details>\n\n`;
 }

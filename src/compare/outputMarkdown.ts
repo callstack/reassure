@@ -69,7 +69,7 @@ function buildMarkdown(data: CompareResult) {
   result += `\n${buildSummaryTable(data.added)}`;
   result += `\n${buildDetailsTable(data.added)}`;
   result += `\n\n${headers.h3('Removed Scenarios')}`;
-  result += `\n\n${buildSummaryTable(data.removed)}`;
+  result += `\n${buildSummaryTable(data.removed)}`;
   result += `\n${buildDetailsTable(data.removed)}`;
   result += '\n';
 
@@ -129,7 +129,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)}`,
-    `Runs:<br/>${entry.durations?.map(formatDuration).join('<br/>')}`,
+    `Runs:<br/>${entry.durations?.map(formatDuration).join('<br/>') ?? ''}`,
   ].join(`<br/>`);
 }
 
@@ -138,6 +138,6 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatCount(entry.meanCount)}`,
     `Stdev: ${formatCount(entry.stdevCount)}`,
-    `Runs:<br/>${entry.counts?.map(formatCount).join('<br/>')}`,
+    `Runs:<br/>${entry.counts?.map(formatCount).join('<br/>') ?? ''}`,
   ].join(`<br/>`);
 }
