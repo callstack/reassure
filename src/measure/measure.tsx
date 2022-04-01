@@ -76,8 +76,9 @@ export async function measureRender(
   }
 
   if (hasTooLateRender) {
+    const testName = expect.getState().currentTestName;
     console.error(
-      'Warning: component still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.'
+      `Warning: test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
     );
   }
 
@@ -106,9 +107,9 @@ export async function measureRender(
 
 export async function writeTestStats(
   result: MeasureRenderResult,
-  name: string,
   outputFilePath: string = config.outputFile
 ): Promise<void> {
+  const name = expect.getState().currentTestName;
   if (!name) {
     const errMsg = `You have to provide name in order to save stats properly`;
     console.error(errMsg);

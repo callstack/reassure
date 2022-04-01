@@ -45,6 +45,6 @@ test('Async Component', async () => {
   };
 
   const stats = await measureRender(<AsyncComponent />, { scenario });
-  await writeTestStats(stats, 'AsyncComponent');
+  await writeTestStats(stats);
   expect(true).toBeTruthy();
 });
