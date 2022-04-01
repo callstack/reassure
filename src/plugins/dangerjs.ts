@@ -7,12 +7,12 @@ import * as path from 'path';
  * @function warn(message: string): void;
  *  - displays a warning message in Danger's output in MR after CI pipeline finishes running
  *  - does NOT stop the pipeline run itself
- *  @function message(message: string): void;
- * - displays a string message in Danger's output in MR after CI pipeline finishes running
+ *  @function markdown(message: string): void;
+ * - displays a markdown content in Danger's output in MR after CI pipeline finishes running
  * - allows for displaying messages in markdown format
  */
 declare function warn(message: string): void;
-declare function message(message: string): void;
+declare function markdown(message: string): void;
 
 /**
  * Configuration object which can optionally be passed down to plugin's call.
@@ -49,7 +49,7 @@ const plugin = (
       if (!perfFileContents) {
         warn(_warning);
       } else {
-        message(perfFileContents);
+        markdown(perfFileContents);
       }
     }
   } catch (error) {

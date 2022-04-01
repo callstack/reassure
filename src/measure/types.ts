@@ -1,18 +1,27 @@
+/**
+ * Type representing output from `measureRender` function.
+ */
 export interface MeasureRenderResult {
-  /* average render duration measured by the tests */
+  /** Number of times the measurment test was run */
+  runs: number;
+
+  /** Array of measured render durations for each run */
+  durations: number[];
+
+  /** Arithmetic average of measured render durations for each run */
   meanDuration: number;
 
-  /* standard deviation from average render duration measured by the tests */
+  /* Standard deviation of measured render durations for each run */
   stdevDuration: number;
 
-  /* average render count measured by the tests */
+  /** Array of measured render counts for each run */
+  counts: number[];
+
+  /** Arithmetic average of measured render counts for each run */
   meanCount: number;
 
-  /* standard deviation from average render count measured by the tests */
+  /** Standard deviation of measured render counts for each run */
   stdevCount: number;
-
-  /* number of test runs */
-  runs: number;
 }
 
 /**

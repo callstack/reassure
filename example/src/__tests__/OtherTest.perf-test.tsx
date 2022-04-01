@@ -28,23 +28,16 @@ const AsyncComponent = () => {
 };
 
 jest.setTimeout(60000);
-test('Async Component', async () => {
+test('Other Component', async () => {
   const scenario = async (screen: RenderAPI) => {
     const button = screen.getByText('Action');
 
     fireEvent.press(button);
-    await screen.findByText('Count: 1');
-
     fireEvent.press(button);
     await screen.findByText('Count: 2');
-
-    fireEvent.press(button);
-    fireEvent.press(button);
-    fireEvent.press(button);
-    await screen.findByText('Count: 5');
   };
 
   const stats = await measureRender(<AsyncComponent />, { scenario });
-  await writeTestStats(stats, 'AsyncComponent');
+  await writeTestStats(stats, 'Other Component');
   expect(true).toBeTruthy();
 });
