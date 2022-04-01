@@ -15,10 +15,10 @@ export interface CompareEntry {
   current: PerformanceEntry;
   baseline: PerformanceEntry;
   durationDiff: number;
-  durationDiffPercent: number;
+  relativeDurationDiff: number;
   durationDiffSignificance: StatisticalSignificance;
   countDiff: number;
-  countDiffPercent: number;
+  relativeCountDiff: number;
 }
 
 /**

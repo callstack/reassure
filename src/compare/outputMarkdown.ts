@@ -16,7 +16,6 @@ import type { PerformanceEntry } from '../measure/types';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
-const tableOptions = { align: ['l', 'r', 'r'] } as const;
 
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
@@ -86,7 +85,7 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
   if (!entries.length) return emphasis.i('There are no entries');
 
   const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
-  return markdownTable([tableHeader, ...rows], tableOptions);
+  return markdownTable([tableHeader, ...rows]);
 }
 
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
@@ -136,7 +135,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
   return [
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
-    `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev * 100)})`,
+    `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
     entry.durations ? `Runs: ${entry.durations.join(' ')}` : '',
   ]
     .filter(Boolean)
@@ -149,7 +148,7 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
   return [
     emphasis.b(title),
     `Mean: ${formatCount(entry.meanCount)}`,
-    `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev * 100)})`,
+    `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev)})`,
     entry.counts ? `Runs: ${entry.counts.map(formatCount).join(' ')}` : '',
   ]
     .filter(Boolean)

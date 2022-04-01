@@ -186,9 +186,9 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
  */
 function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
-  const durationDiffPercent = (durationDiff / baseline.meanDuration) * 100;
+  const relativeDurationDiff = durationDiff / baseline.meanDuration;
   const countDiff = current.meanCount - baseline.meanCount;
-  const countDiffPercent = (countDiff / baseline.meanCount) * 100;
+  const relativeCountDiff = countDiff / baseline.meanCount;
 
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
   const prob = computeProbability(z);
@@ -205,10 +205,10 @@ function buildCompareEntry(name: string, current: PerformanceEntry, baseline: Pe
     baseline,
     current,
     durationDiff,
-    durationDiffPercent,
+    relativeDurationDiff,
     durationDiffSignificance,
     countDiff,
-    countDiffPercent,
+    relativeCountDiff,
   };
 }
 
