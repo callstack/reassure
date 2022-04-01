@@ -16,7 +16,6 @@ import type { PerformanceEntry } from '../measure/types';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
-const tableOptions = { align: ['l', 'r', 'r'] } as const;
 
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
@@ -86,7 +85,7 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
   if (!entries.length) return emphasis.i('There are no entries');
 
   const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
-  return markdownTable([tableHeader, ...rows], tableOptions);
+  return markdownTable([tableHeader, ...rows]);
 }
 
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
