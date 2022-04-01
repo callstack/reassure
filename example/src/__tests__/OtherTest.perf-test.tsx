@@ -37,7 +37,7 @@ test('Other Component', async () => {
     await screen.findByText('Count: 2');
   };
 
-  const stats = await measureRender(<AsyncComponent />, { scenario });
+  const stats = await measureRender(<AsyncComponent />, { scenario, runs: 25 });
   await writeTestStats(stats, 'Other Component');
   expect(true).toBeTruthy();
 });

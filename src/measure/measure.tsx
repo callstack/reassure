@@ -5,7 +5,7 @@ import * as math from 'mathjs';
 import type { MeasureRenderResult } from './types';
 
 export const defaultConfig = {
-  count: 10,
+  runs: 10,
   dropFirst: 1,
   outputFile: 'perf-results.txt',
 };
@@ -14,8 +14,7 @@ let config = defaultConfig;
 
 interface MeasureRenderOptions {
   name?: string;
-  scale?: number;
-  count?: number;
+  runs?: number;
   dropFirst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
@@ -36,8 +35,7 @@ export async function measureRender(
   ui: React.ReactElement,
   options?: MeasureRenderOptions
 ): Promise<MeasureRenderResult> {
-  const scale = options?.scale ?? 1;
-  const count = options?.count ?? config.count;
+  const runs = options?.runs ?? config.runs;
   const wrapper = options?.wrapper;
   const scenario = options?.scenario;
   const dropFirst = options?.dropFirst ?? config.dropFirst;
@@ -47,7 +45,7 @@ export async function measureRender(
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
 
-  for (let i = 0; i < count + dropFirst; i += 1) {
+  for (let i = 0; i < runs + dropFirst; i += 1) {
     let duration = 0;
     let count = 0;
 
@@ -56,23 +54,24 @@ export async function measureRender(
       count += 1;
     };
 
-    for (let j = 0; j < scale; j += 1) {
-      const view = render(
-        <React.Profiler id="Test" onRender={handleRender}>
-          {wrappedUi}
-        </React.Profiler>
-      );
+    const view = render(
+      <React.Profiler id="Test" onRender={handleRender}>
+        {wrappedUi}
+      </React.Profiler>
+    );
 
-      if (scenario) {
-        await scenario(view);
-      }
+    if (scenario) {
+      await scenario(view);
     }
 
     global.gc?.();
 
-    durations.push(duration / scale);
-    counts.push(count / scale);
+    durations.push(duration);
+    counts.push(count);
   }
+
+  console.log('🟢 DURATIONS ', durations);
+  console.log('🟢 COUNTS ', counts);
 
   // Drop first measurement as usually is very high due to warm up
   durations = durations.slice(dropFirst);
@@ -84,7 +83,7 @@ export async function measureRender(
   const stdevCount = math.std(counts);
 
   return {
-    runs: count,
+    runs,
     meanDuration,
     stdevDuration,
     durations,

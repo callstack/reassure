@@ -208,7 +208,7 @@ node \
 
 This will run your tests as matched by provided regexp and output the `perf-results.txt` file containing results of your tests.
 Please bear in mind however, that running repeated tests will result in adding more and more results to your `perf-results.txt`
-file. 
+file.
 
 ### Example output
 
@@ -241,13 +241,13 @@ of the `configure` function.
 
 ```ts
 export const defaultConfig = {
-  count: 10,
+  runs: 10,
   dropFirst: 1,
   outputFile: 'perf-results.txt',
 };
 ```
 
-**`count`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
+**`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
 
 **`dropFirst`**: number of first dropped results from the series per test (used to remove first test run outliers)
 
@@ -267,8 +267,7 @@ measureRender(ui: React.ReactElement, options?: 1): Promise<MeasureRenderResult>
 ```ts
 interface MeasureRenderOptions {
   name?: string;
-  scale?: number;
-  count?: number;
+  runs?: number;
   dropFirst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
@@ -276,8 +275,7 @@ interface MeasureRenderOptions {
 ```
 
 - **`name`**: name string used in logs
-- **`scale`**: test run scale allowing to trigger a higher number of renders and scenario runs within singular test (may be used to tweak stability of the test, but should be avoided as it results to significantly higher resource consumption)
-- **`count`**: number of runs per series for the particular test (as opposed to a global setting in `defaultConfig`)
+- **`runs`**: number of runs per series for the particular test (as opposed to a global setting in `defaultConfig`)
 - **`dropFirst`**: number of first runs dropped from a test series (as opposed to a global setting in `defaultConfig`)
 - **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilised RNTL functions
@@ -327,7 +325,7 @@ to be later digested by Danger using the default settings.
 
 ### Main script arguments
 
-* **`--baseline_branch|--baseline-branch`** name of the branch to compare against (DEFAULT: `"main"`)
+- **`--baseline_branch|--baseline-branch`** name of the branch to compare against (DEFAULT: `"main"`)
 
 For example:
 
