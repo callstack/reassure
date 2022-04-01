@@ -6,7 +6,7 @@ import type { MeasureRenderResult } from './types';
 
 export const defaultConfig = {
   runs: 10,
-  dropFirst: 1,
+  dropWorst: 1,
   outputFile: 'perf-results.txt',
 };
 
@@ -15,7 +15,7 @@ let config = defaultConfig;
 interface MeasureRenderOptions {
   name?: string;
   runs?: number;
-  dropFirst?: number;
+  dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
 }
@@ -38,20 +38,25 @@ export async function measureRender(
   const runs = options?.runs ?? config.runs;
   const wrapper = options?.wrapper;
   const scenario = options?.scenario;
-  const dropFirst = options?.dropFirst ?? config.dropFirst;
+  const dropWorst = options?.dropWorst ?? config.dropWorst;
 
-  let durations = [];
-  let counts = [];
+  let entries = [];
+  let hasTooLateRender = false;
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
 
-  for (let i = 0; i < runs + dropFirst; i += 1) {
+  for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;
     let count = 0;
+    let isFinished = false;
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
       duration += actualDuration;
       count += 1;
+
+      if (isFinished) {
+        hasTooLateRender = true;
+      }
     };
 
     const view = render(
@@ -64,21 +69,27 @@ export async function measureRender(
       await scenario(view);
     }
 
+    isFinished = true;
     global.gc?.();
 
-    durations.push(duration);
-    counts.push(count);
+    entries.push({ duration, count });
   }
 
-  console.log('🟢 DURATIONS ', durations);
-  console.log('🟢 COUNTS ', counts);
+  if (hasTooLateRender) {
+    console.error(
+      'Warning: component still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.'
+    );
+  }
 
-  // Drop first measurement as usually is very high due to warm up
-  durations = durations.slice(dropFirst);
-  counts = counts.slice(dropFirst);
+  // Drop worst measurements outliers (usually warm up runs)
+  entries.sort((first, second) => second.duration - first.duration); // duration DESC
+  entries = entries.slice(dropWorst);
 
+  const durations = entries.map((entry) => entry.duration);
   const meanDuration = math.mean(durations) as number;
   const stdevDuration = math.std(durations);
+
+  const counts = entries.map((entry) => entry.count);
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(counts);
 

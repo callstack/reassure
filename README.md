@@ -242,15 +242,15 @@ of the `configure` function.
 ```ts
 export const defaultConfig = {
   runs: 10,
-  dropFirst: 1,
+  dropWorst: 1,
   outputFile: 'perf-results.txt',
 };
 ```
 
 **`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
 
-**`dropFirst`**: number of first dropped results from the series per test (used to remove first test run outliers)
-
+**`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
+dropWorst
 **`outputFile`**: name of the file the records will be saved to
 
 ### measureRender
@@ -268,7 +268,7 @@ measureRender(ui: React.ReactElement, options?: 1): Promise<MeasureRenderResult>
 interface MeasureRenderOptions {
   name?: string;
   runs?: number;
-  dropFirst?: number;
+  dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
 }
@@ -276,7 +276,7 @@ interface MeasureRenderOptions {
 
 - **`name`**: name string used in logs
 - **`runs`**: number of runs per series for the particular test (as opposed to a global setting in `defaultConfig`)
-- **`dropFirst`**: number of first runs dropped from a test series (as opposed to a global setting in `defaultConfig`)
+- **`dropWorst`**: number of worst runs dropped from a test series (as opposed to a global setting in `defaultConfig`)
 - **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilised RNTL functions
 
