@@ -14,7 +14,7 @@ export function formatPercentChange(value: number): string {
   // Round to zero
   if (absValue < 0.005) return `±0.0%`;
 
-  return value >= 0 ? `+${formatPercent(absValue)}%` : `-${formatPercent(absValue)}%`;
+  return `${value >= 0 ? '+' : '-'}${formatPercent(absValue)}%`;
 }
 
 export function formatDuration(duration: number): string {
