@@ -110,12 +110,6 @@ export async function writeTestStats(
   outputFilePath: string = config.outputFile
 ): Promise<void> {
   const name = expect.getState().currentTestName;
-  if (!name) {
-    const errMsg = `You have to provide name in order to save stats properly`;
-    console.error(errMsg);
-    throw new Error(errMsg);
-  }
-
   const line = JSON.stringify({ name, ...result }) + '\n';
 
   try {

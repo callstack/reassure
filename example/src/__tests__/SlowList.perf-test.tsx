@@ -27,7 +27,7 @@ const AsyncComponent = () => {
   );
 };
 
-jest.setTimeout(60000);
+jest.setTimeout(60_000);
 test('Async Component', async () => {
   const scenario = async (screen: RenderAPI) => {
     const button = screen.getByText('Action');
