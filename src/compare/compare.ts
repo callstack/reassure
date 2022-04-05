@@ -9,29 +9,6 @@ import { printToConsole } from './outputConsole';
 import { writeToJson } from './outputJson';
 import { writeToMarkdown } from './outputMarkdown';
 
-type ScriptArguments = {
-  baselineFilePath: string;
-  currentFilePath: string;
-  outputFilePath: string;
-  output?: 'console' | 'json' | 'markdown' | 'all';
-};
-
-/**
- * Record type holding `PerformanceEntry` objects keyed by entry name.
- */
-type PerformanceRecord = { [name: string]: PerformanceEntry };
-
-/**
- * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
- * e.g. --baselineFilePath="./myOutputFile.txt"
- */
-const {
-  output,
-  currentFilePath = 'perf-results.txt',
-  baselineFilePath = 'baseline-results.txt',
-  outputFilePath = 'compare-output.json',
-} = minimist<ScriptArguments>(process.argv);
-
 /**
  * Probability threshold for considering given difference signficiant.
  */
@@ -57,6 +34,38 @@ const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
  * Too small duration difference might be result of measurement grain of 1 ms.
  */
 const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
+
+/**
+ * Threshold for considering render count change as significant. This implies inclusion
+ * of scenario results in Render Count Changed output section.
+ */
+const COUNT_DIFF_THRESHOLD = 0.5;
+
+/**
+ * Accepted command-line arguments
+ */
+type ScriptArguments = {
+  baselineFilePath: string;
+  currentFilePath: string;
+  outputFilePath: string;
+  output?: 'console' | 'json' | 'markdown' | 'all';
+};
+
+/**
+ * Record type holding `PerformanceEntry` objects keyed by entry name.
+ */
+type PerformanceRecord = { [name: string]: PerformanceEntry };
+
+/**
+ * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
+ * e.g. --baselineFilePath="./myOutputFile.txt"
+ */
+const {
+  output,
+  currentFilePath = 'perf-results.txt',
+  baselineFilePath = 'baseline-results.txt',
+  outputFilePath = 'compare-output.json',
+} = minimist<ScriptArguments>(process.argv);
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -136,10 +145,10 @@ async function loadFile(path: string): Promise<PerformanceRecord> {
  * Compare results between baseline and current entries and categorize.
  */
 function compareResults(currentEntries: PerformanceRecord, baselineEntries: PerformanceRecord | null): CompareResult {
-  // unique keys
+  // Unique test scenario names
   const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
 
-  const regular: CompareEntry[] = [];
+  const compared: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
 
@@ -148,7 +157,7 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
     const baseline = baselineEntries?.[name];
 
     if (baseline && current) {
-      regular.push(buildCompareEntry(name, current, baseline));
+      compared.push(buildCompareEntry(name, current, baseline));
     } else if (current) {
       added.push({ name, current });
     } else if (baseline) {
@@ -156,28 +165,30 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
     }
   });
 
-  const significant = regular
+  const significant = compared
     .filter((item) => item.durationDiffSignificance === 'SIGNIFICANT')
     .sort((a, b) => b.durationDiff - a.durationDiff);
-  const insignificant = regular
+  const insignificant = compared
     .filter((item) => item.durationDiffSignificance === 'INSIGNIFICANT')
     .sort((a, b) => b.durationDiff - a.durationDiff);
-  const meaningless = regular
+  const meaningless = compared
     .filter((item) => item.durationDiffSignificance === 'MEANINGLESS')
     .sort((a, b) => b.durationDiff - a.durationDiff);
-  const countChanged = regular.filter((item) => item.countDiff !== 0).sort((a, b) => b.countDiff - a.countDiff);
+  const countChanged = compared
+    .filter((item) => item.countDiff > COUNT_DIFF_THRESHOLD)
+    .sort((a, b) => b.countDiff - a.countDiff);
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
   return {
+    errors,
+    warnings,
     significant,
     insignificant,
     meaningless,
     countChanged,
     added,
     removed,
-    errors,
-    warnings,
   };
 }
 
