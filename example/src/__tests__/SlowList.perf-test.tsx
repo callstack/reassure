@@ -27,7 +27,7 @@ const AsyncComponent = () => {
   );
 };
 
-jest.setTimeout(60000);
+jest.setTimeout(60_000);
 test('Async Component', async () => {
   const scenario = async (screen: RenderAPI) => {
     const button = screen.getByText('Action');
@@ -45,6 +45,6 @@ test('Async Component', async () => {
   };
 
   const stats = await measureRender(<AsyncComponent />, { scenario });
-  await writeTestStats(stats, 'AsyncComponent');
+  await writeTestStats(stats);
   expect(true).toBeTruthy();
 });

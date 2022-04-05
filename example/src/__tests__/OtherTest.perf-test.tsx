@@ -27,8 +27,8 @@ const AsyncComponent = () => {
   );
 };
 
-jest.setTimeout(60000);
-test('Other Component', async () => {
+jest.setTimeout(600_000);
+test('Other Component 10', async () => {
   const scenario = async (screen: RenderAPI) => {
     const button = screen.getByText('Action');
 
@@ -37,7 +37,21 @@ test('Other Component', async () => {
     await screen.findByText('Count: 2');
   };
 
-  const stats = await measureRender(<AsyncComponent />, { scenario });
-  await writeTestStats(stats, 'Other Component');
+  const stats = await measureRender(<AsyncComponent />, { scenario, runs: 10 });
+  await writeTestStats(stats);
+  expect(true).toBeTruthy();
+});
+
+test('Other Component 20', async () => {
+  const scenario = async (screen: RenderAPI) => {
+    const button = screen.getByText('Action');
+
+    fireEvent.press(button);
+    fireEvent.press(button);
+    await screen.findByText('Count: 2');
+  };
+
+  const stats = await measureRender(<AsyncComponent />, { scenario, runs: 20 });
+  await writeTestStats(stats);
   expect(true).toBeTruthy();
 });

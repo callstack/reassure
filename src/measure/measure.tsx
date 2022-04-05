@@ -5,8 +5,8 @@ import * as math from 'mathjs';
 import type { MeasureRenderResult } from './types';
 
 export const defaultConfig = {
-  count: 10,
-  dropFirst: 1,
+  runs: 10,
+  dropWorst: 1,
   outputFile: 'perf-results.txt',
 };
 
@@ -14,9 +14,8 @@ let config = defaultConfig;
 
 interface MeasureRenderOptions {
   name?: string;
-  scale?: number;
-  count?: number;
-  dropFirst?: number;
+  runs?: number;
+  dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
 }
@@ -36,55 +35,67 @@ export async function measureRender(
   ui: React.ReactElement,
   options?: MeasureRenderOptions
 ): Promise<MeasureRenderResult> {
-  const scale = options?.scale ?? 1;
-  const count = options?.count ?? config.count;
+  const runs = options?.runs ?? config.runs;
   const wrapper = options?.wrapper;
   const scenario = options?.scenario;
-  const dropFirst = options?.dropFirst ?? config.dropFirst;
+  const dropWorst = options?.dropWorst ?? config.dropWorst;
 
-  let durations = [];
-  let counts = [];
+  let entries = [];
+  let hasTooLateRender = false;
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
 
-  for (let i = 0; i < count + dropFirst; i += 1) {
+  for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;
     let count = 0;
+    let isFinished = false;
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
       duration += actualDuration;
       count += 1;
+
+      if (isFinished) {
+        hasTooLateRender = true;
+      }
     };
 
-    for (let j = 0; j < scale; j += 1) {
-      const view = render(
-        <React.Profiler id="Test" onRender={handleRender}>
-          {wrappedUi}
-        </React.Profiler>
-      );
+    const view = render(
+      <React.Profiler id="Test" onRender={handleRender}>
+        {wrappedUi}
+      </React.Profiler>
+    );
 
-      if (scenario) {
-        await scenario(view);
-      }
+    if (scenario) {
+      await scenario(view);
     }
 
+    isFinished = true;
     global.gc?.();
 
-    durations.push(duration / scale);
-    counts.push(count / scale);
+    entries.push({ duration, count });
   }
 
-  // Drop first measurement as usually is very high due to warm up
-  durations = durations.slice(dropFirst);
-  counts = counts.slice(dropFirst);
+  if (hasTooLateRender) {
+    const testName = expect.getState().currentTestName;
+    console.error(
+      `Warning: test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
+    );
+  }
 
+  // Drop worst measurements outliers (usually warm up runs)
+  entries.sort((first, second) => second.duration - first.duration); // duration DESC
+  entries = entries.slice(dropWorst);
+
+  const durations = entries.map((entry) => entry.duration);
   const meanDuration = math.mean(durations) as number;
   const stdevDuration = math.std(durations);
+
+  const counts = entries.map((entry) => entry.count);
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(counts);
 
   return {
-    runs: count,
+    runs,
     meanDuration,
     stdevDuration,
     durations,
@@ -96,15 +107,9 @@ export async function measureRender(
 
 export async function writeTestStats(
   result: MeasureRenderResult,
-  name: string,
   outputFilePath: string = config.outputFile
 ): Promise<void> {
-  if (!name) {
-    const errMsg = `You have to provide name in order to save stats properly`;
-    console.error(errMsg);
-    throw new Error(errMsg);
-  }
-
+  const name = expect.getState().currentTestName;
   const line = JSON.stringify({ name, ...result }) + '\n';
 
   try {
