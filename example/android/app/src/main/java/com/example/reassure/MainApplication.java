@@ -1,4 +1,4 @@
-package com.example.rnperftool;
+package com.example.reassure;
 
 import android.app.Application;
 import android.content.Context;
@@ -24,9 +24,9 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
-          // Packages that cannot be autolinked yet can be added manually here, for RnPerfToolExample:
+          // Packages that cannot be autolinked yet can be added manually here, for ReassureExample:
           // packages.add(new MyReactNativePackage());
-          
+
           return packages;
         }
 
@@ -60,7 +60,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.example.rnperftool.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.example.reassure.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

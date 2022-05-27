@@ -1,4 +1,4 @@
-import { measureRender, writeTestStats } from 'rn-perf-tool';
+import { measureRender, writeTestStats } from 'reassure';
 
 import React from 'react';
 

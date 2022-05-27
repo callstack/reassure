@@ -1,2 +1,2 @@
-import { resetToDefault } from 'rn-perf-tool';
+import { resetToDefault } from 'reassure';
 resetToDefault();
