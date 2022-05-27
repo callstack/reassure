@@ -135,7 +135,7 @@ or alternatively:
 
 ### My first perf test!
 
-Reassure uses Jest in order to run its performance tests which are written using React-Native-Testing-Library
+Reassure uses Jest in order to run its performance tests which are written using React Native Testing Library
 with addition of performance specific functions. With that in mind, the syntax should already be familiar to you,
 let us consider the following example test:
 
