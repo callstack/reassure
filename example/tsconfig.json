@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "rn-perf-tool": ["../src"],
+      "reassure": ["../src"],
       "components/*": ["src/components/*"]
     },
     "allowUnreachableCode": false,

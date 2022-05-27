@@ -1,4 +1,11 @@
-# rn-perf-tool
+<p align="center">
+<img src="./docs/logo.png" width="400px" alt="Reassure" />
+</p>
+<p align="center">
+Performance testing companion for React and React Native.
+</p>
+
+---
 
 - [Installation and setup](#Installation-and-setup)
   - [Installing NPM package](#Installing-NPM-package)
@@ -47,7 +54,7 @@ our results to demonstrate how to set up the toolset.
 ### Installing NPM package
 
 ```sh
-yarn add git+https://github.com/callstack-internal/rn-perf-tool
+yarn add git+https://github.com/callstack-internal/reassure
 ```
 
 ### Adding CI step
@@ -102,7 +109,7 @@ your repository.
 
 ### Defining file structure
 
-rn-perf-tool will automatically match test filenames using jest `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
+Reassure will automatically match test filenames using jest `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
 We encourage placing your performance tests either next to your existing tests or in their own separate folders, e.g.
 
 ```
@@ -128,12 +135,12 @@ or alternatively:
 
 ### My first perf test!
 
-rn-perf-tool uses Jest in order to run its performance tests which are written using React-Native-Testing-Library
+Reassure uses Jest in order to run its performance tests which are written using React-Native-Testing-Library
 with addition of performance specific functions. With that in mind, the syntax should already be familiar to you,
 let us consider the following example test:
 
 ```tsx
-import { measureRender, writeTestStats, clearTestStats } from 'rn-perf-tool';
+import { measureRender, writeTestStats, clearTestStats } from 'reassure';
 
 test('Home Screen', async () => {
   const stats = await measureRender(<HomeScreen />);
@@ -193,7 +200,7 @@ for simulating potential performance issues as they would occur for the end-user
 ### Testing tests in development environment
 
 While developing your tests, you will likely want to test them before deployment and CI pipeline run with the
-implemented tool. In order to do that you can run Jest using our node command present in rn-perf-tool's scripts
+implemented tool. In order to do that you can run Jest using our node command present in reassure's scripts
 
 ```shell
 # provide an appropriate --testMatch glob or use our default "<rootDir>/**/*.perf-test.[jt]s?(x)"
@@ -372,14 +379,14 @@ To run the compare script locally, follow this steps:
 6. Run the following command, providing values for listed arguments
 
 ```shell
-node "node_modules/rn-perf-tool/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
+node "node_modules/reassure/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
 ```
 
 This will print output to your terminal as well as create an `compare-output.json` file in location from which the script had been triggered
 
 ## Danger.js plugin
 
-By default, rn-perf-tool supports outputting the results of its analyses in PR/MR comment by using [Danger.js](https://danger.systems/js/).
+By default, Reassure supports outputting the results of its analyses in PR/MR comment by using [Danger.js](https://danger.systems/js/).
 
 In order to utilise the plugin, besides having danger.js step configured in your CI pipeline config file, you will also need
 to call the plugin inside your `dangerfile.(js|ts)`, like such:

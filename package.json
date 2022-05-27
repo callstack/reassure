@@ -1,5 +1,5 @@
 {
-  "name": "rn-perf-tool",
+  "name": "reassure",
   "version": "0.1.0",
   "description": "React Native performance tool",
   "main": "lib/commonjs/index",
@@ -16,13 +16,7 @@
     "scripts",
     "plugins.js",
     "lib",
-    "android",
-    "ios",
-    "cpp",
-    "rn-perf-tool.podspec",
     "!lib/typescript/example",
-    "!android/build",
-    "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__"
@@ -43,13 +37,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/callstack-internal/rn-perf-tool",
+  "repository": "https://github.com/callstack-internal/reassure",
   "author": "TMaszko <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callstack-internal/rn-perf-tool/issues"
+    "url": "https://github.com/callstack-internal/reassure/issues"
   },
-  "homepage": "https://github.com/callstack-internal/rn-perf-tool#readme",
+  "homepage": "https://github.com/callstack-internal/reassure#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

@@ -1,6 +1,6 @@
 {
-  "name": "rn-perf-tool-example",
-  "description": "Example app for rn-perf-tool",
+  "name": "reassure-example",
+  "description": "Example app for reassure",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "react-native start",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
+    "run-tests": "../scripts/run-tests.sh",
     "perf-test": "../scripts/perf-test.sh",
     "perf-compare": "../scripts/perf-compare.sh"
   },

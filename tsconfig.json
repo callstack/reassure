@@ -4,7 +4,7 @@
     "allowJs": true,
     "baseUrl": "./",
     "paths": {
-      "rn-perf-tool": ["./src/index"]
+      "reassure": ["./src/index"]
     },
     "isolatedModules": true,
     "allowUnreachableCode": false,
