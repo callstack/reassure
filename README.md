@@ -63,14 +63,14 @@ Lines below should be added right before the danger step in the CI confg file:
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tests
+  run: npx reassure-tests
 ```
 
 Together with dangerJs setup, in case of GitHub Actions, it could look something like this:
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tests
+  run: npx reassure-tests
 
 - name: Run danger.js
   uses: danger/danger-js@9.1.6
@@ -87,7 +87,7 @@ In order to change that behavior you need to pass the `--baseline_branch|--basel
 
 ```yaml
 - name: Run comparative test script
-  run: npx rn-perf-tests --baseline_branch lts
+  run: npx reassure-tests --baseline_branch lts
 ```
 
 With this, each current test run will be compared against test runs made in branch `lts`.
@@ -324,7 +324,7 @@ resetToDefault(): void
 To run the main script of the tool, you need to execute the main binary of the package, with the following command
 
 ```shell
-npx rn-perf-tests
+npx reassure-tests
 ```
 
 It will start the full process of running tests, saving intermediary files, swapping branches and generating outputs
@@ -337,7 +337,7 @@ to be later digested by Danger using the default settings.
 For example:
 
 ```shell
-npx rn-perf-tests --baseline_branch v1.0.0
+npx reassure-tests --baseline_branch v1.0.0
 ```
 
 will test branch `v1.1.0` performance results against current PR branch performance results and output all pertinent files.
@@ -349,7 +349,7 @@ your PR branch and compare against your main branch.
 
 ### Compare script arguments
 
-By default, the compare script is run when `npx rn-perf-tests` is executed, as a part of the whole process and changing
+By default, the compare script is run when `npx reassure-tests` is executed, as a part of the whole process and changing
 its parameters is handled by passing parameters to the command itself as described in the [Main Script](#Main-script)
 section of this documentation. However, if executed directly, the script accepts the following arguments:
 

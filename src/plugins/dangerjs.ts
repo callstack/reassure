@@ -28,7 +28,7 @@ const plugin = (
   const _warning = `
   ⚠️  No output file found @ ${config.inputFilePath}
   -------------------------------------------------------------
-  Review rn-perf configuration and make sure your markdown output
+  Review reassure configuration and make sure your markdown output
   file can be found in the location shown above. Alternatively,
   you can pass your markdown output file location to plugin's
   config object in your dangerfile.
