@@ -1,6 +1,6 @@
 {
-  "name": "reassure",
-  "version": "0.1.0",
+  "name": "@reassure/reassure",
+  "version": "0.0.1",
   "description": "React Native performance tool",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/callstack-internal/reassure#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://reassure.bytesafe.dev/r/reassure/"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
