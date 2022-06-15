@@ -38,7 +38,6 @@ test('Other Component 10', async () => {
   };
 
   await measurePerformance(<AsyncComponent />, { scenario, runs: 10 });
-  expect(true).toBeTruthy();
 });
 
 test('Other Component 20', async () => {
@@ -51,5 +50,4 @@ test('Other Component 20', async () => {
   };
 
   await measurePerformance(<AsyncComponent />, { scenario, runs: 20 });
-  expect(true).toBeTruthy();
 });

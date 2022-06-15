@@ -57,6 +57,20 @@ our results to demonstrate how to set up the toolset.
 yarn add git+https://github.com/callstack-internal/reassure
 ```
 
+### ES Lint setup
+
+ES Lint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
+for performance tests you can add following override to your `.eslintrc` file:
+
+```
+rules: {
+  'jest/expect-expect': [
+    'error',
+    { assertFunctionNames: ['measurePerformance'] },
+  ],
+}
+```
+
 ### Adding CI step
 
 Lines below should be added right before the danger step in the CI confg file:

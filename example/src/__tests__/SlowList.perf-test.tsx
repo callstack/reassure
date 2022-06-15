@@ -45,5 +45,4 @@ test('Async Component', async () => {
   };
 
   await measurePerformance(<AsyncComponent />, { scenario });
-  expect(true).toBeTruthy();
 });
