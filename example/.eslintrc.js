@@ -5,5 +5,9 @@ module.exports = {
     // typescript will handle that
     'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'off',
+    'jest/expect-expect': [
+      'error',
+      { assertFunctionNames: ['measurePerformance'] },
+    ],
   },
 };
