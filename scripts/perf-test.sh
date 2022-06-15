@@ -11,4 +11,5 @@ node \
   --max-old-space-size=4096 \
   --no-expose_wasm \
   node_modules/jest/bin/jest.js \
+   --runInBand \
    --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"
