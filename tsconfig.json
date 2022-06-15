@@ -4,7 +4,7 @@
     "allowJs": true,
     "baseUrl": "./",
     "paths": {
-      "reassure": ["./src/index"]
+      "@reassure/reassure": ["./src/index"]
     },
     "isolatedModules": true,
     "allowUnreachableCode": false,

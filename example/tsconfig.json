@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "reassure": ["../src"],
+      "@reassure/reassure": ["../src"],
       "components/*": ["src/components/*"]
     },
     "allowUnreachableCode": false,
