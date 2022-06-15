@@ -31,6 +31,13 @@ export function resetToDefault() {
   config = defaultConfig;
 }
 
+export async function perfTest(ui: React.ReactElement, options?: MeasureRenderOptions): Promise<MeasureRenderResult> {
+  const stats = await measureRender(ui, options);
+  await writeTestStats(stats);
+
+  return stats;
+}
+
 export async function measureRender(
   ui: React.ReactElement,
   options?: MeasureRenderOptions

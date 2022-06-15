@@ -1,4 +1,4 @@
-import { measureRender, writeTestStats } from '@reassure/reassure';
+import { perfTest } from '@reassure/reassure';
 
 import React from 'react';
 
@@ -37,8 +37,7 @@ test('Other Component 10', async () => {
     await screen.findByText('Count: 2');
   };
 
-  const stats = await measureRender(<AsyncComponent />, { scenario, runs: 10 });
-  await writeTestStats(stats);
+  await perfTest(<AsyncComponent />, { scenario, runs: 10 });
   expect(true).toBeTruthy();
 });
 
@@ -51,7 +50,6 @@ test('Other Component 20', async () => {
     await screen.findByText('Count: 2');
   };
 
-  const stats = await measureRender(<AsyncComponent />, { scenario, runs: 20 });
-  await writeTestStats(stats);
+  await perfTest(<AsyncComponent />, { scenario, runs: 20 });
   expect(true).toBeTruthy();
 });
