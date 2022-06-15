@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
+    "allowJs": true,
     "baseUrl": "./",
     "paths": {
-      "@reassure/reassure": ["../src"],
-      "components/*": ["src/components/*"]
+      "@reassure/reassure": ["./src/index"]
     },
+    "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
@@ -12,7 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "lib": ["esnext"],
-    "module": "esnext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -24,5 +26,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
-  }
+  },
+  "include": ["src/**/*", "dangerfile.ts"],
+  "exclude": ["**/__tests__/**"]
 }

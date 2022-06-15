@@ -2,6 +2,7 @@
 
 RESULTS_DIR=".reassure"
 RESULTS_FILE=".reassure/current.perf"
+TEST_COMMAND=${TEST_COMMAND:="node_modules/.bin/jest"}
 
 mkdir $RESULTS_DIR
 rm -f $RESULTS_FILE
@@ -12,6 +13,6 @@ node \
   --no-concurrent-sweeping \
   --max-old-space-size=4096 \
   --no-expose_wasm \
-  node_modules/jest/bin/jest.js \
+  $TEST_COMMAND \
    --runInBand \
    --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"
