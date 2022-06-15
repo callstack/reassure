@@ -1,4 +1,4 @@
-import { testPerformance } from '@reassure/reassure';
+import { measurePerformance } from '@reassure/reassure';
 
 import React from 'react';
 
@@ -37,7 +37,7 @@ test('Other Component 10', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await testPerformance(<AsyncComponent />, { scenario, runs: 10 });
+  await measurePerformance(<AsyncComponent />, { scenario, runs: 10 });
   expect(true).toBeTruthy();
 });
 
@@ -50,6 +50,6 @@ test('Other Component 20', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await testPerformance(<AsyncComponent />, { scenario, runs: 20 });
+  await measurePerformance(<AsyncComponent />, { scenario, runs: 20 });
   expect(true).toBeTruthy();
 });
