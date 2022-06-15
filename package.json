@@ -1,7 +1,7 @@
 {
   "name": "reassure-root",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Performance testing companion for React and React Native",
   "source": "src/index",
   "scripts": {
@@ -15,7 +15,8 @@
     "build": "turbo run build",
     "changeset": "changeset",
     "version": "changeset version",
-    "publish": "yarn build && changeset publish"
+    "publish": "yarn build && changeset publish",
+    "postinstall": "yarn build"
   },
   "keywords": [
     "react-native",
