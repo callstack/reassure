@@ -1,4 +1,4 @@
-import { measureRender, writeTestStats } from 'reassure';
+import { measureRender, writeTestStats } from '@reassure/reassure';
 
 import React from 'react';
 

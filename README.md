@@ -140,7 +140,7 @@ with addition of performance specific functions. With that in mind, the syntax s
 let us consider the following example test:
 
 ```tsx
-import { measureRender, writeTestStats, clearTestStats } from 'reassure';
+import { measureRender, writeTestStats, clearTestStats } from '@reassure/reassure';
 
 test('Home Screen', async () => {
   const stats = await measureRender(<HomeScreen />);

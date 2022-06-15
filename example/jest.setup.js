@@ -1,2 +1,2 @@
-import { resetToDefault } from 'reassure';
+import { resetToDefault } from '@reassure/reassure';
 resetToDefault();
