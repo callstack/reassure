@@ -10,6 +10,7 @@
     "@types/node": "^16.11.40",
     "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
+    "jest": "^28.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -20,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "perf-test": "../scripts/perf-test.sh",
+    "perf-compare": "../scripts/perf-compare.sh"
   },
   "eslintConfig": {
     "extends": [
