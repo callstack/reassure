@@ -1,8 +1,1 @@
-export {
-  measureRender,
-  writeTestStats,
-  clearTestStats,
-  defaultConfig,
-  configure,
-  resetToDefault,
-} from './measure/measure';
+export { measurePerformance, defaultConfig, configure, resetToDefault } from './measure/measure';

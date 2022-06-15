@@ -12,7 +12,7 @@ export const defaultConfig = {
 
 let config = defaultConfig;
 
-interface MeasureRenderOptions {
+interface MeasureOptions {
   name?: string;
   runs?: number;
   dropWorst?: number;
@@ -31,10 +31,17 @@ export function resetToDefault() {
   config = defaultConfig;
 }
 
-export async function measureRender(
+export async function measurePerformance(
   ui: React.ReactElement,
-  options?: MeasureRenderOptions
+  options?: MeasureOptions
 ): Promise<MeasureRenderResult> {
+  const stats = await measureRender(ui, options);
+  await writeTestStats(stats);
+
+  return stats;
+}
+
+export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
   const runs = options?.runs ?? config.runs;
   const wrapper = options?.wrapper;
   const scenario = options?.scenario;
