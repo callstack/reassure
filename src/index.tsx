@@ -1,5 +1,5 @@
 export {
-  perfTest,
+  testPerformance,
   measureRender,
   writeTestStats,
   clearTestStats,
