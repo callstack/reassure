@@ -1,6 +1,6 @@
-import React from 'react';
-import { render, RenderResult } from '@testing-library/react';
+import * as React from 'react';
 import * as math from 'mathjs';
+import { render, RenderResult } from '@testing-library/react';
 import { config } from './config';
 import { writeTestStats } from './output';
 import type { MeasureRenderResult } from './types';

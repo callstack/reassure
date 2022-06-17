@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { render, RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
 import { config } from './config';
