@@ -11,8 +11,8 @@ done
 BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 CURRENT_BRANCH=$(git rev-parse --short HEAD)
 
-RESULTS_FILE="perf-results.txt"
-BASELINE_FILE="baseline-results.txt"
+RESULTS_FILE=".reassure/current.perf"
+BASELINE_FILE=".reassure/baseline.perf"
 
 if [[ -z "$(readlink $0)" ]]; then
  # ../node_modules/reassure/scripts/run-test.sh -> ../node_modules/reassure

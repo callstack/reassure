@@ -62,9 +62,9 @@ type PerformanceRecord = { [name: string]: PerformanceEntry };
  */
 const {
   output,
-  currentFilePath = 'perf-results.txt',
-  baselineFilePath = 'baseline-results.txt',
-  outputFilePath = 'compare-output.json',
+  currentFilePath = '.reassure/current.perf',
+  baselineFilePath = '.reassure/baseline.perf',
+  outputFilePath = '.reassure/output.json',
 } = minimist<ScriptArguments>(process.argv);
 
 const errors: string[] = [];
@@ -108,7 +108,7 @@ export async function main() {
 
     if (output === 'console' || output === 'all') printToConsole(outputData);
     if (output === 'json' || output === 'all') writeToJson(outputFilePath, outputData);
-    if (output === 'markdown' || output === 'all') writeToMarkdown('compare-output.md', outputData);
+    if (output === 'markdown' || output === 'all') writeToMarkdown('.reassure/output.md', outputData);
   } catch (error) {
     logError(`Error.`, error);
     process.exit(1);

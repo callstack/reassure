@@ -2,5 +2,5 @@ import path from 'path';
 import dangerJs from './plugins';
 
 dangerJs({
-  inputFilePath: path.join(__dirname, './example/compare-output.md'),
+  inputFilePath: path.join(__dirname, './example/.reassure/output.md'),
 });
