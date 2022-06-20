@@ -9,7 +9,10 @@
   "source": "src/index",
   "bin": {
     "reassure-tests": "scripts/run-tests.sh",
-    "reassure-stability": "scripts/run-stability-tests.sh"
+    "reassure-stability": "scripts/run-stability-tests.sh",
+    "reassure-perf": "scripts/perf-test.sh",
+    "reassure-compare": "scripts/perf-compare.sh",
+    "reassure-compare-internal": "scripts/compare.js"
   },
   "files": [
     "src",

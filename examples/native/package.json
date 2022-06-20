@@ -11,11 +11,11 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
     "run-tests": "TEST_COMMAND='../../node_modules/jest/bin/jest.js' reassure-tests",
-    "perf-test": "../../scripts/perf-test.sh",
-    "perf-compare": "../../scripts/perf-compare.sh"
+    "perf-test": "TEST_COMMAND='../../node_modules/jest/bin/jest.js' reassure-perf",
+    "perf-compare": "reassure-compare"
   },
   "dependencies": {
-    "@reassure/reassure": "./packages/reassure",
+    "@reassure/reassure": "0.0.1",
     "react": "^18.2.0",
     "react-native": "0.67.2"
   },

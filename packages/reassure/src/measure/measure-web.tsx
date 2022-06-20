@@ -6,9 +6,12 @@ import { writeTestStats } from './output';
 import type { MeasureRenderResult } from './types';
 
 let render: any; // TODO: fixup type
+let cleanup: any; // TODO: fixup type
 try {
   // eslint-disable-next-line import/no-extraneous-dependencies
   render = require('@testing-library/react').render;
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  cleanup = require('@testing-library/react').cleanup;
 } catch {
   // bail on this platform
 }
@@ -68,6 +71,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
     isFinished = true;
     global.gc?.();
+    cleanup();
 
     entries.push({ duration, count });
   }

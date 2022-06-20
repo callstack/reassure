@@ -1,17 +1,9 @@
 {
-  "name": "reassure",
+  "name": "reassure-root",
   "private": true,
   "version": "0.0.1",
   "description": "React Native performance tool",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index",
   "source": "src/index",
-  "bin": {
-    "reassure-tests": "scripts/run-tests.sh",
-    "reassure-stability": "scripts/run-stability-tests.sh"
-  },
   "scripts": {
     "test": "jest",
     "test:example": "cd ./examples/native && jest",
