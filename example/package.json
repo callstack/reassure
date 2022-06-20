@@ -9,9 +9,10 @@
     "start": "react-native start",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
-    "run-tests": "../scripts/run-tests.sh",
-    "perf-test": "../scripts/perf-test.sh",
-    "perf-compare": "../scripts/perf-compare.sh"
+    "reassure-test": "../scripts/run-tests.sh",
+    "reassure-stability": "../scripts/run-stability-tests.sh",
+    "reassure-measure": "../scripts/perf-test.sh",
+    "reassure-compare": "../scripts/perf-compare.sh"
   },
   "dependencies": {
     "react": "^17.0.2",

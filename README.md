@@ -227,8 +227,8 @@ node \
    --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"
 ```
 
-This will run your tests as matched by provided regexp and output the `perf-results.txt` file containing results of your tests.
-Please bear in mind however, that running repeated tests will result in adding more and more results to your `perf-results.txt`
+This will run your tests as matched by provided regexp and output the `.reassure/current.perf` file containing results of your tests.
+Please bear in mind however, that running repeated tests will result in adding more and more results to your `.reassure/current.perf`
 file.
 
 ### Example output
@@ -264,7 +264,7 @@ of the `configure` function.
 export const defaultConfig = {
   runs: 10,
   dropWorst: 1,
-  outputFile: 'perf-results.txt',
+  outputFile: '.reassure/current.perf',
 };
 ```
 
@@ -376,10 +376,10 @@ type ScriptArguments = {
 };
 ```
 
-- **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `baseline-results.txt`)
-- **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `perf-results.txt`)
+- **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `.reassure/baseline.perf`)
+- **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `.reassure/current.perf`)
 - **`output`** type of the desired output. Can be set to `'console' | 'json' | 'markdown' | 'all'` or left unspecified (DEFAULT: `undefined`)
-- **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `compare-output.json`)
+- **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `.reassure/output.json`)
 
 ### Running locally
 
@@ -396,7 +396,7 @@ To run the compare script locally, follow this steps:
 node "node_modules/reassure/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
 ```
 
-This will print output to your terminal as well as create an `compare-output.json` file in location from which the script had been triggered
+This will print output to your terminal as well as create an `.reassure/output.json` file in location from which the script had been triggered
 
 ## Danger.js plugin
 

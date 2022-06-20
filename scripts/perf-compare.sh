@@ -10,8 +10,8 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-BASELINE_FILE=${BASELINE_FILE:="baseline-results.txt"}
-CURRENT_FILE=${CURRENT_FILE:="perf-results.txt"}
+BASELINE_FILE=${BASELINE_FILE:=".reassure/baseline.perf"}
+CURRENT_FILE=${CURRENT_FILE:=".reassure/current.perf"}
 OUTPUT_TYPE=${OUTPUT_TYPE:="all"}
 
 if [[ -z "$(readlink $0)" ]]; then

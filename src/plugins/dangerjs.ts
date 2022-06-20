@@ -22,7 +22,7 @@ export type Config = { inputFilePath: string; debug?: boolean };
 
 const plugin = (
   config: Config = {
-    inputFilePath: './compare-output.md',
+    inputFilePath: '.reassure/output.md',
   }
 ) => {
   const _warning = `

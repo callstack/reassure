@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-RESULT_FILE="perf-results.txt"
+RESULTS_DIR=".reassure"
+RESULTS_FILE=".reassure/current.perf"
 
-rm -f $RESULT_FILE
+mkdir $RESULTS_DIR
+rm -f $RESULTS_FILE
 
 node \
   --jitless \

@@ -7,7 +7,7 @@ import type { MeasureRenderResult } from './types';
 export const defaultConfig = {
   runs: 10,
   dropWorst: 1,
-  outputFile: 'perf-results.txt',
+  outputFile: '.reassure/current.perf',
 };
 
 let config = defaultConfig;
