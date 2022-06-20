@@ -1,0 +1,6 @@
+module Pods_ReassureExample {
+  umbrella header "Pods-ReassureExample-umbrella.h"
+
+  export *
+  module * { export * }
+}

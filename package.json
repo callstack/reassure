@@ -1,5 +1,6 @@
 {
-  "name": "@reassure/reassure",
+  "name": "reassure",
+  "private": true,
   "version": "0.0.1",
   "description": "React Native performance tool",
   "main": "lib/commonjs/index",
@@ -11,26 +12,13 @@
     "reassure-tests": "scripts/run-tests.sh",
     "reassure-stability": "scripts/run-stability-tests.sh"
   },
-  "files": [
-    "src",
-    "scripts",
-    "plugins.js",
-    "lib",
-    "!lib/typescript/example",
-    "!**/__tests__",
-    "!**/__fixtures__",
-    "!**/__mocks__"
-  ],
   "scripts": {
     "test": "jest",
-    "test:example": "cd ./example && jest",
+    "test:example": "cd ./examples/native && jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
     "release": "release-it",
-    "example": "yarn --cwd example",
-    "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn"
+    "pods": "cd examples/native && pod-install --quiet"
   },
   "keywords": [
     "react-native",
@@ -53,6 +41,7 @@
     "@callstack/eslint-config": "^12.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
+    "@testing-library/react": "^13.3.0",
     "@testing-library/react-native": "^9.0.0",
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.39",
@@ -67,17 +56,16 @@
     "jest": "^27.4.3",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
-    "react": "17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-native": "0.67.2",
     "react-native-builder-bob": "^0.18.0",
-    "react-test-renderer": "^17.0.2",
+    "react-test-renderer": "^18.2.0",
     "release-it": "^14.2.2",
     "typescript": "^4.5.2"
   },
   "peerDependencies": {
-    "@testing-library/react-native": "*",
-    "react": "*",
-    "react-native": "*"
+    "react": "*"
   },
   "commitlint": {
     "extends": [
@@ -105,24 +93,8 @@
     "node_modules/",
     "lib/"
   ],
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
-    ]
-  },
-  "dependencies": {
-    "markdown-builder": "^0.9.0",
-    "markdown-table": "^2.0.0",
-    "mathjs": "^10.1.1",
-    "minimist": "^1.2.5"
-  }
+  "workspaces": [
+    "examples/*",
+    "packages/*"
+  ]
 }
