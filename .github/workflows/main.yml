@@ -34,7 +34,7 @@ jobs:
         run: yarn
 
       - name: Run comparative test script
-        run: cd example && ../scripts/run-tests.sh
+        run: cd examples/native && yarn reassure-tests
 
       - name: Run danger.js
         uses: danger/danger-js@9.1.6

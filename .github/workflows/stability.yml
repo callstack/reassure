@@ -27,4 +27,4 @@ jobs:
         run: yarn
 
       - name: Run stability test script
-        run: cd example && ../scripts/run-stability-tests.sh
+        run: cd examples/native && yarn reassure-stability
