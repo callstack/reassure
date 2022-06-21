@@ -1,7 +1,7 @@
 {
   "name": "@reassure/reassure",
   "version": "0.0.1",
-  "description": "React Native performance tool",
+  "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -40,7 +40,7 @@
     "android"
   ],
   "repository": "https://github.com/callstack-internal/reassure",
-  "author": "TMaszko <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
+  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/callstack-internal/reassure/issues"
