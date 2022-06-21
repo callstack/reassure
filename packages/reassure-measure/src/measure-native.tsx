@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
 import { config } from './config';
-import { writeTestStats } from './output';
+import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import type { MeasureRenderResult } from './types';
 
 let render: any; // TODO: fixup type
@@ -42,6 +42,8 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   let hasTooLateRender = false;
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
+
+  showFlagsOuputIfNeeded();
 
   for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;
@@ -86,11 +88,11 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const durations = entries.map((entry) => entry.duration);
   const meanDuration = math.mean(durations) as number;
-  const stdevDuration = math.std(durations);
+  const stdevDuration = math.std(...durations);
 
   const counts = entries.map((entry) => entry.count);
   const meanCount = math.mean(counts) as number;
-  const stdevCount = math.std(counts);
+  const stdevCount = math.std(...counts);
 
   return {
     runs,
