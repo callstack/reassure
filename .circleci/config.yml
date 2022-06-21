@@ -24,7 +24,7 @@ jobs:
             - dependencies-
       - restore_cache:
           keys:
-            - dependencies-example-{{ checksum "example/package.json" }}
+            - dependencies-example-{{ checksum "examples/native/package.json" }}
             - dependencies-example-
       - run:
           name: Install dependencies
@@ -35,8 +35,8 @@ jobs:
           key: dependencies-{{ checksum "package.json" }}
           paths: node_modules
       - save_cache:
-          key: dependencies-example-{{ checksum "example/package.json" }}
-          paths: example/node_modules
+          key: dependencies-example-{{ checksum "examples/native/package.json" }}
+          paths: examples/native/node_modules
       - persist_to_workspace:
           root: .
           paths: .
