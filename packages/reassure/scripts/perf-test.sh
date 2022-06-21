@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 RESULT_FILE="perf-results.txt"
-TEST_COMMAND=${TEST_COMMAND:="node_modules/jest/bin/jest.js"}
+TEST_COMMAND=${TEST_COMMAND:="node_modules/.bin/jest"}
 
 rm -f $RESULT_FILE
 

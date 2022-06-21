@@ -10,8 +10,8 @@
     "test": "jest",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
-    "run-tests": "TEST_COMMAND='../../node_modules/jest/bin/jest.js' reassure-tests",
-    "perf-test": "TEST_COMMAND='../../node_modules/jest/bin/jest.js' reassure-perf",
+    "run-tests": "reassure-tests",
+    "perf-test": "reassure-perf",
     "perf-compare": "reassure-compare"
   },
   "dependencies": {
