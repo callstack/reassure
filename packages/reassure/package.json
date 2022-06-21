@@ -41,6 +41,11 @@
   ],
   "repository": "https://github.com/callstack-internal/reassure",
   "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
+  "contributors": [
+    "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
+    "Tomasz Krzyżowski <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
+    "Michał Pierzchała <thymikee@gmail.com> (https://github.com/thymikee)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/callstack-internal/reassure/issues"
