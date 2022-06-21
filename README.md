@@ -393,7 +393,7 @@ To run the compare script locally, follow this steps:
 6. Run the following command, providing values for listed arguments
 
 ```shell
-node "node_modules/reassure/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
+node "node_modules/@reassure/reassure/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
 ```
 
 This will print output to your terminal as well as create an `.reassure/output.json` file in location from which the script had been triggered

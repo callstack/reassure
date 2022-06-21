@@ -7,15 +7,15 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "test": "jest",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typescript": "tsc --noEmit",
-    "reassure-test": "../scripts/run-tests.sh",
-    "reassure-stability": "../scripts/run-stability-tests.sh",
-    "reassure-measure": "../scripts/perf-test.sh",
-    "reassure-compare": "../scripts/perf-compare.sh"
+    "run-tests": "reassure-tests",
+    "perf-measure": "reassure-measure",
+    "perf-compare": "reassure-compare"
   },
   "dependencies": {
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-native": "0.67.2"
   },
   "devDependencies": {
@@ -25,13 +25,12 @@
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^9.0.0",
     "babel-jest": "^27.5.1",
-    "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^8.10.0",
-    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.5.1",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-test-renderer": "^17.0.2",
+    "react-test-renderer": "^18.2.0",
+    "@reassure/reassure": "0.0.1",
     "typescript": "^4.6.2"
   }
 }

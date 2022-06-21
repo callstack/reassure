@@ -1,16 +1,18 @@
-import * as fs from 'fs/promises';
-import React from 'react';
-import { render, RenderAPI } from '@testing-library/react-native';
+import * as React from 'react';
+import type { RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
+import { config } from './config';
+import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import type { MeasureRenderResult } from './types';
 
-export const defaultConfig = {
-  runs: 10,
-  dropWorst: 1,
-  outputFile: '.reassure/current.perf',
-};
+let render: any; // TODO: fixup type
 
-let config = defaultConfig;
+try {
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  render = require('@testing-library/react-native').render;
+} catch {
+  // bail on this platform
+}
 
 interface MeasureOptions {
   name?: string;
@@ -18,17 +20,6 @@ interface MeasureOptions {
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
   scenario?: (view: RenderAPI) => Promise<any>;
-}
-
-export function configure(customConfig: typeof defaultConfig) {
-  config = {
-    ...defaultConfig,
-    ...customConfig,
-  };
-}
-
-export function resetToDefault() {
-  config = defaultConfig;
 }
 
 export async function measurePerformance(
@@ -51,6 +42,8 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   let hasTooLateRender = false;
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
+
+  showFlagsOuputIfNeeded();
 
   for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;
@@ -95,11 +88,11 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const durations = entries.map((entry) => entry.duration);
   const meanDuration = math.mean(durations) as number;
-  const stdevDuration = math.std(durations);
+  const stdevDuration = math.std(...durations);
 
   const counts = entries.map((entry) => entry.count);
   const meanCount = math.mean(counts) as number;
-  const stdevCount = math.std(counts);
+  const stdevCount = math.std(...counts);
 
   return {
     runs,
@@ -110,27 +103,4 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     stdevCount,
     counts,
   };
-}
-
-export async function writeTestStats(
-  result: MeasureRenderResult,
-  outputFilePath: string = config.outputFile
-): Promise<void> {
-  const name = expect.getState().currentTestName;
-  const line = JSON.stringify({ name, ...result }) + '\n';
-
-  try {
-    await fs.appendFile(outputFilePath, line);
-  } catch (error) {
-    console.error(`Error writing ${outputFilePath}`, error);
-    throw error;
-  }
-}
-
-export async function clearTestStats(outputFilePath: string = config.outputFile): Promise<void> {
-  try {
-    await fs.unlink(outputFilePath);
-  } catch (error) {
-    console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
-  }
 }

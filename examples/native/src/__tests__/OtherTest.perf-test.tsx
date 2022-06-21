@@ -5,7 +5,7 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { fireEvent, RenderAPI } from '@testing-library/react-native';
 
-import { SlowList } from 'components/SlowList';
+import { SlowList } from '../components/SlowList';
 
 const AsyncComponent = () => {
   const [count, setCount] = React.useState(0);
