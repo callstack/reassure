@@ -1,6 +1,6 @@
 {
   "name": "reassure-example",
-  "description": "Example app for reassure",
+  "description": "Example app for Reassure",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -31,6 +31,7 @@
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "^18.2.0",
     "@reassure/reassure": "0.0.1",
+    "@reassure/reassure-measure": "0.0.1",
     "typescript": "^4.6.2"
   }
 }

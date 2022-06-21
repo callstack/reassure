@@ -12,7 +12,7 @@ import {
   formatRenderDurationChange,
 } from '../utils/format';
 import { collapsibleSection } from '../utils/markdown';
-import type { PerformanceEntry } from '../measure/types';
+import type { PerformanceEntry } from './types';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;

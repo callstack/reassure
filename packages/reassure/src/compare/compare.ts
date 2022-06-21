@@ -2,9 +2,15 @@ import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 import minimist from 'minimist';
 
-import type { PerformanceEntry } from '../measure/types';
 import { hasDuplicateValues } from '../utils/array';
-import type { StatisticalSignificance, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
+import type {
+  PerformanceEntry,
+  StatisticalSignificance,
+  AddedEntry,
+  RemovedEntry,
+  CompareEntry,
+  CompareResult,
+} from './types';
 import { printToConsole } from './outputConsole';
 import { writeToJson } from './outputJson';
 import { writeToMarkdown } from './outputMarkdown';
