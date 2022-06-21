@@ -24,4 +24,4 @@ git checkout "$CURRENT_BRANCH";
 npx reassure-measure
 
 # Compare results
-npx reassure-compare
+npx reassure compare

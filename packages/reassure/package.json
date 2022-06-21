@@ -10,9 +10,7 @@
   "bin": {
     "reassure-tests": "scripts/run-tests.sh",
     "reassure-stability": "scripts/run-stability-tests.sh",
-    "reassure-measure": "scripts/perf-measure.sh",
-    "reassure-compare": "scripts/perf-compare.sh",
-    "reassure-compare-internal": "scripts/compare.js"
+    "reassure-measure": "scripts/perf-measure.sh"
   },
   "files": [
     "src",
@@ -31,7 +29,6 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
     "release": "release-it",
-    "pods": "cd examples/native && pod-install --quiet",
     "bootstrap": "yarn"
   },
   "keywords": [
@@ -60,10 +57,6 @@
     "@callstack/eslint-config": "^12.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
-    "@testing-library/react-native": "^9.0.0",
-    "@types/jest": "^27.0.3",
-    "@types/react": "^17.0.39",
-    "@types/react-native": "0.66.16",
     "babel-jest": "^27.5.1",
     "commitlint": "^11.0.0",
     "danger": "^11.0.2",
@@ -71,13 +64,7 @@
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.1.3",
     "husky": "^6.0.0",
-    "jest": "^27.4.3",
-    "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
-    "react": "^18.2.0",
-    "react-native": "0.67.2",
-    "react-native-builder-bob": "^0.18.0",
-    "react-test-renderer": "^18.2.0",
     "release-it": "^14.2.2",
     "typescript": "^4.5.2"
   },
@@ -101,9 +88,6 @@
     ]
   },
   "dependencies": {
-    "markdown-builder": "^0.9.0",
-    "markdown-table": "^2.0.0",
-    "mathjs": "^10.1.1",
-    "minimist": "^1.2.5"
+    "@reassure/reassure-cli": "0.0.1"
   }
 }

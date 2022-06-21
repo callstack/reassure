@@ -11,4 +11,4 @@ mv "$RESULTS_FILE" "$BASELINE_FILE";
 npx reassure-measure
 
 # Compare results
-npx reassure-compare
+npx reassure compare
