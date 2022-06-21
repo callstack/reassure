@@ -2,6 +2,7 @@ export const defaultConfig = {
   runs: 10,
   dropWorst: 1,
   outputFile: '.reassure/current.perf',
+  verbose: false,
 };
 
 export let config = defaultConfig;

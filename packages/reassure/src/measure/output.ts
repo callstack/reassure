@@ -34,7 +34,7 @@ export function showFlagsOuputIfNeeded() {
 
   if (!global.gc) {
     console.error('❌ Reassure: measure code is run under incorrect node flags');
-  } else {
+  } else if (config.verbose) {
     console.log('✅ Reassure: measure code is run under correct node flags');
   }
 
