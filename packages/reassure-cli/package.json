@@ -1,16 +1,29 @@
 {
-  "name": "reassure-root",
-  "private": true,
+  "name": "@reassure/reassure-cli",
   "version": "0.0.1",
   "description": "Performance testing companion for React and React Native",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index",
   "source": "src/index",
+  "bin": {
+    "reassure": "lib/commonjs/bin.js"
+  },
+  "files": [
+    "src",
+    "lib",
+    "!lib/typescript/examples",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
+  ],
   "scripts": {
     "test": "jest",
-    "test:example": "cd ./examples/native && jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "release": "release-it",
-    "pods": "cd examples/native && pod-install --quiet"
+    "prepare": "bob build",
+    "bootstrap": "yarn"
   },
   "keywords": [
     "react-native",
@@ -38,11 +51,10 @@
     "@callstack/eslint-config": "^12.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/react-native": "^9.0.0",
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.39",
     "@types/react-native": "0.66.16",
+    "@types/yargs": "^17.0.10",
     "babel-jest": "^27.5.1",
     "commitlint": "^11.0.0",
     "danger": "^11.0.2",
@@ -54,44 +66,34 @@
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-native": "0.67.2",
     "react-native-builder-bob": "^0.18.0",
-    "react-test-renderer": "^18.2.0",
     "release-it": "^14.2.2",
     "typescript": "^4.5.2"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-native": "*"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.json"
+        }
+      ]
     ]
   },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
-      }
-    }
-  },
-  "eslintIgnore": [
-    "node_modules/",
-    "lib/"
-  ],
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ]
+  "dependencies": {
+    "markdown-builder": "^0.9.0",
+    "markdown-table": "^2.0.0",
+    "mathjs": "^10.1.1",
+    "minimist": "^1.2.5",
+    "yargs": "^17.5.1"
+  }
 }
