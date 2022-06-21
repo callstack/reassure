@@ -33,9 +33,13 @@ export function showFlagsOuputIfNeeded() {
   }
 
   if (!global.gc) {
-    console.error('❌ Reassure: measure code is run under incorrect node flags');
+    console.error(
+      '❌ Reassure: measure code is running under incorrect Node.js configuration.\n' +
+        'Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.\n' +
+        'Make sure you use the public API and run it using "reassure-tests" command.'
+    );
   } else if (config.verbose) {
-    console.log('✅ Reassure: measure code is run under correct node flags');
+    console.log('✅ Reassure: measure code is running under correct node flags');
   }
 
   hasShowFlagsOutput = true;
