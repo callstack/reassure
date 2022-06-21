@@ -1,6 +1,3 @@
-const path = require('path');
-const pak = require('../../packages/reassure/package.json');
-
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   plugins: [
@@ -9,7 +6,6 @@ module.exports = {
       {
         extensions: ['.tsx', '.ts', '.js', '.json'],
         alias: {
-          [pak.name]: path.join(__dirname, '../..', pak.source),
           components: './src/components',
         },
       },
