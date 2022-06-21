@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@reassure/reassure": ["../../packages/reassure/src"],
-      "components/*": ["src/components/*"]
-    },
+    "paths": {},
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
