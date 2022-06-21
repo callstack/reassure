@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
 import { config } from './config';
-import { writeTestStats } from './output';
+import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import type { MeasureRenderResult } from './types';
 
 let render: any; // TODO: fixup type
@@ -43,11 +43,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
 
-  if (!global.gc) {
-    console.error('Measure code is run under incorrect node flags');
-  } else {
-    console.log('Measure code is run under correct node flags');
-  }
+  showFlagsOuputIfNeeded();
 
   for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;

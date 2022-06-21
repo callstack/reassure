@@ -24,3 +24,19 @@ export async function clearTestStats(outputFilePath: string = config.outputFile)
     console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
   }
 }
+
+let hasShowFlagsOutput = false;
+
+export function showFlagsOuputIfNeeded() {
+  if (hasShowFlagsOutput) {
+    return;
+  }
+
+  if (!global.gc) {
+    console.error('❌ Reassure: measure code is run under incorrect node flags');
+  } else {
+    console.log('✅ Reassure: measure code is run under correct node flags');
+  }
+
+  hasShowFlagsOutput = true;
+}
