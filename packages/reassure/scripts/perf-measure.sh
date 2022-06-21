@@ -4,7 +4,7 @@ RESULTS_DIR=".reassure"
 RESULTS_FILE=".reassure/current.perf"
 TEST_COMMAND=${TEST_COMMAND:="node_modules/.bin/jest"}
 
-mkdir $RESULTS_DIR
+mkdir -p $RESULTS_DIR
 rm -f $RESULTS_FILE
 
 node \
