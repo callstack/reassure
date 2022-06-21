@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-RESULTS_FILE="perf-results.txt"
-BASELINE_FILE="baseline-results.txt"
+RESULTS_FILE=".reassure/current.perf"
+BASELINE_FILE=".reassure/baseline.perf"
 
 # Gather baseline perf test results
 npx reassure-measure
