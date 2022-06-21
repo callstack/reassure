@@ -94,6 +94,7 @@
     "markdown-table": "^2.0.0",
     "mathjs": "^10.1.1",
     "minimist": "^1.2.5",
-    "yargs": "^17.5.1"
+    "yargs": "^17.5.1",
+    "@reassure/reassure-compare": "0.0.1"
   }
 }

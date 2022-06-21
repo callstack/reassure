@@ -53,10 +53,10 @@ const COUNT_DIFF_THRESHOLD = 0.5;
 type PerformanceRecord = { [name: string]: PerformanceEntry };
 
 type CompareOptions = {
-  baselineFile: string;
-  currentFile: string;
-  outputFile: string;
-  outputFormat: string;
+  baselineFile?: string;
+  currentFile?: string;
+  outputFile?: string;
+  outputFormat?: string;
 };
 
 /**
