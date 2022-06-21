@@ -24,6 +24,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Build Reassure Measure
+        run: cd packages/reassure-measure && yarn install
+
       - name: Build Reassure
         run: cd packages/reassure && yarn install
 
