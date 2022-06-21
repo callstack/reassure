@@ -15,7 +15,6 @@
     "perf-compare": "reassure-compare"
   },
   "dependencies": {
-    "@reassure/reassure": "0.0.1",
     "react": "^18.2.0",
     "react-native": "0.67.2"
   },
@@ -26,13 +25,12 @@
     "@testing-library/jest-native": "^4.0.4",
     "@testing-library/react-native": "^9.0.0",
     "babel-jest": "^27.5.1",
-    "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^8.10.0",
-    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.5.1",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "^18.2.0",
+    "@reassure/reassure": "0.0.1",
     "typescript": "^4.6.2"
   }
 }
