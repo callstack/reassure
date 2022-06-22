@@ -14,7 +14,7 @@ try {
   // bail on this platform
 }
 
-interface MeasureOptions {
+export interface MeasureOptions {
   name?: string;
   runs?: number;
   dropWorst?: number;

@@ -6,7 +6,7 @@
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
-  "source": "src/plugins/index",
+  "source": "src/index",
   "bin": {
     "reassure-tests": "scripts/run-tests.sh"
   },
@@ -47,6 +47,10 @@
   "publishConfig": {
     "registry": "https://reassure.bytesafe.dev/r/reassure/"
   },
+  "dependencies": {
+    "@reassure/reassure-cli": "0.0.1",
+    "@reassure/reassure-measure": "0.0.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/runtime": "^7.12.5",
@@ -82,8 +86,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {
-    "@reassure/reassure-cli": "0.0.1"
   }
 }
