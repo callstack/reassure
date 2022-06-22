@@ -40,7 +40,7 @@ jobs:
         run: cd packages/reassure-cli && yarn install
 
       - name: Run comparative test script
-        run: cd examples/native && yarn install && yarn reassure-tests
+        run: cd examples/native && yarn install --force && yarn reassure-tests
 
       - name: Run danger.js
         uses: danger/danger-js@9.1.6
