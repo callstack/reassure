@@ -36,5 +36,5 @@ jobs:
       - name: Build Reassure
         run: cd packages/reassure && yarn install
 
-      - name: Run comparative test script
+      - name: Run stability checks
         run: cd examples/native && yarn install && yarn reassure check-stability

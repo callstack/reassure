@@ -8,9 +8,7 @@
   "react-native": "src/index",
   "source": "src/index",
   "bin": {
-    "reassure-tests": "scripts/run-tests.sh",
-    "reassure-stability": "scripts/run-stability-tests.sh",
-    "reassure-measure": "scripts/perf-measure.sh"
+    "reassure-tests": "scripts/run-tests.sh"
   },
   "files": [
     "src",
