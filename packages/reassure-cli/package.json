@@ -22,8 +22,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
-    "bootstrap": "yarn"
+    "prepare": "bob build"
   },
   "keywords": [
     "react-native",
