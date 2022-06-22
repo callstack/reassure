@@ -5,4 +5,12 @@ import { command as measure } from './commands/measure';
 import { command as compare } from './commands/compare';
 import { command as checkStability } from './commands/check-stability';
 
-yargs(hideBin(process.argv)).command(measure).command(compare).command(checkStability).help().parse();
+yargs(hideBin(process.argv))
+  .command(measure)
+  .command(compare)
+  .command(checkStability)
+  .help()
+  .demandCommand(1, 'Please specify a command')
+  .recommendCommands()
+  .strict()
+  .parse();

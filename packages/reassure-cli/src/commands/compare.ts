@@ -7,6 +7,6 @@ export async function run() {
 
 export const command: CommandModule = {
   command: 'compare',
-  describe: 'compares gathered baseline and current measurements',
+  describe: 'Compares gathered baseline and current measurements',
   handler: () => run(),
 };

@@ -33,7 +33,7 @@ export function run(options: MeasureOptions) {
 
 export const command: CommandModule<{}, MeasureOptions> = {
   command: 'measure',
-  describe: 'measures the current performance of performance tests',
+  describe: 'Measures the current performance of performance tests',
   builder: (yargs) => {
     return yargs.option('baseline', {
       type: 'boolean',

@@ -10,6 +10,6 @@ export async function run() {
 
 export const command: CommandModule = {
   command: 'check-stability',
-  describe: 'checks how stable is the current machine by running measurements twice for the same code',
+  describe: 'Checks how stable is the current machine by running measurements twice for the same code',
   handler: () => run(),
 };
