@@ -6,7 +6,7 @@
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
   "react-native": "src/index",
-  "source": "src/index",
+  "source": "src/plugins/index",
   "bin": {
     "reassure-tests": "scripts/run-tests.sh"
   },
@@ -15,7 +15,6 @@
     "scripts",
     "plugins.js",
     "lib",
-    "!lib/typescript/examples",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__"
