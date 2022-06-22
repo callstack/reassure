@@ -39,6 +39,9 @@ jobs:
       - name: Build Reassure CLI
         run: cd packages/reassure-cli && yarn install
 
+      - name: Build Reassure
+        run: cd packages/reassure && yarn install
+
       - name: Run comparative test script
         run: cd examples/native && yarn install --force && yarn reassure-tests
 
