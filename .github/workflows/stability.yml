@@ -37,4 +37,4 @@ jobs:
         run: cd packages/reassure && yarn install
 
       - name: Run stability checks
-        run: cd examples/native && yarn install && yarn reassure check-stability
+        run: cd examples/native && yarn install --force && yarn reassure check-stability
