@@ -1,29 +1,20 @@
-import * as fs from 'fs';
+import { mkdirSync, rmSync } from 'fs';
 import { spawnSync } from 'child_process';
-import type { Argv } from 'yargs';
+import type { CommandModule } from 'yargs';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
 const BASELINE_FILE = '.reassure/baseline.perf';
 
-export const command = 'measure';
-export const describe = 'runs performance tests to gather measurements';
-
-export function builder(yargs: Argv) {
-  return yargs.options({
-    baseline: { type: 'boolean', default: false, describe: 'Save measurements as baseline instead of current' },
-  });
-}
-
-type MeasureArguments = {
+type MeasureOptions = {
   baseline: boolean;
 };
 
-export function handler(args: MeasureArguments) {
-  fs.mkdirSync(RESULTS_DIRECTORY, { recursive: true });
+export function run(options: MeasureOptions) {
+  mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
-  const outputFile = args.baseline ? BASELINE_FILE : RESULTS_FILE;
-  fs.rmSync(outputFile, { force: true });
+  const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
+  rmSync(outputFile, { force: true });
 
   spawnSync(
     'node',
@@ -39,3 +30,16 @@ export function handler(args: MeasureArguments) {
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 }
+
+export const command: CommandModule<{}, MeasureOptions> = {
+  command: 'measure',
+  describe: 'measures the current performance of performance tests',
+  builder: (yargs) => {
+    return yargs.option('baseline', {
+      type: 'boolean',
+      default: false,
+      describe: 'Save measurements as baseline instead of current',
+    });
+  },
+  handler: (args) => run(args),
+};

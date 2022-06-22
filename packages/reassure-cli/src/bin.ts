@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
-import * as test from './commands/test';
-import * as measure from './commands/measure';
-import * as compare from './commands/compare';
+import { command as measure } from './commands/measure';
+import { command as compare } from './commands/compare';
+import { command as checkStability } from './commands/check-stability';
 
-yargs(hideBin(process.argv)).command(test).command(measure).command(compare).help().parse();
+yargs(hideBin(process.argv)).command(measure).command(compare).command(checkStability).help().parse();
