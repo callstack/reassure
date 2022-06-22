@@ -1,7 +1,7 @@
 export const defaultConfig = {
   runs: 10,
   dropWorst: 1,
-  outputFile: '.reassure/current.perf',
+  outputFile: process.env.OUTPUT_FILE ?? '.reassure/current.perf',
   verbose: false,
 };
 

@@ -16,8 +16,7 @@ BASELINE_FILE=".reassure/baseline.perf"
 
 # Gather baseline perf test results
 git checkout "$BASELINE_BRANCH";
-npx reassure measure
-mv "$RESULTS_FILE" "$BASELINE_FILE";
+npx reassure measure --baseline
 
 # Gather current perf test results
 git checkout "$CURRENT_BRANCH";
