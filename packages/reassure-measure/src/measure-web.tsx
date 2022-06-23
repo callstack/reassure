@@ -89,11 +89,11 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const durations = entries.map((entry) => entry.duration);
   const meanDuration = math.mean(durations) as number;
-  const stdevDuration = math.std(durations);
+  const stdevDuration = math.std(...durations);
 
   const counts = entries.map((entry) => entry.count);
   const meanCount = math.mean(counts) as number;
-  const stdevCount = math.std(counts);
+  const stdevCount = math.std(...counts);
 
   return {
     runs,
