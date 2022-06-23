@@ -4,7 +4,7 @@
     "allowJs": true,
     "baseUrl": "./",
     "paths": {
-      "@reassure/reassure": ["./src/index"]
+      "@reassure/reassure-compare": ["../reassure-compare/src/index"],
     },
     "isolatedModules": true,
     "allowUnreachableCode": false,
