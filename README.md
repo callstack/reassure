@@ -5,7 +5,7 @@
 Performance testing companion for React and React Native.
 </p>
 <p align="center">
-<img src="./docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
+<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
 </p>
 
 ---
@@ -311,7 +311,7 @@ Reset current config to the original `defaultConfig` object
 ## Credits
 
 <p align="center">
-<img src="./docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
+<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
 </p>
 
 Reassure is an Open Source project and will always remain free to use. The project has been developed in close
