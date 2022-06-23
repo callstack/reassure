@@ -206,10 +206,7 @@ Finally run both performance testing script & danger in your CI config:
 
 You can also check our example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/main.yml).
 
-**Note**
-Your performance test will run much longer than regular integration tests. It's because we run each test scenario
-multiple times (by default 10), and we repeat that for two branches of your code. Hence, each test will run 20 times
-by default. That's unless you increase that number even higher.
+> **Note**: Your performance test will run much longer than regular integration tests. It's because we run each test scenario multiple times (by default 10), and we repeat that for two branches of your code. Hence, each test will run 20 times by default. That's unless you increase that number even higher.
 
 ## Assessing CI stability
 
@@ -229,10 +226,7 @@ This command can be run both on CI and local machines.
 Normally, the random changes should be below 5%. Results of 10% and more considered too high and mean that you should
 work on tweaking your machine stability.
 
-**Note**
-As a trick of last resort you can increase the `run` option, from the default value of 10 to 20, 50 or even 100, for
-all or some of your tests, based on the assumption that more test runs will even out measurement fluctuations. That
-will however make your tests run even longer than normally.
+> **Note**: As a trick of last resort you can increase the `run` option, from the default value of 10 to 20, 50 or even 100, for all or some of your tests, based on the assumption that more test runs will even out measurement fluctuations. That will however make your tests run even longer than normally.
 
 You can refer to our example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/stability.yml).
 
@@ -287,10 +281,20 @@ The default config which will be used by the measuring script. This configuratio
 of the `configure` function.
 
 ```ts
-export const defaultConfig = {
+type Config = {
+  runs?: number;
+  dropWorst?: number;
+  outputFile?: string;
+  verbose?: boolean;
+};
+```
+
+```ts
+export const defaultConfig: Config = {
   runs: 10,
   dropWorst: 1,
   outputFile: '.reassure/current.perf',
+  verbose: false,
 };
 ```
 
@@ -298,11 +302,12 @@ export const defaultConfig = {
 **`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
 dropWorst
 **`outputFile`**: name of the file the records will be saved to
+**`verbose`**: make Reassure log more, e.g. for debugging purposes
 
 #### `configure` function
 
 ```ts
-configure(customConfig: typeof defaultConfig): void
+configure(customConfig: Config): void
 ```
 
 You can use the `configure` function to override the default config parameters.
