@@ -4,12 +4,16 @@
 <p align="center">
 Performance testing companion for React and React Native.
 </p>
+<p align="center">
+<img src="./docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
+</p>
 
 ---
 
 - [The problem](#the-problem)
 - [The solution](#the-solution)
 - [Installation and setup](#installation-and-setup)
+  - [NPM package](#npm-package)
   - [Writing First Test](#writing-first-test)
     - [Async tests](#async-tests)
   - [Optional: ES Lint setup](#optional-es-lint-setup)
@@ -55,8 +59,13 @@ statistical analysis to figure out whether the code changes have a statistically
 and negative on any of your performance test scenarios. Finnaly, we generate a easily-readable report summarising
 our findings and displaying it on the CI.
 
+<p align="center">
+<img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
+</p>
 
 ## Installation and setup
+
+### NPM package
 
 In order to install Reassure run following command in your app folder:
 
@@ -135,7 +144,7 @@ rules: {
 In order to measure your first test performance you need to run following command in terminal:
 
 ```
-> reassure measure
+> yarn reassure measure
 ```
 
 This command will run your tests multiple times using Jest, gathering render statistics, and will write them to 
@@ -192,8 +201,8 @@ You can also check our example [Dangerfile](https://github.com/callstack-interna
 
 Finally run both performance testsing script & danger in your CI config:
 ```yaml
-- name: Run comparative test script
-  run: npx reassure-tests
+- name: Run performance testing script
+  run: ./reassure-tests.sh
 
 - name: Run danger.js
   uses: danger/danger-js@9.1.6
@@ -219,8 +228,15 @@ both CI and locally.
 You can refer to your example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/stability.yml).
 ## Analysing results
 
-!Image here
+Markdown report
+<p align="center">
+<img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
+</p>
 
+Console report
+<p align="center">
+<img src="./docs/report-console.png" width="769px" alt="Markdown report" />
+</p>
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
 - **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
@@ -293,6 +309,10 @@ resetToDefault(): void
 Reset current config to the original `defaultConfig` object
 
 ## Credits
+
+<p align="center">
+<img src="./docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
+</p>
 
 Reassure is an Open Source project and will always remain free to use. The project has been developed in close
 partnership with [Entain](https://entaingroup.com/) and was originally their in-house project but, thanks to their
