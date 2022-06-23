@@ -11,7 +11,10 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "release": "release-it",
     "pods": "cd examples/native && pod-install --quiet",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "publish": "changeset publish"
   },
   "keywords": [
     "react-native",
