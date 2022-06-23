@@ -59,10 +59,6 @@ statistical analysis to figure out whether the code changes have a statistically
 and negative on any of your performance test scenarios. Finnaly, we generate a easily-readable report summarising
 our findings and displaying it on the CI.
 
-<p align="center">
-<img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
-</p>
-
 ## Installation and setup
 
 ### NPM package
@@ -228,15 +224,8 @@ both CI and locally.
 You can refer to your example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/stability.yml).
 ## Analysing results
 
-Markdown report
-<p align="center">
 <img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
-</p>
 
-Console report
-<p align="center">
-<img src="./docs/report-console.png" width="769px" alt="Markdown report" />
-</p>
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
 - **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
