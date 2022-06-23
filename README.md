@@ -14,8 +14,8 @@ Performance testing companion for React and React Native.
 - [The solution](#the-solution)
 - [Installation and setup](#installation-and-setup)
   - [NPM package](#npm-package)
-  - [Writing First Test](#writing-first-test)
-    - [Async tests](#async-tests)
+  - [Writing your first test](#writing-your-first-test)
+    - [Writing async tests](#writing-async-tests)
   - [Optional: ES Lint setup](#optional-es-lint-setup)
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
@@ -24,10 +24,12 @@ Performance testing companion for React and React Native.
 - [Analysing results](#analysing-results)
 - [API](#api)
   - [Measurements](#measurements)
-    - [measurePerformance](#measureperformance)
+    - [`measurePerformance` function](#measureperformance-function)
+    - [`MeasureOptions` type](#measureoptions-type)
   - [Configuration](#configuration)
-    - [`configure`](#configure)
-  - [resetToDefault](#resettodefault)
+    - [Default configuration](#default-configuration)
+    - [`configure` function](#configure-function)
+    - [`resetToDefault` function](#resettodefault-function)
 - [Credits](#credits)
 - [Contributing](#contributing)
 - [License](#license)
@@ -66,19 +68,21 @@ our findings and displaying it on the CI.
 In order to install Reassure run following command in your app folder:
 
 Using yarn
-```
+
+```sh
 yarn add --dev @reassure/reassure
 ```
 
 Using npm
-```
+
+```sh
 npm install --save-dev @reassure/reassure
 ```
 
 You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation)
 and [Jest](https://jestjs.io/docs/getting-started) setup.
 
-### Writing First Test
+### Writing your first test
 
 Next you can write you first test scenario:
 
@@ -97,7 +101,7 @@ Your file should have `perf-test.js`/`perf-test.tsx` extensions in order to sepa
 Reassure will automatically match test filenames using jest `--testMatch` option with value
  `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
 
-#### Async tests
+#### Writing async tests
 
 If your compoment contains any async logic or you want to test some interaction you should pass `scenario` option:
 
@@ -127,7 +131,7 @@ For more examples look into our [test examples app](https://github.com/callstack
 ES Lint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
 for performance tests you can add following override to your `.eslintrc` file:
 
-```
+```js
 rules: {
   'jest/expect-expect': [
     'error',
@@ -139,7 +143,7 @@ rules: {
 
 In order to measure your first test performance you need to run following command in terminal:
 
-```
+```sh
 > yarn reassure measure
 ```
 
@@ -184,6 +188,7 @@ For presenting output at the moment we integrate with Danger JS, which supports 
 You you will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
 
 Then add Reassure Danger JS plugin to your dangerfile :
+
 ```ts
 import path from 'path';
 import reassure from './packages/reassure/plugins';
@@ -196,6 +201,7 @@ reassure({
 You can also check our example [Dangerfile](https://github.com/callstack-internal/reassure/blob/main/dangerfile.ts).
 
 Finally run both performance testsing script & danger in your CI config:
+
 ```yaml
 - name: Run performance testing script
   run: ./reassure-tests.sh
@@ -236,8 +242,10 @@ Looking at the example you can notice that test scenarios can be assigned to cer
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
 
 ## API
+
 ### Measurements
-#### measurePerformance
+
+#### `measurePerformance` function
 
 Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
 measuring its performance and writing results to output file. You can use optional `options` object allows customizing aspects
@@ -247,7 +255,7 @@ of the testing
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
 ```
 
-**MeasureOptions type**
+#### `MeasureOptions` type
 
 ```ts
 export interface MeasureOptions {
@@ -265,6 +273,8 @@ export interface MeasureOptions {
 
 ### Configuration
 
+#### Default configuration
+
 The default config which will be used by the measuring script. This configuration object can be overridden with the use
 of the `configure` function.
 
@@ -281,7 +291,7 @@ export const defaultConfig = {
 dropWorst
 **`outputFile`**: name of the file the records will be saved to
 
-#### `configure`
+#### `configure` function
 
 ```ts
 configure(customConfig: typeof defaultConfig): void
@@ -289,7 +299,7 @@ configure(customConfig: typeof defaultConfig): void
 
 You can use `configure` function to override the default config parameters.
 
-### resetToDefault
+#### `resetToDefault` function
 
 ```ts
 resetToDefault(): void
@@ -299,13 +309,13 @@ Reset current config to the original `defaultConfig` object
 
 ## Credits
 
-<p align="center">
-<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
-</p>
-
 Reassure is an Open Source project and will always remain free to use. The project has been developed in close
 partnership with [Entain](https://entaingroup.com/) and was originally their in-house project but, thanks to their
 willingness to develop the React & React Native ecosystem, we decided to make it Open Source.
+
+<p align="center">
+<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
+</p>
 
 If you think it's cool, please star it 🌟
 
