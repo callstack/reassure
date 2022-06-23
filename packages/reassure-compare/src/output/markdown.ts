@@ -82,7 +82,7 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
   const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
   const content = markdownTable([tableHeader, ...rows]);
 
-  return collapse ? content : collapsibleSection('Show details', content);
+  return collapse ? collapsibleSection('Show entries', content) : content;
 }
 
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
