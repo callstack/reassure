@@ -9,6 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "build": "yarn --force",
     "typescript": "tsc --noEmit",
     "perf-test": "./reassure-tests.sh"
   },
