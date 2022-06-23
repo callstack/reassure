@@ -36,30 +36,21 @@ Performance testing companion for React and React Native.
 
 ## The problem
 
-Optimising performance of React Native app is a complicated task, you have to profile the app, observe render patterns,
-apply memoization in the right places, etc. The results are frequently impressive, but also fragile. It's very easy to
-introduce performance issues, e.g. by breaking carefuly crafted component memoization with seamingly innoncent code.
-Especially in a large project, especially with a large team, especially when shipping new features in a fast pace.
-
-On the other hand requireing developers to manually analyse performance as a part of PR review process is not feasible
-solution, as it will bring your time to grind.
+Optimizing the performance of React Native apps is a complicated task. You need to profile the app, observe render patterns, apply memoization in the right places, etc. The results are often impressive, but also fragile. It's easy to introduce performance issues without even realizing.
+Especially in a large project, in a large team, when shipping new features at a fast pace.
+On the other hand, requiring developers to manually analyze performance as a part of the PR review process is not a feasible solution either.
 
 ## The solution
 
-Reassure allows you to automate React Native profiling on CI, or your local machine. The same way you write your 
-integration and unit tests that automatically verify that your app is still *working correctly*, you can write
-performance tests that verify that your app still *working performantly*. 
+Reassure allows you to automate React Native profiling on CI, or your local machine. The same way you write your
+integration and unit tests that automatically verify that your app is still _working correctly_, you can write
+performance tests that verify that your app still _working performantly_.
 
-Actually, peformance tests writen using Reassure look very similar to integration tests written using
+Actually, performance tests written using Reassure look very similar to integration tests written using
 [React Native Testing Library](https://github.com/callstack/react-native-testing-library). That's because we
-build Reassure on top of it, so that you can easily re-use your integration test scenarios as performance tests.
+build Reassure on top of it, so that you can reuse your integration test scenarios as performance tests.
 
-Reassure works by measuring render characteristics (render duration and count) of your modified code ("current", 
-e.g your PR branch) and comparing that to render characteristics of the stable version of your code ("baseline",
-usually your `main` branch). We do it many time to reduce impact of random variations in render times. Then we apply
-statistical analysis to figure out whether the code changes have a statistically-signifcant impact, both positive
-and negative on any of your performance test scenarios. Finnaly, we generate a easily-readable report summarising
-our findings and displaying it on the CI.
+Reassure works by measuring render characteristics (render duration and count) of your modified code ("current", e.g your PR branch) and comparing that to render characteristics of the stable version of your code ("baseline", usually your `main` branch). We do it many times to reduce impact of random variations in render times. Then we apply statistical analysis to figure out whether the code changes are statistically significant. Finally, we generate a human-readable report summarizing our findings and displaying it on the CI.
 
 ## Installation and setup
 
@@ -98,12 +89,12 @@ test('Simple test', async () => {
 This test will measure render times of `ComponentUnderTest` during mounting and resulting sync effects.
 
 Your file should have `perf-test.js`/`perf-test.tsx` extensions in order to separate it from regular test files.
-Reassure will automatically match test filenames using jest `--testMatch` option with value
- `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
+Reassure will automatically match test filenames using Jest's `--testMatch` option with value
+`"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
 
 #### Writing async tests
 
-If your compoment contains any async logic or you want to test some interaction you should pass `scenario` option:
+If your component contains any async logic or you want to test some interaction you should pass `scenario` option:
 
 ```ts
 import { measurePerformance } from '@reassure/reassure';
@@ -126,19 +117,20 @@ If your test contains any async changes, you will need to make sure that the sce
 
 For more examples look into our [test examples app](https://github.com/callstack-internal/reassure/tree/main/examples/native/src/__tests__).
 
-### Optional: ES Lint setup
+### Optional: ESLint setup
 
-ES Lint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
+ESLint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
 for performance tests you can add following override to your `.eslintrc` file:
 
 ```js
 rules: {
-  'jest/expect-expect': [
-    'error',
+ 'jest/expect-expect': [
+ 'error',
     { assertFunctionNames: ['measurePerformance'] },
   ],
 }
 ```
+
 ### Measuring test performance
 
 In order to measure your first test performance you need to run following command in terminal:
@@ -147,20 +139,20 @@ In order to measure your first test performance you need to run following comman
 > yarn reassure measure
 ```
 
-This command will run your tests multiple times using Jest, gathering render statistics, and will write them to 
-`.reassure/current.perf` file. In order to check your setup, check if the output file existis after running the 
+This command will run your tests multiple times using Jest, gathering render statistics, and will write them to
+`.reassure/current.perf` file. In order to check your setup, check if the output file exists after running the
 command for the first time.
 
 ### Write performance testing script
 
 In order to detect performance changes, you need to measure the performance of two versions of your code
-current (your modifed code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
+current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
 on two different branches you need to either switch branches in git or clone two copies of your repository.
 
 We want to automate this task, so it can run on the CI. In order to do that you will need to create a
 performance testing script. You should save it in your repository, e.g. as `reassure-tests.sh`.
 
-A simple version of such script, using branch chaning approach is as follows:
+A simple version of such script, using branch changing approach is as follows:
 
 ```sh
 #!/usr/bin/env bash
@@ -185,7 +177,7 @@ npx reassure compare
 As a final setup step you need to configure your CI to run the performance testing script and output the result.
 For presenting output at the moment we integrate with Danger JS, which supports all major CI tools.
 
-You you will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
+You will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
 
 Then add Reassure Danger JS plugin to your dangerfile :
 
@@ -200,39 +192,39 @@ reassure({
 
 You can also check our example [Dangerfile](https://github.com/callstack-internal/reassure/blob/main/dangerfile.ts).
 
-Finally run both performance testsing script & danger in your CI config:
+Finally run both performance testing script & danger in your CI config:
 
 ```yaml
 - name: Run performance testing script
-  run: ./reassure-tests.sh
+ run: ./reassure-tests.sh
 
 - name: Run danger.js
-  uses: danger/danger-js@9.1.6
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ uses: danger/danger-js@9.1.6
+ env:
+ GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 You can also check our example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/main.yml).
 
 **Note**
-Your performance test will run much longer then regular integration tests. It's because we run each test scenario 
+Your performance test will run much longer than regular integration tests. It's because we run each test scenario
 multiple times (by default 10), and we repeat that for two branches of your code. Hence, each test will run 20 times
 by default. That's unless you increase that number even higher.
 
 ## Assessing CI stability
 
-During peformance measurements we measure React component render times in miliseconds, aka wall clock time. This means
-that the same code will run faster (less ms) on faster machine and slower (more ms) on slower machine. For this reason,
-baseline & current measurements needs to be run on the same machine. Optimally, they should be run one after another.
+During performance measurements we measure React component render times in milliseconds, aka wall clock time. This means
+that the same code will run faster (less ms) on faster machines and slower (more ms) on slower machines. For this reason,
+baseline & current measurements need to be run on the same machine. Optimally, they should be run one after another.
 
 Moreover, in order to achieve meaningful results your CI agent needs to have stable performance. It does not matter
-really if your agent is fast or slow as long as it is consistent in it performance. That's why during the performance
+really if your agent is fast or slow as long as it is consistent in its performance. That's why during the performance
 tests the agent should not be used for any other work that might impact measuring render times.
 
 In order to help you assess your machine stability, you can use `reassure check-stability` command. It runs performance
 measurements twice for the current code, so baseline and current measurements refer to the same code. In such case the
 expected changes are 0% (no change). The degree of random performance changes will reflect the stability of your machine.
-This command can be run both on CI and local machine.
+This command can be run both on CI and local machines.
 
 Normally, the random changes should be below 5%. Results of 10% and more considered too high and mean that you should
 work on tweaking your machine stability.
@@ -240,10 +232,11 @@ work on tweaking your machine stability.
 **Note**
 As a trick of last resort you can increase the `run` option, from the default value of 10 to 20, 50 or even 100, for
 all or some of your tests, based on the assumption that more test runs will even out measurement fluctuations. That
-will however make your tests run even longer then normally.
+will however make your tests run even longer than normally.
 
 You can refer to our example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/stability.yml).
-## Analysing results
+
+## Analyzing results
 
 <img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
 
@@ -263,7 +256,7 @@ Looking at the example you can notice that test scenarios can be assigned to cer
 #### `measurePerformance` function
 
 Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
-measuring its performance and writing results to output file. You can use optional `options` object allows customizing aspects
+measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
 of the testing
 
 ```ts
@@ -284,7 +277,7 @@ export interface MeasureOptions {
 - **`runs`**: number of runs per series for the particular test
 - **`dropWorst`**: number of worst (highest) runs dropped from a test series
 - **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
-- **`scenario`**: a custom async function, which defines user interaction within the ui by utilised RNTL functions
+- **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 
 ### Configuration
 
@@ -312,7 +305,7 @@ dropWorst
 configure(customConfig: typeof defaultConfig): void
 ```
 
-You can use `configure` function to override the default config parameters.
+You can use the `configure` function to override the default config parameters.
 
 #### `resetToDefault` function
 
@@ -337,7 +330,6 @@ If you think it's cool, please star it 🌟
 Callstack is a group of React and React Native experts. If you need any help with these or just want to say hi, contact us at hello@callstack.com!
 
 Like the project? ⚛️ [Join the Callstack team](https://callstack.com/careers/?utm_campaign=Senior_RN&utm_source=github&utm_medium=readme) who does amazing stuff for clients and drives React Native Open Source! 🔥
-
 
 ## Contributing
 
