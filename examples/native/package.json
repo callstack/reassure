@@ -9,6 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "build": "yarn --force",
     "typescript": "tsc --noEmit",
     "perf-test": "./reassure-tests.sh"
   },
@@ -28,7 +29,7 @@
     "jest": "^27.5.1",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-test-renderer": "^18.2.0",
-    "@reassure/reassure": "0.0.1",
+    "@reassure/reassure": "0.0.2",
     "typescript": "^4.6.2"
   }
 }

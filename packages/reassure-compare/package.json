@@ -1,6 +1,6 @@
 {
   "name": "@reassure/reassure-compare",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -19,7 +19,7 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build"
+    "build": "bob build"
   },
   "keywords": [
     "react-native",
