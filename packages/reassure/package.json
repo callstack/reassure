@@ -20,7 +20,7 @@
     "test:example": "cd ./examples/native && jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "prepare": "bob build",
+    "build": "bob build",
     "release": "release-it"
   },
   "keywords": [
