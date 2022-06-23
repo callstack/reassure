@@ -30,11 +30,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Build Reassure Measure
+        run: cd packages/reassure-measure && yarn install
+
+      - name: Build Reassure Compare
+        run: cd packages/reassure-compare && yarn install
+
+      - name: Build Reassure CLI
+        run: cd packages/reassure-cli && yarn install
+
       - name: Build Reassure
         run: cd packages/reassure && yarn install
 
       - name: Run comparative test script
-        run: cd examples/native && yarn install && yarn reassure-tests
+        run: cd examples/native && yarn install --force && yarn perf-test
 
       - name: Run danger.js
         uses: danger/danger-js@9.1.6

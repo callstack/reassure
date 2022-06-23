@@ -1,4 +1,4 @@
-import type { CompareEntry } from 'src/compare/types';
+import type { CompareEntry } from '../types';
 
 /**
  * Utility functions used for formatting data into strings

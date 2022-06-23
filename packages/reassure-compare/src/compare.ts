@@ -1,13 +1,19 @@
 import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
-import minimist from 'minimist';
 
-import type { PerformanceEntry } from '../measure/types';
-import { hasDuplicateValues } from '../utils/array';
-import type { StatisticalSignificance, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
-import { printToConsole } from './outputConsole';
-import { writeToJson } from './outputJson';
-import { writeToMarkdown } from './outputMarkdown';
+import { hasDuplicateValues } from './utils/array';
+import type {
+  PerformanceEntry,
+  StatisticalSignificance,
+  AddedEntry,
+  RemovedEntry,
+  CompareEntry,
+  CompareResult,
+} from './types';
+import { printToConsole } from './output/console';
+import { writeToJson } from './output/json';
+import { writeToMarkdown } from './output/markdown';
+import { errors, warnings, logError, logWarning } from './utils/logs';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -42,77 +48,50 @@ const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 const COUNT_DIFF_THRESHOLD = 0.5;
 
 /**
- * Accepted command-line arguments
- */
-type ScriptArguments = {
-  baselineFilePath: string;
-  currentFilePath: string;
-  outputFilePath: string;
-  output?: 'console' | 'json' | 'markdown' | 'all';
-};
-
-/**
  * Record type holding `PerformanceEntry` objects keyed by entry name.
  */
 type PerformanceRecord = { [name: string]: PerformanceEntry };
 
-/**
- * List of arguments which can be passed to the node command running the script as --<ARGUMENT>=<VALUE>
- * e.g. --baselineFilePath="./myOutputFile.txt"
- */
-const {
-  output,
-  currentFilePath = '.reassure/current.perf',
-  baselineFilePath = '.reassure/baseline.perf',
-  outputFilePath = '.reassure/output.json',
-} = minimist<ScriptArguments>(process.argv);
-
-const errors: string[] = [];
-const warnings: string[] = [];
-
-function logError(message: string, ...args: any[]) {
-  errors.push(message);
-  console.error(`🛑 ${message}`, ...args);
-}
-
-function logWarning(message: string) {
-  warnings.push(message);
-  console.warn(`🟡 ${message}`);
-}
+type CompareOptions = {
+  baselineFile?: string;
+  currentFile?: string;
+  outputFile?: string;
+  outputFormat?: string;
+};
 
 /**
  * Main routine.
  *
  * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
-export async function main() {
-  try {
-    const hasCurrentFile = fsSync.existsSync(currentFilePath);
-    if (!hasCurrentFile) {
-      logError(`Current results files "${currentFilePath}" does not exists. Check your setup.`);
-      process.exit(1);
-    }
-
-    const current = await loadFile(currentFilePath);
-
-    const hasBaslineFile = fsSync.existsSync(baselineFilePath);
-    if (!hasBaslineFile) {
-      logWarning(
-        `Baseline results files "${baselineFilePath}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
-      );
-    }
-
-    const baseline = hasBaslineFile ? await loadFile(baselineFilePath) : null;
-
-    const outputData = compareResults(current, baseline);
-
-    if (output === 'console' || output === 'all') printToConsole(outputData);
-    if (output === 'json' || output === 'all') writeToJson(outputFilePath, outputData);
-    if (output === 'markdown' || output === 'all') writeToMarkdown('.reassure/output.md', outputData);
-  } catch (error) {
-    logError(`Error.`, error);
+export async function compare({
+  baselineFile = '.reassure/baseline.perf',
+  currentFile = '.reassure/current.perf',
+  outputFile = '.reassure/output.json',
+  outputFormat = 'all',
+}: CompareOptions) {
+  const hasCurrentFile = fsSync.existsSync(currentFile);
+  if (!hasCurrentFile) {
+    logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
+
+  const current = await loadFile(currentFile);
+
+  const hasBaslineFile = fsSync.existsSync(baselineFile);
+  if (!hasBaslineFile) {
+    logWarning(
+      `Baseline results files "${baselineFile}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
+    );
+  }
+
+  const baseline = hasBaslineFile ? await loadFile(baselineFile) : null;
+
+  const outputData = compareResults(current, baseline);
+
+  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(outputData);
+  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, outputData);
+  if (outputFormat === 'markdown' || outputFormat === 'all') writeToMarkdown('.reassure/output.md', outputData);
 }
 
 /**
@@ -276,5 +255,3 @@ function computeProbability(z: number) {
   // two sided p >= 0.20
   return 0.2;
 }
-
-main();

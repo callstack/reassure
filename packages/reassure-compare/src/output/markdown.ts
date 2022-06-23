@@ -11,9 +11,7 @@ import {
   formatRenderCountChange,
   formatRenderDurationChange,
 } from '../utils/format';
-import { collapsibleSection } from '../utils/markdown';
-import type { PerformanceEntry } from '../measure/types';
-import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from './types';
+import type { PerformanceEntry, AddedEntry, CompareEntry, CompareResult, RemovedEntry } from '../types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
 
@@ -153,4 +151,8 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
   ]
     .filter(Boolean)
     .join(`<br/>`);
+}
+
+export function collapsibleSection(title: string, content: string) {
+  return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
 }

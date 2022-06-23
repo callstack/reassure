@@ -3,9 +3,7 @@
     "outDir": "lib",
     "allowJs": true,
     "baseUrl": "./",
-    "paths": {
-      "@reassure/reassure-measure": ["../reassure-measure/src/index"],
-    },
+    "paths": {},
     "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -27,6 +25,6 @@
     "strict": true,
     "target": "esnext"
   },
-  "include": ["src/**/*", "dangerfile.ts"],
+  "include": ["src/**/*"],
   "exclude": ["**/__tests__/**"]
 }

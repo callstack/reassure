@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import type { CompareResult } from './types';
+import type { CompareResult } from '../types';
 
 export async function writeToJson(filePath: string, data: CompareResult) {
   try {

@@ -1,5 +1,5 @@
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
 import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from './types';
 
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
