@@ -4,290 +4,259 @@
 <p align="center">
 Performance testing companion for React and React Native.
 </p>
+<p align="center">
+<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
+</p>
 
 ---
 
-- [Installation and setup](#Installation-and-setup)
-  - [Installing NPM package](#Installing-NPM-package)
-  - [Adding CI step](#Adding-CI-step)
-    - [Comparing against custom branch](#Comparing-against-custom-branch)
-  - [Configuring dangerfile](#Configuring-dangerfile)
-- [Writing performance tests](#writing-performance-tests)
-  - [Defining file structure](#Defining-file-structure)
-  - [My first perf test!](#My-first-perf-test!)
-  - [Testing scenarios](#Testing-scenarios)
-  - [Testing tests in development environment](#Testing-tests-in-development-environment)
-- [Testing API](#Testing-API)
-  - [defaultConfig](#defaultconfig)
-  - [measureRender](#measurerender)
-  - [clearTestStats](#clearteststats)
-  - [writeTestStats](#writeteststats)
-  - [configure](#configure)
-  - [resetToDefault](#resettodefault)
-- [Main script](#Main-script)
-  - [Main script arguments](#Main-script-arguments)
-- [Analyser script](#Analyser-script)
-  - [Analyser script arguments](#Analyser-script-arguments)
-  - [Running locally](#Running-locally)
-- [Danger.js plugin](#Danger.js-plugin)
-- [Contributing](#Contributing)
-- [Licence](#Licence)
+- [The problem](#the-problem)
+- [The solution](#the-solution)
+- [Installation and setup](#installation-and-setup)
+  - [Writing your first test](#writing-your-first-test)
+    - [Writing async tests](#writing-async-tests)
+  - [Optional: ES Lint setup](#optional-es-lint-setup)
+  - [Measuring test performance](#measuring-test-performance)
+  - [Write performance testing script](#write-performance-testing-script)
+  - [CI integration](#ci-integration)
+- [Assessing CI stability](#assessing-ci-stability)
+- [Analysing results](#analysing-results)
+- [API](#api)
+  - [Measurements](#measurements)
+    - [`measurePerformance` function](#measureperformance-function)
+    - [`MeasureOptions` type](#measureoptions-type)
+  - [Configuration](#configuration)
+    - [Default configuration](#default-configuration)
+    - [`configure` function](#configure-function)
+    - [`resetToDefault` function](#resettodefault-function)
+- [Contributing](#contributing)
+- [License](#license)
 
-This toolset has been created in order to solve the issue of introducing performance regressions into a
-React Native application codebase, by being able to test performance changes in a given CI pipeline
-and pinpoint any performance drops, should they arise.
+## The problem
 
-We achieve this, by running suites of specially prepared performance tests, imitating real life user interactions and
-running them on two branches (feature branch and repository's main branch), one after the other. Then, we compare
-the results we received and calculate statistical data for each test. Lastly, the analysis is printed out and passed
-onto a specific plugin (dangerJs by default), to be printed out in given PR's comment or be handled otherwise.
+Optimizing the performance of React Native apps is a complicated task. You need to profile the app, observe render patterns, apply memoization in the right places, etc. The results are often impressive, but also fragile. It's easy to introduce performance issues without even realizing.
+Especially in a large project, in a large team, when shipping new features at a fast pace.
+On the other hand, requiring developers to manually analyze performance as a part of the PR review process is not a feasible solution either.
+
+## The solution
+
+Reassure allows you to automate React Native profiling on CI, or your local machine. The same way you write your
+integration and unit tests that automatically verify that your app is still _working correctly_, you can write
+performance tests that verify that your app still _working performantly_.
+
+Actually, performance tests written using Reassure look very similar to integration tests written using
+[React Native Testing Library](https://github.com/callstack/react-native-testing-library). That's because we
+build Reassure on top of it, so that you can reuse your integration test scenarios as performance tests.
+
+Reassure works by measuring render characteristics (render duration and count) of your modified code ("current", e.g your PR branch) and comparing that to render characteristics of the stable version of your code ("baseline", usually your `main` branch). We do it many times to reduce impact of random variations in render times. Then we apply statistical analysis to figure out whether the code changes are statistically significant. Finally, we generate a human-readable report summarizing our findings and displaying it on the CI.
 
 ## Installation and setup
 
-There are a couple of steps that are required for the proper setup. Additionally, even though we do our best
-to provide valid template of a set, be advised that the CI step will need to be configured on the codebase's side,
-just like your `dangerfile.(ts|js)` if you are opting for using Danger plugin.
+In order to install Reassure run following command in your app folder:
 
-For the purposes of this explanation, we will use GitHub Actions for CI setup and Danger.js plugin for outputting
-our results to demonstrate how to set up the toolset.
-
-### Installing NPM package
+Using yarn
 
 ```sh
-yarn add git+https://github.com/callstack-internal/reassure
+yarn add --dev @reassure/reassure
 ```
 
-### ES Lint setup
+Using npm
 
-ES Lint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
+```sh
+npm install --save-dev @reassure/reassure
+```
+
+You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation)
+and [Jest](https://jestjs.io/docs/getting-started) setup.
+
+### Writing your first test
+
+Next you can write you first test scenario:
+
+```ts
+// ComponentUnderTest.perf-test.tsx
+import { measurePerformance } from '@reassure/reassure';
+
+test('Simple test', async () => {
+  await measurePerformance(<ComponentUnderTest />);
+});
+```
+
+This test will measure render times of `ComponentUnderTest` during mounting and resulting sync effects.
+
+Your file should have `perf-test.js`/`perf-test.tsx` extensions in order to separate it from regular test files.
+Reassure will automatically match test filenames using Jest's `--testMatch` option with value
+`"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
+
+#### Writing async tests
+
+If your component contains any async logic or you want to test some interaction you should pass `scenario` option:
+
+```ts
+import { measurePerformance } from '@reassure/reassure';
+import { RenderAPI, fireEvent } from '@testing-library/react-native';
+
+test('Test with scenario', async () => {
+  const scenario = async (screen: RenderAPI) => {
+    fireEvent.press(screen.getByText('Go'));
+    await screen.findByText('Done');
+  };
+
+  await measurePerformance(<ComponentUnderTest />, { scenario });
+});
+```
+
+The body of `scenario` function is using familiar React Native Testing Library methods.
+
+If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using
+`findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
+
+For more examples look into our [test examples app](https://github.com/callstack-internal/reassure/tree/main/examples/native/src/__tests__).
+
+### Optional: ESLint setup
+
+ESLint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
 for performance tests you can add following override to your `.eslintrc` file:
 
-```
+```js
 rules: {
-  'jest/expect-expect': [
-    'error',
+ 'jest/expect-expect': [
+ 'error',
     { assertFunctionNames: ['measurePerformance'] },
   ],
 }
 ```
 
-### Adding CI step
+### Measuring test performance
 
-Lines below should be added right before the danger step in the CI confg file:
+In order to measure your first test performance you need to run following command in terminal:
 
-```yaml
-- name: Run comparative test script
-  run: npx reassure-tests
+```sh
+> yarn reassure measure
 ```
 
-Together with dangerJs setup, in case of GitHub Actions, it could look something like this:
+This command will run your tests multiple times using Jest, gathering render statistics, and will write them to
+`.reassure/current.perf` file. In order to check your setup, check if the output file exists after running the
+command for the first time.
+
+### Write performance testing script
+
+In order to detect performance changes, you need to measure the performance of two versions of your code
+current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
+on two different branches you need to either switch branches in git or clone two copies of your repository.
+
+We want to automate this task, so it can run on the CI. In order to do that you will need to create a
+performance testing script. You should save it in your repository, e.g. as `reassure-tests.sh`.
+
+A simple version of such script, using branch changing approach is as follows:
+
+```sh
+#!/usr/bin/env bash
+
+CURRENT_BRANCH=$(git rev-parse --short HEAD)
+BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+
+# Gather baseline perf measurements
+git checkout "$BASELINE_BRANCH";
+npx reassure measure --baseline
+
+# Gather current perf measurements
+git checkout "$CURRENT_BRANCH";
+npx reassure measure
+
+# Compare results
+npx reassure compare
+```
+
+### CI integration
+
+As a final setup step you need to configure your CI to run the performance testing script and output the result.
+For presenting output at the moment we integrate with Danger JS, which supports all major CI tools.
+
+You will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
+
+Then add Reassure Danger JS plugin to your dangerfile :
+
+```ts
+import path from 'path';
+import reassure from './packages/reassure/plugins';
+
+reassure({
+  inputFilePath: path.join(__dirname, './examples/native/.reassure/output.md'),
+});
+```
+
+You can also check our example [Dangerfile](https://github.com/callstack-internal/reassure/blob/main/dangerfile.ts).
+
+Finally run both performance testing script & danger in your CI config:
 
 ```yaml
-- name: Run comparative test script
-  run: npx reassure-tests
+- name: Run performance testing script
+ run: ./reassure-tests.sh
 
 - name: Run danger.js
-  uses: danger/danger-js@9.1.6
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ uses: danger/danger-js@9.1.6
+ env:
+ GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-#### Comparing against custom branch
+You can also check our example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/main.yml).
 
-Bear in mind that, by default, the tool will be comparing results from your current branch (PR branch)
-against results from branch `main`.
+> **Note**: Your performance test will run much longer than regular integration tests. It's because we run each test scenario multiple times (by default 10), and we repeat that for two branches of your code. Hence, each test will run 20 times by default. That's unless you increase that number even higher.
 
-In order to change that behavior you need to pass the `--baseline_branch|--baseline-branch` argument to your CI step, e.g.:
+## Assessing CI stability
 
-```yaml
-- name: Run comparative test script
-  run: npx reassure-tests --baseline_branch lts
-```
+During performance measurements we measure React component render times in milliseconds, aka wall clock time. This means
+that the same code will run faster (less ms) on faster machines and slower (more ms) on slower machines. For this reason,
+baseline & current measurements need to be run on the same machine. Optimally, they should be run one after another.
 
-With this, each current test run will be compared against test runs made in branch `lts`.
+Moreover, in order to achieve meaningful results your CI agent needs to have stable performance. It does not matter
+really if your agent is fast or slow as long as it is consistent in its performance. That's why during the performance
+tests the agent should not be used for any other work that might impact measuring render times.
 
-### Configuring dangerfile
+In order to help you assess your machine stability, you can use `reassure check-stability` command. It runs performance
+measurements twice for the current code, so baseline and current measurements refer to the same code. In such case the
+expected changes are 0% (no change). The degree of random performance changes will reflect the stability of your machine.
+This command can be run both on CI and local machines.
 
-Danger only requires importing the danger plugin and executing it inside your dangerfile, like such:
+Normally, the random changes should be below 5%. Results of 10% and more considered too high and mean that you should
+work on tweaking your machine stability.
 
-```ts
-import dangerJs from './plugins';
+> **Note**: As a trick of last resort you can increase the `run` option, from the default value of 10 to 20, 50 or even 100, for all or some of your tests, based on the assumption that more test runs will even out measurement fluctuations. That will however make your tests run even longer than normally.
 
-dangerJs();
-```
+You can refer to our example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/stability.yml).
 
-This basic setup will allow you to run the toolset based on your pipeline setup, ideally every time a PR is created for
-your repository.
+## Analyzing results
 
-## Writing performance tests
+<img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
 
-### Defining file structure
+Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
-Reassure will automatically match test filenames using jest `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
-We encourage placing your performance tests either next to your existing tests or in their own separate folders, e.g.
+- **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
+- **Meaningless Changes To Render Duration** shows test scenarios where the change that statistically meaningless, i.e. is random noise
+- **Insignificant Changes To Render Duration** shows change that cannot be easily categorized as significant or meaningless.
+- **Changes To Render Count** shows test scenarios where render count did change
+- **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
+- **Removed Scenarios** shows test scenarios which do not exist in the current measurements
 
-```
--- screens
- | -- Home
-    | -- Home.tsx
-    | -- __tests__
-       | -- Home.test.tsx
-       | -- Home.perf-test.tsx
-```
+## API
 
-or alternatively:
+### Measurements
 
-```
--- screens
- | -- Home
-    | -- Home.tsx
-    | -- __tests__
-       | -- Home.test.tsx
-    | -- __perf__
-       | -- Home.perf-test.tsx
-```
-
-### My first perf test!
-
-Reassure uses Jest in order to run its performance tests which are written using React Native Testing Library
-with addition of performance specific functions. With that in mind, the syntax should already be familiar to you,
-let us consider the following example test:
-
-```tsx
-import { measureRender, writeTestStats, clearTestStats } from '@reassure/reassure';
-
-test('Home Screen', async () => {
-  const stats = await measureRender(<HomeScreen />);
-  await writeTestStats(stats, 'HomeScreen');
-  expect(true).toBeTruthy();
-});
-```
-
-First off, we make a Jest `test()` call, pass a name with which the test can be identified and pass
-an `async` callback function, in which we `await` for the `measureRender()` function to run the performance test suite
-and return results to `stats`. The next step is to write the stats as an entry under a recognizable name. For this, we
-use `writeTestStats()` function, which takes the returned `stats` and a `name` argument and saves them for further
-comparison.
-
-Additionally, at the moment, we require an `expect(true).toBeTruthy();` statement call at the end of any test to
-satiate Jest and avoid any issues arising from breaking away from its structure.
-
-### Testing scenarios
-
-Testing performance should be done by testing real world scenarios and user stories unique to every application.
-React-native-testing-library allows us to handle that, by passing the `scenario` option to the
-`measureRender()` function, e.g.
-
-```tsx
-test('Home Screen', async () => {
-  const scenario = async (screen: RenderAPI) => {
-    const plusOneButton = screen.getByText('Action');
-
-    fireEvent.press(plusOneButton);
-    await screen.findByText('Count: 1');
-
-    fireEvent.press(plusOneButton);
-    await screen.findByText('Count: 2');
-
-    fireEvent.press(plusOneButton);
-    fireEvent.press(plusOneButton);
-    fireEvent.press(plusOneButton);
-    await screen.findByText('Count: 5');
-  };
-
-  const stats = await measureRender(<HomeScreen />, { scenario });
-  await writeTestStats(stats, 'HomeScreen');
-  expect(true).toBeTruthy();
-});
-```
-
-Scenario supplied to `measureRender()` options will run inside the performance test, while measuring render times
-and render counts of supplied Component taking place in result of the interactions specified within. This allows
-for simulating potential performance issues as they would occur for the end-user.
-
-**Note that:**
-
-1. Scenarios need to be `async` functions
-2. Scenarios will receive `screen: RenderAPI` argument
-3. Scenarios should utilise react-native-testing-library functions to simulated user behavior
-
-### Testing tests in development environment
-
-While developing your tests, you will likely want to test them before deployment and CI pipeline run with the
-implemented tool. In order to do that you can run Jest using our node command present in reassure's scripts
-
-```shell
-# provide an appropriate --testMatch glob or use our default "<rootDir>/**/*.perf-test.[jt]s?(x)"
-node \
-  --jitless \
-  --expose-gc \
-  --no-concurrent-sweeping \
-  --max-old-space-size=4096 \
-  node_modules/jest/bin/jest.js \
-   --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"
-```
-
-This will run your tests as matched by provided regexp and output the `.reassure/current.perf` file containing results of your tests.
-Please bear in mind however, that running repeated tests will result in adding more and more results to your `.reassure/current.perf`
-file.
-
-### Example output
-
-We output our comparison results in form of markdown. Below you can see an example of such an output:
-
-| Name            | Status            | Render duration change                 | Render count change   |
-| --------------- | ----------------- | -------------------------------------- | --------------------- |
-| AsyncComponent1 | **INSIGNIFICANT** | **52.2 ms -> 52.1 ms, -0.1 ms, -0.5%** | -                     |
-| AsyncComponent2 | **SIGNIFICANT**   | **5.2 ms -> 3.3 ms, -1.9 ms, -36.5%**  | -                     |
-| AsyncComponent3 | **MEANINGLESS**   | **16.4 ms -> 17.3 ms, +0.9 ms, +5%**   | -                     |
-| AsyncComponent4 | **COUNT_CHANGED** | -                                      | **1 -> 2, +1, +100%** |
-| AsyncComponent5 | **ADDED**         | -                                      | -                     |
-| AsyncComponent6 | **REMOVED**       | -                                      | -                     |
-
-Looking at the example we can notice certain statuses that are assigned to certain tests:
-
-- **_Significant_** marks a change that is statistically significant and **should** be looked into as it marks a potential performance loss
-- **_Meaningless_** marks a change that statistically will not impact the performance
-- **_Insignificant_** marks a change that can fall in neither of the above categories of statistical significance
-- **_Count changed_** marks a change in render count
-- **_Added_** marks a test which does not exist in the baseline branch (the one we compare against)
-- **_Removed_** marks a test which exists in baseline but does not exist in the current PR branch
-
-## Testing API
-
-### defaultConfig
-
-The default config which will be used by the measuring script. This configuration object can be overridden with the use
-of the `configure` function.
-
-```ts
-export const defaultConfig = {
-  runs: 10,
-  dropWorst: 1,
-  outputFile: '.reassure/current.perf',
-};
-```
-
-**`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
-
-**`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
-dropWorst
-**`outputFile`**: name of the file the records will be saved to
-
-### measureRender
+#### `measurePerformance` function
 
 Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
-and measuring its performance. However, adding an optional `options` object allows for a more advanced manipulation of the process.
+measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
+of the testing
 
 ```ts
-measureRender(ui: React.ReactElement, options?: 1): Promise<MeasureRenderResult>;
+async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
 ```
 
-**MeasureRenderOptions type**
+#### `MeasureOptions` type
 
 ```ts
-interface MeasureRenderOptions {
-  name?: string;
+interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
@@ -295,124 +264,57 @@ interface MeasureRenderOptions {
 }
 ```
 
-- **`name`**: name string used in logs
-- **`runs`**: number of runs per series for the particular test (as opposed to a global setting in `defaultConfig`)
-- **`dropWorst`**: number of worst runs dropped from a test series (as opposed to a global setting in `defaultConfig`)
+- **`runs`**: number of runs per series for the particular test
+- **`dropWorst`**: number of worst (highest) runs dropped from a test series
 - **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
-- **`scenario`**: a custom async function, which defines user interaction within the ui by utilised RNTL functions
+- **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 
-### writeTestStats
+### Configuration
 
-Takes the `stats` generated by the `measureRender` function and writes them under the `name` key to the `outputFilePath`.
+#### Default configuration
 
-```ts
-writeTestStats(stats: MeasureRenderResult, name: string, outputFilePath: string = config.outputFile): Promise<void>
-```
-
-### clearTestStats
-
-Removes the current output file from the `outputFilePath`. By default, we use the filepath as its specified in the `defaultConfig`
+The default config which will be used by the measuring script. This configuration object can be overridden with the use
+of the `configure` function.
 
 ```ts
-clearTestStats(outputFilePath: string = config.outputFile): Promise<void>
+type Config = {
+  runs?: number;
+  dropWorst?: number;
+  outputFile?: string;
+  verbose?: boolean;
+};
 ```
-
-### configure
-
-Overrides the current `defaultConfig` object, by providing a new one allowing for alterations in the config in between tests
 
 ```ts
-configure(customConfig: typeof defaultConfig): void
+const defaultConfig: Config = {
+  runs: 10,
+  dropWorst: 1,
+  outputFile: '.reassure/current.perf',
+  verbose: false,
+};
 ```
 
-### resetToDefault
+**`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
+**`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
+dropWorst
+**`outputFile`**: name of the file the records will be saved to
+**`verbose`**: make Reassure log more, e.g. for debugging purposes
 
-Reset current config to the original `defaultConfig` object
+#### `configure` function
+
+```ts
+function configure(customConfig: Partial<Config>): void
+```
+
+You can use the `configure` function to override the default config parameters.
+
+#### `resetToDefault` function
 
 ```ts
 resetToDefault(): void
 ```
 
-## Main script
-
-To run the main script of the tool, you need to execute the main binary of the package, with the following command
-
-```shell
-npx reassure-tests
-```
-
-It will start the full process of running tests, saving intermediary files, swapping branches and generating outputs
-to be later digested by Danger using the default settings.
-
-### Main script arguments
-
-- **`--baseline_branch|--baseline-branch`** name of the branch to compare against (DEFAULT: `"main"`)
-
-For example:
-
-```shell
-npx reassure-tests --baseline_branch v1.0.0
-```
-
-will test branch `v1.1.0` performance results against current PR branch performance results and output all pertinent files.
-
-## Compare script
-
-Node script responsible to comparing two output files from two separate runs of Jest test suites intended to be run on
-your PR branch and compare against your main branch.
-
-### Compare script arguments
-
-By default, the compare script is run when `npx reassure-tests` is executed, as a part of the whole process and changing
-its parameters is handled by passing parameters to the command itself as described in the [Main Script](#Main-script)
-section of this documentation. However, if executed directly, the script accepts the following arguments:
-
-```ts
-type ScriptArguments = {
-  baselineFilePath: string;
-  currentFilePath: string;
-  outputFilePath: string;
-  output?: 'console' | 'json' | 'markdown' | 'all';
-};
-```
-
-- **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `.reassure/baseline.perf`)
-- **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `.reassure/current.perf`)
-- **`output`** type of the desired output. Can be set to `'console' | 'json' | 'markdown' | 'all'` or left unspecified (DEFAULT: `undefined`)
-- **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `.reassure/output.json`)
-
-### Running locally
-
-To run the compare script locally, follow this steps:
-
-1. Manually checkout to your main branch
-2. Run the test suite to generate baseline output file
-3. Save your baseline output file under a different name (you then will pass it to the script)
-4. Checkout back to your PR branch
-5. Run the test suite again generating your current output file
-6. Run the following command, providing values for listed arguments
-
-```shell
-node "node_modules/@reassure/reassure/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
-```
-
-This will print output to your terminal as well as create an `.reassure/output.json` file in location from which the script had been triggered
-
-## Danger.js plugin
-
-By default, Reassure supports outputting the results of its analyses in PR/MR comment by using [Danger.js](https://danger.systems/js/).
-
-In order to utilise the plugin, besides having danger.js step configured in your CI pipeline config file, you will also need
-to call the plugin inside your `dangerfile.(js|ts)`, like such:
-
-```ts
-import dangerJs from './plugins';
-
-dangerJs();
-```
-
-Additionally, make sure that your danger.js step in CI runs after the performance tests step to assure that the input file
-consumed by the plugin had been generated.
+Reset current config to the original `defaultConfig` object
 
 ## Contributing
 
@@ -420,4 +322,14 @@ See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the 
 
 ## License
 
-MIT
+[MIT](./LICENSE)
+
+## Made with ❤️ at Callstack
+
+Reassure is an Open Source project and will always remain free to use. The project has been developed in close
+partnership with [Entain](https://entaingroup.com/) and was originally their in-house project. Thanks to their
+willingness to develop the React & React Native ecosystem, we decided to make it Open Source. If you think it's cool, please star it 🌟
+
+Callstack is a group of React and React Native experts. If you need any help with these or just want to say hi, contact us at hello@callstack.com!
+
+Like the project? ⚛️ [Join the Callstack team](https://callstack.com/careers/?utm_campaign=Senior_RN&utm_source=github&utm_medium=readme) who does amazing stuff for clients and drives React Native Open Source! 🔥

@@ -15,7 +15,6 @@ try {
 }
 
 export interface MeasureOptions {
-  name?: string;
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
