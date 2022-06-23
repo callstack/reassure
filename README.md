@@ -17,20 +17,14 @@ Performance testing companion for React and React Native.
   - [Write performance testing script](#write-performance-testing-script)
   - [CI integration](#ci-integration)
 - [Assessing CI stability](#assessing-ci-stability)
-  - [Example output](#example-output)
-- [Testing API](#testing-api)
-  - [defaultConfig](#defaultconfig)
-  - [measureRender](#measurerender)
-  - [writeTestStats](#writeteststats)
-  - [clearTestStats](#clearteststats)
-  - [configure](#configure)
+- [Analysing results](#analysing-results)
+- [API](#api)
+  - [Measurements](#measurements)
+    - [measurePerformance](#measureperformance)
+  - [Configuration](#configuration)
+    - [`configure`](#configure)
   - [resetToDefault](#resettodefault)
-- [Main script](#main-script)
-  - [Main script arguments](#main-script-arguments)
-- [Compare script](#compare-script)
-  - [Compare script arguments](#compare-script-arguments)
-  - [Running locally](#running-locally)
-- [Danger.js plugin](#dangerjs-plugin)
+- [Credits](#credits)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -223,32 +217,48 @@ In order to help you assess your machine stability, you can use `reassure check-
 both CI and locally.
 
 You can refer to your example [GitHub workflow](https://github.com/callstack-internal/reassure/blob/main/.github/workflows/stability.yml).
+## Analysing results
 
-### Example output
+!Image here
 
-We output our comparison results in form of markdown. Below you can see an example of such an output:
+Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
-| Name            | Status            | Render duration change                 | Render count change   |
-| --------------- | ----------------- | -------------------------------------- | --------------------- |
-| AsyncComponent1 | **INSIGNIFICANT** | **52.2 ms -> 52.1 ms, -0.1 ms, -0.5%** | -                     |
-| AsyncComponent2 | **SIGNIFICANT**   | **5.2 ms -> 3.3 ms, -1.9 ms, -36.5%**  | -                     |
-| AsyncComponent3 | **MEANINGLESS**   | **16.4 ms -> 17.3 ms, +0.9 ms, +5%**   | -                     |
-| AsyncComponent4 | **COUNT_CHANGED** | -                                      | **1 -> 2, +1, +100%** |
-| AsyncComponent5 | **ADDED**         | -                                      | -                     |
-| AsyncComponent6 | **REMOVED**       | -                                      | -                     |
+- **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
+- **Meaningless Changes To Render Duration** shows test scenarios where the change that statistically meaningless, i.e. is random noise
+- **Insignificant Changes To Render Duration** shows change that cannot be easily categorized as significant or meaningless.
+- **Changes To Render Count** shows test scenarios where render count did change
+- **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
+- **Removed Scenarios** shows test scenarios which do not exist in the current measurements
 
-Looking at the example we can notice certain statuses that are assigned to certain tests:
+## API
+### Measurements
+#### measurePerformance
 
-- **_Significant_** marks a change that is statistically significant and **should** be looked into as it marks a potential performance loss
-- **_Meaningless_** marks a change that statistically will not impact the performance
-- **_Insignificant_** marks a change that can fall in neither of the above categories of statistical significance
-- **_Count changed_** marks a change in render count
-- **_Added_** marks a test which does not exist in the baseline branch (the one we compare against)
-- **_Removed_** marks a test which exists in baseline but does not exist in the current PR branch
+Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
+measuring its performance and writing results to output file. You can use optional `options` object allows customizing aspects
+of the testing
 
-## Testing API
+```ts
+export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
+```
 
-### defaultConfig
+**MeasureOptions type**
+
+```ts
+export interface MeasureOptions {
+  runs?: number;
+  dropWorst?: number;
+  wrapper?: (node: React.ReactElement) => JSX.Element;
+  scenario?: (view: RenderAPI) => Promise<any>;
+}
+```
+
+- **`runs`**: number of runs per series for the particular test
+- **`dropWorst`**: number of worst (highest) runs dropped from a test series
+- **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
+- **`scenario`**: a custom async function, which defines user interaction within the ui by utilised RNTL functions
+
+### Configuration
 
 The default config which will be used by the measuring script. This configuration object can be overridden with the use
 of the `configure` function.
@@ -262,150 +272,38 @@ export const defaultConfig = {
 ```
 
 **`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
-
 **`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
 dropWorst
 **`outputFile`**: name of the file the records will be saved to
 
-### measureRender
-
-Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
-and measuring its performance. However, adding an optional `options` object allows for a more advanced manipulation of the process.
-
-```ts
-measureRender(ui: React.ReactElement, options?: 1): Promise<MeasureRenderResult>;
-```
-
-**MeasureRenderOptions type**
-
-```ts
-interface MeasureRenderOptions {
-  name?: string;
-  runs?: number;
-  dropWorst?: number;
-  wrapper?: (node: React.ReactElement) => JSX.Element;
-  scenario?: (view: RenderAPI) => Promise<any>;
-}
-```
-
-- **`name`**: name string used in logs
-- **`runs`**: number of runs per series for the particular test (as opposed to a global setting in `defaultConfig`)
-- **`dropWorst`**: number of worst runs dropped from a test series (as opposed to a global setting in `defaultConfig`)
-- **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
-- **`scenario`**: a custom async function, which defines user interaction within the ui by utilised RNTL functions
-
-### writeTestStats
-
-Takes the `stats` generated by the `measureRender` function and writes them under the `name` key to the `outputFilePath`.
-
-```ts
-writeTestStats(stats: MeasureRenderResult, name: string, outputFilePath: string = config.outputFile): Promise<void>
-```
-
-### clearTestStats
-
-Removes the current output file from the `outputFilePath`. By default, we use the filepath as its specified in the `defaultConfig`
-
-```ts
-clearTestStats(outputFilePath: string = config.outputFile): Promise<void>
-```
-
-### configure
-
-Overrides the current `defaultConfig` object, by providing a new one allowing for alterations in the config in between tests
+#### `configure`
 
 ```ts
 configure(customConfig: typeof defaultConfig): void
 ```
 
-### resetToDefault
+You can use `configure` function to override the default config parameters.
 
-Reset current config to the original `defaultConfig` object
+### resetToDefault
 
 ```ts
 resetToDefault(): void
 ```
 
-## Main script
+Reset current config to the original `defaultConfig` object
 
-To run the main script of the tool, you need to execute the main binary of the package, with the following command
+## Credits
 
-```shell
-npx reassure-tests
-```
+Reassure is an Open Source project and will always remain free to use. The project has been developed in close
+partnership with [Entain](https://entaingroup.com/) and was originally their in-house project but, thanks to their
+willingness to develop the React & React Native ecosystem, we decided to make it Open Source.
 
-It will start the full process of running tests, saving intermediary files, swapping branches and generating outputs
-to be later digested by Danger using the default settings.
+If you think it's cool, please star it 🌟
 
-### Main script arguments
+Callstack is a group of React and React Native experts. If you need any help with these or just want to say hi, contact us at hello@callstack.com!
 
-- **`--baseline_branch|--baseline-branch`** name of the branch to compare against (DEFAULT: `"main"`)
+Like the project? ⚛️ [Join the Callstack team](https://callstack.com/careers/?utm_campaign=Senior_RN&utm_source=github&utm_medium=readme) who does amazing stuff for clients and drives React Native Open Source! 🔥
 
-For example:
-
-```shell
-npx reassure-tests --baseline_branch v1.0.0
-```
-
-will test branch `v1.1.0` performance results against current PR branch performance results and output all pertinent files.
-
-## Compare script
-
-Node script responsible to comparing two output files from two separate runs of Jest test suites intended to be run on
-your PR branch and compare against your main branch.
-
-### Compare script arguments
-
-By default, the compare script is run when `npx reassure-tests` is executed, as a part of the whole process and changing
-its parameters is handled by passing parameters to the command itself as described in the [Main Script](#Main-script)
-section of this documentation. However, if executed directly, the script accepts the following arguments:
-
-```ts
-type ScriptArguments = {
-  baselineFilePath: string;
-  currentFilePath: string;
-  outputFilePath: string;
-  output?: 'console' | 'json' | 'markdown' | 'all';
-};
-```
-
-- **`baselineFilePath`** path to the baseline output file from the target branch (DEFAULT: `.reassure/baseline.perf`)
-- **`currentFilePath`** path to the current output file from the PR branch (DEFAULT: `.reassure/current.perf`)
-- **`output`** type of the desired output. Can be set to `'console' | 'json' | 'markdown' | 'all'` or left unspecified (DEFAULT: `undefined`)
-- **`outputFilePath`** used in case of a `'json'` type output as the destination file path for output file (DEFAULT: `.reassure/output.json`)
-
-### Running locally
-
-To run the compare script locally, follow this steps:
-
-1. Manually checkout to your main branch
-2. Run the test suite to generate baseline output file
-3. Save your baseline output file under a different name (you then will pass it to the script)
-4. Checkout back to your PR branch
-5. Run the test suite again generating your current output file
-6. Run the following command, providing values for listed arguments
-
-```shell
-node "node_modules/@reassure/reassure/lib/commonjs/compare/compare.js" --baselineFilePath="" --currentFilePath=""
-```
-
-This will print output to your terminal as well as create an `.reassure/output.json` file in location from which the script had been triggered
-
-## Danger.js plugin
-
-By default, Reassure supports outputting the results of its analyses in PR/MR comment by using [Danger.js](https://danger.systems/js/).
-
-In order to utilise the plugin, besides having danger.js step configured in your CI pipeline config file, you will also need
-to call the plugin inside your `dangerfile.(js|ts)`, like such:
-
-```ts
-import dangerJs from './plugins';
-
-dangerJs();
-```
-
-Additionally, make sure that your danger.js step in CI runs after the performance tests step to assure that the input file
-consumed by the plugin had been generated.
 
 ## Contributing
 
