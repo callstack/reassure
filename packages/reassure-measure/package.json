@@ -1,6 +1,6 @@
 {
   "name": "@reassure/reassure-measure",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Performance measurement library for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

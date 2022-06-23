@@ -1,6 +1,6 @@
 {
   "name": "@reassure/reassure-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -45,7 +45,7 @@
     "registry": "https://reassure.bytesafe.dev/r/reassure/"
   },
   "dependencies": {
-    "@reassure/reassure-compare": "0.0.1",
+    "@reassure/reassure-compare": "0.0.2",
     "yargs": "^17.5.1"
   },
   "devDependencies": {
