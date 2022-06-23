@@ -30,7 +30,6 @@ Performance testing companion for React and React Native.
     - [Default configuration](#default-configuration)
     - [`configure` function](#configure-function)
     - [`resetToDefault` function](#resettodefault-function)
-- [Credits](#credits)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -320,26 +319,20 @@ resetToDefault(): void
 
 Reset current config to the original `defaultConfig` object
 
-## Credits
-
-Reassure is an Open Source project and will always remain free to use. The project has been developed in close
-partnership with [Entain](https://entaingroup.com/) and was originally their in-house project but, thanks to their
-willingness to develop the React & React Native ecosystem, we decided to make it Open Source.
-
-<p align="center">
-<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
-</p>
-
-If you think it's cool, please star it 🌟
-
-Callstack is a group of React and React Native experts. If you need any help with these or just want to say hi, contact us at hello@callstack.com!
-
-Like the project? ⚛️ [Join the Callstack team](https://callstack.com/careers/?utm_campaign=Senior_RN&utm_source=github&utm_medium=readme) who does amazing stuff for clients and drives React Native Open Source! 🔥
-
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
 ## License
 
-MIT
+[MIT](./LICENSE)
+
+## Made with ❤️ at Callstack
+
+Reassure is an Open Source project and will always remain free to use. The project has been developed in close
+partnership with [Entain](https://entaingroup.com/) and was originally their in-house project. Thanks to their
+willingness to develop the React & React Native ecosystem, we decided to make it Open Source. If you think it's cool, please star it 🌟
+
+Callstack is a group of React and React Native experts. If you need any help with these or just want to say hi, contact us at hello@callstack.com!
+
+Like the project? ⚛️ [Join the Callstack team](https://callstack.com/careers/?utm_campaign=Senior_RN&utm_source=github&utm_medium=readme) who does amazing stuff for clients and drives React Native Open Source! 🔥
