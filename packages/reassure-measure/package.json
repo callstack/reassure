@@ -16,6 +16,9 @@
     "!**/__mocks__"
   ],
   "scripts": {
+    "test": "jest",
+    "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "build": "bob build"
   },
   "keywords": [
@@ -38,10 +41,28 @@
   "dependencies": {
     "mathjs": "^10.1.1"
   },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/runtime": "^7.12.5",
+    "@callstack/eslint-config": "^12.0.0",
+    "@testing-library/react-native": "^9.0.0",
+    "@types/jest": "^27.0.3",
+    "@types/react": "^17.0.39",
+    "@types/react-native": "0.66.16",
+    "babel-jest": "^27.5.1",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^27.4.3",
+    "prettier": "^2.0.5",
+    "react": "^18.2.0",
+    "react-native": "0.67.2",
+    "react-native-builder-bob": "^0.18.0",
+    "react-test-renderer": "^18.2.0",
+    "typescript": "^4.5.2"
+  },
   "peerDependencies": {
-    "@testing-library/react-native": "*",
-    "react": "*",
-    "react-native": "*"
+    "react": "*"
   },
   "react-native-builder-bob": {
     "source": "src",
@@ -54,8 +75,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "typescript": "^4.5.2"
   }
 }
