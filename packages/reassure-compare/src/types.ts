@@ -1,5 +1,3 @@
-export const STATISTICAL_SIGNIFICANCE = ['SIGNIFICANT', 'INSIGNIFICANT', 'MEANINGLESS'] as const;
-
 /**
  * Entry in the performance results file.
  */
@@ -30,11 +28,6 @@ export interface PerformanceEntry {
 }
 
 /**
- * Type of the performance measure change as compared to the baseline results
- */
-export type StatisticalSignificance = typeof STATISTICAL_SIGNIFICANCE[number];
-
-/**
  * Compare entry for tests that have both baseline and current entry
  */
 export interface CompareEntry {
@@ -43,7 +36,7 @@ export interface CompareEntry {
   baseline: PerformanceEntry;
   durationDiff: number;
   relativeDurationDiff: number;
-  durationDiffSignificance: StatisticalSignificance;
+  isDurationDiffSignificant: boolean;
   countDiff: number;
   relativeCountDiff: number;
 }
@@ -69,7 +62,6 @@ export interface RemovedEntry {
  */
 export type CompareResult = {
   significant: CompareEntry[];
-  insignificant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
   added: AddedEntry[];

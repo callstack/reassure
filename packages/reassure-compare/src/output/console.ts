@@ -9,9 +9,6 @@ export function printToConsole(data: CompareResult) {
   console.log('\n➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);
 
-  console.log('\n➡️  Insignficant changes to render duration');
-  data.insignificant.forEach(printRegularLine);
-
   console.log('\n➡️  Meaningless changes to render duration');
   data.meaningless.forEach(printRegularLine);
 

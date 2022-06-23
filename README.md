@@ -233,8 +233,7 @@ You can refer to our example [GitHub workflow](https://github.com/callstack-inte
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
 - **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
-- **Meaningless Changes To Render Duration** shows test scenarios where the change that statistically meaningless, i.e. is random noise
-- **Insignificant Changes To Render Duration** shows change that cannot be easily categorized as significant or meaningless.
+- **Meaningless Changes To Render Duration** shows test scenarios where the change is not stastatistically significant
 - **Changes To Render Count** shows test scenarios where render count did change
 - **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
@@ -303,7 +302,7 @@ dropWorst
 #### `configure` function
 
 ```ts
-function configure(customConfig: Partial<Config>): void
+function configure(customConfig: Partial<Config>): void;
 ```
 
 You can use the `configure` function to override the default config parameters.

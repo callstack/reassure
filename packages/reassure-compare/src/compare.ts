@@ -2,14 +2,7 @@ import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 
 import { hasDuplicateValues } from './utils/array';
-import type {
-  PerformanceEntry,
-  StatisticalSignificance,
-  AddedEntry,
-  RemovedEntry,
-  CompareEntry,
-  CompareResult,
-} from './types';
+import type { PerformanceEntry, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
@@ -21,25 +14,12 @@ import { errors, warnings, logError, logWarning } from './utils/logs';
 const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 
 /**
- * Probability threshold for considering given difference meaningless.
- */
-const PROBABILITY_CONSIDERED_MEANINGLESS = 0.05;
-
-/**
  * Render duration threshold (in ms) for treating given difference as significant.
  *
  * This is additional filter, in addition to probability threshold above.
  * Too small duration difference might be result of measurement grain of 1 ms.
  */
 const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
-
-/**
- * Render duration threshold (in ms) for treating given difference as meaningless.
- *
- * This is an overriding filter that can override probability threshold above.
- * Too small duration difference might be result of measurement grain of 1 ms.
- */
-const DURATION_DIFF_THRESHOLD_MININGLESS = 2;
 
 /**
  * Threshold for considering render count change as significant. This implies inclusion
@@ -145,13 +125,10 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
   });
 
   const significant = compared
-    .filter((item) => item.durationDiffSignificance === 'SIGNIFICANT')
-    .sort((a, b) => b.durationDiff - a.durationDiff);
-  const insignificant = compared
-    .filter((item) => item.durationDiffSignificance === 'INSIGNIFICANT')
+    .filter((item) => item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
   const meaningless = compared
-    .filter((item) => item.durationDiffSignificance === 'MEANINGLESS')
+    .filter((item) => !item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
   const countChanged = compared
     .filter((item) => item.countDiff > COUNT_DIFF_THRESHOLD)
@@ -163,7 +140,6 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
     errors,
     warnings,
     significant,
-    insignificant,
     meaningless,
     countChanged,
     added,
@@ -183,12 +159,8 @@ function buildCompareEntry(name: string, current: PerformanceEntry, baseline: Pe
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
   const prob = computeProbability(z);
 
-  let durationDiffSignificance: StatisticalSignificance = 'INSIGNIFICANT';
-  if (prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT)
-    durationDiffSignificance = 'SIGNIFICANT';
-
-  if (prob > PROBABILITY_CONSIDERED_MEANINGLESS || Math.abs(durationDiff) <= DURATION_DIFF_THRESHOLD_MININGLESS)
-    durationDiffSignificance = 'MEANINGLESS';
+  const isDurationDiffSignificant =
+    prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT;
 
   return {
     name,
@@ -196,7 +168,7 @@ function buildCompareEntry(name: string, current: PerformanceEntry, baseline: Pe
     current,
     durationDiff,
     relativeDurationDiff,
-    durationDiffSignificance,
+    isDurationDiffSignificant,
     countDiff,
     relativeCountDiff,
   };
