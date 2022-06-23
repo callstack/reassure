@@ -250,13 +250,13 @@ measuring its performance and writing results to the output file. You can use op
 of the testing
 
 ```ts
-export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
+async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
 ```
 
 #### `MeasureOptions` type
 
 ```ts
-export interface MeasureOptions {
+interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
@@ -286,7 +286,7 @@ type Config = {
 ```
 
 ```ts
-export const defaultConfig: Config = {
+const defaultConfig: Config = {
   runs: 10,
   dropWorst: 1,
   outputFile: '.reassure/current.perf',
@@ -303,7 +303,7 @@ dropWorst
 #### `configure` function
 
 ```ts
-configure(customConfig: Config): void
+function configure(customConfig: Partial<Config>): void
 ```
 
 You can use the `configure` function to override the default config parameters.

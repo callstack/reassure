@@ -1,8 +1,8 @@
 type Config = {
-  runs?: number;
-  dropWorst?: number;
-  outputFile?: string;
-  verbose?: boolean;
+  runs: number;
+  dropWorst: number;
+  outputFile: string;
+  verbose: boolean;
 };
 
 const defaultConfig: Config = {
@@ -14,7 +14,7 @@ const defaultConfig: Config = {
 
 export let config = defaultConfig;
 
-export function configure(customConfig: Config) {
+export function configure(customConfig: Partial<Config>) {
   config = {
     ...defaultConfig,
     ...customConfig,
