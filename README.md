@@ -13,7 +13,6 @@ Performance testing companion for React and React Native.
 - [The problem](#the-problem)
 - [The solution](#the-solution)
 - [Installation and setup](#installation-and-setup)
-  - [NPM package](#npm-package)
   - [Writing your first test](#writing-your-first-test)
     - [Writing async tests](#writing-async-tests)
   - [Optional: ES Lint setup](#optional-es-lint-setup)
@@ -52,8 +51,6 @@ build Reassure on top of it, so that you can reuse your integration test scenari
 Reassure works by measuring render characteristics (render duration and count) of your modified code ("current", e.g your PR branch) and comparing that to render characteristics of the stable version of your code ("baseline", usually your `main` branch). We do it many times to reduce impact of random variations in render times. Then we apply statistical analysis to figure out whether the code changes are statistically significant. Finally, we generate a human-readable report summarizing our findings and displaying it on the CI.
 
 ## Installation and setup
-
-### NPM package
 
 In order to install Reassure run following command in your app folder:
 
