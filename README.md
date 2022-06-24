@@ -15,12 +15,12 @@ Performance testing companion for React and React Native.
 - [Installation and setup](#installation-and-setup)
   - [Writing your first test](#writing-your-first-test)
     - [Writing async tests](#writing-async-tests)
-  - [Optional: ES Lint setup](#optional-es-lint-setup)
+  - [Optional: ESLint setup](#optional-eslint-setup)
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
   - [CI integration](#ci-integration)
 - [Assessing CI stability](#assessing-ci-stability)
-- [Analysing results](#analysing-results)
+- [Analyzing results](#analyzing-results)
 - [API](#api)
   - [Measurements](#measurements)
     - [`measurePerformance` function](#measureperformance-function)
@@ -31,6 +31,7 @@ Performance testing companion for React and React Native.
     - [`resetToDefault` function](#resettodefault-function)
 - [Contributing](#contributing)
 - [License](#license)
+- [Made with ❤️ at Callstack](#made-with-️-at-callstack)
 
 ## The problem
 
@@ -228,13 +229,14 @@ You can refer to our example [GitHub workflow](https://github.com/callstack-inte
 
 ## Analyzing results
 
-<img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
+<p align="center">
+<img src="./docs/report-markdown.png" width="920px" alt="Markdown report" />
+</p>
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
 - **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
-- **Meaningless Changes To Render Duration** shows test scenarios where the change that statistically meaningless, i.e. is random noise
-- **Insignificant Changes To Render Duration** shows change that cannot be easily categorized as significant or meaningless.
+- **Meaningless Changes To Render Duration** shows test scenarios where the change is not stastatistically significant
 - **Changes To Render Count** shows test scenarios where render count did change
 - **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
@@ -303,7 +305,7 @@ dropWorst
 #### `configure` function
 
 ```ts
-function configure(customConfig: Partial<Config>): void
+function configure(customConfig: Partial<Config>): void;
 ```
 
 You can use the `configure` function to override the default config parameters.

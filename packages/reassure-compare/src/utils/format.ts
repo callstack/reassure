@@ -61,17 +61,16 @@ export function formatRenderDurationChange(entry: CompareEntry) {
 }
 
 function getRenderDurationSymbols(entry: CompareEntry) {
-  if (entry.durationDiffSignificance === 'SIGNIFICANT') {
-    if (entry.relativeDurationDiff > 0.33) return '🔴🔴';
-    if (entry.relativeDurationDiff > 0.05) return '🔴';
-    if (entry.relativeDurationDiff < -0.33) return '🟢🟢';
-    if (entry.relativeDurationDiff < -0.05) return ' 🟢';
+  if (!entry.isDurationDiffSignificant) {
+    if (entry.relativeDurationDiff > 0.15) return '🔴';
+    if (entry.relativeDurationDiff < -0.15) return '🟢';
+    return '';
   }
 
-  if (entry.durationDiffSignificance === 'INSIGNIFICANT') {
-    if (entry.relativeDurationDiff > 0.05) return '🔴';
-    if (entry.relativeDurationDiff < -0.05) return '🟢';
-  }
+  if (entry.relativeDurationDiff > 0.33) return '🔴🔴';
+  if (entry.relativeDurationDiff > 0.05) return '🔴';
+  if (entry.relativeDurationDiff < -0.33) return '🟢🟢';
+  if (entry.relativeDurationDiff < -0.05) return ' 🟢';
 
   return '';
 }

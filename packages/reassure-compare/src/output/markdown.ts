@@ -59,11 +59,8 @@ function buildMarkdown(data: CompareResult) {
   result += `\n\n${headers.h3('Significant Changes To Render Duration')}`;
   result += `\n${buildSummaryTable(data.significant)}`;
   result += `\n${buildDetailsTable(data.significant)}`;
-  result += `\n\n${headers.h3('Insignificant Changes To Render Duration')}`;
-  result += `\n${buildSummaryTable(data.insignificant)}`;
-  result += `\n${buildDetailsTable(data.insignificant)}`;
   result += `\n\n${headers.h3('Meaningless Changes To Render Duration')}`;
-  result += `\n${buildSummaryTable(data.meaningless)}`;
+  result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
   result += `\n\n${headers.h3('Changes To Render Count')}`;
   result += `\n${buildSummaryTable(data.countChanged)}`;
@@ -79,11 +76,13 @@ function buildMarkdown(data: CompareResult) {
   return result;
 }
 
-function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
+function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {
   if (!entries.length) return emphasis.i('There are no entries');
 
   const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
-  return markdownTable([tableHeader, ...rows]);
+  const content = markdownTable([tableHeader, ...rows]);
+
+  return collapse ? collapsibleSection('Show entries', content) : content;
 }
 
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
