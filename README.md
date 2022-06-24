@@ -15,12 +15,12 @@ Performance testing companion for React and React Native.
 - [Installation and setup](#installation-and-setup)
   - [Writing your first test](#writing-your-first-test)
     - [Writing async tests](#writing-async-tests)
-  - [Optional: ES Lint setup](#optional-es-lint-setup)
+  - [Optional: ESLint setup](#optional-eslint-setup)
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
   - [CI integration](#ci-integration)
 - [Assessing CI stability](#assessing-ci-stability)
-- [Analysing results](#analysing-results)
+- [Analyzing results](#analyzing-results)
 - [API](#api)
   - [Measurements](#measurements)
     - [`measurePerformance` function](#measureperformance-function)
@@ -31,6 +31,7 @@ Performance testing companion for React and React Native.
     - [`resetToDefault` function](#resettodefault-function)
 - [Contributing](#contributing)
 - [License](#license)
+- [Made with ❤️ at Callstack](#made-with-️-at-callstack)
 
 ## The problem
 
@@ -228,7 +229,7 @@ You can refer to our example [GitHub workflow](https://github.com/callstack-inte
 
 ## Analyzing results
 
-<img src="./docs/report-markdown.jpg" width="830px" alt="Markdown report" />
+<img src="./docs/report-markdown.png" width="829px" alt="Markdown report" />
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
