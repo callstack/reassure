@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { RenderAPI } from '@testing-library/react-native';
+import { RenderAPI, cleanup } from '@testing-library/react-native';
 import * as math from 'mathjs';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
@@ -67,6 +67,8 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     if (scenario) {
       await scenario(view);
     }
+
+    cleanup();
 
     isFinished = true;
     global.gc?.();
