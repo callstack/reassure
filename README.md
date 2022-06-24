@@ -229,7 +229,7 @@ You can refer to our example [GitHub workflow](https://github.com/callstack-inte
 
 ## Analyzing results
 
-<img src="./docs/report-markdown.png" width="829px" alt="Markdown report" />
+<img src="./docs/report-markdown.png" width="900px" alt="Markdown report" />
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
