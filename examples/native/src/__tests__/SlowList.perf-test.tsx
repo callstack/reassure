@@ -1,10 +1,7 @@
-import { measurePerformance } from '@reassure/reassure';
-
 import React from 'react';
-
 import { View, TouchableOpacity, Text } from 'react-native';
-import { fireEvent, RenderAPI } from '@testing-library/react-native';
-
+import { fireEvent, screen } from '@testing-library/react-native';
+import { measurePerformance } from '@reassure/reassure';
 import { SlowList } from '../components/SlowList';
 
 const AsyncComponent = () => {
@@ -29,7 +26,7 @@ const AsyncComponent = () => {
 
 jest.setTimeout(60_000);
 test('Async Component', async () => {
-  const scenario = async (screen: RenderAPI) => {
+  const scenario = async () => {
     const button = screen.getByText('Action');
 
     fireEvent.press(button);

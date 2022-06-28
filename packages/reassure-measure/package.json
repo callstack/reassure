@@ -27,7 +27,7 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/callstack-internal/reassure",
+  "repository": "https://github.com/callstack/reassure",
   "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
   "contributors": [
     "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
@@ -36,9 +36,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callstack-internal/reassure/issues"
+    "url": "https://github.com/callstack/reassure/issues"
   },
-  "homepage": "https://github.com/callstack-internal/reassure#readme",
+  "homepage": "https://github.com/callstack/reassure#readme",
   "publishConfig": {
     "registry": "https://reassure.bytesafe.dev/r/reassure/"
   },
@@ -50,7 +50,7 @@
     "@babel/runtime": "^7.12.5",
     "@callstack/eslint-config": "^12.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
-    "@testing-library/react-native": "^9.0.0",
+    "@testing-library/react-native": "^10.1.1",
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.39",
     "@types/react-native": "0.66.16",
