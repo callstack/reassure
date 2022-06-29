@@ -257,7 +257,7 @@ interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
-  scenario?: (view: RenderResult) => Promise<any>;
+  scenario?: (view?: RenderResult) => Promise<any>;
 }
 ```
 
@@ -279,6 +279,7 @@ type Config = {
   dropWorst?: number;
   outputFile?: string;
   verbose?: boolean;
+  render?: typeof render;
 };
 ```
 

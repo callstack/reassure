@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cleanup } from '@testing-library/react-native';
+import { cleanup, RenderAPI } from '@testing-library/react-native';
 import * as math from 'mathjs';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
@@ -9,7 +9,7 @@ export interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
-  scenario?: () => Promise<any>;
+  scenario?: (view?: RenderAPI) => Promise<any>;
 }
 
 export async function measurePerformance(
@@ -49,14 +49,14 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
       }
     };
 
-    config.render(
+    const view = config.render(
       <React.Profiler id="Test" onRender={handleRender}>
         {wrappedUi}
       </React.Profiler>
     );
 
     if (scenario) {
-      await scenario();
+      await scenario(view);
     }
 
     cleanup();
