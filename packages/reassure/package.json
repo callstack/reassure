@@ -1,5 +1,5 @@
 {
-  "name": "@reassure/reassure",
+  "name": "reassure",
   "version": "0.0.2",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
@@ -35,9 +35,6 @@
     "url": "https://github.com/callstack/reassure/issues"
   },
   "homepage": "https://github.com/callstack/reassure#readme",
-  "publishConfig": {
-    "registry": "https://reassure.bytesafe.dev/r/reassure/"
-  },
   "dependencies": {
     "@reassure/reassure-cli": "0.0.2",
     "@reassure/reassure-measure": "0.0.2"

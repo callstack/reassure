@@ -35,9 +35,6 @@
     "url": "https://github.com/callstack/reassure/issues"
   },
   "homepage": "https://github.com/callstack/reassure#readme",
-  "publishConfig": {
-    "registry": "https://reassure.bytesafe.dev/r/reassure/"
-  },
   "dependencies": {
     "markdown-builder": "^0.9.0",
     "markdown-table": "^2.0.0"

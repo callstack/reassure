@@ -3,9 +3,6 @@
     "outDir": "lib",
     "allowJs": true,
     "baseUrl": "./",
-    "paths": {
-      "@reassure/reassure": ["./src/index"]
-    },
     "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

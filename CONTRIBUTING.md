@@ -85,7 +85,7 @@ We use Changesets to make it easier to publish new versions. It handles common t
 To publish new versions, run the following:
 
 ```sh
-yarn changeset publish
+yarn publish
 ```
 
 ### Scripts
