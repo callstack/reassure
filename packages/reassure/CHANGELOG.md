@@ -1,5 +1,11 @@
 # reassure
 
+## 0.0.3
+
+### Patch Changes
+
+- c714f1b6: Add readme for the reassure package so it's visible in npm
+
 ## 0.0.2
 
 ### Patch Changes
