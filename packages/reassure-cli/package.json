@@ -38,9 +38,6 @@
     "url": "https://github.com/callstack/reassure/issues"
   },
   "homepage": "https://github.com/callstack/reassure#readme",
-  "publishConfig": {
-    "registry": "https://reassure.bytesafe.dev/r/reassure/"
-  },
   "dependencies": {
     "@reassure/reassure-compare": "0.0.2",
     "yargs": "^17.5.1"

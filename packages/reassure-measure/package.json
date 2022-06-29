@@ -35,9 +35,6 @@
     "url": "https://github.com/callstack/reassure/issues"
   },
   "homepage": "https://github.com/callstack/reassure#readme",
-  "publishConfig": {
-    "registry": "https://reassure.bytesafe.dev/r/reassure/"
-  },
   "dependencies": {
     "mathjs": "^10.1.1"
   },
