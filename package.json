@@ -9,7 +9,6 @@
     "test:example": "cd ./examples/native && jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "release": "release-it",
     "pods": "cd examples/native && pod-install --quiet",
     "build": "turbo run build",
     "changeset": "changeset",
@@ -42,7 +41,6 @@
     "@callstack/eslint-config": "^12.0.0",
     "@changesets/cli": "^2.23.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@release-it/conventional-changelog": "^2.0.0",
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-native": "^10.1.1",
     "@types/jest": "^27.0.3",
@@ -63,7 +61,6 @@
     "react-native": "0.67.2",
     "react-native-builder-bob": "^0.18.0",
     "react-test-renderer": "^18.2.0",
-    "release-it": "^14.2.2",
     "turbo": "^1.2.16",
     "typescript": "^4.5.2"
   },
@@ -74,23 +71,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
-      }
-    }
   },
   "eslintIgnore": [
     "node_modules/",

@@ -257,11 +257,7 @@ interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
-<<<<<<< HEAD
   scenario?: (view?: RenderResult) => Promise<any>;
-=======
-  scenario?: (view: RenderResult) => Promise<any>;
->>>>>>> f1677898 (feat: add render config option; revamp readme)
 }
 ```
 
