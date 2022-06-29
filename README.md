@@ -1,11 +1,11 @@
 <p align="center">
-<img src="./docs/logo.png" width="400px" alt="Reassure" />
+<img src="./packages/reassure/docs/logo.png" width="400px" alt="Reassure" />
 </p>
 <p align="center">
 Performance testing companion for React and React Native.
 </p>
 <p align="center">
-<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
+<img src="./packages/reassure/docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
 </p>
 
 ---
@@ -225,7 +225,7 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 ## Analyzing results
 
 <p align="center">
-<img src="./docs/report-markdown.png" width="920px" alt="Markdown report" />
+<img src="./packages/reassure/docs/report-markdown.png" width="920px" alt="Markdown report" />
 </p>
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
