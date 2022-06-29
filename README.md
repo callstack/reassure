@@ -56,13 +56,13 @@ In order to install Reassure run following command in your app folder:
 Using yarn
 
 ```sh
-yarn add --dev @reassure/reassure
+yarn add --dev reassure
 ```
 
 Using npm
 
 ```sh
-npm install --save-dev @reassure/reassure
+npm install --save-dev reassure
 ```
 
 You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) and [Jest](https://jestjs.io/docs/getting-started) setup.
@@ -73,7 +73,7 @@ Now that the library is installed, you can write you first test scenario in a fi
 
 ```ts
 // ComponentUnderTest.perf-test.tsx
-import { measurePerformance } from '@reassure/reassure';
+import { measurePerformance } from 'reassure';
 
 test('Simple test', async () => {
   await measurePerformance(<ComponentUnderTest />);
@@ -89,7 +89,7 @@ This test will measure render times of `ComponentUnderTest` during mounting and 
 If your component contains any async logic or you want to test some interaction you should pass the `scenario` option:
 
 ```ts
-import { measurePerformance } from '@reassure/reassure';
+import { measurePerformance } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
 
 test('Test with scenario', async () => {
@@ -161,7 +161,7 @@ Then add Reassure Danger JS plugin to your dangerfile :
 
 ```ts
 import path from 'path';
-import reassureDangerPlugin from '@reassure/reassure/plugins';
+import reassureDangerPlugin from 'reassure/plugins';
 
 reassureDangerPlugin({
   inputFilePath: path.join(__dirname, '.reassure/output.md'),

@@ -1,5 +1,5 @@
 {
-  "name": "@reassure/reassure",
+  "name": "reassure",
   "version": "0.0.2",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { fireEvent, RenderAPI, screen } from '@testing-library/react-native';
-import { measurePerformance } from '@reassure/reassure';
+import { measurePerformance } from 'reassure';
 
 import { SlowList } from '../components/SlowList';
 

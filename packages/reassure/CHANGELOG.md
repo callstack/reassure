@@ -1,4 +1,4 @@
-# @reassure/reassure
+# reassure
 
 ## 0.0.2
 
