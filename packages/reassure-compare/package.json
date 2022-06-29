@@ -26,7 +26,7 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/callstack-internal/reassure",
+  "repository": "https://github.com/callstack/reassure",
   "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
   "contributors": [
     "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
@@ -35,9 +35,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/callstack-internal/reassure/issues"
+    "url": "https://github.com/callstack/reassure/issues"
   },
-  "homepage": "https://github.com/callstack-internal/reassure#readme",
+  "homepage": "https://github.com/callstack/reassure#readme",
   "publishConfig": {
     "registry": "https://reassure.bytesafe.dev/r/reassure/"
   },
