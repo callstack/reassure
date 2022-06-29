@@ -17,25 +17,25 @@ While developing, you can run the [example app](/examples/native/) to test your 
 To start the packager:
 
 ```sh
-yarn example start
+yarn workspace reassure-example start
 ```
 
 To run the example app on Android:
 
 ```sh
-yarn example android
+yarn workspace reassure-example android
 ```
 
 To run the example app on iOS:
 
 ```sh
-yarn example ios
+yarn workspace reassure-example ios
 ```
 
 To run the example app on Web:
 
 ```sh
-yarn example web
+yarn workspace reassure-example web
 ```
 
 Make sure your code passes TypeScript and ESLint. Run the following to verify:
@@ -80,12 +80,12 @@ Our pre-commit hooks verify that the linter and tests pass when committing.
 
 ### Publishing to npm
 
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
+We use Changesets to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
 
 To publish new versions, run the following:
 
 ```sh
-yarn release
+yarn changeset publish
 ```
 
 ### Scripts
@@ -95,6 +95,7 @@ The `package.json` file contains various scripts for common tasks:
 - `yarn typescript`: type-check files with TypeScript.
 - `yarn lint`: lint files with ESLint.
 - `yarn test`: run unit tests with Jest.
+- `yarn build`: build the files.
 
 ### Sending a pull request
 
