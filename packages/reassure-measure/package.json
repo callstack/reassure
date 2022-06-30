@@ -39,9 +39,9 @@
     "mathjs": "^10.1.1"
   },
   "peerDependencies": {
+    "@testing-library/react-native": "*",
     "react": "*",
-    "react-native": "*",
-    "@testing-library/react-native": "*"
+    "react-native": "*"
   },
   "react-native-builder-bob": {
     "source": "src",
@@ -49,15 +49,13 @@
     "targets": [
       "commonjs",
       "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.json"
-        }
-      ]
+      "typescript"
     ]
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.2"
   }
 }

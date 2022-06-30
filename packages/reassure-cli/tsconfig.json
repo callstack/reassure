@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
     "allowJs": true,
     "baseUrl": "./",
-    "paths": {
-      "@reassure/reassure-compare": ["../reassure-compare/src/index"],
-    },
     "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

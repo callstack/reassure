@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {},
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,

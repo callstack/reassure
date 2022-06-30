@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
     "allowJs": true,
     "baseUrl": "./",
-    "paths": {},
     "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

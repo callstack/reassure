@@ -39,18 +39,16 @@
     "@reassure/reassure-cli": "0.0.3",
     "@reassure/reassure-measure": "0.0.2"
   },
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
     "targets": [
       "commonjs",
       "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.json"
-        }
-      ]
+      "typescript"
     ]
   },
   "publishConfig": {

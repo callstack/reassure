@@ -45,15 +45,13 @@
     "targets": [
       "commonjs",
       "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.json"
-        }
-      ]
+      "typescript"
     ]
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.2"
   }
 }

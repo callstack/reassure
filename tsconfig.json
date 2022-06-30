@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
     "allowJs": true,
     "baseUrl": "./",
     "isolatedModules": true,

@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
     "allowJs": true,
     "baseUrl": "./",
-    "paths": {
-      "reassure": ["./src/index"]
-    },
     "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
