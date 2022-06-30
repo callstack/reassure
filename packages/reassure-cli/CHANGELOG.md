@@ -1,5 +1,16 @@
 # @reassure/reassure-cli
 
+## 0.1.0
+
+### Minor Changes
+
+- d6bfef03: Add note about ignoring .reassure folder
+
+### Patch Changes
+
+- Updated dependencies [d6bfef03]
+  - @reassure/reassure-compare@0.1.0
+
 ## 0.0.4
 
 ### Patch Changes
