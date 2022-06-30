@@ -1,5 +1,14 @@
 # reassure
 
+## 0.0.6
+
+### Patch Changes
+
+- 27f45e83: Fix typescript setup for publishing with bob
+- Updated dependencies [27f45e83]
+  - @reassure/reassure-cli@0.0.4
+  - @reassure/reassure-measure@0.0.3
+
 ## 0.0.5
 
 ### Patch Changes
