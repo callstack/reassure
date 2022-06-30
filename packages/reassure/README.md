@@ -1,11 +1,11 @@
 <p align="center">
-<img src="./docs/logo.png" width="400px" alt="Reassure" />
+<img src="docs/logo.png" width="400px" alt="Reassure" />
 </p>
 <p align="center">
 Performance testing companion for React and React Native.
 </p>
 <p align="center">
-<img src="./docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
+<img src="docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
 </p>
 
 ---
@@ -121,6 +121,8 @@ This command will run your tests multiple times using Jest, gathering render sta
 `.reassure/current.perf` file. In order to check your setup, check if the output file exists after running the
 command for the first time.
 
+> **Note:** You can add `.reassure/` folder to your `.gitignore` file to avoid accidentally committing your results.
+
 ### Write performance testing script
 
 In order to detect performance changes, you need to measure the performance of two versions of your code
@@ -225,7 +227,7 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 ## Analyzing results
 
 <p align="center">
-<img src="./docs/report-markdown.png" width="920px" alt="Markdown report" />
+<img src="docs/report-markdown.png" width="920px" alt="Markdown report" />
 </p>
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:

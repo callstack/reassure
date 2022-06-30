@@ -121,6 +121,8 @@ This command will run your tests multiple times using Jest, gathering render sta
 `.reassure/current.perf` file. In order to check your setup, check if the output file exists after running the
 command for the first time.
 
+> **Note:** You can add `.reassure/` folder to your `.gitignore` file to avoid accidentally committing your results.
+
 ### Write performance testing script
 
 In order to detect performance changes, you need to measure the performance of two versions of your code
