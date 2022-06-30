@@ -1,5 +1,13 @@
 # reassure
 
+## 0.0.5
+
+### Patch Changes
+
+- 91959c68: Fix index export
+- Updated dependencies [91959c68]
+  - @reassure/reassure-cli@0.0.3
+
 ## 0.0.4
 
 ### Patch Changes
