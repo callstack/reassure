@@ -1,11 +1,15 @@
 <p align="center">
-<img src="./packages/reassure/docs/logo.png" width="400px" alt="Reassure" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="packages/reassure/docs/logo-dark.png">
+    <img src="packages/reassure/docs/logo.png" width="400px" alt="Reassure" />
+  </picture>
 </p>
+<p align="center">Performance testing companion for React and React Native.</p>
 <p align="center">
-Performance testing companion for React and React Native.
-</p>
-<p align="center">
-<img src="./packages/reassure/docs/callstack-x-entain.jpg" width="327px" alt="Callstack x Entain" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="packages/reassure/docs/callstack-x-entain-dark.png">
+    <img src="packages/reassure/docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
+  </picture>
 </p>
 
 ---
