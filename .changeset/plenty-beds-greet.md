@@ -2,4 +2,4 @@
 '@reassure/reassure-cli': minor
 ---
 
-added runner configuration options via environmental variables
+Add `TEST_RUNNER_PATH` and `TEST_RUNNER_ARGS` env variables to configure test runner
