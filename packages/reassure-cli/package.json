@@ -1,6 +1,6 @@
 {
   "name": "@reassure/reassure-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

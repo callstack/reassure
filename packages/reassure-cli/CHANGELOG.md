@@ -1,5 +1,11 @@
 # @reassure/reassure-cli
 
+## 0.2.0
+
+### Minor Changes
+
+- 472c7735: Add `TEST_RUNNER_PATH` and `TEST_RUNNER_ARGS` env variables to configure test runner
+
 ## 0.1.0
 
 ### Minor Changes

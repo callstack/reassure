@@ -1,6 +1,6 @@
 {
   "name": "reassure",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@reassure/reassure-cli": "0.1.0",
+    "@reassure/reassure-cli": "0.2.0",
     "@reassure/reassure-measure": "0.1.0"
   },
   "devDependencies": {
