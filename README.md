@@ -322,6 +322,19 @@ resetToDefault(): void
 
 Reset current config to the original `defaultConfig` object
 
+#### Environmental variables
+
+You can use avaialable environmental variables in order to alter your test runner settings.
+
+**`TEST_RUNNER_PATH`**: An alternative path for your test runner. Defaults to `'node_modules/.bin/jest'`
+**`TEST_RUNNER_ARGS`**: Set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"'`
+
+Example:
+
+```sh
+TEST_RUNNER_PATH=myOwnPath/jest/bin yarn reassure measure
+```
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.

@@ -23,9 +23,8 @@ export function run(options: MeasureOptions) {
       '--expose-gc',
       '--no-concurrent-sweeping',
       '--max-old-space-size=4096',
-      'node_modules/.bin/jest',
-      '--runInBand',
-      '--testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"',
+      process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest',
+      process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"',
     ],
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
