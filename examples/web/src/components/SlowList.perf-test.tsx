@@ -1,4 +1,4 @@
-import { measurePerformance } from '@reassure/reassure/web';
+import { measurePerformance } from 'reassure';
 
 import React from 'react';
 
