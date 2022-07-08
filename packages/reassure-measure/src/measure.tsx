@@ -73,7 +73,6 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     }
 
     config.cleanup();
-
     isFinished = true;
     global.gc?.();
 
