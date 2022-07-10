@@ -4,6 +4,6 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { configure } from 'reassure';
-import { render } from '@testing-library/react';
+import { render, cleanup } from '@testing-library/react';
 
-configure({ render });
+configure({ render, cleanup });

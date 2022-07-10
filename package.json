@@ -15,7 +15,8 @@
     "build": "turbo run build",
     "changeset": "changeset",
     "version": "changeset version",
-    "publish": "changeset publish"
+    "publish": "changeset publish",
+    "postinstall": "yarn build"
   },
   "keywords": [
     "react-native",
