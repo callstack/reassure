@@ -4,7 +4,7 @@ import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurat
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
 
-  console.log('⏱  Performance Comparison Results ⏱');
+  console.log('\n❇️  Performance comparison results:');
 
   console.log('\n➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);

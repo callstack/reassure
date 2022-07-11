@@ -1,6 +1,7 @@
-import { mkdirSync, rmSync } from 'fs';
+import { mkdirSync, rmSync, existsSync } from 'fs';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
+import { run as runCompare } from './compare';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
@@ -11,6 +12,8 @@ type MeasureOptions = {
 };
 
 export function run(options: MeasureOptions) {
+  console.log('\n❇️  Running performance tests:');
+
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
@@ -28,11 +31,15 @@ export function run(options: MeasureOptions) {
     ],
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
+
+  if (!options.baseline && existsSync(BASELINE_FILE) && existsSync(RESULTS_FILE)) {
+    runCompare();
+  }
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
   command: 'measure',
-  describe: 'Measures the current performance of performance tests',
+  describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
     return yargs.option('baseline', {
       type: 'boolean',
