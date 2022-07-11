@@ -77,11 +77,10 @@
   ],
   "workspaces": {
     "packages": [
-      "packages/*",
-      "examples/native"
+      "packages/*"
     ],
     "nohoist": [
-      "examples/expo"
+      "examples/*"
     ]
   }
 }
