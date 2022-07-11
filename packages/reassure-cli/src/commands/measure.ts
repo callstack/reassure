@@ -38,7 +38,7 @@ export function run(options: MeasureOptions) {
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
-  command: 'measure',
+  command: ['measure', '$0'],
   describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
     return yargs.option('baseline', {
