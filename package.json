@@ -75,8 +75,13 @@
     "node_modules/",
     "lib/"
   ],
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ]
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/native"
+    ],
+    "nohoist": [
+      "examples/expo"
+    ]
+  }
 }
