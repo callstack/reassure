@@ -52,7 +52,7 @@ export function run(options: MeasureOptions) {
 
   if (options.compare) {
     if (existsSync(BASELINE_FILE)) {
-      compare({});
+      compare();
     } else {
       console.log(
         `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
