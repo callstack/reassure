@@ -1,4 +1,5 @@
 import { mkdirSync, rmSync, existsSync } from 'fs';
+import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import { run as runCompare } from './compare';
@@ -9,6 +10,7 @@ const BASELINE_FILE = '.reassure/baseline.perf';
 
 type MeasureOptions = {
   baseline: boolean;
+  compare: boolean;
 };
 
 export function run(options: MeasureOptions) {
@@ -16,6 +18,7 @@ export function run(options: MeasureOptions) {
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
+  const measurementType = options.baseline ? 'baseline' : 'current';
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
@@ -32,8 +35,28 @@ export function run(options: MeasureOptions) {
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 
-  if (!options.baseline && existsSync(BASELINE_FILE) && existsSync(RESULTS_FILE)) {
-    runCompare();
+  if (existsSync(outputFile)) {
+    console.log(`\n✅  Written ${measurementType} performance measurements to ${outputFile}`);
+    console.log(`🔗 ${resolve(outputFile)}\n`);
+  } else {
+    console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist`);
+    return;
+  }
+
+  if (options.baseline) {
+    console.log("You can now run 'reassure' to measure & compare performance against modified code.");
+    return;
+  }
+
+  if (options.compare) {
+    if (existsSync(BASELINE_FILE)) {
+      runCompare();
+    } else {
+      console.log(
+        `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.`
+      );
+      return;
+    }
   }
 }
 
@@ -41,11 +64,17 @@ export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
   describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
-    return yargs.option('baseline', {
-      type: 'boolean',
-      default: false,
-      describe: 'Save measurements as baseline instead of current',
-    });
+    return yargs
+      .option('baseline', {
+        type: 'boolean',
+        default: false,
+        describe: 'Save measurements as baseline instead of current',
+      })
+      .option('compare', {
+        type: 'boolean',
+        default: true,
+        describe: 'Outputs performance comparison results',
+      });
   },
   handler: (args) => run(args),
 };
