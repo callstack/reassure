@@ -33,9 +33,6 @@ jobs:
       - name: Install and build
         run: yarn install && yarn build
 
-      - name: Run tests
-        run: yarn test && yarn test:example
-
       - name: Validate TypeScript
         run: yarn typescript && yarn typescript:example
 
