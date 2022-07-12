@@ -1,4 +1,4 @@
-name: Test Performance
+name: Main
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: ['**']
 
 jobs:
-  test:
-    name: Run performance tests
+  build-and-validate:
+    name: Build and validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +33,17 @@ jobs:
       - name: Install and build
         run: yarn install && yarn build
 
+      - name: Validate TypeScript
+        run: yarn typescript
+
+      - name: Validate ESLint
+        run: yarn lint
+
+  perf-tests:
+    name: Run performance tests
+    runs-on: ubuntu-latest
+    needs: build-and-validate
+    steps:
       - name: Run comparative test script
         run: cd examples/native && yarn perf-test
 
