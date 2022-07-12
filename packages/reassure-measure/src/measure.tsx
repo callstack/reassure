@@ -9,7 +9,7 @@ export interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
   wrapper?: (node: React.ReactElement) => JSX.Element;
-  scenario?: (view?: RenderAPI) => Promise<any>;
+  scenario?: (screen: RenderAPI) => Promise<any>;
 }
 
 export async function measurePerformance(

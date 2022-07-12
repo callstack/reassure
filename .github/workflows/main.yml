@@ -33,11 +33,14 @@ jobs:
       - name: Install and build
         run: yarn install && yarn build
 
+      - name: Run tests
+        run: yarn test && yarn test:example
+
       - name: Validate TypeScript
-        run: yarn typescript
+        run: yarn typescript && yarn typescript:example
 
       - name: Validate ESLint
-        run: yarn lint
+        run: yarn lint && yarn lint:example
 
   perf-tests:
     name: Run performance tests
