@@ -46,7 +46,7 @@ export function run(options: MeasureOptions) {
   }
 
   if (options.baseline) {
-    console.log("You can now run 'reassure' to measure & compare performance against modified code.\n");
+    console.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
     return;
   }
 
