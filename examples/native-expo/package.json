@@ -1,5 +1,5 @@
 {
-  "name": "expo",
+  "name": "native-expo",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest",
-    "perf-test": "./reassure-tests.sh"
+    "typescript": "tsc --noEmit"
   },
   "dependencies": {
     "expo": "~45.0.0",
@@ -23,9 +23,12 @@
     "@babel/core": "^7.12.9",
     "@testing-library/react-native": "^10.1.1",
     "@types/jest": "^27.5.2",
+    "@types/react": "~17.0.21",
+    "@types/react-native": "~0.67.6",
     "jest": "^27.5.1",
     "react-test-renderer": "^17.0.2",
-    "reassure": "^0.1.2"
+    "reassure": "^0.2.0",
+    "typescript": "~4.3.5"
   },
   "private": true
 }
