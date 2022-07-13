@@ -5835,10 +5835,10 @@ readline@^1.3.0:
   resolved "https://registry.yarnpkg.com/readline/-/readline-1.3.0.tgz#c580d77ef2cfc8752b132498060dc9793a7ac01c"
   integrity sha512-k2d6ACCkiNYz222Fs/iNze30rRJ1iIicW7JuX/7/cozvih6YCkFZH+J6mAFDVgv0dRBaAyr4jDqC95R2y4IADg==
 
-reassure@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.1.1.tgz#b0fb364507250dfb71e481b2fe997bba6bb8fa4a"
-  integrity sha512-9gNzRw2z4Z1w/NwHTdDNmx+pNrj0qtZAHibFcXMtBKVsAdLMtxPn9mNz5icMaQJ1ig6fjB/k2N0NPICZSRK71g==
+reassure@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.1.2.tgz#c6d86b934a0a9e106adad107f9ccc1611ea66916"
+  integrity sha512-xURFOzsHVbrxJwUzeTgxqCi/1P6z+QTHU4Bl6V6zpLk7aheMdw7BaTD+bC8UcgQPZDFELBo1N26+RZY+ZYTW/Q==
   dependencies:
     "@reassure/reassure-cli" "0.2.0"
     "@reassure/reassure-measure" "0.1.0"

@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "perf-test": "./reassure-tests.sh"
   },
   "dependencies": {
     "expo": "~45.0.0",
