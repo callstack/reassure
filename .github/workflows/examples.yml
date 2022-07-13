@@ -1,4 +1,4 @@
-name: Example Perf Tests
+name: Example apps performance tests
 on: [workflow_dispatch]
 
 jobs:
