@@ -9,6 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest",
+    "perf-test": "reassure",
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
