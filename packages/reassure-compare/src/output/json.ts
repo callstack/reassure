@@ -7,10 +7,11 @@ export async function writeToJson(filePath: string, data: CompareResult) {
     await fs.writeFile(filePath, JSON.stringify(data, null, 2));
 
     console.log(`✅  Written JSON output file ${filePath}`);
-    console.log(`🔗 ${path.resolve(filePath)}`);
+    console.log(`🔗 ${path.resolve(filePath)}\n`);
   } catch (error) {
     console.log(`❌  Could not write JSON output file ${filePath}`);
     console.log(`🔗 ${path.resolve(filePath)}`);
     console.error(error);
+    throw error;
   }
 }

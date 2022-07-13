@@ -7,9 +7,6 @@ BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 git checkout "$BASELINE_BRANCH";
 npx reassure measure --baseline
 
-# Gather current perf measurements
+# Gather current perf measurements & compare results
 git checkout "$CURRENT_BRANCH";
 npx reassure measure
-
-# Compare results
-npx reassure compare
