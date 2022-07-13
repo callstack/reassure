@@ -72,6 +72,10 @@ npm install --save-dev reassure
 
 You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) and [Jest](https://jestjs.io/docs/getting-started) setup.
 
+You can check our example projects:
+- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
+- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+
 ### Writing your first test
 
 Now that the library is installed, you can write you first test scenario in a file with `.perf-test.js`/`.perf-test.tsx` extension:
@@ -112,7 +116,7 @@ The body of the `scenario` function is using familiar React Native Testing Libra
 If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using
 `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
 
-For more examples look into our [test examples app](https://github.com/callstack/reassure/tree/main/examples/native/src/__tests__).
+For more examples look into our [test example app](https://github.com/callstack/reassure/tree/main/examples/native/src/__tests__).
 
 ### Measuring test performance
 

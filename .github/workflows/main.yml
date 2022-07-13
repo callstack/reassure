@@ -66,8 +66,8 @@ jobs:
       - name: Install and build
         run: yarn install && yarn build
 
-      - name: Run comparative test script
-        run: cd examples/native && yarn perf-test
+      - name: Run comparative test script for example app
+        run: cd examples/native && ./reassure-tests.sh
 
       - name: Run danger.js
         uses: danger/danger-js@9.1.6
