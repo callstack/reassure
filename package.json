@@ -80,5 +80,6 @@
       "packages/*",
       "examples/native"
     ]
-  }
+  },
+  "packageManager": "yarn@3.2.1"
 }
