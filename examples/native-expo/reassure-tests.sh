@@ -5,8 +5,8 @@ BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 
 # Gather baseline perf measurements
 git checkout "$BASELINE_BRANCH";
-npx reassure measure --baseline
+yarn reassure measure --baseline
 
 # Gather current perf measurements & compare results
 git checkout "$CURRENT_BRANCH";
-npx reassure measure
+yarn reassure measure
