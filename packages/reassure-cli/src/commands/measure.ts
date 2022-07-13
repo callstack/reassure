@@ -2,7 +2,7 @@ import { mkdirSync, rmSync, existsSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
-import { compare } from '@reassure/reassure-compare';
+import { compare } from '@callstack/reassure-compare';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
