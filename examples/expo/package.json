@@ -25,7 +25,7 @@
     "@types/jest": "^27.5.2",
     "jest": "^27.5.1",
     "react-test-renderer": "^17.0.2",
-    "reassure": "^0.1.1"
+    "reassure": "^0.1.2"
   },
   "private": true
 }
