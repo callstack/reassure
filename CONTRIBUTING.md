@@ -24,7 +24,6 @@ To run the performance tests in the examples run the following command:
 
 ```sh
 cd examples/native
-yarn install
 yarn reassure
 ```
 
