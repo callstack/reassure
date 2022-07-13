@@ -11,7 +11,7 @@
 ### Patch Changes
 
 - Updated dependencies [472c7735]
-  - @reassure/reassure-cli@0.2.0
+  - @callstack/reassure-cli@0.2.0
 
 ## 0.1.0
 
@@ -22,8 +22,8 @@
 ### Patch Changes
 
 - Updated dependencies [d6bfef03]
-  - @reassure/reassure-cli@0.1.0
-  - @reassure/reassure-measure@0.1.0
+  - @callstack/reassure-cli@0.1.0
+  - @callstack/reassure-measure@0.1.0
 
 ## 0.0.6
 
@@ -31,8 +31,8 @@
 
 - 27f45e83: Fix typescript setup for publishing with bob
 - Updated dependencies [27f45e83]
-  - @reassure/reassure-cli@0.0.4
-  - @reassure/reassure-measure@0.0.3
+  - @callstack/reassure-cli@0.0.4
+  - @callstack/reassure-measure@0.0.3
 
 ## 0.0.5
 
@@ -40,7 +40,7 @@
 
 - 91959c68: Fix index export
 - Updated dependencies [91959c68]
-  - @reassure/reassure-cli@0.0.3
+  - @callstack/reassure-cli@0.0.3
 
 ## 0.0.4
 
@@ -60,5 +60,5 @@
 
 - 2f8f8c06: setup changesets
 - Updated dependencies [2f8f8c06]
-  - @reassure/reassure-cli@0.0.2
-  - @reassure/reassure-measure@0.0.2
+  - @callstack/reassure-cli@0.0.2
+  - @callstack/reassure-measure@0.0.2

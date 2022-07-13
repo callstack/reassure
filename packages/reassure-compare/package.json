@@ -1,5 +1,5 @@
 {
-  "name": "@reassure/reassure-compare",
+  "name": "@callstack/reassure-compare",
   "version": "0.1.0",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
