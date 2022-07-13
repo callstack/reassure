@@ -10,7 +10,7 @@
     "test": "jest",
     "perf-test": "reassure",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "build": "yarn --force",
+    "build": "yarn",
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
