@@ -1,4 +1,4 @@
-# @reassure/reassure-cli
+# @callstack/reassure-cli
 
 ## 0.2.0
 
@@ -15,7 +15,7 @@
 ### Patch Changes
 
 - Updated dependencies [d6bfef03]
-  - @reassure/reassure-compare@0.1.0
+  - @callstack/reassure-compare@0.1.0
 
 ## 0.0.4
 
@@ -23,7 +23,7 @@
 
 - 27f45e83: Fix typescript setup for publishing with bob
 - Updated dependencies [27f45e83]
-  - @reassure/reassure-compare@0.0.3
+  - @callstack/reassure-compare@0.0.3
 
 ## 0.0.3
 
@@ -37,4 +37,4 @@
 
 - 2f8f8c06: setup changesets
 - Updated dependencies [2f8f8c06]
-  - @reassure/reassure-compare@0.0.2
+  - @callstack/reassure-compare@0.0.2

@@ -1,4 +1,4 @@
-# @reassure/reassure-compare
+# @callstack/reassure-compare
 
 ## 0.1.0
 

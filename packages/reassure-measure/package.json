@@ -1,5 +1,5 @@
 {
-  "name": "@reassure/reassure-measure",
+  "name": "@callstack/reassure-measure",
   "version": "0.1.0",
   "description": "Performance measurement library for React and React Native",
   "main": "lib/commonjs/index",

@@ -36,8 +36,8 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@reassure/reassure-cli": "0.2.0",
-    "@reassure/reassure-measure": "0.1.0"
+    "@callstack/reassure-cli": "0.2.0",
+    "@callstack/reassure-measure": "0.1.0"
   },
   "devDependencies": {
     "typescript": "^4.6.2"
