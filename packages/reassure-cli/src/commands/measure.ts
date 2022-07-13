@@ -2,23 +2,23 @@ import { mkdirSync, rmSync, existsSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
-import { run as runCompare } from './compare';
+import { compare } from '@reassure/reassure-compare';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
 const BASELINE_FILE = '.reassure/baseline.perf';
 
 type MeasureOptions = {
-  baseline: boolean;
-  compare: boolean;
+  baseline?: boolean;
+  compare?: boolean;
 };
 
 export function run(options: MeasureOptions) {
-  console.log('\n❇️  Running performance tests:');
+  const measurementType = options.baseline ? 'baseline' : 'current';
+  console.log(`\n❇️  Running ${measurementType} performance tests:`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
-  const measurementType = options.baseline ? 'baseline' : 'current';
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
@@ -35,25 +35,27 @@ export function run(options: MeasureOptions) {
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 
+  console.log('');
+
   if (existsSync(outputFile)) {
-    console.log(`\n✅  Written ${measurementType} performance measurements to ${outputFile}`);
+    console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
     console.log(`🔗 ${resolve(outputFile)}\n`);
   } else {
-    console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist`);
+    console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
     return;
   }
 
   if (options.baseline) {
-    console.log("You can now run 'reassure' to measure & compare performance against modified code.");
+    console.log("You can now run 'reassure' to measure & compare performance against modified code.\n");
     return;
   }
 
   if (options.compare) {
     if (existsSync(BASELINE_FILE)) {
-      runCompare();
+      compare();
     } else {
       console.log(
-        `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.`
+        `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
       );
       return;
     }

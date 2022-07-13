@@ -49,7 +49,7 @@ export async function compare({
   currentFile = '.reassure/current.perf',
   outputFile = '.reassure/output.json',
   outputFormat = 'all',
-}: CompareOptions) {
+}: CompareOptions = {}) {
   const hasCurrentFile = fsSync.existsSync(currentFile);
   if (!hasCurrentFile) {
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
