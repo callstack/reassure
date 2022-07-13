@@ -15,3 +15,12 @@ web-build/
 
 # Reassure
 .reassure/
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
