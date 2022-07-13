@@ -12,6 +12,6 @@ export async function writeToJson(filePath: string, data: CompareResult) {
     console.log(`❌  Could not write JSON output file ${filePath}`);
     console.log(`🔗 ${path.resolve(filePath)}`);
     console.error(error);
-    console.log();
+    throw error;
   }
 }
