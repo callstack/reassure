@@ -6,9 +6,11 @@
   "source": "src/index",
   "scripts": {
     "test": "jest",
-    "test:example": "cd ./examples/native && jest",
+    "test:example": "cd ./examples/native && yarn test",
     "typescript": "tsc --noEmit",
+    "typescript:example": "cd ./examples/native && yarn typescript",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint:example": "cd ./examples/native && yarn lint",
     "pods": "cd examples/native && pod-install --quiet",
     "build": "turbo run build",
     "changeset": "changeset",

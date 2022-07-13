@@ -202,7 +202,7 @@ for performance tests you can add following override to your `.eslintrc` file:
 rules: {
  'jest/expect-expect': [
  'error',
-    { assertFunctionNames: ['measurePerformance'] },
+    { assertFunctionNames: ['expect', 'measurePerformance'] },
   ],
 }
 ```
