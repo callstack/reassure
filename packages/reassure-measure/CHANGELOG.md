@@ -1,5 +1,11 @@
 # @callstack/reassure-measure
 
+## 0.1.1
+
+### Patch Changes
+
+- ca56a6d1: Move internal packages under @reassure scope to @callstack scope for simpler maintenance
+
 ## 0.1.0
 
 ### Minor Changes
