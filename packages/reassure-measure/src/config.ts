@@ -1,21 +1,15 @@
-import type { render as RntlRender } from '@testing-library/react-native';
+type Render = (component: React.ReactElement<any>) => any;
+type Cleanup = () => void;
 
-let render;
-
-try {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  render = require('@testing-library/react-native').render;
-} catch {
-  // TODO add web support
-  throw new Error('Reassure requires `@testing-library/react-native` to be installed');
-}
+const RNTL = require('@testing-library/react-native');
 
 type Config = {
   runs: number;
   dropWorst: number;
   outputFile: string;
   verbose: boolean;
-  render: typeof RntlRender;
+  render?: Render;
+  cleanup?: Cleanup;
 };
 
 const defaultConfig: Config = {
@@ -23,7 +17,8 @@ const defaultConfig: Config = {
   dropWorst: 1,
   outputFile: process.env.OUTPUT_FILE ?? '.reassure/current.perf',
   verbose: false,
-  render,
+  render: RNTL?.render,
+  cleanup: RNTL?.cleanup,
 };
 
 export let config = defaultConfig;
