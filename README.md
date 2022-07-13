@@ -74,7 +74,7 @@ You will also need a working [React Native Testing Library](https://github.com/c
 
 You can check our example projects:
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
-- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/expo)
+- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 
 ### Writing your first test
 
