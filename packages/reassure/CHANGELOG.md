@@ -1,5 +1,11 @@
 # reassure
 
+## 0.1.2
+
+### Patch Changes
+
+- 35f66ad6: Fixed image links for npmjs.com
+
 ## 0.1.1
 
 ### Patch Changes

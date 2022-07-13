@@ -1,21 +1,21 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="packages/reassure/docs/logo-dark.png">
-    <img src="packages/reassure/docs/logo.png" width="400px" alt="Reassure" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/logo-dark.png">
+    <img src="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/logo.png" width="400px" alt="Reassure" />
   </picture>
 </p>
 <p align="center">Performance testing companion for React and React Native.</p>
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="packages/reassure/docs/callstack-x-entain-dark.png">
-    <img src="packages/reassure/docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/callstack-x-entain-dark.png">
+    <img src="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/callstack-x-entain.png" width="327px" alt="Callstack x Entain" />
   </picture>
 </p>
 
 ---
 
 - [The problem](#the-problem)
-- [The solution](#the-solution)
+- [This solution](#this-solution)
 - [Installation and setup](#installation-and-setup)
   - [Writing your first test](#writing-your-first-test)
     - [Writing async tests](#writing-async-tests)
@@ -33,6 +33,7 @@
     - [Default configuration](#default-configuration)
     - [`configure` function](#configure-function)
     - [`resetToDefault` function](#resettodefault-function)
+    - [Environmental variables](#environmental-variables)
 - [Contributing](#contributing)
 - [License](#license)
 - [Made with ❤️ at Callstack](#made-with-️-at-callstack)
@@ -201,7 +202,7 @@ for performance tests you can add following override to your `.eslintrc` file:
 rules: {
  'jest/expect-expect': [
  'error',
-    { assertFunctionNames: ['measurePerformance'] },
+    { assertFunctionNames: ['expect', 'measurePerformance'] },
   ],
 }
 ```
@@ -231,7 +232,7 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 ## Analyzing results
 
 <p align="center">
-<img src="./packages/reassure/docs/report-markdown.png" width="920px" alt="Markdown report" />
+<img src="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/report-markdown.png" width="920px" alt="Markdown report" />
 </p>
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:

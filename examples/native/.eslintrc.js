@@ -7,7 +7,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'jest/expect-expect': [
       'error',
-      { assertFunctionNames: ['measurePerformance'] },
+      { assertFunctionNames: ['expect', 'measurePerformance'] },
     ],
   },
 };
