@@ -123,7 +123,7 @@ For more examples look into our [test example app](https://github.com/callstack/
 In order to measure your first test performance you need to run following command in terminal:
 
 ```sh
-yarn reassure measure
+yarn reassure
 ```
 
 This command will run your tests multiple times using Jest, gathering render statistics, and will write them to
@@ -151,11 +151,11 @@ BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 
 # Gather baseline perf measurements
 git checkout "$BASELINE_BRANCH";
-npx reassure measure --baseline
+npx reassure --baseline
 
 # Gather current perf measurements & compare results
 git checkout "$CURRENT_BRANCH";
-npx reassure measure
+npx reassure
 ```
 
 ### CI integration
