@@ -1,6 +1,7 @@
 type Render = (component: React.ReactElement<any>) => any;
 type Cleanup = () => void;
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 const RNTL = require('@testing-library/react-native');
 
 type Config = {
