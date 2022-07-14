@@ -36,14 +36,14 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   if (!config.render) {
     console.error(
-      '❌ Reassure: unable to find "render" function. Do you have "@testling-library/react-native" installed?'
+      '❌ Reassure: unable to find "render" function. Do you have "@testing-library/react-native" installed?'
     );
     throw new Error('Unable to find "render" function');
   }
 
   if (!config.cleanup) {
     console.error(
-      '❌ Reassure: unable to find "cleanup" function. Do you have "@testling-library/react-native" installed?'
+      '❌ Reassure: unable to find "cleanup" function. Do you have "@testing-library/react-native" installed?'
     );
     throw new Error('Unable to find "cleanup" function');
   }
