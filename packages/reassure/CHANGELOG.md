@@ -1,5 +1,13 @@
 # reassure
 
+## 0.2.1
+
+### Patch Changes
+
+- 417dcf6a: Ability to provide custom `render` and `cleanup` function for measure step.
+- Updated dependencies [417dcf6a]
+  - @callstack/reassure-measure@0.1.2
+
 ## 0.2.0
 
 ### Minor Changes
