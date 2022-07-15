@@ -73,6 +73,7 @@ npm install --save-dev reassure
 You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) and [Jest](https://jestjs.io/docs/getting-started) setup.
 
 You can check our example projects:
+
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 
@@ -145,16 +146,14 @@ A simple version of such script, using branch changing approach is as follows:
 
 ```sh
 #!/usr/bin/env bash
-
-CURRENT_BRANCH=$(git rev-parse --short HEAD)
 BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 
 # Gather baseline perf measurements
-git checkout "$BASELINE_BRANCH";
+git switch "$BASELINE_BRANCH"
 npx reassure --baseline
 
 # Gather current perf measurements & compare results
-git checkout "$CURRENT_BRANCH";
+git switch -
 npx reassure
 ```
 
