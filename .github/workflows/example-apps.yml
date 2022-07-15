@@ -1,4 +1,4 @@
-name: Main
+name: Example Apps
 on: [workflow_dispatch]
 
 jobs:
