@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "reassure": "0.1.1",
+    "reassure": "0.3.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -22,7 +22,7 @@
     "build": "exit 0",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "perf-test": "./reassure-tests.sh"
+    "perf-test": "CI=true TEST_RUNNER_PATH='node_modules/react-scripts/bin/react-scripts.js test' reassure"
   },
   "eslintConfig": {
     "extends": [
