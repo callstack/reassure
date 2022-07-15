@@ -27,7 +27,7 @@
     "eslint": "^8.10.0",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^27.5.1",
-    "metro-react-native-babel-preset": "^0.66.2",
+    "metro-react-native-babel-preset": "^0.71.3",
     "react-test-renderer": "^18.2.0",
     "reassure": "0.3.0",
     "typescript": "^4.6.2"
