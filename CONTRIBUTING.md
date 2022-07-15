@@ -58,12 +58,12 @@ Our pre-commit hooks verify that the linter and tests pass when committing.
 
 ### Publishing to npm
 
-We use Changesets to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
+We use [Changesets](https://github.com/changesets/changesets) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
 
 To publish new versions, run the following:
 
 ```sh
-yarn publish
+yarn run publish
 ```
 
 ### Scripts

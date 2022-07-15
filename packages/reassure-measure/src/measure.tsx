@@ -31,7 +31,6 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   let hasTooLateRender = false;
 
   const wrappedUi = wrapper ? wrapper(ui) : ui;
-
   showFlagsOuputIfNeeded();
 
   if (!config.render) {
@@ -73,7 +72,6 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     }
 
     config.cleanup();
-
     isFinished = true;
     global.gc?.();
 
