@@ -1,7 +1,5 @@
 name: Test Example Apps
-on:
-  pull_request:
-    branches: ['**']
+on: [workflow_dispatch]
 jobs:
   test-native-expo:
     name: Run perf test in Native Expo
@@ -31,3 +29,8 @@ jobs:
 
       - name: Run perf tests
         run: cd examples/native-expo && ./reassure-tests.sh
+
+      - name: Run danger.js
+        uses: danger/danger-js@9.1.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
