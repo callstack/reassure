@@ -145,16 +145,14 @@ A simple version of such script, using branch changing approach is as follows:
 
 ```sh
 #!/usr/bin/env bash
-
-CURRENT_BRANCH=$(git rev-parse --short HEAD)
 BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 
 # Gather baseline perf measurements
-git checkout "$BASELINE_BRANCH";
+git switch "$BASELINE_BRANCH"
 npx reassure --baseline
 
 # Gather current perf measurements & compare results
-git checkout "$CURRENT_BRANCH";
+git switch -
 npx reassure
 ```
 
