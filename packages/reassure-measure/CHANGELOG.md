@@ -1,5 +1,11 @@
 # @callstack/reassure-measure
 
+## 0.2.0
+
+### Minor Changes
+
+- Support React Testing Library (web) autodiscovery.
+
 ## 0.1.2
 
 ### Patch Changes

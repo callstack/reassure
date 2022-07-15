@@ -1,5 +1,16 @@
 # reassure
 
+## 0.3.0
+
+### Minor Changes
+
+- Support React Testing Library (web) autodiscovery.
+
+### Patch Changes
+
+- Updated dependencies
+  - @callstack/reassure-measure@0.2.0
+
 ## 0.2.1
 
 ### Patch Changes

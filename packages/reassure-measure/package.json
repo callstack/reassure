@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-measure",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Performance measurement library for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
