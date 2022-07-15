@@ -1,5 +1,7 @@
 name: Test Example Apps
-on: [workflow_dispatch]
+on:
+  pull_request:
+    branches: ['**']
 jobs:
   test-native-expo:
     name: Run perf test in Native Expo
