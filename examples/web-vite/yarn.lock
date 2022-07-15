@@ -1024,10 +1024,10 @@
     markdown-builder "^0.9.0"
     markdown-table "^2.0.0"
 
-"@callstack/reassure-measure@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-measure/-/reassure-measure-0.1.2.tgz#386f07da97b51cd397ac3fd3078a3c2adc75ebb2"
-  integrity sha512-HE9oaujOmn4V7EMacJyloSzuG4IDn/KUh7JtJSJND+mcpqtqlSmd2baFaiGHvQxgf+RVkKh+Kt1XA0jfPXrmxQ==
+"@callstack/reassure-measure@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-measure/-/reassure-measure-0.2.0.tgz#2597c87031238ae2188c74e1feaee51e661c9122"
+  integrity sha512-lhrNHl0cJ2EvYITu3iCUhPEX8haePhlJTXVVgdq8cjZj2Y4hBP7A6LUVqwYC/32nBWM5AJpPjDOY69zArmUVDQ==
   dependencies:
     mathjs "^10.1.1"
 
@@ -1281,9 +1281,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@sinclair/typebox@^0.24.1":
-  version "0.24.19"
-  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.19.tgz#5297278e0d8a1aea084685a3216074910ac6c113"
-  integrity sha512-gHJu8cdYTD5p4UqmQHrxaWrtb/jkH5imLXzuBypWhKzNkW0qfmgz+w1xaJccWVuJta1YYUdlDiPHXRTR4Ku0MQ==
+  version "0.24.20"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.20.tgz#11a657875de6008622d53f56e063a6347c51a6dd"
+  integrity sha512-kVaO5aEFZb33nPMTZBxiPEkY+slxiPtqC7QX8f9B3eGOMBvEfuMfxp9DSTTCsRJPumPKjrge4yagyssO4q6qzQ==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -1996,9 +1996,9 @@ domexception@^4.0.0:
     webidl-conversions "^7.0.0"
 
 electron-to-chromium@^1.4.188:
-  version "1.4.189"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.189.tgz#4e5b221dc44e09e9dddc9abbc6457857dee7ba25"
-  integrity sha512-dQ6Zn4ll2NofGtxPXaDfY2laIa6NyCQdqXYHdwH90GJQW0LpJJib0ZU/ERtbb0XkBEmUD2eJtagbOie3pdMiPg==
+  version "1.4.191"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.191.tgz#01dd4bf32502a48ce24bf3890b5553a1c5f93539"
+  integrity sha512-MeEaiuoSFh4G+rrN+Ilm1KJr8pTTZloeLurcZ+PRcthvdK1gWThje+E6baL7/7LoNctrzCncavAG/j/vpES9jg==
 
 emittery@^0.10.2:
   version "0.10.2"
@@ -3530,13 +3530,13 @@ read-pkg@^4.0.1:
     parse-json "^4.0.0"
     pify "^3.0.0"
 
-reassure@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.2.1.tgz#6a67c6dd6b49785d322720c84f45a09719caff8f"
-  integrity sha512-0VnCC1Z5vHy3XprXhZ6fYJ1kt5sGUs7p6OzALJjiXEbxYmDHm+1l/EdISFb2vIrutPsu3t27mqCjDZYth6v7ZA==
+reassure@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.3.0.tgz#738596f75a7801bf075167e1cad04f7dc1fff243"
+  integrity sha512-HqHsuCR7hq2Xr0J56R76iyVNrYPCjYsRz2ErMIRaBCT+64V6lcDLlQtLvELU/FJih7QiPBugZ9OZ2gyMScI1Zw==
   dependencies:
     "@callstack/reassure-cli" "0.3.0"
-    "@callstack/reassure-measure" "0.1.2"
+    "@callstack/reassure-measure" "0.2.0"
 
 regenerate-unicode-properties@^10.0.1:
   version "10.0.1"
@@ -3635,9 +3635,9 @@ rimraf@^3.0.0:
     glob "^7.1.3"
 
 rollup@^2.75.6:
-  version "2.76.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.76.0.tgz#c69fe03db530ac53fcb9523b3caa0d3c0b9491a1"
-  integrity sha512-9jwRIEY1jOzKLj3nsY/yot41r19ITdQrhs+q3ggNWhr9TQgduHqANvPpS32RNpzGklJu3G1AJfvlZLi/6wFgWA==
+  version "2.77.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.77.0.tgz#749eaa5ac09b6baa52acc076bc46613eddfd53f4"
+  integrity sha512-vL8xjY4yOQEw79DvyXLijhnhh+R/O9zpF/LEgkCebZFtb6ELeN9H3/2T0r8+mp+fFTBHZ5qGpOpW2ela2zRt3g==
   optionalDependencies:
     fsevents "~2.3.2"
 
