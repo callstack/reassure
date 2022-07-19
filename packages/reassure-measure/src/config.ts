@@ -1,4 +1,4 @@
-export type TestingLibrary = 'react' | 'react-native';
+export type TestingLibrary = 'react' | 'react-native' | { render: Render; cleanup: Cleanup };
 
 export type Render = (component: React.ReactElement<any>) => any;
 export type Cleanup = () => void;
@@ -9,8 +9,6 @@ type Config = {
   outputFile: string;
   verbose: boolean;
   testingLibrary?: TestingLibrary;
-  render?: Render;
-  cleanup?: Cleanup;
 };
 
 const defaultConfig: Config = {
@@ -19,8 +17,6 @@ const defaultConfig: Config = {
   outputFile: process.env.OUTPUT_FILE ?? '.reassure/current.perf',
   verbose: false,
   testingLibrary: undefined,
-  render: undefined,
-  cleanup: undefined,
 };
 
 export let config = defaultConfig;

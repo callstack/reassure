@@ -21,10 +21,14 @@ try {
   // Do nothing
 }
 
-export function getRenderFunction(): Render {
-  if (config.render) {
-    if (config.verbose) console.log(`Reassure: using custom 'render' function.`);
-    return config.render;
+export function resolveTestingLibrary(): TestingLibraryApi {
+  if (
+    typeof config.testingLibrary === 'object' &&
+    typeof config.testingLibrary.render === 'function' &&
+    typeof config.testingLibrary.cleanup === 'function'
+  ) {
+    if (config.verbose) console.log(`Reassure: using custom 'render' and 'cleanup' functions to render components`);
+    return config.testingLibrary;
   }
 
   if (config.testingLibrary === 'react-native') {
@@ -33,8 +37,8 @@ export function getRenderFunction(): Render {
       throw new Error(`Unable to import '@testing-library/react-native' dependency`);
     }
 
-    if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react-native'`);
-    return RNTL.render;
+    if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
+    return RNTL;
   }
 
   if (config.testingLibrary === 'react') {
@@ -43,15 +47,8 @@ export function getRenderFunction(): Render {
       throw new Error(`Unable to import '@testing-library/react' dependency`);
     }
 
-    if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react'`);
-    return RTL.render;
-  }
-
-  if (config.testingLibrary != null) {
-    console.error(
-      `Reassure: unsupported 'testingLibrary: "${config.testingLibrary}"' option in 'configure' call. Supported values are 'react-native' and 'react'.`
-    );
-    throw new Error(`Unsupported 'testingLibrary: "${config.testingLibrary}"' option`);
+    if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
+    return RTL;
   }
 
   if (RNTL != null && RTL != null) {
@@ -60,76 +57,17 @@ export function getRenderFunction(): Render {
         `\nYou can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file.`
     );
 
-    return RNTL.render;
+    return RNTL;
   }
 
   if (RNTL != null) {
     if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react-native'`);
-    return RNTL.render;
+    return RNTL;
   }
 
   if (RTL != null) {
     if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react'`);
-    return RTL.render;
-  }
-
-  console.error(
-    `Reassure: unable to import neither '@testing-library/react-native' nor '@testing-library/react'.` +
-      `\nAdd either of these testing libraries to your 'package.json'`
-  );
-  throw "Unable to import neither '@testing-library/react-native' nor '@testing-library/react'";
-}
-
-export function getCleanupFunction(): Cleanup {
-  if (config.cleanup) {
-    if (config.verbose) console.log(`Reassure: using custom 'cleanup' function`);
-    return config.cleanup;
-  }
-
-  if (config.testingLibrary === 'react-native') {
-    if (!RNTL) {
-      console.error(`Reassure: unable to import '@testing-library/react-native' dependency`);
-      throw new Error(`Unable to import '@testing-library/react-native' dependency`);
-    }
-
-    if (config.verbose) console.log(`Reassure: using 'cleanup' function from '@testing-library/react-native'`);
-    return RNTL.cleanup;
-  }
-
-  if (config.testingLibrary === 'react') {
-    if (!RTL) {
-      console.error(`Reassure: unable to import '@testing-library/react' dependency`);
-      throw new Error(`Unable to import '@testing-library/react' dependency`);
-    }
-
-    if (config.verbose) console.log(`Reassure: using 'cleanup' function from '@testing-library/react'`);
-    return RTL.cleanup;
-  }
-
-  if (config.testingLibrary != null) {
-    console.error(
-      `Reassure: unsupported 'testingLibrary: "${config.testingLibrary}"' option in 'configure' call. Supported values are 'react-native' and 'react'.`
-    );
-    throw new Error(`Unsupported 'testingLibrary: "${config.testingLibrary}"' option`);
-  }
-
-  if (RNTL != null && RTL != null) {
-    console.warn(
-      `Reassure: both '@testing-library/react-native' and '@testing-library/react' are installed. Using '@testing-library/react-native' by default.` +
-        `\nYou can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file.`
-    );
-
-    return RNTL.cleanup;
-  }
-
-  if (RNTL != null) {
-    if (config.verbose) console.log(`Reassure: using 'cleanup' function from '@testing-library/react-native'`);
-    return RNTL.cleanup;
-  }
-
-  if (RTL != null) {
-    if (config.verbose) console.log(`Reassure: using 'cleanup' function from '@testing-library/react'`);
-    return RTL.cleanup;
+    return RTL;
   }
 
   console.error(

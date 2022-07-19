@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as math from 'mathjs';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
+import { resolveTestingLibrary } from './testingLibrary';
 import type { MeasureRenderResult } from './types';
-import { getCleanupFunction, getRenderFunction } from './testingLibrary';
 
 export interface MeasureOptions {
   runs?: number;
@@ -35,8 +35,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   showFlagsOuputIfNeeded();
 
-  const render = getRenderFunction();
-  const cleanup = getCleanupFunction();
+  const { render, cleanup } = resolveTestingLibrary();
 
   for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;

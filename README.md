@@ -298,9 +298,7 @@ type Config = {
   dropWorst?: number;
   outputFile?: string;
   verbose?: boolean;
-  testingLibrary?: 'react-native' | 'react'
-  render?: (component: React.ReactElement<any>) => any;
-  cleanup?: () => any;
+  testingLibrary?: 'react-native' | 'react' | { render: (component: React.ReactElement<any>) => any, cleanup: () => any }
 };
 ```
 
@@ -311,19 +309,14 @@ const defaultConfig: Config = {
   outputFile: '.reassure/current.perf',
   verbose: false,
   testingLibrary: undefined, // Will try auto-detect first RNTL, then RTL
-  render: undefined, // Will try to use render first from RNTL, then from  RTL
-  cleanup: undefined, // Will try to use render first from RNTL, then from RTL
 };
 ```
 
 **`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
 **`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
-dropWorst
 **`outputFile`**: name of the file the records will be saved to
 **`verbose`**: make Reassure log more, e.g. for debugging purposes
-**`testingLibrary`**: where to look for `render` and `cleanup` functions, supported values `'react-native'` & `'react'`
-**`render`**: your custom `render` function used to render React components
-**`cleanup`**: your custom `cleanup` function used to cleanup after rendering React components
+**`testingLibrary`**: where to look for `render` and `cleanup` functions, supported values `'react-native'`, `'react'` or object providing custom `render` and `cleanup` functions
 
 #### `configure` function
 
