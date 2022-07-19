@@ -33,8 +33,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
 
   if (config.testingLibrary === 'react-native') {
     if (!RNTL) {
-      console.error(`Reassure: unable to import '@testing-library/react-native' dependency`);
-      throw new Error(`Unable to import '@testing-library/react-native' dependency`);
+      throw new Error(`Reassure: unable to import '@testing-library/react-native' dependency`);
     }
 
     if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
@@ -43,8 +42,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
 
   if (config.testingLibrary === 'react') {
     if (!RTL) {
-      console.error(`Reassure: unable to import '@testing-library/react' dependency`);
-      throw new Error(`Unable to import '@testing-library/react' dependency`);
+      throw new Error(`Reassure: unable to import '@testing-library/react' dependency`);
     }
 
     if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
@@ -61,18 +59,17 @@ export function resolveTestingLibrary(): TestingLibraryApi {
   }
 
   if (RNTL != null) {
-    if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react-native'`);
+    if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
     return RNTL;
   }
 
   if (RTL != null) {
-    if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react'`);
+    if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
     return RTL;
   }
 
-  console.error(
+  throw new Error(
     `Reassure: unable to import neither '@testing-library/react-native' nor '@testing-library/react'.` +
       `\nAdd either of these testing libraries to your 'package.json'`
   );
-  throw "Unable to import neither '@testing-library/react-native' nor '@testing-library/react'";
 }
