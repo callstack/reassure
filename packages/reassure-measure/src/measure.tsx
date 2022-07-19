@@ -3,6 +3,7 @@ import * as math from 'mathjs';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import type { MeasureRenderResult } from './types';
+import { getCleanupFunction, getRenderFunction } from './testingLibrary';
 
 export interface MeasureOptions {
   runs?: number;
@@ -34,19 +35,8 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   showFlagsOuputIfNeeded();
 
-  if (!config.render) {
-    console.error(
-      '❌ Reassure: unable to find "render" function. Do you have "@testing-library/react-native" installed?'
-    );
-    throw new Error('Unable to find "render" function');
-  }
-
-  if (!config.cleanup) {
-    console.error(
-      '❌ Reassure: unable to find "cleanup" function. Do you have "@testing-library/react-native" installed?'
-    );
-    throw new Error('Unable to find "cleanup" function');
-  }
+  const render = getRenderFunction();
+  const cleanup = getCleanupFunction();
 
   for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;
@@ -62,7 +52,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
       }
     };
 
-    const screen = config.render(
+    const screen = render(
       <React.Profiler id="Test" onRender={handleRender}>
         {wrappedUi}
       </React.Profiler>
@@ -72,7 +62,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
       await scenario(screen);
     }
 
-    config.cleanup();
+    cleanup();
 
     isFinished = true;
     global.gc?.();
