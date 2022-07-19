@@ -70,11 +70,24 @@ Using npm
 npm install --save-dev reassure
 ```
 
-You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) and [Jest](https://jestjs.io/docs/getting-started) setup.
+You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
+
+> **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
 
 You can check our example projects:
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+
+Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will 
+warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
+
+```
+configure({ testingLibrary: 'react-native' })
+// or 
+configure({ testingLibrary: 'react' })
+```
+
+You should set it in your Jest setup file and you can override it in particular test files if needed.
 
 ### Writing your first test
 
