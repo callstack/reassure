@@ -43,7 +43,7 @@ export function getRenderFunction(): Render {
       throw new Error(`Unable to import '@testing-library/react' dependency`);
     }
 
-    if (config.verbose) console.log(`Reassure: using 'rener' function from '@testing-library/react'`);
+    if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react'`);
     return RTL.render;
   }
 
@@ -60,17 +60,17 @@ export function getRenderFunction(): Render {
         `\nYou can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file.`
     );
 
-    return RNTL.cleanup;
+    return RNTL.render;
   }
 
   if (RNTL != null) {
     if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react-native'`);
-    return RNTL.cleanup;
+    return RNTL.render;
   }
 
   if (RTL != null) {
     if (config.verbose) console.log(`Reassure: using 'render' function from '@testing-library/react'`);
-    return RTL.cleanup;
+    return RTL.render;
   }
 
   console.error(
