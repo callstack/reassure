@@ -70,11 +70,24 @@ Using npm
 npm install --save-dev reassure
 ```
 
-You will also need a working [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) and [Jest](https://jestjs.io/docs/getting-started) setup.
+You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
+
+> **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
 
 You can check our example projects:
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+
+Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will 
+warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
+
+```
+configure({ testingLibrary: 'react-native' })
+// or 
+configure({ testingLibrary: 'react' })
+```
+
+You should set it in your Jest setup file and you can override it in particular test files if needed.
 
 ### Writing your first test
 
@@ -285,7 +298,7 @@ type Config = {
   dropWorst?: number;
   outputFile?: string;
   verbose?: boolean;
-  render?: typeof render;
+  testingLibrary?: 'react-native' | 'react' | { render: (component: React.ReactElement<any>) => any, cleanup: () => any }
 };
 ```
 
@@ -295,16 +308,15 @@ const defaultConfig: Config = {
   dropWorst: 1,
   outputFile: '.reassure/current.perf',
   verbose: false,
-  render, // render fn from RNTL
+  testingLibrary: undefined, // Will try auto-detect first RNTL, then RTL
 };
 ```
 
 **`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
 **`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
-dropWorst
 **`outputFile`**: name of the file the records will be saved to
 **`verbose`**: make Reassure log more, e.g. for debugging purposes
-**`render`**: your custom `render` function used to render React components
+**`testingLibrary`**: where to look for `render` and `cleanup` functions, supported values `'react-native'`, `'react'` or object providing custom `render` and `cleanup` functions
 
 #### `configure` function
 
