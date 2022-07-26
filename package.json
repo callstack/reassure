@@ -42,7 +42,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-native": "^10.1.1",
     "@types/jest": "^27.0.3",
-    "@types/react": "^17.0.39",
+    "@types/react": "^18.0.15",
     "@types/react-native": "0.66.16",
     "babel-jest": "^27.5.1",
     "danger": "^11.0.2",
