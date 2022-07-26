@@ -31,8 +31,3 @@ jobs:
 
       - name: Run perf tests
         run: cd examples/native-expo && ./reassure-tests.sh
-
-      - name: Run danger.js
-        uses: danger/danger-js@9.1.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
