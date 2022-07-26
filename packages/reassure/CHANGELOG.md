@@ -1,5 +1,16 @@
 # reassure
 
+## 0.4.0
+
+### Minor Changes
+
+- 7ad802b9: `testingLibrary` configuration option that replaces `render` and `cleanup` options
+
+### Patch Changes
+
+- Updated dependencies [7ad802b9]
+  - @callstack/reassure-measure@0.3.0
+
 ## 0.3.0
 
 ### Minor Changes
