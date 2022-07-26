@@ -1,5 +1,11 @@
 # @callstack/reassure-compare
 
+## 0.1.2
+
+### Patch Changes
+
+- Run build before publishing
+
 ## 0.1.1
 
 ### Patch Changes

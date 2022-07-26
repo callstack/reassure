@@ -1,5 +1,11 @@
 # @callstack/reassure-measure
 
+## 0.3.1
+
+### Patch Changes
+
+- Run build before publishing
+
 ## 0.3.0
 
 ### Minor Changes

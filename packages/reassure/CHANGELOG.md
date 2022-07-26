@@ -1,5 +1,14 @@
 # reassure
 
+## 0.4.1
+
+### Patch Changes
+
+- Run build before publishing
+- Updated dependencies
+  - @callstack/reassure-cli@0.3.1
+  - @callstack/reassure-measure@0.3.1
+
 ## 0.4.0
 
 ### Minor Changes
