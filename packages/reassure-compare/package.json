@@ -39,6 +39,10 @@
     "markdown-builder": "^0.9.0",
     "markdown-table": "^2.0.0"
   },
+  "devDependencies": {
+    "react-native-builder-bob": "^0.18.0",
+    "typescript": "^4.5.2"
+  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -50,8 +54,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "typescript": "^4.5.2"
   }
 }
