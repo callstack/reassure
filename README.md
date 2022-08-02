@@ -162,11 +162,13 @@ BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 
 # Gather baseline perf measurements
 git switch "$BASELINE_BRANCH"
-npx reassure --baseline
+yarn install --force
+yarn reassure --baseline
 
 # Gather current perf measurements & compare results
 git switch -
-npx reassure
+yarn install --force
+yarn reassure
 ```
 
 ### CI integration
