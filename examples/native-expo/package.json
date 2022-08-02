@@ -13,23 +13,23 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "expo": "~45.0.0",
-    "expo-status-bar": "~1.3.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-native": "0.68.2",
-    "react-native-web": "0.17.7"
+    "expo": "^46.0.0",
+    "expo-status-bar": "~1.4.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.3",
+    "react-native-web": "~0.18.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.18.6",
     "@testing-library/react-native": "^10.1.1",
     "@types/jest": "^27.5.2",
-    "@types/react": "~17.0.21",
-    "@types/react-native": "~0.67.6",
-    "jest": "^27.5.1",
+    "@types/react": "~18.0.0",
+    "@types/react-native": "~0.69.1",
+    "jest": "^26.6.3",
     "react-test-renderer": "^17.0.2",
     "reassure": "^0.4.1",
-    "typescript": "~4.3.5"
+    "typescript": "^4.6.3"
   },
   "private": true
 }
