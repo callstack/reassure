@@ -38,8 +38,13 @@
   "dependencies": {
     "mathjs": "^10.1.1"
   },
+  "devDependencies": {
+    "@types/jest": "^28.0.0",
+    "typescript": "^4.5.2"
+  },
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "jest": ""
   },
   "react-native-builder-bob": {
     "source": "src",
@@ -52,8 +57,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "typescript": "^4.5.2"
   }
 }
