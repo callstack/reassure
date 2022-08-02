@@ -52,7 +52,7 @@
     "husky": "^6.0.0",
     "jest": "^28.0.0",
     "pod-install": "^0.1.0",
-    "prettier": "^2.0.5",
+    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "0.69.3",
