@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return, promise/catch-or-return, promise/prefer-await-to-then */
 import { ReportHandler } from 'web-vitals';
 
 const reportWebVitals = (onPerfEntry?: ReportHandler) => {
