@@ -8,7 +8,7 @@ const AsyncComponent = () => {
   const [count, setCount] = React.useState(0);
 
   const handlePress = () => {
-    setTimeout(() => setCount((c) => c + 1), 50);
+    setTimeout(() => setCount((c) => c + 1), 10);
   };
 
   return (
