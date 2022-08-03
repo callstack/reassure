@@ -1,8 +1,11 @@
 name: Main
 
 permissions:
+  actions: write
   checks: write
   contents: read
+  pull-requests: write
+  statuses: write
 
 on:
   push:
