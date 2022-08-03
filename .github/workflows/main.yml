@@ -1,5 +1,9 @@
 name: Main
 
+permissions:
+  checks: write
+  contents: read
+
 on:
   push:
     branches: [main]

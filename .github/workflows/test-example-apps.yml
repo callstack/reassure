@@ -1,6 +1,10 @@
 name: Test Example Apps
 on: [workflow_dispatch]
 
+permissions:
+  checks: write
+  contents: read
+
 jobs:
   test-native-expo:
     name: Run perf test in Native Expo
