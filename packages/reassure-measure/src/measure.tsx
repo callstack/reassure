@@ -43,8 +43,10 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     let isFinished = false;
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
-      duration += actualDuration;
-      count += 1;
+      if (actualDuration > 0) {
+        duration += actualDuration;
+        count += 1;
+      }
 
       if (isFinished) {
         hasTooLateRender = true;
