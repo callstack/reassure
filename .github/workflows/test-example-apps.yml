@@ -1,11 +1,6 @@
 name: Test Example Apps
-on: [workflow_dispatch]
 
-permissions:
-  checks: write
-  contents: read
-  pull-requests: write
-  statuses: write
+on: [workflow_dispatch]
 
 jobs:
   test-native-expo:
