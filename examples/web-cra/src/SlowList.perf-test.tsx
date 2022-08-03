@@ -1,22 +1,19 @@
+import * as React from 'react';
+import { fireEvent, screen } from '@testing-library/react';
 import { measurePerformance } from 'reassure';
-
-import React from 'react';
-
-import { fireEvent, RenderResult } from '@testing-library/react';
-
 import { SlowList } from './SlowList';
 
 const AsyncComponent = () => {
   const [count, setCount] = React.useState(0);
 
-  const triggerStateChange = () => {
-    setTimeout(() => setCount((c) => c + 1), 50);
+  const handlePress = () => {
+    setTimeout(() => setCount((c) => c + 1), 10);
   };
 
   return (
     <div>
-      <button onClick={triggerStateChange}>Action</button>
-      <p>Count: {count}</p>
+      <button onClick={handlePress}>Action</button>
+      <span>Count: {count}</span>
 
       <SlowList count={200} />
     </div>
@@ -24,8 +21,13 @@ const AsyncComponent = () => {
 };
 
 jest.setTimeout(60_000);
-test('Async Component', async () => {
-  const scenario = async (screen: RenderResult) => {
+
+test('SlowList', async () => {
+  await measurePerformance(<AsyncComponent />);
+});
+
+test('AsyncComponent', async () => {
+  const scenario = async () => {
     const button = screen.getByText('Action');
 
     fireEvent.click(button);
@@ -41,5 +43,4 @@ test('Async Component', async () => {
   };
 
   await measurePerformance(<AsyncComponent />, { scenario });
-  expect(true).toBeTruthy();
 });
