@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install and build
-        run: yarn install && yarn build
+        run: yarn install --force && yarn build
 
       - name: Validate TypeScript
         run: yarn typescript && yarn typescript:example
@@ -64,7 +64,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install and build
-        run: yarn install && yarn build
+        run: yarn install --force && yarn build
 
       - name: Run comparative test script for example app
         run: cd examples/native && ./reassure-tests.sh
