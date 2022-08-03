@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install and build
-        run: yarn install --force
+        run: yarn install --force && yarn build
 
       - name: Validate TypeScript
         run: yarn typescript && yarn typescript:example
