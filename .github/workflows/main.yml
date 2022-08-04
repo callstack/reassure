@@ -1,5 +1,8 @@
 name: Main
 
+permissions:
+  issues: write
+
 on:
   push:
     branches: [main]
