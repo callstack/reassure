@@ -1,4 +1,5 @@
 export { measurePerformance, configure, resetToDefault } from '@callstack/reassure-measure';
 
-import dangerJs from '@callstack/reassure-danger';
-export { dangerJs };
+export { dangerPlugin } from '@callstack/reassure-danger';
+import type { DangerPluginConfig } from '@callstack/reassure-danger';
+export type { DangerPluginConfig };

@@ -18,13 +18,13 @@ declare function markdown(message: string): void;
  * Configuration object which can optionally be passed down to plugin's call.
  * By default, it will only pass the inputFilePath parameter
  */
-export type Config = { inputFilePath: string; debug?: boolean };
+export type DangerPluginConfig = { inputFilePath: string; debug?: boolean };
 
-const plugin = (
-  config: Config = {
+export function dangerPlugin(
+  config: DangerPluginConfig = {
     inputFilePath: '.reassure/output.md',
   }
-) => {
+) {
   const _warning = `
   ⚠️  No output file found @ ${config.inputFilePath}
   -------------------------------------------------------------
@@ -55,6 +55,4 @@ const plugin = (
   } catch (error) {
     console.error(_warning, error);
   }
-};
-
-export { plugin };
+}
