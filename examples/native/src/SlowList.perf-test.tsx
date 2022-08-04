@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { measurePerformance } from 'reassure';
 import { SlowList } from './SlowList';
@@ -13,9 +13,9 @@ const AsyncComponent = () => {
 
   return (
     <View>
-      <TouchableOpacity accessibilityRole="button" onPress={handlePress}>
+      <Pressable accessibilityRole="button" onPress={handlePress}>
         <Text>Action</Text>
-      </TouchableOpacity>
+      </Pressable>
 
       <Text>Count: {count}</Text>
 

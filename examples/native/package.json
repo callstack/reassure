@@ -30,7 +30,7 @@
     "jest": "^28.0.0",
     "metro-react-native-babel-preset": "^0.70.0",
     "react-test-renderer": "^18.2.0",
-    "reassure": "^0.4.1",
+    "reassure": "^0.4.0",
     "typescript": "^4.6.2"
   }
 }
