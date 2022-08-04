@@ -182,9 +182,9 @@ Then add Reassure Danger JS plugin to your dangerfile :
 
 ```ts
 import path from 'path';
-import reassureDangerPlugin from 'reassure-danger';
+import { dangerPlugin } from 'reassure';
 
-reassureDangerPlugin({
+dangerPlugin({
   inputFilePath: path.join(__dirname, '.reassure/output.md'),
 });
 ```
@@ -195,12 +195,12 @@ Finally run both performance testing script & danger in your CI config:
 
 ```yaml
 - name: Run performance testing script
- run: ./reassure-tests.sh
+  run: ./reassure-tests.sh
 
-- name: Run danger.js
- uses: danger/danger-js@9.1.6
- env:
- GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+- name: Run Danger.js
+  run: yarn danger ci
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 You can also check our example [GitHub workflow](https://github.com/callstack/reassure/blob/main/.github/workflows/main.yml).

@@ -1,12 +1,11 @@
 /**
  * @module dangerjs
  * This plugin is intended to be imported/required and called inside your dangerfile.(js|ts)
- * by using the exported dangerPerformance() function, optionally, passing an additional
- * configuration object of exported as `DangerPerformanceConfig`
+ * by using the exported dangerPlugin() function, optionally, passing an additional
+ * configuration object of exported as `DangerPluginConfig`
  */
 
-import { plugin as dangerJs } from './dangerjs';
-import type { Config as DangerJsConfig } from './dangerjs';
+export { dangerPlugin } from './dangerjs';
+import type { DangerPluginConfig } from './dangerjs';
 
-export default dangerJs;
-export type { DangerJsConfig };
+export type { DangerPluginConfig };
