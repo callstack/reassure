@@ -1,5 +1,5 @@
 ---
-'@callstack/reassure-danger': major
+'@callstack/reassure-danger': minor
 'reassure': minor
 ---
 
