@@ -17,7 +17,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install and build
-        run: yarn install && yarn build
+        run: yarn install --force
 
       - name: Run stability checks
         run: cd examples/native && yarn reassure check-stability

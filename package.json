@@ -5,6 +5,7 @@
   "description": "Performance testing companion for React and React Native",
   "source": "src/index",
   "scripts": {
+    "postinstall": "yarn build",
     "test": "jest",
     "test:example": "cd ./examples/native && yarn test",
     "typescript": "tsc --noEmit",
