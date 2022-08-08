@@ -182,9 +182,9 @@ Then add Reassure Danger JS plugin to your dangerfile :
 
 ```ts
 import path from 'path';
-import { dangerPlugin } from 'reassure';
+import { dangerReassure } from 'reassure';
 
-dangerPlugin({
+dangerReassure({
   inputFilePath: path.join(__dirname, '.reassure/output.md'),
 });
 ```

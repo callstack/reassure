@@ -20,7 +20,7 @@ declare function markdown(message: string): void;
  */
 export type DangerPluginConfig = { inputFilePath: string; debug?: boolean };
 
-export function dangerPlugin(
+export function dangerReassure(
   config: DangerPluginConfig = {
     inputFilePath: '.reassure/output.md',
   }
