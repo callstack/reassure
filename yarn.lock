@@ -2069,16 +2069,16 @@
     lz-string "^1.4.4"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-native@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-native/-/jest-native-4.0.5.tgz#4f8c000bcf46f1fdb9ab032271e4252b1defc0ff"
-  integrity sha512-SwtoZmNGjYC88CBCIf8FJxQD6vGv942zIgJwVK0/WgT/j77t6dDM1kkvaMaQy/poyjHnsq4QH5FgxNZLg5PenA==
+"@testing-library/jest-native@^4.0.8":
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-native/-/jest-native-4.0.8.tgz#f0f7a88aa1a0db81a68414af35b0c7b9ea178fc0"
+  integrity sha512-GFxqifY3iHAU5BE9YobRDIhhuO+Ok2wbMiMXehQHa6B+f63JzKw/35xU/5seTiQUTgiEkqGHy0RRXns+XYnSDw==
   dependencies:
     chalk "^2.4.1"
     jest-diff "^27.4.6"
     jest-matcher-utils "^27.4.6"
     pretty-format "^27.3.1"
-    ramda "^0.26.1"
+    ramda "^0.28.0"
     redent "^2.0.0"
 
 "@testing-library/react-native@^11.0.0":
@@ -7204,10 +7204,10 @@ quick-lru@^4.0.1:
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
-ramda@^0.26.1:
-  version "0.26.1"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.26.1.tgz#8d41351eb8111c55353617fc3bbffad8e4d35d06"
-  integrity sha512-hLWjpy7EnsDBb0p+Z3B7rPi3GDeRG5ZtiI33kJhTt+ORCd38AbAIjB/9zRIUoeTbE/AVX5ZkU7m6bznsvrf8eQ==
+ramda@^0.28.0:
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.28.0.tgz#acd785690100337e8b063cab3470019be427cc97"
+  integrity sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==
 
 range-parser@~1.2.1:
   version "1.2.1"
