@@ -14,18 +14,18 @@
     "typescript": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/react": "^18.0.0",
+    "@types/react": "^18.0.17",
     "react": "^18.2.0",
-    "react-native": "0.69.3"
+    "react-native": "0.69.4"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/runtime": "^7.12.5",
     "@callstack/eslint-config": "^12.0.2",
-    "@testing-library/jest-native": "^4.0.5",
+    "@testing-library/jest-native": "^4.0.8",
     "@testing-library/react-native": "^11.0.0",
     "babel-jest": "^28.0.0",
-    "eslint": "^8.10.0",
+    "eslint": "^8.21.0",
     "eslint-plugin-import": "^2.25.4",
     "jest": "^28.0.0",
     "metro-react-native-babel-preset": "^0.70.0",
