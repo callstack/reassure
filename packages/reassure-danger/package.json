@@ -1,6 +1,6 @@
 {
-  "name": "reassure",
-  "version": "0.4.0",
+  "name": "@callstack/reassure-danger",
+  "version": "0.0.1",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -10,6 +10,7 @@
   "files": [
     "src",
     "lib",
+    "!lib/typescript/examples",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__"
@@ -34,14 +35,6 @@
     "url": "https://github.com/callstack/reassure/issues"
   },
   "homepage": "https://github.com/callstack/reassure#readme",
-  "dependencies": {
-    "@callstack/reassure-cli": "0.3.0",
-    "@callstack/reassure-measure": "0.3.0",
-    "@callstack/reassure-danger": "0.0.1"
-  },
-  "devDependencies": {
-    "typescript": "^4.6.2"
-  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -53,5 +46,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.2"
   }
 }
