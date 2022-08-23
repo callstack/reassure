@@ -19,7 +19,7 @@
     "react-native": "0.69.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.10",
+    "@babel/core": "^7.18.13",
     "@babel/runtime": "^7.12.5",
     "@callstack/eslint-config": "^12.0.2",
     "@testing-library/jest-native": "^4.0.11",
