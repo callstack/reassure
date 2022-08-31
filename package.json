@@ -44,7 +44,7 @@
     "@testing-library/react-native": "^11.0.0",
     "@types/jest": "^28.1.8",
     "@types/react": "^18.0.17",
-    "@types/react-native": "0.69.5",
+    "@types/react-native": "0.69.6",
     "babel-jest": "^29.0.1",
     "danger": "^11.1.2",
     "eslint": "^8.23.0",
