@@ -126,10 +126,26 @@ test('Test with scenario', async () => {
 
 The body of the `scenario` function is using familiar React Native Testing Library methods.
 
+For the legacy code, related to an older version of React Native Testing Library (< `v10.1.0`), where `screen` [helper](https://callstack.github.io/react-native-testing-library/docs/api/#screen) is not available, the `scenario` function provides it as its argument:
+
+```ts
+import { measurePerformance } from 'reassure';
+import { fireEvent } from '@testing-library/react-native';
+
+test('Test with scenario', async () => {
+  const scenario = async (screen) => {
+    fireEvent.press(screen.getByText('Go'));
+    await screen.findByText('Done');
+  };
+
+  await measurePerformance(<ComponentUnderTest />, { scenario });
+});
+```
+
 If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using
 `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
 
-For more examples look into our [test example app](https://github.com/callstack/reassure/tree/main/examples/native/src/__tests__).
+For more examples look into our [test example app](https://github.com/callstack/reassure/tree/main/examples/native/src).
 
 ### Measuring test performance
 
@@ -268,7 +284,7 @@ measuring its performance and writing results to the output file. You can use op
 of the testing
 
 ```ts
-async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
+async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
 ```
 
 #### `MeasureOptions` type
