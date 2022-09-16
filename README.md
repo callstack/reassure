@@ -126,7 +126,7 @@ test('Test with scenario', async () => {
 
 The body of the `scenario` function is using familiar React Native Testing Library methods.
 
-For the legacy code, related to an older version of React Native Testing Library (< `v10.1.0`), where `screen` [helper](https://callstack.github.io/react-native-testing-library/docs/api/#screen) is not available, the `scenario` function provides it as its argument:
+In case of using a version of React Native Testing Library lower than v10.1.0, where [`screen` helper](https://callstack.github.io/react-native-testing-library/docs/api/#screen) is not available, the `scenario` function provides it as its first argument:
 
 ```ts
 import { measurePerformance } from 'reassure';
