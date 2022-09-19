@@ -22,7 +22,7 @@ export function run(options: MeasureOptions) {
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  spawnSync(
+  const spawnInfo = spawnSync(
     'node',
     [
       '--jitless',
@@ -35,7 +35,11 @@ export function run(options: MeasureOptions) {
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 
-  console.log('');
+  if (spawnInfo.status !== 0) {
+    console.error(`❌  Something went wrong, jest process exited with an error`);
+    process.exitCode = 1;
+    return;
+  }
 
   if (existsSync(outputFile)) {
     console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
