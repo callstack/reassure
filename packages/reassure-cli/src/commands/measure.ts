@@ -22,6 +22,8 @@ export function run(options: MeasureOptions) {
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
+  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
+
   const spawnInfo = spawnSync(
     'node',
     [
@@ -29,14 +31,16 @@ export function run(options: MeasureOptions) {
       '--expose-gc',
       '--no-concurrent-sweeping',
       '--max-old-space-size=4096',
-      process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest',
+      testRunnerPath,
       process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"',
     ],
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 
+  console.log('');
+
   if (spawnInfo.status !== 0) {
-    console.error(`❌  Something went wrong, jest process exited with an error`);
+    console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
     process.exitCode = 1;
     return;
   }
