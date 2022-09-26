@@ -1,5 +1,11 @@
 # @callstack/reassure-cli
 
+## 0.4.0
+
+### Minor Changes
+
+- d9b30f57: Fail reassure if jest exits with an error
+
 ## 0.3.0
 
 ### Minor Changes

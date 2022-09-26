@@ -1,5 +1,18 @@
 # reassure
 
+## 0.5.0
+
+### Minor Changes
+
+- 76d60476: Extract reassure-danger to a seperate package
+
+### Patch Changes
+
+- Updated dependencies [76d60476]
+- Updated dependencies [d9b30f57]
+  - @callstack/reassure-danger@0.1.0
+  - @callstack/reassure-cli@0.4.0
+
 ## 0.4.0
 
 ### Minor Changes
