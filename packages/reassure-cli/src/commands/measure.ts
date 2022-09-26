@@ -23,6 +23,7 @@ export function run(options: MeasureOptions) {
   rmSync(outputFile, { force: true });
 
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
+  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
 
   const spawnInfo = spawnSync(
     'node',
@@ -32,7 +33,7 @@ export function run(options: MeasureOptions) {
       '--no-concurrent-sweeping',
       '--max-old-space-size=4096',
       testRunnerPath,
-      process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"',
+      testRunnerArgs,
     ],
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
