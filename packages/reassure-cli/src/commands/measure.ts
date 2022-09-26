@@ -22,20 +22,29 @@ export function run(options: MeasureOptions) {
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  spawnSync(
+  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
+  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
+
+  const spawnInfo = spawnSync(
     'node',
     [
       '--jitless',
       '--expose-gc',
       '--no-concurrent-sweeping',
       '--max-old-space-size=4096',
-      process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest',
-      process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"',
+      testRunnerPath,
+      testRunnerArgs,
     ],
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 
   console.log('');
+
+  if (spawnInfo.status !== 0) {
+    console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
+    process.exitCode = 1;
+    return;
+  }
 
   if (existsSync(outputFile)) {
     console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
