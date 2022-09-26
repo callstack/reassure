@@ -1572,13 +1572,6 @@
     terminal-link "^2.0.0"
     v8-to-istanbul "^9.0.1"
 
-"@jest/schemas@^28.1.3":
-  version "28.1.3"
-  resolved "https://registry.yarnpkg.com/@jest/schemas/-/schemas-28.1.3.tgz#ad8b86a66f11f33619e3d7e1dcddd7f2d40ff905"
-  integrity sha512-/l/VWsdt/aBXgjshLWOFyFt3IVdYypu5y2Wn2rOO1un6nkqIn8SLXzgIMYXFyYsRWDyF5EthmKJMIdJvk08grg==
-  dependencies:
-    "@sinclair/typebox" "^0.24.1"
-
 "@jest/schemas@^29.0.0":
   version "29.0.0"
   resolved "https://registry.yarnpkg.com/@jest/schemas/-/schemas-29.0.0.tgz#5f47f5994dd4ef067fb7b4188ceac45f77fe952a"
@@ -2091,12 +2084,12 @@
     pretty-format "^29.0.1"
     redent "^3.0.0"
 
-"@testing-library/react-native@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-11.0.0.tgz#604cd14a42331ce01f2b3695aeb9abf73940183b"
-  integrity sha512-2WZF8P8YYXO5Ka1yzj3TZUg4x6noKU5RuCpx4oAhKBkxkVbrRl1pMCvRIozdTPSiru4rNBmAi074ZJjm2OED5g==
+"@testing-library/react-native@^11.2.0":
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-11.2.0.tgz#5408a745d71f87509763d73914c38db383094bdd"
+  integrity sha512-j3t78/htRkjPJjLlEjh9VxIAvcCJ85CG2L8mKH1mz9F3gyH65MH/JScOY2RHGOkTHGAGh5c+53Dw4u7J1WEJSA==
   dependencies:
-    pretty-format "^28.1.3"
+    pretty-format "^29.0.3"
 
 "@testing-library/react@^13.4.0":
   version "13.4.0"
@@ -7178,16 +7171,6 @@ pretty-format@^27.0.2:
     ansi-regex "^5.0.1"
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
-
-pretty-format@^28.1.3:
-  version "28.1.3"
-  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-28.1.3.tgz#c9fba8cedf99ce50963a11b27d982a9ae90970d5"
-  integrity sha512-8gFb/To0OmxHR9+ZTb14Df2vNxdGCX8g1xWGUTqUw5TiZvcQf5sHKObd5UcPyLLyowNwDAMTF3XWOG1B6mxl1Q==
-  dependencies:
-    "@jest/schemas" "^28.1.3"
-    ansi-regex "^5.0.1"
-    ansi-styles "^5.0.0"
-    react-is "^18.0.0"
 
 pretty-format@^29.0.0, pretty-format@^29.0.1, pretty-format@^29.0.3:
   version "29.0.3"
