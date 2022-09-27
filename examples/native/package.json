@@ -21,7 +21,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@babel/runtime": "^7.12.5",
-    "@callstack/eslint-config": "^12.0.2",
+    "@callstack/eslint-config": "^13.0.2",
     "@testing-library/jest-native": "^4.0.13",
     "@testing-library/react-native": "^11.2.0",
     "babel-jest": "^29.0.3",
