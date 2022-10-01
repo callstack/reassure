@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync, existsSync } from 'fs';
+import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
@@ -23,6 +23,19 @@ export function run(options: MeasureOptions) {
 
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
+
+  const metadata = {
+    metadata: {
+      branch: options.branch,
+      commitHash: options.commitHash,
+    },
+  };
+
+  const metaDataString = JSON.stringify(metadata) + '\n';
+
+  writeFileSync(outputFile, metaDataString);
+
+  console.log('');
 
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
