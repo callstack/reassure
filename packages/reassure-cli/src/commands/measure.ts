@@ -11,6 +11,8 @@ const BASELINE_FILE = '.reassure/baseline.perf';
 type MeasureOptions = {
   baseline?: boolean;
   compare?: boolean;
+  branch?: string;
+  commitHash?: string;
 };
 
 export function run(options: MeasureOptions) {
@@ -85,6 +87,16 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'boolean',
         default: true,
         describe: 'Outputs performance comparison results',
+      })
+      .option('branch', {
+        type: 'string',
+        default: '--not-specified--',
+        describe: 'Metadata for branch name to be included in the report',
+      })
+      .option('commitHash', {
+        type: 'string',
+        default: '--not-specified--',
+        describe: 'Commit hash, will be included in the report',
       });
   },
   handler: (args) => run(args),
