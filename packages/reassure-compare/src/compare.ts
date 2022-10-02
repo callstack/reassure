@@ -1,7 +1,16 @@
 import * as fsSync from 'fs';
 
 import { hasDuplicateValues } from './utils/array';
-import type { PerformanceEntry, AddedEntry, RemovedEntry, CompareEntry, CompareResult, MetadataEntry } from './types';
+import type {
+  PerformanceEntry,
+  AddedEntry,
+  RemovedEntry,
+  CompareEntry,
+  CompareResult,
+  MetadataEntry,
+  MeasurementMetadata,
+  Metadata,
+} from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
@@ -69,15 +78,11 @@ export async function compare({
   const baselineMetadata = hasBaselineFile ? await loadMetadataFromFile(baselineFile) : null;
   const baselinePerformance = hasBaselineFile ? await loadPerformanceRecordsFromFile(baselineFile) : null;
 
-  console.log('currentMetadata', currentMetadata);
-  console.log('baselineMetadata', baselineMetadata);
+  const output = compareResults(currentPerformance, baselinePerformance, currentMetadata, baselineMetadata);
 
-  const outputPerformanceComparison = comparePerformanceResults(currentPerformance, baselinePerformance);
-
-  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(outputPerformanceComparison);
-  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, outputPerformanceComparison);
-  if (outputFormat === 'markdown' || outputFormat === 'all')
-    writeToMarkdown('.reassure/output.md', outputPerformanceComparison);
+  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(output);
+  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, output);
+  if (outputFormat === 'markdown' || outputFormat === 'all') writeToMarkdown('.reassure/output.md', output);
 }
 
 /**
@@ -106,7 +111,7 @@ async function loadPerformanceRecordsFromFile(path: string): Promise<Performance
 /**
  * Load performance file and parse it to `MetadataEntry` object.
  */
-async function loadMetadataFromFile(path: string): Promise<MetadataEntry> {
+async function loadMetadataFromFile(path: string): Promise<MeasurementMetadata> {
   const entries: MetadataEntry[] = await readFileAndParseDataToFormat(path, 'metadata');
 
   if (entries.length > 1) {
@@ -123,15 +128,17 @@ async function loadMetadataFromFile(path: string): Promise<MetadataEntry> {
     logError(msg);
     throw new Error(msg);
   }
-  return entries[0];
+  return entries[0]['metadata'];
 }
 
 /**
  * Compare results between baseline and current entries and categorize.
  */
-function comparePerformanceResults(
+function compareResults(
   currentEntries: PerformanceRecord,
-  baselineEntries: PerformanceRecord | null
+  baselineEntries: PerformanceRecord | null,
+  currentMetadata: MeasurementMetadata,
+  baselineMetadata: MeasurementMetadata | null
 ): CompareResult {
   // Unique test scenario names
   const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
@@ -164,6 +171,8 @@ function comparePerformanceResults(
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
+  const metadata: Metadata = { current: currentMetadata, baseline: baselineMetadata };
+
   return {
     errors,
     warnings,
@@ -172,6 +181,7 @@ function comparePerformanceResults(
     countChanged,
     added,
     removed,
+    metadata,
   };
 }
 
