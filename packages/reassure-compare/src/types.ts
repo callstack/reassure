@@ -1,6 +1,21 @@
 /**
  * Entry in the performance results file.
  */
+
+/**
+ * Metadata first line of file
+ */
+
+export interface MetadataEntry {
+  /** Metadata */
+  metadata: {
+    /** Name of branch */
+    branch: string;
+    /** Commit Hash */
+    commitHash: string;
+  };
+}
+
 export interface PerformanceEntry {
   /** Name of the test scenario */
   name: string;
