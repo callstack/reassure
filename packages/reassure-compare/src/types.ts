@@ -6,14 +6,16 @@
  * Metadata first line of file
  */
 
+export type MeasurementMetadata = {
+  /** Name of branch */
+  branch: string;
+  /** Commit Hash */
+  commitHash: string;
+};
+
 export interface MetadataEntry {
   /** Metadata */
-  metadata: {
-    /** Name of branch */
-    branch: string;
-    /** Commit Hash */
-    commitHash: string;
-  };
+  metadata: MeasurementMetadata;
 }
 
 export interface PerformanceEntry {
@@ -72,6 +74,10 @@ export interface RemovedEntry {
   baseline: PerformanceEntry;
 }
 
+export interface Metadata {
+  current: MeasurementMetadata;
+  baseline: MeasurementMetadata | null;
+}
 /**
  * Output of compare function
  */
@@ -83,4 +89,5 @@ export type CompareResult = {
   removed: RemovedEntry[];
   errors: string[];
   warnings: string[];
+  metadata: Metadata;
 };
