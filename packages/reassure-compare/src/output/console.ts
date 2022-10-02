@@ -1,10 +1,13 @@
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, Metadata } from '../types';
 import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
 
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
 
   console.log('❇️  Performance comparison results:');
+
+  console.log('\n➡️  Metadata');
+  printMetadata(data.metadata);
 
   console.log('\n➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);
@@ -24,6 +27,11 @@ export function printToConsole(data: CompareResult) {
   console.log('');
 }
 
+function printMetadata(entry: Metadata) {
+  console.log(
+    ` - baseline: ${entry.baseline?.branch} :: ${entry.baseline?.commitHash} | current: ${entry.current?.branch} :: ${entry.current?.commitHash}`
+  );
+}
 function printRegularLine(entry: CompareEntry) {
   console.log(` - ${entry.name}: ${formatRenderDurationChange(entry)} | ${formatRenderCountChange(entry)}`);
 }
