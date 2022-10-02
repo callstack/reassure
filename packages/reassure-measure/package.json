@@ -38,9 +38,6 @@
   "dependencies": {
     "mathjs": "^11.2.1"
   },
-  "peerDependencies": {
-    "react": "*"
-  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -52,8 +49,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "typescript": "^4.8.4"
   }
 }
