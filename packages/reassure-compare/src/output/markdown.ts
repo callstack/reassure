@@ -11,7 +11,14 @@ import {
   formatRenderCountChange,
   formatRenderDurationChange,
 } from '../utils/format';
-import type { PerformanceEntry, AddedEntry, CompareEntry, CompareResult, RemovedEntry } from '../types';
+import type {
+  PerformanceEntry,
+  AddedEntry,
+  CompareEntry,
+  CompareResult,
+  RemovedEntry,
+  MeasurementMetadata,
+} from '../types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
 
@@ -39,8 +46,29 @@ async function writeToFile(filePath: string, content: string) {
   }
 }
 
+function buildMetadataMarkdown(name: string, metadata: MeasurementMetadata | null) {
+  if (metadata) {
+    if (metadata.branch && metadata.commitHash) {
+      return `**${name}**: \`${metadata.branch}\` (\`${metadata.commitHash}\`)`;
+    }
+
+    if (metadata.branch) {
+      return `**${name}**: \`${metadata.branch}\``;
+    }
+
+    if (metadata.commitHash) {
+      return `**${name}**: \`${metadata.commitHash}\``;
+    }
+  }
+
+  return `**${name}**: missing metadata`;
+}
+
 function buildMarkdown(data: CompareResult) {
   let result = headers.h1('Performance Comparison Report');
+
+  result += `\n${buildMetadataMarkdown('Current', data.metadata.current)}`;
+  result += `\n${buildMetadataMarkdown('Baseline', data.metadata.baseline)}`;
 
   if (data.errors?.length) {
     result += `\n\n${headers.h3('Errors')}\n`;
