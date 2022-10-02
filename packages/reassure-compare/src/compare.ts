@@ -1,12 +1,12 @@
-import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
 
 import { hasDuplicateValues } from './utils/array';
-import type { PerformanceEntry, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
+import type { PerformanceEntry, AddedEntry, RemovedEntry, CompareEntry, CompareResult, MetadataEntry } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
+import { readFileAndParseDataToFormat } from './utils/readFileAndParseDataToFormat';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -56,33 +56,36 @@ export async function compare({
     process.exit(1);
   }
 
-  const current = await loadFile(currentFile);
+  const currentMetadata = await loadMetadataFromFile(currentFile);
+  const currentPerformance = await loadPerformanceRecordsFromFile(currentFile);
 
-  const hasBaslineFile = fsSync.existsSync(baselineFile);
-  if (!hasBaslineFile) {
+  const hasBaselineFile = fsSync.existsSync(baselineFile);
+  if (!hasBaselineFile) {
     logWarning(
       `Baseline results files "${baselineFile}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
     );
   }
 
-  const baseline = hasBaslineFile ? await loadFile(baselineFile) : null;
+  const baselineMetadata = hasBaselineFile ? await loadMetadataFromFile(baselineFile) : null;
+  const baselinePerformance = hasBaselineFile ? await loadPerformanceRecordsFromFile(baselineFile) : null;
 
-  const outputData = compareResults(current, baseline);
+  console.log('currentMetadata', currentMetadata);
+  console.log('baselineMetadata', baselineMetadata);
 
-  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(outputData);
-  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, outputData);
-  if (outputFormat === 'markdown' || outputFormat === 'all') writeToMarkdown('.reassure/output.md', outputData);
+  const outputPerformanceComparison = comparePerformanceResults(currentPerformance, baselinePerformance);
+
+  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(outputPerformanceComparison);
+  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, outputPerformanceComparison);
+  if (outputFormat === 'markdown' || outputFormat === 'all')
+    writeToMarkdown('.reassure/output.md', outputPerformanceComparison);
 }
 
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-async function loadFile(path: string): Promise<PerformanceRecord> {
-  const data = await fs.readFile(path, 'utf8');
-
-  const lines = data.split(/\r?\n/);
+async function loadPerformanceRecordsFromFile(path: string): Promise<PerformanceRecord> {
   // TODO: add data format validation
-  const entries: PerformanceEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
+  const entries: PerformanceEntry[] = await readFileAndParseDataToFormat(path, 'name');
 
   if (hasDuplicateValues(entries.map((entry) => entry.name))) {
     const msg = `Your performance result file ${path} contains records with duplicated names.
@@ -101,12 +104,37 @@ async function loadFile(path: string): Promise<PerformanceRecord> {
 }
 
 /**
+ * Load performance file and parse it to `MetadataEntry` object.
+ */
+async function loadMetadataFromFile(path: string): Promise<MetadataEntry> {
+  const entries: MetadataEntry[] = await readFileAndParseDataToFormat(path, 'metadata');
+
+  if (entries.length > 1) {
+    const msg = `Your performance result file ${path} contains records with more than one metadata lines.
+      Please ensure to have only one metadata entry in the perf report file
+      `;
+    logError(msg);
+    throw new Error(msg);
+  }
+  if (entries.length == 0) {
+    const msg = `Your performance result file ${path} contains records with no metadata lines.
+      Please ensure to have one metadata entry in the perf report file
+      `;
+    logError(msg);
+    throw new Error(msg);
+  }
+  return entries[0];
+}
+
+/**
  * Compare results between baseline and current entries and categorize.
  */
-function compareResults(currentEntries: PerformanceRecord, baselineEntries: PerformanceRecord | null): CompareResult {
+function comparePerformanceResults(
+  currentEntries: PerformanceRecord,
+  baselineEntries: PerformanceRecord | null
+): CompareResult {
   // Unique test scenario names
   const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
-
   const compared: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
