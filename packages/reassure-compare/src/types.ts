@@ -13,7 +13,7 @@ export type MeasurementMetadata = {
   commitHash: string;
 };
 
-export interface MetadataEntry {
+export interface PerformanceHeader {
   /** Metadata */
   metadata: MeasurementMetadata;
 }
@@ -74,7 +74,7 @@ export interface RemovedEntry {
   baseline: PerformanceEntry;
 }
 
-export interface Metadata {
+export interface CompareMetadata {
   current: MeasurementMetadata;
   baseline: MeasurementMetadata | null;
 }
@@ -89,5 +89,5 @@ export type CompareResult = {
   removed: RemovedEntry[];
   errors: string[];
   warnings: string[];
-  metadata: Metadata;
+  metadata: CompareMetadata;
 };

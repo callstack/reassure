@@ -105,7 +105,6 @@ export const command: CommandModule<{}, MeasureOptions> = {
       })
       .option('commitHash', {
         type: 'string',
-        default: '--not-specified--',
         describe: 'Git commit hash of current code, it will be included in the report',
       });
   },

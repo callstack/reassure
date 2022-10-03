@@ -1,4 +1,5 @@
 import * as fsSync from 'fs';
+import * as fs from 'fs/promises';
 
 import { hasDuplicateValues } from './utils/array';
 import type {
@@ -7,15 +8,14 @@ import type {
   RemovedEntry,
   CompareEntry,
   CompareResult,
-  MetadataEntry,
+  PerformanceHeader,
   MeasurementMetadata,
-  Metadata,
+  CompareMetadata,
 } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
-import { readFileAndParseDataToFormat } from './utils/readFileAndParseDataToFormat';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -41,6 +41,11 @@ const COUNT_DIFF_THRESHOLD = 0.5;
  */
 type PerformanceRecord = { [name: string]: PerformanceEntry };
 
+interface MeasurementResults {
+  metadata: MeasurementMetadata;
+  performanceRecord: PerformanceRecord;
+}
+
 type CompareOptions = {
   baselineFile?: string;
   currentFile?: string;
@@ -65,8 +70,7 @@ export async function compare({
     process.exit(1);
   }
 
-  const currentMetadata = await loadMetadataFromFile(currentFile);
-  const currentPerformance = await loadPerformanceRecordsFromFile(currentFile);
+  const currentMeasurementResults = await loadFile(currentFile);
 
   const hasBaselineFile = fsSync.existsSync(baselineFile);
   if (!hasBaselineFile) {
@@ -75,10 +79,9 @@ export async function compare({
     );
   }
 
-  const baselineMetadata = hasBaselineFile ? await loadMetadataFromFile(baselineFile) : null;
-  const baselinePerformance = hasBaselineFile ? await loadPerformanceRecordsFromFile(baselineFile) : null;
+  const baselineMeasurementResults = hasBaselineFile ? await loadFile(baselineFile) : null;
 
-  const output = compareResults(currentPerformance, baselinePerformance, currentMetadata, baselineMetadata);
+  const output = compareResults(currentMeasurementResults, baselineMeasurementResults);
 
   if (outputFormat === 'console' || outputFormat === 'all') printToConsole(output);
   if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, output);
@@ -88,11 +91,31 @@ export async function compare({
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-async function loadPerformanceRecordsFromFile(path: string): Promise<PerformanceRecord> {
-  // TODO: add data format validation
-  const entries: PerformanceEntry[] = await readFileAndParseDataToFormat(path, 'name');
+async function loadFile(path: string): Promise<MeasurementResults> {
+  const data = await fs.readFile(path, 'utf8');
 
-  if (hasDuplicateValues(entries.map((entry) => entry.name))) {
+  const lines = data.split(/\r?\n/);
+  // TODO: add data format validation
+
+  const metadataEntries: PerformanceHeader[] = lines
+    .filter((line) => !!line.trim())
+    .map((line) => JSON.parse(line))
+    .filter((parsedJSON) => !!parsedJSON['metadata']);
+
+  if (metadataEntries.length > 1) {
+    const msg = `Your performance result file ${path} contains records with more than one metadata lines.
+      Please ensure to have only one metadata entry in the perf report file
+      `;
+    logError(msg);
+    throw new Error(msg);
+  }
+
+  const performanceEntries: PerformanceEntry[] = lines
+    .filter((line) => !!line.trim())
+    .map((line) => JSON.parse(line))
+    .filter((parsedJSON) => !!parsedJSON['name']);
+
+  if (hasDuplicateValues(performanceEntries.map((entry) => entry.name))) {
     const msg = `Your performance result file ${path} contains records with duplicated names.
       Please remove any non-unique names from your test suites and try again.
       `;
@@ -100,46 +123,29 @@ async function loadPerformanceRecordsFromFile(path: string): Promise<Performance
     throw new Error(msg);
   }
 
-  const result: PerformanceRecord = {};
-  entries.forEach((entry) => {
-    result[entry.name] = entry;
+  const performanceRecord: PerformanceRecord = {};
+  performanceEntries.forEach((entry) => {
+    performanceRecord[entry.name] = entry;
   });
 
+  const metadataResult = metadataEntries[0]['metadata'];
+
+  const result: MeasurementResults = {
+    performanceRecord,
+    metadata: metadataResult,
+  };
   return result;
-}
-
-/**
- * Load performance file and parse it to `MetadataEntry` object.
- */
-async function loadMetadataFromFile(path: string): Promise<MeasurementMetadata> {
-  const entries: MetadataEntry[] = await readFileAndParseDataToFormat(path, 'metadata');
-
-  if (entries.length > 1) {
-    const msg = `Your performance result file ${path} contains records with more than one metadata lines.
-      Please ensure to have only one metadata entry in the perf report file
-      `;
-    logError(msg);
-    throw new Error(msg);
-  }
-  if (entries.length == 0) {
-    const msg = `Your performance result file ${path} contains records with no metadata lines.
-      Please ensure to have one metadata entry in the perf report file
-      `;
-    logError(msg);
-    throw new Error(msg);
-  }
-  return entries[0]['metadata'];
 }
 
 /**
  * Compare results between baseline and current entries and categorize.
  */
-function compareResults(
-  currentEntries: PerformanceRecord,
-  baselineEntries: PerformanceRecord | null,
-  currentMetadata: MeasurementMetadata,
-  baselineMetadata: MeasurementMetadata | null
-): CompareResult {
+function compareResults(current: MeasurementResults, baseline: MeasurementResults | null): CompareResult {
+  const { performanceRecord: currentEntries, metadata: currentMetadata } = current;
+
+  const baselineEntries = baseline?.performanceRecord;
+  const baselineMetadata = baseline?.metadata;
+
   // Unique test scenario names
   const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
   const compared: CompareEntry[] = [];
@@ -171,9 +177,10 @@ function compareResults(
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
-  const metadata: Metadata = { current: currentMetadata, baseline: baselineMetadata };
+  const metadata: CompareMetadata = { current: currentMetadata, baseline: baselineMetadata ? baselineMetadata : null };
 
   return {
+    metadata,
     errors,
     warnings,
     significant,
@@ -181,7 +188,6 @@ function compareResults(
     countChanged,
     added,
     removed,
-    metadata,
   };
 }
 
