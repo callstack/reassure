@@ -39,9 +39,6 @@
     "@callstack/reassure-measure": "0.3.0",
     "@callstack/reassure-danger": "0.1.0"
   },
-  "devDependencies": {
-    "typescript": "^4.8.4"
-  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
