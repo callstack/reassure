@@ -155,7 +155,7 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     .filter((item) => !item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
   const countChanged = compared
-    .filter((item) => item.countDiff > COUNT_DIFF_THRESHOLD)
+    .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
