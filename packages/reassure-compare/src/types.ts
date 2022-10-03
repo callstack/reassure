@@ -80,6 +80,7 @@ export interface CompareMetadata {
  * Output of compare function
  */
 export type CompareResult = {
+  metadata: CompareMetadata;
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
@@ -87,5 +88,4 @@ export type CompareResult = {
   removed: RemovedEntry[];
   errors: string[];
   warnings: string[];
-  metadata: CompareMetadata;
 };

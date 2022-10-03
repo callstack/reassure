@@ -1,4 +1,4 @@
-import type { CompareEntry } from '../types';
+import type { CompareEntry, PerformanceMetadata } from '../types';
 
 /**
  * Utility functions used for formatting data into strings
@@ -96,4 +96,12 @@ function getRenderCountSymbols(entry: CompareEntry) {
   if (entry.countDiff < -0.5) return '🟢';
 
   return '';
+}
+
+export function formatMetadata(metadata?: PerformanceMetadata) {
+  if (metadata?.branch && metadata?.commitHash) {
+    return `${metadata.branch} (${metadata.commitHash})`;
+  }
+
+  return metadata?.branch ?? metadata?.commitHash ?? '(unknown)';
 }

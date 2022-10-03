@@ -1,5 +1,11 @@
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, PerformanceMetadata } from '../types';
-import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
+import {
+  formatCount,
+  formatDuration,
+  formatMetadata,
+  formatRenderCountChange,
+  formatRenderDurationChange,
+} from '../utils/format';
 
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
@@ -27,23 +33,7 @@ export function printToConsole(data: CompareResult) {
 }
 
 function printMetadata(name: string, metadata?: PerformanceMetadata) {
-  if (metadata?.branch && metadata?.commitHash) {
-    console.log(` - ${name}: ${metadata.branch} (${metadata.commitHash})`);
-    return;
-  }
-
-  if (metadata?.branch) {
-    console.log(` - ${name}: ${metadata.branch}`);
-    return;
-  }
-
-  if (metadata?.commitHash) {
-    console.log(` - ${name}: ${metadata.commitHash}`);
-    return;
-  }
-
-  console.log(` - ${name}: (unknown)`);
-  return;
+  console.log(` - ${name}: ${formatMetadata(metadata)}`);
 }
 
 function printRegularLine(entry: CompareEntry) {

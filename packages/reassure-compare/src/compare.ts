@@ -10,7 +10,6 @@ import type {
   CompareResult,
   PerformanceResults,
   PerformanceHeader,
-  CompareMetadata,
 } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
@@ -60,7 +59,7 @@ export async function compare({
     process.exit(1);
   }
 
-  const currentMeasurementResults = await loadFile(currentFile);
+  const currentResults = await loadFile(currentFile);
 
   const hasBaselineFile = fsSync.existsSync(baselineFile);
   if (!hasBaselineFile) {
@@ -69,22 +68,28 @@ export async function compare({
     );
   }
 
-  const baselineMeasurementResults = hasBaselineFile ? await loadFile(baselineFile) : null;
+  const baselineResults = hasBaselineFile ? await loadFile(baselineFile) : null;
 
-  const output = compareResults(currentMeasurementResults, baselineMeasurementResults);
+  const output = compareResults(currentResults, baselineResults);
 
-  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(output);
-  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, output);
-  if (outputFormat === 'markdown' || outputFormat === 'all') writeToMarkdown('.reassure/output.md', output);
+  if (outputFormat === 'console' || outputFormat === 'all') {
+    printToConsole(output);
+  }
+  if (outputFormat === 'json' || outputFormat === 'all') {
+    writeToJson(outputFile, output);
+  }
+  if (outputFormat === 'markdown' || outputFormat === 'all') {
+    writeToMarkdown('.reassure/output.md', output);
+  }
 }
 
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
 async function loadFile(path: string): Promise<PerformanceResults> {
-  const data = await fs.readFile(path, 'utf8');
+  const contents = await fs.readFile(path, 'utf8');
 
-  const lines = data
+  const lines = contents
     .split(/\r?\n/)
     .filter((line) => !!line.trim())
     .map((line) => JSON.parse(line));
@@ -92,14 +97,13 @@ async function loadFile(path: string): Promise<PerformanceResults> {
   // TODO: add data format validation
 
   let header: PerformanceHeader | null = null;
-  const firstLine = lines[0];
-  if (firstLine?.metadata) {
-    header = firstLine;
+  if (lines[0]?.metadata) {
+    header = lines[0];
   }
 
-  const performanceEntries: PerformanceEntry[] = lines.filter((entry) => entry.name);
+  const entries: PerformanceEntry[] = lines.filter((entry) => entry.name);
 
-  if (hasDuplicateValues(performanceEntries.map((entry) => entry.name))) {
+  if (hasDuplicateValues(entries.map((entry) => entry.name))) {
     const msg = `Your performance result file ${path} contains records with duplicated names.
       Please remove any non-unique names from your test suites and try again.
       `;
@@ -107,14 +111,14 @@ async function loadFile(path: string): Promise<PerformanceResults> {
     throw new Error(msg);
   }
 
-  const entries: Record<string, PerformanceEntry> = {};
-  performanceEntries.forEach((entry) => {
-    entries[entry.name] = entry;
+  const keyedEntries: Record<string, PerformanceEntry> = {};
+  entries.forEach((entry) => {
+    keyedEntries[entry.name] = entry;
   });
 
   const result: PerformanceResults = {
     metadata: header?.metadata,
-    entries,
+    entries: keyedEntries,
   };
 
   return result;
@@ -130,21 +134,21 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
   const baselineMetadata = baseline?.metadata;
 
   // Unique test scenario names
-  const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
+  const names = [...new Set([...Object.keys(current.entries), ...Object.keys(baselineEntries || {})])];
   const compared: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
 
   names.forEach((name) => {
-    const current = currentEntries[name];
-    const baseline = baselineEntries?.[name];
+    const currentEntry = currentEntries[name];
+    const baselineEntry = baselineEntries?.[name];
 
-    if (baseline && current) {
-      compared.push(buildCompareEntry(name, current, baseline));
-    } else if (current) {
-      added.push({ name, current });
-    } else if (baseline) {
-      removed.push({ name, baseline });
+    if (currentEntry && baselineEntry) {
+      compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
+    } else if (currentEntry) {
+      added.push({ name, current: currentEntry });
+    } else if (baselineEntry) {
+      removed.push({ name, baseline: baselineEntry });
     }
   });
 
@@ -160,10 +164,8 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
-  const metadata: CompareMetadata = { current: currentMetadata, baseline: baselineMetadata };
-
   return {
-    metadata,
+    metadata: { current: currentMetadata, baseline: baselineMetadata },
     errors,
     warnings,
     significant,

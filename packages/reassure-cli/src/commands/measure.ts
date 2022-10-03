@@ -2,7 +2,7 @@ import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
-import { compare } from '@callstack/reassure-compare';
+import { compare, formatMetadata } from '@callstack/reassure-compare';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
@@ -16,8 +16,9 @@ type MeasureOptions = {
 };
 
 export function run(options: MeasureOptions) {
-  const measurementType = options.baseline ? 'baseline' : 'current';
-  console.log(`\n❇️  Running ${measurementType} performance tests:`);
+  const measurementType = options.baseline ? 'Baseline' : 'Current';
+  console.log(`\n❇️  Running performance tests:`);
+  console.log(` - ${measurementType}: ${formatMetadata(options)}\n`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
@@ -32,8 +33,6 @@ export function run(options: MeasureOptions) {
   };
 
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
-
-  console.log('');
 
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
@@ -101,11 +100,11 @@ export const command: CommandModule<{}, MeasureOptions> = {
       })
       .option('branch', {
         type: 'string',
-        describe: 'Source control branch name of current code, it will be included in the report',
+        describe: 'Branch name of current code to be included in the report',
       })
       .option('commitHash', {
         type: 'string',
-        describe: 'Git commit hash of current code, it will be included in the report',
+        describe: 'Commit hash of current code to be included in the report',
       });
   },
   handler: (args) => run(args),
