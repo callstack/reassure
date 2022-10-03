@@ -29,7 +29,7 @@ export function printToConsole(data: CompareResult) {
 
 function printMetadata(name: string, metadata?: MeasurementMetadata) {
   if (metadata.branch && metadata.commitHash) {
-     console.log(`- ${name}: \`${metadata.branch}\` (\`${metadata.commitHash}\`)`);
+     console.log(`- ${name}: ${metadata.branch} (${metadata.commitHash})`);
      return;
   }
 
