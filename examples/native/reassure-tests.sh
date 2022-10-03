@@ -18,4 +18,4 @@ git switch -
 pushd ../.. && yarn install --force && yarn turbo run build && popd
 
 yarn install --force
-yarn reassure
+yarn reassure --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
