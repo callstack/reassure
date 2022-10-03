@@ -1,23 +1,15 @@
-/**
- * Entry in the performance results file.
- */
-
-/**
- * Metadata first line of file
- */
-
+/** Metadata information for measurements */
 export type MeasurementMetadata = {
-  /** Name of branch */
   branch: string;
-  /** Commit Hash */
   commitHash: string;
 };
 
+/** Header of performance results file. */
 export interface PerformanceHeader {
-  /** Metadata */
   metadata: MeasurementMetadata;
 }
 
+/** Entry in the performance results file. */
 export interface PerformanceEntry {
   /** Name of the test scenario */
   name: string;
