@@ -102,7 +102,7 @@ export const command: CommandModule<{}, MeasureOptions> = {
       .option('branch', {
         type: 'string',
         default: '--not-specified--',
-        describe: 'Metadata for branch name to be included in the report',
+        describe: 'Source control branch name of current code, it will be included in the report',
       })
       .option('commitHash', {
         type: 'string',
