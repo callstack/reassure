@@ -24,7 +24,7 @@ export function run(options: MeasureOptions) {
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  const metadata = {
+  const header = {
     metadata: {
       branch: options.branch,
       commitHash: options.commitHash,
