@@ -34,7 +34,7 @@ function printMetadata(name: string, metadata?: MeasurementMetadata) {
   }
 
   if (metadata.branch) {
-    console.log(` - \`${name}\`: ${\`metadata.branch\`}`);
+    console.log(` - ${name}: ${metadata.branch}`);
     return;
   }
 
