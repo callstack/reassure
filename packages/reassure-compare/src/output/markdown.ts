@@ -47,17 +47,17 @@ async function writeToFile(filePath: string, content: string) {
 }
 
 function buildMetadataMarkdown(name: string, metadata: MeasurementMetadata | null) {
-    if (metadata?.branch && metadata?.commitHash) {
-      return `**${name}**: \`${metadata.branch}\` (\`${metadata.commitHash}\`)`;
-    }
+  if (metadata?.branch && metadata?.commitHash) {
+    return `**${name}**: \`${metadata.branch}\` (\`${metadata.commitHash}\`)`;
+  }
 
-    if (metadata?.branch) {
-      return `**${name}**: \`${metadata.branch}\``;
-    }
+  if (metadata?.branch) {
+    return `**${name}**: \`${metadata.branch}\``;
+  }
 
-    if (metadata?.commitHash) {
-      return `**${name}**: \`${metadata.commitHash}\``;
-    }
+  if (metadata?.commitHash) {
+    return `**${name}**: \`${metadata.commitHash}\``;
+  }
 
   return `**${name}**: missing metadata`;
 }
