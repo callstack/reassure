@@ -1,6 +1,21 @@
-/**
- * Entry in the performance results file.
- */
+/** Parsed performance results file. */
+export interface PerformanceResults {
+  metadata?: PerformanceMetadata;
+  entries: Record<string, PerformanceEntry>;
+}
+
+/** Header of performance results file. */
+export interface PerformanceHeader {
+  metadata: PerformanceMetadata;
+}
+
+/** Metadata information for performance results. */
+export interface PerformanceMetadata {
+  branch: string;
+  commitHash: string;
+}
+
+/** Entry in the performance results file. */
 export interface PerformanceEntry {
   /** Name of the test scenario */
   name: string;
@@ -57,10 +72,14 @@ export interface RemovedEntry {
   baseline: PerformanceEntry;
 }
 
-/**
- * Output of compare function
- */
-export type CompareResult = {
+export interface CompareMetadata {
+  current?: PerformanceMetadata;
+  baseline?: PerformanceMetadata;
+}
+
+/** Output of compare function. */
+export interface CompareResult {
+  metadata: CompareMetadata;
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
@@ -68,4 +87,4 @@ export type CompareResult = {
   removed: RemovedEntry[];
   errors: string[];
   warnings: string[];
-};
+}

@@ -7,11 +7,19 @@ import markdownTable from 'markdown-table';
 import {
   formatCount,
   formatDuration,
+  formatMetadata,
   formatPercent,
   formatRenderCountChange,
   formatRenderDurationChange,
 } from '../utils/format';
-import type { PerformanceEntry, AddedEntry, CompareEntry, CompareResult, RemovedEntry } from '../types';
+import type {
+  PerformanceEntry,
+  AddedEntry,
+  CompareEntry,
+  CompareResult,
+  RemovedEntry,
+  PerformanceMetadata,
+} from '../types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
 
@@ -41,6 +49,9 @@ async function writeToFile(filePath: string, content: string) {
 
 function buildMarkdown(data: CompareResult) {
   let result = headers.h1('Performance Comparison Report');
+
+  result += `\n${buildMetadataMarkdown('Current', data.metadata.current)}`;
+  result += `\n${buildMetadataMarkdown('Baseline', data.metadata.baseline)}`;
 
   if (data.errors?.length) {
     result += `\n\n${headers.h3('Errors')}\n`;
@@ -74,6 +85,10 @@ function buildMarkdown(data: CompareResult) {
   result += '\n';
 
   return result;
+}
+
+function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
+  return ` - **${name}**: ${formatMetadata(metadata)}`;
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {

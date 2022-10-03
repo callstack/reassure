@@ -184,7 +184,7 @@ yarn reassure --baseline
 # Gather current perf measurements & compare results
 git switch -
 yarn install --force
-yarn reassure
+yarn reassure --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
 ```
 
 ### CI integration

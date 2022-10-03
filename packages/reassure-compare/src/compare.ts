@@ -1,8 +1,16 @@
-import * as fs from 'fs/promises';
 import * as fsSync from 'fs';
+import * as fs from 'fs/promises';
 
 import { hasDuplicateValues } from './utils/array';
-import type { PerformanceEntry, AddedEntry, RemovedEntry, CompareEntry, CompareResult } from './types';
+import type {
+  PerformanceEntry,
+  AddedEntry,
+  RemovedEntry,
+  CompareEntry,
+  CompareResult,
+  PerformanceResults,
+  PerformanceHeader,
+} from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
@@ -26,11 +34,6 @@ const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
  * of scenario results in Render Count Changed output section.
  */
 const COUNT_DIFF_THRESHOLD = 0.5;
-
-/**
- * Record type holding `PerformanceEntry` objects keyed by entry name.
- */
-type PerformanceRecord = { [name: string]: PerformanceEntry };
 
 type CompareOptions = {
   baselineFile?: string;
@@ -56,33 +59,49 @@ export async function compare({
     process.exit(1);
   }
 
-  const current = await loadFile(currentFile);
+  const currentResults = await loadFile(currentFile);
 
-  const hasBaslineFile = fsSync.existsSync(baselineFile);
-  if (!hasBaslineFile) {
+  const hasBaselineFile = fsSync.existsSync(baselineFile);
+  if (!hasBaselineFile) {
     logWarning(
       `Baseline results files "${baselineFile}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
     );
   }
 
-  const baseline = hasBaslineFile ? await loadFile(baselineFile) : null;
+  const baselineResults = hasBaselineFile ? await loadFile(baselineFile) : null;
 
-  const outputData = compareResults(current, baseline);
+  const output = compareResults(currentResults, baselineResults);
 
-  if (outputFormat === 'console' || outputFormat === 'all') printToConsole(outputData);
-  if (outputFormat === 'json' || outputFormat === 'all') writeToJson(outputFile, outputData);
-  if (outputFormat === 'markdown' || outputFormat === 'all') writeToMarkdown('.reassure/output.md', outputData);
+  if (outputFormat === 'console' || outputFormat === 'all') {
+    printToConsole(output);
+  }
+  if (outputFormat === 'json' || outputFormat === 'all') {
+    writeToJson(outputFile, output);
+  }
+  if (outputFormat === 'markdown' || outputFormat === 'all') {
+    writeToMarkdown('.reassure/output.md', output);
+  }
 }
 
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-async function loadFile(path: string): Promise<PerformanceRecord> {
-  const data = await fs.readFile(path, 'utf8');
+async function loadFile(path: string): Promise<PerformanceResults> {
+  const contents = await fs.readFile(path, 'utf8');
 
-  const lines = data.split(/\r?\n/);
+  const lines = contents
+    .split(/\r?\n/)
+    .filter((line) => !!line.trim())
+    .map((line) => JSON.parse(line));
+
   // TODO: add data format validation
-  const entries: PerformanceEntry[] = lines.filter((line) => !!line.trim()).map((line) => JSON.parse(line));
+
+  let header: PerformanceHeader | null = null;
+  if (lines[0]?.metadata) {
+    header = lines[0];
+  }
+
+  const entries: PerformanceEntry[] = lines.filter((entry) => entry.name);
 
   if (hasDuplicateValues(entries.map((entry) => entry.name))) {
     const msg = `Your performance result file ${path} contains records with duplicated names.
@@ -92,35 +111,37 @@ async function loadFile(path: string): Promise<PerformanceRecord> {
     throw new Error(msg);
   }
 
-  const result: PerformanceRecord = {};
+  const keyedEntries: Record<string, PerformanceEntry> = {};
   entries.forEach((entry) => {
-    result[entry.name] = entry;
+    keyedEntries[entry.name] = entry;
   });
 
-  return result;
+  return {
+    metadata: header?.metadata,
+    entries: keyedEntries,
+  };
 }
 
 /**
  * Compare results between baseline and current entries and categorize.
  */
-function compareResults(currentEntries: PerformanceRecord, baselineEntries: PerformanceRecord | null): CompareResult {
+function compareResults(current: PerformanceResults, baseline: PerformanceResults | null): CompareResult {
   // Unique test scenario names
-  const names = [...new Set([...Object.keys(currentEntries), ...Object.keys(baselineEntries || {})])];
-
+  const names = [...new Set([...Object.keys(current.entries), ...Object.keys(baseline?.entries || {})])];
   const compared: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
 
   names.forEach((name) => {
-    const current = currentEntries[name];
-    const baseline = baselineEntries?.[name];
+    const currentEntry = current.entries[name];
+    const baselineEntry = baseline?.entries[name];
 
-    if (baseline && current) {
-      compared.push(buildCompareEntry(name, current, baseline));
-    } else if (current) {
-      added.push({ name, current });
-    } else if (baseline) {
-      removed.push({ name, baseline });
+    if (currentEntry && baselineEntry) {
+      compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
+    } else if (currentEntry) {
+      added.push({ name, current: currentEntry });
+    } else if (baselineEntry) {
+      removed.push({ name, baseline: baselineEntry });
     }
   });
 
@@ -131,12 +152,13 @@ function compareResults(currentEntries: PerformanceRecord, baselineEntries: Perf
     .filter((item) => !item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
   const countChanged = compared
-    .filter((item) => item.countDiff > COUNT_DIFF_THRESHOLD)
+    .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
   return {
+    metadata: { current: current.metadata, baseline: baseline?.metadata },
     errors,
     warnings,
     significant,
