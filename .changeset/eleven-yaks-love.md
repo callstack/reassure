@@ -3,4 +3,4 @@
 '@callstack/reassure-compare': minor
 ---
 
-The changes integrate metatda information in the performanc file
+Include codebase metadata (branch, commit hash) in the performance report and measurement file
