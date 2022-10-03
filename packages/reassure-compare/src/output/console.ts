@@ -27,10 +27,24 @@ export function printToConsole(data: CompareResult) {
   console.log('');
 }
 
-function printMetadata(entry: Metadata) {
-  console.log(
-    ` - baseline: ${entry.baseline?.branch} :: ${entry.baseline?.commitHash} | current: ${entry.current?.branch} :: ${entry.current?.commitHash}`
-  );
+function printMetadata(name: string, metadata?: MeasurementMetadata) {
+  if (metadata.branch && metadata.commitHash) {
+     console.log(`- ${name}: \`${metadata.branch}\` (\`${metadata.commitHash}\`)`);
+     return;
+  }
+
+  if (metadata.branch) {
+    console.log(` - \`${name}\`: ${\`metadata.branch\`}`);
+    return;
+  }
+
+  if (metadata.branch) {
+    console.log(`- ${name}: \`${metadata.commitHash}\``);
+    return;
+  }
+
+  console.log(`- ${name}: missing metadata`);
+  return;
 }
 function printRegularLine(entry: CompareEntry) {
   console.log(` - ${entry.name}: ${formatRenderDurationChange(entry)} | ${formatRenderCountChange(entry)}`);
