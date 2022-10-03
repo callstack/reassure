@@ -9,11 +9,11 @@ export interface PerformanceHeader {
   metadata: PerformanceMetadata;
 }
 
-/** Metadata information for performance results */
-export type PerformanceMetadata = {
+/** Metadata information for performance results. */
+export interface PerformanceMetadata {
   branch: string;
   commitHash: string;
-};
+}
 
 /** Entry in the performance results file. */
 export interface PerformanceEntry {
@@ -76,10 +76,9 @@ export interface CompareMetadata {
   current?: PerformanceMetadata;
   baseline?: PerformanceMetadata;
 }
-/**
- * Output of compare function
- */
-export type CompareResult = {
+
+/** Output of compare function. */
+export interface CompareResult {
   metadata: CompareMetadata;
   significant: CompareEntry[];
   meaningless: CompareEntry[];
@@ -88,4 +87,4 @@ export type CompareResult = {
   removed: RemovedEntry[];
   errors: string[];
   warnings: string[];
-};
+}

@@ -47,10 +47,6 @@ async function writeToFile(filePath: string, content: string) {
   }
 }
 
-function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
-  return ` - **${name}**: ${formatMetadata(metadata)}`;
-}
-
 function buildMarkdown(data: CompareResult) {
   let result = headers.h1('Performance Comparison Report');
 
@@ -89,6 +85,10 @@ function buildMarkdown(data: CompareResult) {
   result += '\n';
 
   return result;
+}
+
+function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
+  return ` - **${name}**: ${formatMetadata(metadata)}`;
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {

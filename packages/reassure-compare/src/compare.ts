@@ -116,32 +116,25 @@ async function loadFile(path: string): Promise<PerformanceResults> {
     keyedEntries[entry.name] = entry;
   });
 
-  const result: PerformanceResults = {
+  return {
     metadata: header?.metadata,
     entries: keyedEntries,
   };
-
-  return result;
 }
 
 /**
  * Compare results between baseline and current entries and categorize.
  */
 function compareResults(current: PerformanceResults, baseline: PerformanceResults | null): CompareResult {
-  const currentEntries = current.entries;
-  const currentMetadata = current.metadata;
-  const baselineEntries = baseline?.entries;
-  const baselineMetadata = baseline?.metadata;
-
   // Unique test scenario names
-  const names = [...new Set([...Object.keys(current.entries), ...Object.keys(baselineEntries || {})])];
+  const names = [...new Set([...Object.keys(current.entries), ...Object.keys(baseline?.entries || {})])];
   const compared: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
 
   names.forEach((name) => {
-    const currentEntry = currentEntries[name];
-    const baselineEntry = baselineEntries?.[name];
+    const currentEntry = current.entries[name];
+    const baselineEntry = baseline?.entries[name];
 
     if (currentEntry && baselineEntry) {
       compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
@@ -165,7 +158,7 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
   return {
-    metadata: { current: currentMetadata, baseline: baselineMetadata },
+    metadata: { current: current.metadata, baseline: baseline?.metadata },
     errors,
     warnings,
     significant,
