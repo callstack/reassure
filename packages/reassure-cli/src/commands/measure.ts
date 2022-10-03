@@ -31,9 +31,7 @@ export function run(options: MeasureOptions) {
     },
   };
 
-  const metaDataString = JSON.stringify(metadata) + '\n';
-
-  writeFileSync(outputFile, metaDataString);
+  writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
   console.log('');
 
