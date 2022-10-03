@@ -39,7 +39,7 @@ function printMetadata(name: string, metadata?: MeasurementMetadata) {
   }
 
   if (metadata.branch) {
-    console.log(`- ${name}: \`${metadata.commitHash}\``);
+    console.log(`- ${name}: ${metadata.commitHash}`);
     return;
   }
 
