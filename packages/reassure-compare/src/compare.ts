@@ -8,8 +8,8 @@ import type {
   RemovedEntry,
   CompareEntry,
   CompareResult,
+  PerformanceResults,
   PerformanceHeader,
-  MeasurementMetadata,
   CompareMetadata,
 } from './types';
 import { printToConsole } from './output/console';
@@ -35,16 +35,6 @@ const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
  * of scenario results in Render Count Changed output section.
  */
 const COUNT_DIFF_THRESHOLD = 0.5;
-
-/**
- * Record type holding `PerformanceEntry` objects keyed by entry name.
- */
-type PerformanceRecord = { [name: string]: PerformanceEntry };
-
-interface MeasurementResults {
-  metadata: MeasurementMetadata;
-  performanceRecord: PerformanceRecord;
-}
 
 type CompareOptions = {
   baselineFile?: string;
@@ -91,29 +81,23 @@ export async function compare({
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-async function loadFile(path: string): Promise<MeasurementResults> {
+async function loadFile(path: string): Promise<PerformanceResults> {
   const data = await fs.readFile(path, 'utf8');
 
-  const lines = data.split(/\r?\n/);
+  const lines = data
+    .split(/\r?\n/)
+    .filter((line) => !!line.trim())
+    .map((line) => JSON.parse(line));
+
   // TODO: add data format validation
 
-  const metadataEntries: PerformanceHeader[] = lines
-    .filter((line) => !!line.trim())
-    .map((line) => JSON.parse(line))
-    .filter((parsedJSON) => !!parsedJSON['metadata']);
-
-  if (metadataEntries.length > 1) {
-    const msg = `Your performance result file ${path} contains records with more than one metadata lines.
-      Please ensure to have only one metadata entry in the perf report file
-      `;
-    logError(msg);
-    throw new Error(msg);
+  let header: PerformanceHeader | null = null;
+  const firstLine = lines[0];
+  if (firstLine?.metadata) {
+    header = firstLine;
   }
 
-  const performanceEntries: PerformanceEntry[] = lines
-    .filter((line) => !!line.trim())
-    .map((line) => JSON.parse(line))
-    .filter((parsedJSON) => !!parsedJSON['name']);
+  const performanceEntries: PerformanceEntry[] = lines.filter((entry) => entry.name);
 
   if (hasDuplicateValues(performanceEntries.map((entry) => entry.name))) {
     const msg = `Your performance result file ${path} contains records with duplicated names.
@@ -123,27 +107,26 @@ async function loadFile(path: string): Promise<MeasurementResults> {
     throw new Error(msg);
   }
 
-  const performanceRecord: PerformanceRecord = {};
+  const entries: Record<string, PerformanceEntry> = {};
   performanceEntries.forEach((entry) => {
-    performanceRecord[entry.name] = entry;
+    entries[entry.name] = entry;
   });
 
-  const metadataResult = metadataEntries[0]['metadata'];
-
-  const result: MeasurementResults = {
-    performanceRecord,
-    metadata: metadataResult,
+  const result: PerformanceResults = {
+    metadata: header?.metadata,
+    entries,
   };
+
   return result;
 }
 
 /**
  * Compare results between baseline and current entries and categorize.
  */
-function compareResults(current: MeasurementResults, baseline: MeasurementResults | null): CompareResult {
-  const { performanceRecord: currentEntries, metadata: currentMetadata } = current;
-
-  const baselineEntries = baseline?.performanceRecord;
+function compareResults(current: PerformanceResults, baseline: PerformanceResults | null): CompareResult {
+  const currentEntries = current.entries;
+  const currentMetadata = current.metadata;
+  const baselineEntries = baseline?.entries;
   const baselineMetadata = baseline?.metadata;
 
   // Unique test scenario names
@@ -177,7 +160,7 @@ function compareResults(current: MeasurementResults, baseline: MeasurementResult
   added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
   removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
 
-  const metadata: CompareMetadata = { current: currentMetadata, baseline: baselineMetadata ? baselineMetadata : null };
+  const metadata: CompareMetadata = { current: currentMetadata, baseline: baselineMetadata };
 
   return {
     metadata,

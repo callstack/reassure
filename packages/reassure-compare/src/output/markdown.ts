@@ -17,7 +17,7 @@ import type {
   CompareEntry,
   CompareResult,
   RemovedEntry,
-  MeasurementMetadata,
+  PerformanceMetadata,
 } from '../types';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
@@ -46,7 +46,7 @@ async function writeToFile(filePath: string, content: string) {
   }
 }
 
-function buildMetadataMarkdown(name: string, metadata: MeasurementMetadata | null) {
+function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
   if (metadata?.branch && metadata?.commitHash) {
     return `**${name}**: \`${metadata.branch}\` (\`${metadata.commitHash}\`)`;
   }

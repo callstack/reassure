@@ -1,16 +1,12 @@
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, MeasurementMetadata } from '../types';
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, PerformanceMetadata } from '../types';
 import { formatCount, formatDuration, formatRenderCountChange, formatRenderDurationChange } from '../utils/format';
 
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
 
   console.log('❇️  Performance comparison results:');
-
-  console.log('\n➡️  Metadata');
-  printMetadata('Current: ', data.metadata.current);
-  if (data.metadata.baseline) {
-    printMetadata('Baseline: ', data.metadata.baseline);
-  }
+  printMetadata('Current', data.metadata.current);
+  printMetadata('Baseline', data.metadata.baseline);
 
   console.log('\n➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);
@@ -30,9 +26,9 @@ export function printToConsole(data: CompareResult) {
   console.log('');
 }
 
-function printMetadata(name: string, metadata?: MeasurementMetadata) {
+function printMetadata(name: string, metadata?: PerformanceMetadata) {
   if (metadata?.branch && metadata?.commitHash) {
-    console.log(`- ${name}: ${metadata.branch} (${metadata.commitHash})`);
+    console.log(` - ${name}: ${metadata.branch} (${metadata.commitHash})`);
     return;
   }
 
@@ -42,13 +38,14 @@ function printMetadata(name: string, metadata?: MeasurementMetadata) {
   }
 
   if (metadata?.commitHash) {
-    console.log(`- ${name}: ${metadata.commitHash}`);
+    console.log(` - ${name}: ${metadata.commitHash}`);
     return;
   }
 
-  console.log(`- ${name}: missing metadata`);
+  console.log(` - ${name}: (unknown)`);
   return;
 }
+
 function printRegularLine(entry: CompareEntry) {
   console.log(` - ${entry.name}: ${formatRenderDurationChange(entry)} | ${formatRenderCountChange(entry)}`);
 }

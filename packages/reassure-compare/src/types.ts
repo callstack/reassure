@@ -1,13 +1,19 @@
-/** Metadata information for measurements */
-export type MeasurementMetadata = {
-  branch: string;
-  commitHash: string;
-};
+/** Parsed performance results file. */
+export interface PerformanceResults {
+  metadata?: PerformanceMetadata;
+  entries: Record<string, PerformanceEntry>;
+}
 
 /** Header of performance results file. */
 export interface PerformanceHeader {
-  metadata: MeasurementMetadata;
+  metadata: PerformanceMetadata;
 }
+
+/** Metadata information for performance results */
+export type PerformanceMetadata = {
+  branch: string;
+  commitHash: string;
+};
 
 /** Entry in the performance results file. */
 export interface PerformanceEntry {
@@ -67,8 +73,8 @@ export interface RemovedEntry {
 }
 
 export interface CompareMetadata {
-  current: MeasurementMetadata;
-  baseline: MeasurementMetadata | null;
+  current?: PerformanceMetadata;
+  baseline?: PerformanceMetadata;
 }
 /**
  * Output of compare function
