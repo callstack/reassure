@@ -1,6 +1,7 @@
 import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
+import * as child_process from 'child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 
@@ -16,6 +17,29 @@ type MeasureOptions = {
 };
 
 export function run(options: MeasureOptions) {
+  let branch = null;
+  let commitHash = null;
+
+  const child = child_process.fork(__dirname + '/autodetectGit.js');
+
+  child.on('message', function (m) {
+    console.log('Parent process received:', m);
+    if (m.branch) {
+      branch = m.branch;
+    }
+    if (m.commitHash) {
+      commitHash = m.commitHash;
+    }
+  });
+
+  child.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+  });
+
+  child.on('error', (error) => {
+    console.log(`child process exited with error ${error}`);
+  });
+
   const measurementType = options.baseline ? 'Baseline' : 'Current';
   console.log(`\n❇️  Running performance tests:`);
   console.log(` - ${measurementType}: ${formatMetadata(options)}\n`);
@@ -27,8 +51,8 @@ export function run(options: MeasureOptions) {
 
   const header = {
     metadata: {
-      branch: options.branch,
-      commitHash: options.commitHash,
+      branch: options.branch ?? branch,
+      commitHash: options.commitHash ?? commitHash,
     },
   };
 
