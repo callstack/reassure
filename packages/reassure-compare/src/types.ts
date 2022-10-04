@@ -11,8 +11,8 @@ export interface PerformanceHeader {
 
 /** Metadata information for performance results. */
 export interface PerformanceMetadata {
-  branch?: string;
-  commitHash?: string;
+  branch?: string | null;
+  commitHash?: string | null;
 }
 
 /** Entry in the performance results file. */
