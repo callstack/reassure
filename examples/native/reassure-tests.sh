@@ -27,5 +27,8 @@ git switch --detach -
 echo Rebuilding Reassure packages
 pushd ../.. && yarn install --force && yarn turbo run build && popd
 
+echo GIT BRANCH: $(git branch --show-current) END
+echo GIT COMMIT HASH: $(git rev-parse HEAD) END
+
 yarn install --force
 yarn reassure --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
