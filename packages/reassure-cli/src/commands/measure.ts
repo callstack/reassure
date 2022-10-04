@@ -1,8 +1,8 @@
 import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
-import * as child_process from 'child_process';
 import type { CommandModule } from 'yargs';
+import simpleGit from 'simple-git';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 
 const RESULTS_DIRECTORY = '.reassure';
@@ -16,30 +16,17 @@ type MeasureOptions = {
   commitHash?: string;
 };
 
+const autodetectGitChanges = async () => {
+  const git = simpleGit({ baseDir: process.cwd() });
+
+  const branch = await git.revparse(['--abbrev-ref', 'HEAD']);
+
+  const commitHash = await git.revparse(['HEAD']);
+
+  return { branch, commitHash };
+};
+
 export function run(options: MeasureOptions) {
-  let branch = null;
-  let commitHash = null;
-
-  const child = child_process.fork(__dirname + '/autodetectGit.js');
-
-  child.on('message', function (m) {
-    console.log('Parent process received:', m);
-    if (m.branch) {
-      branch = m.branch;
-    }
-    if (m.commitHash) {
-      commitHash = m.commitHash;
-    }
-  });
-
-  child.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-
-  child.on('error', (error) => {
-    console.log(`child process exited with error ${error}`);
-  });
-
   const measurementType = options.baseline ? 'Baseline' : 'Current';
   console.log(`\n❇️  Running performance tests:`);
   console.log(` - ${measurementType}: ${formatMetadata(options)}\n`);
@@ -49,62 +36,78 @@ export function run(options: MeasureOptions) {
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  const header = {
-    metadata: {
-      branch: options.branch ?? branch,
-      commitHash: options.commitHash ?? commitHash,
-    },
-  };
+  let branchFromAutoDetection: string | null = null;
+  let commitHashFromAutoDetection: string | null = null;
 
-  writeFileSync(outputFile, JSON.stringify(header) + '\n');
+  // eslint-disable-next-line promise/catch-or-return
+  autodetectGitChanges()
+    // eslint-disable-next-line promise/always-return
+    .then((res) => {
+      branchFromAutoDetection = res.branch;
+      commitHashFromAutoDetection = res.commitHash;
+    })
+    .catch(() => {
+      console.log('error getting version control data');
+    })
+    .finally(() => {
+      const header = {
+        metadata: {
+          branch: options.branch ? options.branch : branchFromAutoDetection,
+          commitHash: options.commitHash ? options.commitHash : commitHashFromAutoDetection,
+        },
+      };
 
-  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
-  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
+      writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
-  const spawnInfo = spawnSync(
-    'node',
-    [
-      '--jitless',
-      '--expose-gc',
-      '--no-concurrent-sweeping',
-      '--max-old-space-size=4096',
-      testRunnerPath,
-      testRunnerArgs,
-    ],
-    { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
-  );
+      const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
+      const testRunnerArgs =
+        process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
 
-  console.log('');
-
-  if (spawnInfo.status !== 0) {
-    console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
-    process.exitCode = 1;
-    return;
-  }
-
-  if (existsSync(outputFile)) {
-    console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
-    console.log(`🔗 ${resolve(outputFile)}\n`);
-  } else {
-    console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
-    return;
-  }
-
-  if (options.baseline) {
-    console.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
-    return;
-  }
-
-  if (options.compare) {
-    if (existsSync(BASELINE_FILE)) {
-      compare();
-    } else {
-      console.log(
-        `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
+      const spawnInfo = spawnSync(
+        'node',
+        [
+          '--jitless',
+          '--expose-gc',
+          '--no-concurrent-sweeping',
+          '--max-old-space-size=4096',
+          testRunnerPath,
+          testRunnerArgs,
+        ],
+        { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
       );
-      return;
-    }
-  }
+
+      console.log('');
+
+      if (spawnInfo.status !== 0) {
+        console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
+        process.exitCode = 1;
+        return;
+      }
+
+      if (existsSync(outputFile)) {
+        console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
+        console.log(`🔗 ${resolve(outputFile)}\n`);
+      } else {
+        console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
+        return;
+      }
+
+      if (options.baseline) {
+        console.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
+        return;
+      }
+
+      if (options.compare) {
+        if (existsSync(BASELINE_FILE)) {
+          compare();
+        } else {
+          console.log(
+            `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
+          );
+          return;
+        }
+      }
+    });
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
