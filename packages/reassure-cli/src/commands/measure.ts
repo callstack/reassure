@@ -4,6 +4,7 @@ import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import simpleGit from 'simple-git';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
+import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
@@ -16,98 +17,100 @@ type MeasureOptions = {
   commitHash?: string;
 };
 
-const autodetectGitChanges = async () => {
+async function getGitBranch() {
   const git = simpleGit({ baseDir: process.cwd() });
+  let branch = null;
+  try {
+    branch = git.revparse(['--abbrev-ref', 'HEAD']);
+  } catch (e) {
+    console.log('Error in fetching git branch');
+  }
+  return branch;
+}
 
-  const branch = await git.revparse(['--abbrev-ref', 'HEAD']);
+async function getGitCommitHash() {
+  const git = simpleGit({ baseDir: process.cwd() });
+  let commitHash = null;
+  try {
+    commitHash = git.revparse(['HEAD']);
+  } catch (e) {
+    console.log('Error in fetching git commitHash');
+  }
+  return commitHash;
+}
 
-  const commitHash = await git.revparse(['HEAD']);
-
-  return { branch, commitHash };
-};
-
-export function run(options: MeasureOptions) {
+export async function run(options: MeasureOptions) {
   const measurementType = options.baseline ? 'Baseline' : 'Current';
+
+  const branch = options?.branch ?? (await getGitBranch());
+  const commitHash = options?.commitHash ?? (await getGitCommitHash());
+
+  const fmtOptions: PerformanceMetadata = { commitHash, branch };
+
   console.log(`\n❇️  Running performance tests:`);
-  console.log(` - ${measurementType}: ${formatMetadata(options)}\n`);
+  console.log(` - ${measurementType}: ${formatMetadata(fmtOptions)}\n`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  let branchFromAutoDetection: string | null = null;
-  let commitHashFromAutoDetection: string | null = null;
+  const header = {
+    metadata: {
+      branch,
+      commitHash,
+    },
+  };
 
-  // eslint-disable-next-line promise/catch-or-return
-  autodetectGitChanges()
-    // eslint-disable-next-line promise/always-return
-    .then((res) => {
-      branchFromAutoDetection = res.branch;
-      commitHashFromAutoDetection = res.commitHash;
-    })
-    .catch(() => {
-      console.log('error getting version control data');
-    })
-    .finally(() => {
-      const header = {
-        metadata: {
-          branch: options.branch ? options.branch : branchFromAutoDetection,
-          commitHash: options.commitHash ? options.commitHash : commitHashFromAutoDetection,
-        },
-      };
+  writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
-      writeFileSync(outputFile, JSON.stringify(header) + '\n');
+  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
+  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
 
-      const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
-      const testRunnerArgs =
-        process.env.TEST_RUNNER_ARGS ?? '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
+  const spawnInfo = spawnSync(
+    'node',
+    [
+      '--jitless',
+      '--expose-gc',
+      '--no-concurrent-sweeping',
+      '--max-old-space-size=4096',
+      testRunnerPath,
+      testRunnerArgs,
+    ],
+    { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
+  );
 
-      const spawnInfo = spawnSync(
-        'node',
-        [
-          '--jitless',
-          '--expose-gc',
-          '--no-concurrent-sweeping',
-          '--max-old-space-size=4096',
-          testRunnerPath,
-          testRunnerArgs,
-        ],
-        { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
+  console.log('');
+
+  if (spawnInfo.status !== 0) {
+    console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (existsSync(outputFile)) {
+    console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
+    console.log(`🔗 ${resolve(outputFile)}\n`);
+  } else {
+    console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
+    return;
+  }
+
+  if (options.baseline) {
+    console.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
+    return;
+  }
+
+  if (options.compare) {
+    if (existsSync(BASELINE_FILE)) {
+      compare();
+    } else {
+      console.log(
+        `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
       );
-
-      console.log('');
-
-      if (spawnInfo.status !== 0) {
-        console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
-        process.exitCode = 1;
-        return;
-      }
-
-      if (existsSync(outputFile)) {
-        console.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
-        console.log(`🔗 ${resolve(outputFile)}\n`);
-      } else {
-        console.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
-        return;
-      }
-
-      if (options.baseline) {
-        console.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
-        return;
-      }
-
-      if (options.compare) {
-        if (existsSync(BASELINE_FILE)) {
-          compare();
-        } else {
-          console.log(
-            `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
-          );
-          return;
-        }
-      }
-    });
+      return;
+    }
+  }
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
