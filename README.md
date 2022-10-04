@@ -174,15 +174,20 @@ A simple version of such script, using branch changing approach is as follows:
 
 ```sh
 #!/usr/bin/env bash
+set -e
+
 BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+
+# Required for `git switch` on CI
+git fetch origin
 
 # Gather baseline perf measurements
 git switch "$BASELINE_BRANCH"
 yarn install --force
-yarn reassure --baseline
+yarn reassure --baseline --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
 
 # Gather current perf measurements & compare results
-git switch -
+git switch --detach -
 yarn install --force
 yarn reassure --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
 ```
