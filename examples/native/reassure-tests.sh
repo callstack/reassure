@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Exit on first error
+set -e
+
+# Branches are not fetched by default on CI
+git fetch
+
 BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
 
 # Gather baseline perf measurements
