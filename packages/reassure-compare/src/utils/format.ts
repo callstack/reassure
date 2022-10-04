@@ -103,5 +103,5 @@ export function formatMetadata(metadata?: PerformanceMetadata) {
     return `${metadata.branch} (${metadata.commitHash})`;
   }
 
-  return metadata?.branch ?? metadata?.commitHash ?? '(unknown)';
+  return metadata?.branch || metadata?.commitHash || '(unknown)';
 }
