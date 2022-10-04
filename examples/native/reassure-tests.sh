@@ -21,7 +21,7 @@ yarn reassure --baseline --branch $(git branch --show-current) --commitHash $(gi
 
 # Gather current perf measurements & compare results
 echo Git: switching back to current branch
-git switch -
+git switch --detach -
 
 # Next line is required because Reassure packages are imported from this monorepo and might require rebuilding.
 echo Rebuilding Reassure packages
