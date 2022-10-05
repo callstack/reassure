@@ -1,5 +1,11 @@
 # @callstack/reassure-measure
 
+## 0.3.1
+
+### Patch Changes
+
+- 5a1c3472: Changes for dependencies cleanup after monorepo migration
+
 ## 0.3.0
 
 ### Minor Changes

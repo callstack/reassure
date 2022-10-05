@@ -1,5 +1,19 @@
 # @callstack/reassure-cli
 
+## 0.5.0
+
+### Minor Changes
+
+- b4250e3c: Include codebase metadata (branch, commit hash) in the performance report and measurement file
+- 067f66d3: Automatically get branch and commit hash CLI options from Git if not passed
+
+### Patch Changes
+
+- 5a1c3472: Changes for dependencies cleanup after monorepo migration
+- Updated dependencies [b4250e3c]
+- Updated dependencies [5a1c3472]
+  - @callstack/reassure-compare@0.2.0
+
 ## 0.4.0
 
 ### Minor Changes

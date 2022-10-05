@@ -1,5 +1,15 @@
 # @callstack/reassure-compare
 
+## 0.2.0
+
+### Minor Changes
+
+- b4250e3c: Include codebase metadata (branch, commit hash) in the performance report and measurement file
+
+### Patch Changes
+
+- 5a1c3472: Changes for dependencies cleanup after monorepo migration
+
 ## 0.1.1
 
 ### Patch Changes

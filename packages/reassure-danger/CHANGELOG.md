@@ -1,5 +1,11 @@
 # @callstack/reassure-danger
 
+## 0.1.1
+
+### Patch Changes
+
+- 5a1c3472: Changes for dependencies cleanup after monorepo migration
+
 ## 0.1.0
 
 ### Minor Changes
