@@ -13,7 +13,7 @@ git switch "$BASELINE_BRANCH"
 pushd ../.. && yarn install --force && yarn turbo run build && popd
 
 yarn install --force
-yarn reassure --baseline --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
+yarn reassure --baseline
 
 # Gather current perf measurements & compare results
 git switch --detach -
@@ -22,4 +22,4 @@ git switch --detach -
 pushd ../.. && yarn install --force && yarn turbo run build && popd
 
 yarn install --force
-yarn reassure --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
+yarn reassure --branch
