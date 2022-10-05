@@ -2,9 +2,9 @@ import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
-import simpleGit from 'simple-git';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
+import { getGitBranch, getGitCommitHash } from './git';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
@@ -17,51 +17,23 @@ type MeasureOptions = {
   commitHash?: string;
 };
 
-async function getGitBranch() {
-  const git = simpleGit({ baseDir: process.cwd() });
-  let branch = null;
-  try {
-    branch = git.revparse(['--abbrev-ref', 'HEAD']);
-  } catch (e) {
-    console.log('Error in fetching git branch');
-  }
-  return branch;
-}
-
-async function getGitCommitHash() {
-  const git = simpleGit({ baseDir: process.cwd() });
-  let commitHash = null;
-  try {
-    commitHash = git.revparse(['HEAD']);
-  } catch (e) {
-    console.log('Error in fetching git commitHash');
-  }
-  return commitHash;
-}
-
 export async function run(options: MeasureOptions) {
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
-  const branch = options?.branch ?? (await getGitBranch());
-  const commitHash = options?.commitHash ?? (await getGitCommitHash());
-
-  const fmtOptions: PerformanceMetadata = { commitHash, branch };
+  const metadata: PerformanceMetadata = {
+    branch: options?.branch ?? (await getGitBranch()),
+    commitHash: options?.commitHash ?? (await getGitCommitHash()),
+  };
 
   console.log(`\n❇️  Running performance tests:`);
-  console.log(` - ${measurementType}: ${formatMetadata(fmtOptions)}\n`);
+  console.log(` - ${measurementType}: ${formatMetadata(metadata)}\n`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  const header = {
-    metadata: {
-      branch,
-      commitHash,
-    },
-  };
-
+  const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
