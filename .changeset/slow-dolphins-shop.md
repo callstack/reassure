@@ -2,4 +2,4 @@
 '@callstack/reassure-cli': minor
 ---
 
-automate branch and commit hash CLI options
+Automatically get branch and commit hash CLI options from Git if not passed
