@@ -1287,31 +1287,32 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@callstack/reassure-cli@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-cli/-/reassure-cli-0.4.0.tgz#9aa47868bab763b17a167fa8076ec9726fda343a"
-  integrity sha512-ipfupdNz2uHhEM1b5ampedS/3KkFqssCcMacjwFdhzPUlv94BUbzNlzBzSg8HOtLOUlBRdlHHUX4pIrx9C8Bww==
+"@callstack/reassure-cli@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-cli/-/reassure-cli-0.5.0.tgz#1e898d5581dee9ccdf1fd6f3efdd3bbd192346f0"
+  integrity sha512-cPPtxS7HlT7IcwRgmfF47OHpolC+t5D6DSj+govYtbxKZ4B3wStQ+5sKMxl6ak9vFAfJrHJhUALzLyrMnrh0eA==
   dependencies:
-    "@callstack/reassure-compare" "0.1.1"
-    yargs "^17.5.1"
+    "@callstack/reassure-compare" "0.2.0"
+    simple-git "^3.14.1"
+    yargs "^17.6.0"
 
-"@callstack/reassure-compare@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-compare/-/reassure-compare-0.1.1.tgz#0234a29ca654ac1e2f7330cd553cff8f2cc84a37"
-  integrity sha512-WFbjv/QIPdrKiFP6H8qUlyET1ZEyCXmOUUYX8V5yisGZHI0EQ+0g2koXbjTD2xaTXe6qdWGcTG6fXib5lDkUrg==
+"@callstack/reassure-compare@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-compare/-/reassure-compare-0.2.0.tgz#285c0a0ff5319b0fc59a313173c7561733442bde"
+  integrity sha512-/UP0qQW4smZiOBHZGgbEqmvtV9HBB2ryk2FEOE/kQvHn28f5/ltDOh83jASVNbW3Ra4n4O+QXDAYtHS9hu7GHA==
   dependencies:
     markdown-builder "^0.9.0"
     markdown-table "^2.0.0"
 
-"@callstack/reassure-danger@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-danger/-/reassure-danger-0.1.0.tgz#3acaea4b5870a86f4a7933d3e3bb75726dd2f695"
-  integrity sha512-0wGkQpJG6Hug95G1PFwp4ZAPtfEo2XEbkNs2JHqRbnL2aeXAfjxYq7o0kAeT6Ho77gSuVEXeWi5agumL9d7yKA==
+"@callstack/reassure-danger@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-danger/-/reassure-danger-0.1.1.tgz#e3aa581dc8b698c18ecb6eb15d7759fdcba5d8a4"
+  integrity sha512-lfza+qBdvVYtP7WvMTT+LfjBfuYsXZ4RxuBldsL8wJArGeCl3OZwUg+9bTo8v6kk/nY8memk5HxrCwWDSO24UA==
 
-"@callstack/reassure-measure@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-measure/-/reassure-measure-0.3.0.tgz#1e14843c028ef7684b7274eec5c2a23f64ed7b23"
-  integrity sha512-0poHpB4GHIKunajQE4QK+Zyz6xb5PJ9oMAIOVQZ3b5lXbPKKQ3GUDBfcsHPW4emmPZPk4w1PjOsl5C74hpaOgQ==
+"@callstack/reassure-measure@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-measure/-/reassure-measure-0.3.1.tgz#4ab64317eb90da9de8076ca61a064c6afd820906"
+  integrity sha512-A7gdyA9nfm6TZt4bQs5bfgy9SOFn8FmMdOjPojSpmpSyECXRK/7aMqqBIuwPt4jgIFFDiEFsd5w88FgsE13CTQ==
   dependencies:
     mathjs "^10.1.1"
 
@@ -1999,6 +2000,18 @@
   dependencies:
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
+
+"@kwsites/file-exists@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@kwsites/file-exists/-/file-exists-1.1.1.tgz#ad1efcac13e1987d8dbaf235ef3be5b0d96faa99"
+  integrity sha512-m9/5YGR18lIwxSFDwfE3oA7bWuq9kdau6ugN4H2rJeyhFQZcG9AgSHkQtSD15a8WvTgfz9aikZMrKPHvbpqFiw==
+  dependencies:
+    debug "^4.1.1"
+
+"@kwsites/promise-deferred@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz#8ace5259254426ccef57f3175bc64ed7095ed919"
+  integrity sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -3177,15 +3190,6 @@ cliui@^6.0.0:
     string-width "^4.2.0"
     strip-ansi "^6.0.0"
     wrap-ansi "^6.2.0"
-
-cliui@^7.0.2:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/cliui/-/cliui-7.0.4.tgz#a0265ee655476fc807aea9df3df8df7783808b4f"
-  integrity sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==
-  dependencies:
-    string-width "^4.2.0"
-    strip-ansi "^6.0.0"
-    wrap-ansi "^7.0.0"
 
 cliui@^8.0.1:
   version "8.0.1"
@@ -6941,14 +6945,14 @@ readline@^1.3.0:
   resolved "https://registry.yarnpkg.com/readline/-/readline-1.3.0.tgz#c580d77ef2cfc8752b132498060dc9793a7ac01c"
   integrity sha512-k2d6ACCkiNYz222Fs/iNze30rRJ1iIicW7JuX/7/cozvih6YCkFZH+J6mAFDVgv0dRBaAyr4jDqC95R2y4IADg==
 
-reassure@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.5.0.tgz#18266c0ac2af2b54bab69636cbba49f44204a2d9"
-  integrity sha512-CpaWwe7OBNTrTSC0w/DvF5Z/Qx/TPEm1Dd7IFWjA8d6XcrUT4zooUTaFI4K0JVj+DO0s+AHfn1uMwALUghCvJQ==
+reassure@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.6.0.tgz#cb75a3b3b3da1de858076e6ffe11b834f2409a1f"
+  integrity sha512-j988r6t2KO0HGAjtvp8U1R/eK0I2cmBl+KznWjrEy3Q9P+/GlrASWoDdGkCptmcTpKzfd8xo2A7AddrSClxcGA==
   dependencies:
-    "@callstack/reassure-cli" "0.4.0"
-    "@callstack/reassure-danger" "0.1.0"
-    "@callstack/reassure-measure" "0.3.0"
+    "@callstack/reassure-cli" "0.5.0"
+    "@callstack/reassure-danger" "0.1.1"
+    "@callstack/reassure-measure" "0.3.1"
 
 recast@^0.20.4:
   version "0.20.5"
@@ -7373,6 +7377,15 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3, signal-exit@^3.0.7:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
+
+simple-git@^3.14.1:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-3.14.1.tgz#68018a5f168f8a568862e30b692004b37c3b5ced"
+  integrity sha512-1ThF4PamK9wBORVGMK9HK5si4zoGS2GpRO7tkAFObA4FZv6dKaCVHLQT+8zlgiBm6K2h+wEU9yOaFCu/SR3OyA==
+  dependencies:
+    "@kwsites/file-exists" "^1.1.1"
+    "@kwsites/promise-deferred" "^1.1.1"
+    debug "^4.3.4"
 
 simple-plist@^1.1.0:
   version "1.3.1"
@@ -8371,25 +8384,12 @@ yargs@^15.1.0, yargs@^15.3.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yargs@^17.3.1:
+yargs@^17.3.1, yargs@^17.6.0:
   version "17.6.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.0.tgz#e134900fc1f218bc230192bdec06a0a5f973e46c"
   integrity sha512-8H/wTDqlSwoSnScvV2N/JHfLWOKuh5MVla9hqLjK3nsfyy6Y4kDSYSvkU5YCUEPOSnRXfIyx3Sq+B/IWudTo4g==
   dependencies:
     cliui "^8.0.1"
-    escalade "^3.1.1"
-    get-caller-file "^2.0.5"
-    require-directory "^2.1.1"
-    string-width "^4.2.3"
-    y18n "^5.0.5"
-    yargs-parser "^21.0.0"
-
-yargs@^17.5.1:
-  version "17.5.1"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.5.1.tgz#e109900cab6fcb7fd44b1d8249166feb0b36e58e"
-  integrity sha512-t6YAJcxDkNX7NFYiVtKvWUz8l+PaKTLiL63mJYWR2GnHq2gjEWISzsLp9wg3aY36dY1j+gfIEL3pIF+XlJJfbA==
-  dependencies:
-    cliui "^7.0.2"
     escalade "^3.1.1"
     get-caller-file "^2.0.5"
     require-directory "^2.1.1"
