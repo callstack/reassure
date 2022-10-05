@@ -1,9 +1,8 @@
 import simpleGit from 'simple-git';
 
 export async function getGitBranch() {
-  const git = simpleGit();
-  //const git = simpleGit({ baseDir: process.cwd() });
   try {
+    const git = simpleGit();
     const isRepo = await git.checkIsRepo();
     if (!isRepo) {
       return undefined;
@@ -18,8 +17,8 @@ export async function getGitBranch() {
 }
 
 export async function getGitCommitHash() {
-  const git = simpleGit({ baseDir: process.cwd() });
   try {
+    const git = simpleGit();
     const isRepo = await git.checkIsRepo();
     if (!isRepo) {
       return undefined;

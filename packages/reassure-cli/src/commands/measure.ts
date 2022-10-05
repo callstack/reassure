@@ -104,7 +104,7 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'string',
         describe: 'Branch name of current code to be included in the report',
       })
-      .option('commitHash', {
+      .option('commit-hash', {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
       });
