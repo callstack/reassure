@@ -3,6 +3,8 @@ import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
+import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
+import { getGitBranch, getGitCommitHash } from './git';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
@@ -15,23 +17,23 @@ type MeasureOptions = {
   commitHash?: string;
 };
 
-export function run(options: MeasureOptions) {
+export async function run(options: MeasureOptions) {
   const measurementType = options.baseline ? 'Baseline' : 'Current';
+
+  const metadata: PerformanceMetadata = {
+    branch: options?.branch ?? (await getGitBranch()),
+    commitHash: options?.commitHash ?? (await getGitCommitHash()),
+  };
+
   console.log(`\n❇️  Running performance tests:`);
-  console.log(` - ${measurementType}: ${formatMetadata(options)}\n`);
+  console.log(` - ${measurementType}: ${formatMetadata(metadata)}\n`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
   const outputFile = options.baseline ? BASELINE_FILE : RESULTS_FILE;
   rmSync(outputFile, { force: true });
 
-  const header = {
-    metadata: {
-      branch: options.branch,
-      commitHash: options.commitHash,
-    },
-  };
-
+  const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? 'node_modules/.bin/jest';
@@ -102,7 +104,7 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'string',
         describe: 'Branch name of current code to be included in the report',
       })
-      .option('commitHash', {
+      .option('commit-hash', {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
       });

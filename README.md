@@ -161,6 +161,12 @@ command for the first time.
 
 > **Note:** You can add `.reassure/` folder to your `.gitignore` file to avoid accidentally committing your results.
 
+Reassure CLI will automatically try to detect your source code branch name and commit hash when you are using Git. You can override these options, e.g. if you are using different version control system:
+
+```sh
+yarn reassure --branch [branch name] --commit-hash [commit hash] 
+```
+
 ### Write performance testing script
 
 In order to detect performance changes, you need to measure the performance of two versions of your code
@@ -184,12 +190,12 @@ git fetch origin
 # Gather baseline perf measurements
 git switch "$BASELINE_BRANCH"
 yarn install --force
-yarn reassure --baseline --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
+yarn reassure --baseline
 
 # Gather current perf measurements & compare results
 git switch --detach -
 yarn install --force
-yarn reassure --branch $(git branch --show-current) --commitHash $(git rev-parse HEAD)
+yarn reassure
 ```
 
 ### CI integration
