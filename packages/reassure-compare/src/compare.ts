@@ -1,7 +1,6 @@
 import * as fsSync from 'fs';
 import * as fs from 'fs/promises';
 
-import { hasDuplicateValues } from './utils/array';
 import type {
   PerformanceEntry,
   AddedEntry,
@@ -15,6 +14,7 @@ import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
+import { validateAndParseMetadata, validateAndParsePerformanceEntries } from './utils/validate';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -58,7 +58,6 @@ export async function compare({
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
-
   const currentResults = await loadFile(currentFile);
 
   const hasBaselineFile = fsSync.existsSync(baselineFile);
@@ -94,19 +93,24 @@ async function loadFile(path: string): Promise<PerformanceResults> {
     .filter((line) => !!line.trim())
     .map((line) => JSON.parse(line));
 
-  // TODO: add data format validation
-
   let header: PerformanceHeader | null = null;
-  if (lines[0]?.metadata) {
-    header = lines[0];
+
+  const metaDataRes = validateAndParseMetadata(lines[0]);
+  if (metaDataRes.success) {
+    header = metaDataRes.data;
+  } else {
+    const msg = `Error while parsing ${metaDataRes.error}.`;
+    logError(msg);
+    throw new Error(msg);
   }
 
-  const entries: PerformanceEntry[] = lines.filter((entry) => entry.name);
+  let entries: PerformanceEntry[];
 
-  if (hasDuplicateValues(entries.map((entry) => entry.name))) {
-    const msg = `Your performance result file ${path} contains records with duplicated names.
-      Please remove any non-unique names from your test suites and try again.
-      `;
+  const performanceEntriesRes = validateAndParsePerformanceEntries(lines.slice(1));
+  if (performanceEntriesRes.success) {
+    entries = performanceEntriesRes.data;
+  } else {
+    const msg = `Error while parsing ${performanceEntriesRes.error}.`;
     logError(msg);
     throw new Error(msg);
   }
