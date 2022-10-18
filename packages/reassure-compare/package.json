@@ -16,7 +16,8 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "build": "bob build"
+    "build": "bob build",
+    "test": "jest"
   },
   "keywords": [
     "react-native",
@@ -51,5 +52,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "babel-jest": "^29.2.1",
+    "ts-jest": "^29.0.3"
   }
 }
