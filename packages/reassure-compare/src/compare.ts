@@ -6,7 +6,7 @@ import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
-import { PerformanceHeader, parseMetadata, parsePerformanceEntries, PerformanceEntry } from './utils/validate';
+import { parseMetadata, parsePerformanceEntries, PerformanceEntry } from './utils/validate';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -50,7 +50,13 @@ export async function compare({
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
-  const currentResults = await loadFile(currentFile);
+  let currentResults: PerformanceResults;
+  try {
+    currentResults = await loadFile(currentFile);
+  } catch (error) {
+    logError(`Error while parsing input file: ${currentFile}`, error);
+    process.exit(1);
+  }
 
   const hasBaselineFile = fsSync.existsSync(baselineFile);
   if (!hasBaselineFile) {
@@ -59,7 +65,18 @@ export async function compare({
     );
   }
 
-  const baselineResults = hasBaselineFile ? await loadFile(baselineFile) : null;
+  let baselineResults: PerformanceResults | null;
+
+  if (hasBaselineFile) {
+    try {
+      baselineResults = await loadFile(baselineFile);
+    } catch (error) {
+      logError(`Error while parsing input file: ${currentFile}`, error);
+      process.exit(1);
+    }
+  } else {
+    baselineResults = null;
+  }
 
   const output = compareResults(currentResults, baselineResults);
 
@@ -85,27 +102,9 @@ async function loadFile(path: string): Promise<PerformanceResults> {
     .filter((line) => !!line.trim())
     .map((line) => JSON.parse(line));
 
-  let header: PerformanceHeader | null = null;
+  const header = parseMetadata(lines[0]);
 
-  const metaDataRes = parseMetadata(lines[0]);
-  if (metaDataRes.success) {
-    header = metaDataRes.data;
-  } else {
-    const msg = `Error while parsing ${metaDataRes.error}.`;
-    logError(msg);
-    throw new Error(msg);
-  }
-
-  let entries: PerformanceEntry[];
-
-  const performanceEntriesRes = parsePerformanceEntries(lines.slice(1));
-  if (performanceEntriesRes.success) {
-    entries = performanceEntriesRes.data;
-  } else {
-    const msg = `Error while parsing ${performanceEntriesRes.error}.`;
-    logError(msg);
-    throw new Error(msg);
-  }
+  const entries = parsePerformanceEntries(lines.slice(1));
 
   const keyedEntries: Record<string, PerformanceEntry> = {};
   entries.forEach((entry) => {

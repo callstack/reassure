@@ -50,9 +50,9 @@ const perfFileSchema = z
   });
 
 export function parseMetadata(metadata: unknown) {
-  return performanceHeaderSchema.safeParse(metadata);
+  return performanceHeaderSchema.parse(metadata);
 }
 
 export function parsePerformanceEntries(perfEntry: unknown) {
-  return perfFileSchema.safeParse(perfEntry);
+  return perfFileSchema.parse(perfEntry);
 }
