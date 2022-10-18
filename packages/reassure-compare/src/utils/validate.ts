@@ -26,7 +26,7 @@ const perfFileSchema = z
     Please remove any non-unique names from your test suites and try again.`,
   });
 
-export function validateAndParseMetadata(metadata: unknown) {
+export function parseMetadata(metadata: unknown) {
   return metadataSchema.safeParse(metadata);
 }
 
