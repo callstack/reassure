@@ -1,5 +1,10 @@
 /** Parsed performance results file. */
-import type { PerformanceEntry, PerformanceMetadata } from './utils/validate';
+import type { z } from 'zod';
+import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './utils/validate';
+
+export type PerformanceHeader = z.infer<typeof performanceHeaderSchema>;
+export type PerformanceMetadata = z.infer<typeof performanceMetadataSchema>;
+export type PerformanceEntry = z.infer<typeof performanceEntrySchema>;
 
 export interface PerformanceResults {
   metadata?: PerformanceMetadata;
