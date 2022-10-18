@@ -6,12 +6,7 @@ import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
-import {
-  PerformanceHeader,
-  parseMetadata,
-  validateAndParsePerformanceEntries,
-  PerformanceEntry,
-} from './utils/validate';
+import { PerformanceHeader, parseMetadata, parsePerformanceEntries, PerformanceEntry } from './utils/validate';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -103,7 +98,7 @@ async function loadFile(path: string): Promise<PerformanceResults> {
 
   let entries: PerformanceEntry[];
 
-  const performanceEntriesRes = validateAndParsePerformanceEntries(lines.slice(1));
+  const performanceEntriesRes = parsePerformanceEntries(lines.slice(1));
   if (performanceEntriesRes.success) {
     entries = performanceEntriesRes.data;
   } else {

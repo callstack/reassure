@@ -53,6 +53,6 @@ export function parseMetadata(metadata: unknown) {
   return performanceHeaderSchema.safeParse(metadata);
 }
 
-export function validateAndParsePerformanceEntries(perfEntry: unknown) {
+export function parsePerformanceEntries(perfEntry: unknown) {
   return perfFileSchema.safeParse(perfEntry);
 }
