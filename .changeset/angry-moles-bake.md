@@ -4,4 +4,4 @@
 '@callstack/reassure-compare': minor
 ---
 
-Validate performance results files input to compare package
+Validate format of performance results files when loading for comparison
