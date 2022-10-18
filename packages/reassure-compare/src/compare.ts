@@ -72,8 +72,7 @@ export async function compare({
     );
   }
 
-  let baselineResults: PerformanceResults | null;
-
+  let baselineResults: PerformanceResults | null = null;
   if (hasBaselineFile) {
     try {
       baselineResults = await loadFile(baselineFile);
@@ -81,8 +80,6 @@ export async function compare({
       logError(`Error while parsing input file: ${currentFile}`, error);
       process.exit(1);
     }
-  } else {
-    baselineResults = null;
   }
 
   const output = compareResults(currentResults, baselineResults);
