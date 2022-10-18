@@ -1,15 +1,18 @@
 import { z } from 'zod';
 import { hasDuplicateValues } from './array';
 
+/** Metadata information for performance results. */
 export const performanceMetadataSchema = z.object({
   branch: z.string().optional(),
   commitHash: z.string().optional(),
 });
 
+/** Header of performance results file. */
 export const performanceHeaderSchema = z.object({
   metadata: performanceMetadataSchema,
 });
 
+/** Entry in the performance results file. */
 export const performanceEntrySchema = z.object({
   /** Name of the test scenario */
   name: z.string(),
