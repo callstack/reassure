@@ -1,4 +1,5 @@
-import type { CompareEntry, PerformanceMetadata } from '../types';
+import type { CompareEntry } from '../types';
+import type { PerformanceMetadata } from './validate';
 
 /**
  * Utility functions used for formatting data into strings

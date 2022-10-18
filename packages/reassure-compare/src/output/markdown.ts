@@ -12,14 +12,8 @@ import {
   formatRenderCountChange,
   formatRenderDurationChange,
 } from '../utils/format';
-import type {
-  PerformanceEntry,
-  AddedEntry,
-  CompareEntry,
-  CompareResult,
-  RemovedEntry,
-  PerformanceMetadata,
-} from '../types';
+import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry } from '../types';
+import type { PerformanceEntry, PerformanceMetadata } from '../utils/validate';
 
 const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
 

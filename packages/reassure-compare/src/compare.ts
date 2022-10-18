@@ -1,20 +1,17 @@
 import * as fsSync from 'fs';
 import * as fs from 'fs/promises';
 
-import type {
-  PerformanceEntry,
-  AddedEntry,
-  RemovedEntry,
-  CompareEntry,
-  CompareResult,
-  PerformanceResults,
-  PerformanceHeader,
-} from './types';
+import type { AddedEntry, RemovedEntry, CompareEntry, CompareResult, PerformanceResults } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
-import { validateAndParseMetadata, validateAndParsePerformanceEntries } from './utils/validate';
+import {
+  PerformanceHeader,
+  parseMetadata,
+  validateAndParsePerformanceEntries,
+  PerformanceEntry,
+} from './utils/validate';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -95,7 +92,7 @@ async function loadFile(path: string): Promise<PerformanceResults> {
 
   let header: PerformanceHeader | null = null;
 
-  const metaDataRes = validateAndParseMetadata(lines[0]);
+  const metaDataRes = parseMetadata(lines[0]);
   if (metaDataRes.success) {
     header = metaDataRes.data;
   } else {
