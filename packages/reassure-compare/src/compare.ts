@@ -98,7 +98,7 @@ export async function compare({
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-async function loadFile(path: string): Promise<PerformanceResults> {
+export async function loadFile(path: string): Promise<PerformanceResults> {
   const contents = await fs.readFile(path, 'utf8');
 
   const lines = contents
