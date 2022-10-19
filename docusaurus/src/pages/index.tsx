@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-raw-text */
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import clsx from 'clsx';
 import Layout from '@theme/Layout';

@@ -1,0 +1,3 @@
+docusaurus/build/**
+**/*.js
+packages/**/lib/**

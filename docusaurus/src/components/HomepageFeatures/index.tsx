@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-raw-text */
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -55,15 +54,15 @@ export default function HomepageFeatures(): JSX.Element {
       </section>
       <section>
         <div className="container">
-          <div className={clsx("text--center", styles.recruitmentLink)}>
+          <div className={clsx('text--center', styles.recruitmentLink)}>
             {`Like the project? ⚛️ `}
             <a href="https://www.callstack.com/careers?utm_campaign=Senior_RN&utm_source=github&utm_medium=readme">
-                Join the team
+              Join the team
             </a>
             {` who does amazing stuff for clients and drives React Native Open Source! 🔥`}
-          <div className={clsx("text--center", styles.attributionLink)}>
-            <a href="https://www.vecteezy.com/free-vector/work-icon-set">Work Icon Set Vectors by Vecteezy</a>
-          </div>
+            <div className={clsx('text--center', styles.attributionLink)}>
+              <a href="https://www.vecteezy.com/free-vector/work-icon-set">Work Icon Set Vectors by Vecteezy</a>
+            </div>
           </div>
         </div>
       </section>
