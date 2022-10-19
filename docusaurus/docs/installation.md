@@ -1,0 +1,197 @@
+---
+sidebar_position: 2
+---
+
+# Installation and setup
+
+In order to install Reassure run following command in your app folder:
+
+Using yarn
+
+```sh
+yarn add --dev reassure
+```
+
+Using npm
+
+```sh
+npm install --save-dev reassure
+```
+
+You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
+
+> **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
+
+You can check our example projects:
+- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
+- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+
+Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will
+warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
+
+```
+configure({ testingLibrary: 'react-native' })
+// or
+configure({ testingLibrary: 'react' })
+```
+
+You should set it in your Jest setup file and you can override it in particular test files if needed.
+
+## Writing your first test
+
+Now that the library is installed, you can write you first test scenario in a file with `.perf-test.js`/`.perf-test.tsx` extension:
+
+```ts
+// ComponentUnderTest.perf-test.tsx
+import { measurePerformance } from 'reassure';
+
+test('Simple test', async () => {
+  await measurePerformance(<ComponentUnderTest />);
+});
+```
+
+This test will measure render times of `ComponentUnderTest` during mounting and resulting sync effects.
+
+> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
+
+### Writing async tests
+
+If your component contains any async logic or you want to test some interaction you should pass the `scenario` option:
+
+```ts
+import { measurePerformance } from 'reassure';
+import { screen, fireEvent } from '@testing-library/react-native';
+
+test('Test with scenario', async () => {
+  const scenario = async () => {
+    fireEvent.press(screen.getByText('Go'));
+    await screen.findByText('Done');
+  };
+
+  await measurePerformance(<ComponentUnderTest />, { scenario });
+});
+```
+
+The body of the `scenario` function is using familiar React Native Testing Library methods.
+
+In case of using a version of React Native Testing Library lower than v10.1.0, where [`screen` helper](https://callstack.github.io/react-native-testing-library/docs/api/#screen) is not available, the `scenario` function provides it as its first argument:
+
+```ts
+import { measurePerformance } from 'reassure';
+import { fireEvent } from '@testing-library/react-native';
+
+test('Test with scenario', async () => {
+  const scenario = async (screen) => {
+    fireEvent.press(screen.getByText('Go'));
+    await screen.findByText('Done');
+  };
+
+  await measurePerformance(<ComponentUnderTest />, { scenario });
+});
+```
+
+If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using
+`findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
+
+For more examples look into our [test example app](https://github.com/callstack/reassure/tree/main/examples/native/src).
+
+## Measuring test performance
+
+In order to measure your first test performance you need to run following command in terminal:
+
+```sh
+yarn reassure
+```
+
+This command will run your tests multiple times using Jest, gathering render statistics, and will write them to
+`.reassure/current.perf` file. In order to check your setup, check if the output file exists after running the
+command for the first time.
+
+> **Note:** You can add `.reassure/` folder to your `.gitignore` file to avoid accidentally committing your results.
+
+Reassure CLI will automatically try to detect your source code branch name and commit hash when you are using Git. You can override these options, e.g. if you are using different version control system:
+
+```sh
+yarn reassure --branch [branch name] --commit-hash [commit hash] 
+```
+
+## Write performance testing script
+
+In order to detect performance changes, you need to measure the performance of two versions of your code
+current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
+on two different branches you need to either switch branches in git or clone two copies of your repository.
+
+We want to automate this task, so it can run on the CI. In order to do that you will need to create a
+performance testing script. You should save it in your repository, e.g. as `reassure-tests.sh`.
+
+A simple version of such script, using branch changing approach is as follows:
+
+```sh
+#!/usr/bin/env bash
+set -e
+
+BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+
+# Required for `git switch` on CI
+git fetch origin
+
+# Gather baseline perf measurements
+git switch "$BASELINE_BRANCH"
+yarn install --force
+yarn reassure --baseline
+
+# Gather current perf measurements & compare results
+git switch --detach -
+yarn install --force
+yarn reassure
+```
+
+## CI integration
+
+As a final setup step you need to configure your CI to run the performance testing script and output the result.
+For presenting output at the moment we integrate with Danger JS, which supports all major CI tools.
+
+You will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
+
+Then add Reassure Danger JS plugin to your dangerfile :
+
+```ts
+import path from 'path';
+import { dangerReassure } from 'reassure';
+
+dangerReassure({
+  inputFilePath: path.join(__dirname, '.reassure/output.md'),
+});
+```
+
+You can also check our example [Dangerfile](https://github.com/callstack/reassure/blob/main/dangerfile.ts).
+
+Finally run both performance testing script & danger in your CI config:
+
+```yaml
+- name: Run performance testing script
+  run: ./reassure-tests.sh
+
+- name: Run Danger.js
+  run: yarn danger ci
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+You can also check our example [GitHub workflow](https://github.com/callstack/reassure/blob/main/.github/workflows/main.yml).
+
+> **Note**: Your performance test will run much longer than regular integration tests. It's because we run each test scenario multiple times (by default 10), and we repeat that for two branches of your code. Hence, each test will run 20 times by default. That's unless you increase that number even higher.
+
+## Optional: ESLint setup
+
+ESLint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
+for performance tests you can add following override to your `.eslintrc` file:
+
+```js
+rules: {
+ 'jest/expect-expect': [
+ 'error',
+    { assertFunctionNames: ['expect', 'measurePerformance'] },
+  ],
+}
+```
