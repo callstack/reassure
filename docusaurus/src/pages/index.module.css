@@ -27,3 +27,24 @@
   text-align: center;
   color: #fff;
 }
+
+.buttonContainer {
+  margin-top: 40px;
+}
+
+.gettingStartedButton {
+  font-size: 16px;
+  font-weight: 600;
+  color: #242526;
+  
+  padding: 12px 24px;
+  border-radius: 12px;
+  background-color: #4fe89a;
+
+  transition: ease-in-out 0.3s;
+}
+
+.gettingStartedButton:hover {
+  background-color: #2e2f30;
+  text-decoration: none;
+}
