@@ -18,9 +18,7 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: Enter docusaurus directory
-        run: cd ./docusaurus
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: cd ./docusaurus && yarn install --frozen-lockfile
       - name: Test build website
-        run: yarn build
+        run: cd ./docusaurus && yarn build
