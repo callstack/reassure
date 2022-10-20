@@ -1,3 +1,4 @@
+import type { PerformanceEntry, PerformanceHeader } from 'src/types';
 import { z } from 'zod';
 import { hasDuplicateValues } from './array';
 
@@ -46,10 +47,10 @@ const performanceEntriesSchema = z
     Please remove any non-unique names from your test suites and try again.`,
   });
 
-export function parseHeader(header: unknown) {
+export function parseHeader(header: unknown): PerformanceHeader | null {
   return performanceHeaderSchema.parse(header);
 }
 
-export function parsePerformanceEntries(entries: unknown) {
+export function parsePerformanceEntries(entries: unknown): PerformanceEntry[] {
   return performanceEntriesSchema.parse(entries);
 }
