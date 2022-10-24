@@ -13,11 +13,11 @@ import {
   formatRenderDurationChange,
 } from '../utils/format';
 import type {
-  PerformanceEntry,
   AddedEntry,
   CompareEntry,
   CompareResult,
   RemovedEntry,
+  PerformanceEntry,
   PerformanceMetadata,
 } from '../types';
 

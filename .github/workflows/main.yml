@@ -32,6 +32,9 @@ jobs:
       - name: Validate ESLint
         run: yarn lint && yarn lint:example
 
+      - name: Run tests
+        run: yarn --cwd packages/reassure-compare test
+
       - name: Run performance tests
         run: cd examples/native && ./reassure-tests.sh
 
