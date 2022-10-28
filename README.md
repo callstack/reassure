@@ -73,6 +73,7 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 > **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
 
 You can check our example projects:
+
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 
@@ -94,6 +95,7 @@ Now that the library is installed, you can write you first test scenario in a fi
 ```ts
 // ComponentUnderTest.perf-test.tsx
 import { measurePerformance } from 'reassure';
+import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Simple test', async () => {
   await measurePerformance(<ComponentUnderTest />);
@@ -111,6 +113,7 @@ If your component contains any async logic or you want to test some interaction 
 ```ts
 import { measurePerformance } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
+import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Test with scenario', async () => {
   const scenario = async () => {
@@ -162,7 +165,7 @@ command for the first time.
 Reassure CLI will automatically try to detect your source code branch name and commit hash when you are using Git. You can override these options, e.g. if you are using different version control system:
 
 ```sh
-yarn reassure --branch [branch name] --commit-hash [commit hash] 
+yarn reassure --branch [branch name] --commit-hash [commit hash]
 ```
 
 ### Write performance testing script
@@ -325,7 +328,10 @@ type Config = {
   dropWorst?: number;
   outputFile?: string;
   verbose?: boolean;
-  testingLibrary?: 'react-native' | 'react' | { render: (component: React.ReactElement<any>) => any, cleanup: () => any }
+  testingLibrary?:
+    | 'react-native'
+    | 'react'
+    | { render: (component: React.ReactElement<any>) => any; cleanup: () => any };
 };
 ```
 

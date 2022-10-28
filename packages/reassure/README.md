@@ -73,6 +73,7 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 > **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
 
 You can check our example projects:
+
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 
@@ -111,6 +112,7 @@ If your component contains any async logic or you want to test some interaction 
 ```ts
 import { measurePerformance } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
+import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Test with scenario', async () => {
   const scenario = async () => {
@@ -129,6 +131,7 @@ In case of using a version of React Native Testing Library lower than v10.1.0, w
 ```ts
 import { measurePerformance } from 'reassure';
 import { fireEvent } from '@testing-library/react-native';
+import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Test with scenario', async () => {
   const scenario = async (screen) => {
@@ -319,7 +322,10 @@ type Config = {
   dropWorst?: number;
   outputFile?: string;
   verbose?: boolean;
-  testingLibrary?: 'react-native' | 'react' | { render: (component: React.ReactElement<any>) => any, cleanup: () => any }
+  testingLibrary?:
+    | 'react-native'
+    | 'react'
+    | { render: (component: React.ReactElement<any>) => any; cleanup: () => any };
 };
 ```
 

@@ -17,6 +17,24 @@ of the testing
 async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
 ```
 
+#### Example
+
+```ts
+// sample.perf-test.tsx
+import { measurePerformance } from 'reassure';
+import { screen, fireEvent } from '@testing-library/react-native';
+import { ComponentUnderTest } from './ComponentUnderTest';
+
+test('Test with scenario', async () => {
+  const scenario = async () => {
+    fireEvent.press(screen.getByText('Go'));
+    await screen.findByText('Done');
+  };
+
+  await measurePerformance(<ComponentUnderTest />, { scenario });
+});
+```
+
 ### `MeasureOptions` type
 
 ```ts
@@ -46,7 +64,10 @@ type Config = {
   dropWorst?: number;
   outputFile?: string;
   verbose?: boolean;
-  testingLibrary?: 'react-native' | 'react' | { render: (component: React.ReactElement<any>) => any, cleanup: () => any }
+  testingLibrary?:
+    | 'react-native'
+    | 'react'
+    | { render: (component: React.ReactElement<any>) => any; cleanup: () => any };
 };
 ```
 
@@ -74,17 +95,28 @@ function configure(customConfig: Partial<Config>): void;
 
 You can use the `configure` function to override the default config parameters.
 
+#### Example
+
+```ts
+import { configure } from 'reassure';
+
+configure({
+  testingLibrary: 'react', // force using React Testing Library internally by Reassure to render and cleanup
+  runs: 7, // by default repeat performance tests 7 times
+});
+```
+
 ### `resetToDefault` function
 
 ```ts
 resetToDefault(): void
 ```
 
-Reset current config to the original `defaultConfig` object
+Reset current config to the original `defaultConfig` object. You can call `resetToDefault()` anywhere in your performance test file.
 
 ### Environmental variables
 
-You can use available environmental variables in order to alter your test runner settings.
+The `reassure` CLI can be parametrized using available environmental variables:
 
 - `TEST_RUNNER_PATH`: an alternative path for your test runner. Defaults to `'node_modules/.bin/jest'`
 - `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"'`
