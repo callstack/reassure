@@ -44,7 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: feat/custom_gh_actions
+          ref: ShaswatPrabhat:feat/custom_gh_actions
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
