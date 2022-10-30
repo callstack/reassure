@@ -1,6 +1,12 @@
 name: 'reassureGHAction'
 description: 'Checks the files output by example react-native reassure tests'
-
+inputs:
+  inputFilePath:
+    description: 'The input test file path'
+    required: false
+  debug:
+    description: 'Flag to enable debug'
+    required: false
 runs:
   using: 'node16'
   main: 'lib/module/index.js'
