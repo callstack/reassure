@@ -43,6 +43,8 @@ jobs:
     name: A job to test the new custom GH action
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: feat/custom_gh_actions
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
