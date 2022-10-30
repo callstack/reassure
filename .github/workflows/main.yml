@@ -39,6 +39,6 @@ jobs:
         run: cd examples/native && ./reassure-tests.sh
 
       - name: Run Custom Reassure GH Action
-        uses: ShaswatPrabhat/reassure/packages/reassure-gh-action@feat/custom_gh_actions
+        uses: ShaswatPrabhat/reassure/@callstack/reassure-gh-actions@0.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
