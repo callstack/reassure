@@ -1,0 +1,30 @@
+{
+  "name": "@callstack/reassure-gh-actions",
+  "version": "0.0.1",
+  "description": "Performance testing companion for React and React Native",
+  "main": "index.js",
+  "scripts": {
+    "build": "bob build"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "repository": "https://github.com/callstack/reassure",
+  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
+  "contributors": [
+    "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
+    "Tomasz Krzyżowski <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
+    "Michał Pierzchała <thymikee@gmail.com> (https://github.com/thymikee)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/callstack/reassure/issues"
+  },
+  "homepage": "https://github.com/callstack/reassure#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  }
+}
