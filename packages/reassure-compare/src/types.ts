@@ -1,45 +1,14 @@
 /** Parsed performance results file. */
+import type { z } from 'zod';
+import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './utils/validate';
+
+export type PerformanceHeader = z.infer<typeof performanceHeaderSchema>;
+export type PerformanceMetadata = z.infer<typeof performanceMetadataSchema>;
+export type PerformanceEntry = z.infer<typeof performanceEntrySchema>;
+
 export interface PerformanceResults {
   metadata?: PerformanceMetadata;
   entries: Record<string, PerformanceEntry>;
-}
-
-/** Header of performance results file. */
-export interface PerformanceHeader {
-  metadata: PerformanceMetadata;
-}
-
-/** Metadata information for performance results. */
-export interface PerformanceMetadata {
-  branch?: string;
-  commitHash?: string;
-}
-
-/** Entry in the performance results file. */
-export interface PerformanceEntry {
-  /** Name of the test scenario */
-  name: string;
-
-  /** Number of times the measurment test was run */
-  runs: number;
-
-  /** Array of measured render durations for each run */
-  durations: number[];
-
-  /** Arithmetic average of measured render durations for each run */
-  meanDuration: number;
-
-  /* Standard deviation of measured render durations for each run */
-  stdevDuration: number;
-
-  /** Array of measured render counts for each run */
-  counts: number[];
-
-  /** Arithmetic average of measured render counts for each run */
-  meanCount: number;
-
-  /** Standard deviation of measured render counts for each run */
-  stdevCount: number;
 }
 
 /**

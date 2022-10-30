@@ -1,0 +1,19 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureSvg {
+  height: 200px;
+  width: 200px;
+}
+
+.recruitmentLink {
+  margin: 24px 0 0;
+}
+
+.attributionLink {
+  margin: 32px 0 8px
+}

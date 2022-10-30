@@ -1,20 +1,19 @@
 import * as fsSync from 'fs';
-import * as fs from 'fs/promises';
 
-import { hasDuplicateValues } from './utils/array';
 import type {
-  PerformanceEntry,
   AddedEntry,
   RemovedEntry,
   CompareEntry,
   CompareResult,
   PerformanceResults,
+  PerformanceEntry,
   PerformanceHeader,
 } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
+import { parseHeader, parsePerformanceEntries } from './utils/validate';
 
 /**
  * Probability threshold for considering given difference signficiant.
@@ -47,7 +46,7 @@ type CompareOptions = {
  *
  * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
-export async function compare({
+export function compare({
   baselineFile = '.reassure/baseline.perf',
   currentFile = '.reassure/current.perf',
   outputFile = '.reassure/output.json',
@@ -58,8 +57,13 @@ export async function compare({
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
-
-  const currentResults = await loadFile(currentFile);
+  let currentResults: PerformanceResults;
+  try {
+    currentResults = loadFile(currentFile);
+  } catch (error) {
+    logError(`Error while parsing file: ${currentFile}`, error);
+    process.exit(1);
+  }
 
   const hasBaselineFile = fsSync.existsSync(baselineFile);
   if (!hasBaselineFile) {
@@ -68,7 +72,15 @@ export async function compare({
     );
   }
 
-  const baselineResults = hasBaselineFile ? await loadFile(baselineFile) : null;
+  let baselineResults: PerformanceResults | null = null;
+  if (hasBaselineFile) {
+    try {
+      baselineResults = loadFile(baselineFile);
+    } catch (error) {
+      logError(`Error while parsing file: ${baselineFile}`, error);
+      process.exit(1);
+    }
+  }
 
   const output = compareResults(currentResults, baselineResults);
 
@@ -86,29 +98,23 @@ export async function compare({
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-async function loadFile(path: string): Promise<PerformanceResults> {
-  const contents = await fs.readFile(path, 'utf8');
+export function loadFile(path: string): PerformanceResults {
+  const contents = fsSync.readFileSync(path, 'utf8');
 
   const lines = contents
     .split(/\r?\n/)
     .filter((line) => !!line.trim())
     .map((line) => JSON.parse(line));
 
-  // TODO: add data format validation
-
   let header: PerformanceHeader | null = null;
-  if (lines[0]?.metadata) {
-    header = lines[0];
-  }
+  let entries: PerformanceEntry[] = [];
 
-  const entries: PerformanceEntry[] = lines.filter((entry) => entry.name);
-
-  if (hasDuplicateValues(entries.map((entry) => entry.name))) {
-    const msg = `Your performance result file ${path} contains records with duplicated names.
-      Please remove any non-unique names from your test suites and try again.
-      `;
-    logError(msg);
-    throw new Error(msg);
+  const hasHeader = lines[0].metadata !== undefined;
+  if (hasHeader) {
+    header = parseHeader(lines[0]);
+    entries = parsePerformanceEntries(lines.slice(1));
+  } else {
+    entries = parsePerformanceEntries(lines);
   }
 
   const keyedEntries: Record<string, PerformanceEntry> = {};
