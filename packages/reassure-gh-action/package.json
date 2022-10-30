@@ -2,9 +2,12 @@
   "name": "@callstack/reassure-gh-actions",
   "version": "0.0.1",
   "description": "Performance testing companion for React and React Native",
-  "main": "index.js",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "source": "src/index",
   "scripts": {
-    "build": "echo \"gh actions build\""
+    "build": "bob build"
   },
   "keywords": [
     "react-native",
@@ -26,5 +29,14 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
   }
 }

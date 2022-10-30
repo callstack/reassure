@@ -1,0 +1,6 @@
+name: 'Custom GH Action for reassure'
+description: 'Checks the files output by example react-native reassure tests'
+
+runs:
+  using: 'node16'
+  main: 'index.js'
