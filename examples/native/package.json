@@ -26,7 +26,7 @@
     "babel-jest": "^29.2.2",
     "eslint": "^8.26.0",
     "eslint-plugin-import": "^2.25.4",
-    "jest": "^29.2.2",
+    "jest": "^29.3.0",
     "metro-react-native-babel-preset": "0.72.3",
     "react-test-renderer": "^18.2.0",
     "reassure": "^0.6.0",
