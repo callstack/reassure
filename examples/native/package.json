@@ -21,7 +21,7 @@
     "@babel/core": "^7.20.2",
     "@babel/runtime": "^7.20.1",
     "@callstack/eslint-config": "^13.0.2",
-    "@testing-library/react-native": "^11.3.0",
+    "@testing-library/react-native": "^11.5.0",
     "@types/react": "^18.0.21",
     "babel-jest": "^29.2.2",
     "eslint": "^8.26.0",
