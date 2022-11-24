@@ -1132,7 +1132,7 @@
     pirates "^4.0.5"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.4", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.4", "@babel/runtime@^7.12.5", "@babel/runtime@^7.15.4", "@babel/runtime@^7.20.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
   version "7.20.1"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.1.tgz#1148bb33ab252b165a06698fde7576092a78b4a9"
   integrity sha512-mrzLkl6U9YLF8qpqI7TB82PESyEGjm/0Ly91jG575eVxMMlb8fYfOXFZIJ8XfLrJZQbm7dlKry2bJmXBUEkdFg==
@@ -6285,12 +6285,12 @@ markdown-table@^2.0.0:
   dependencies:
     repeat-string "^1.0.0"
 
-mathjs@^11.3.1:
-  version "11.3.1"
-  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.3.1.tgz#15ea1b3972255c2ed804fb63ec64d851af38c5c6"
-  integrity sha512-1gS9QWnR3VwhTPrG36hTdsfMgyaMrjtHTH5duQ30ts8KyShDwlgxAQYY0ZnilxeVjM1WLMS+jA2MPyZaR7pA3A==
+mathjs@^11.4.0:
+  version "11.4.0"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.4.0.tgz#9dadfac3470ffcbeeff4abf53a0c7b93bb3a7a02"
+  integrity sha512-SGhKmXnwsPWrLHvhzm849RJPMjFTgLgVwKtv2L+IY7XHB4nuzyZLfV2eHT1HtBZ4yzsLHgcqak47zMmxuEIIUg==
   dependencies:
-    "@babel/runtime" "^7.19.4"
+    "@babel/runtime" "^7.20.1"
     complex.js "^2.1.1"
     decimal.js "^10.4.2"
     escape-latex "^1.2.0"
