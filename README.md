@@ -357,7 +357,7 @@ measuring its performance and writing results to the output file. You can use th
 of the testing
 
 ```ts
-async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
+async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
 ```
 
 #### `MeasureOptions` type

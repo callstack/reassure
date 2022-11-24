@@ -1,10 +1,10 @@
 import * as React from 'react';
-import * as math from 'mathjs';
 import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
+import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';
-import type { MeasureRenderResult } from './types';
+import type { MeasureResults } from './types';
 
 logger.configure({
   verbose: process.env.REASSURE_VERBOSE === 'true' || process.env.REASSURE_VERBOSE === '1',
@@ -18,17 +18,14 @@ export interface MeasureOptions {
   scenario?: (screen: any) => Promise<any>;
 }
 
-export async function measurePerformance(
-  ui: React.ReactElement,
-  options?: MeasureOptions
-): Promise<MeasureRenderResult> {
+export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const stats = await measureRender(ui, options);
   await writeTestStats(stats);
 
   return stats;
 }
 
-export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
+export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
@@ -90,32 +87,4 @@ export function buildUiToRender(
   );
 
   return Wrapper ? <Wrapper>{uiWithProfiler}</Wrapper> : uiWithProfiler;
-}
-
-interface RunResult {
-  duration: number;
-  count: number;
-}
-
-export function processRunResults(results: RunResult[], warmupRuns: number) {
-  results = results.slice(warmupRuns);
-  results.sort((first, second) => second.duration - first.duration); // duration DESC
-
-  const durations = results.map((result) => result.duration);
-  const meanDuration = math.mean(durations) as number;
-  const stdevDuration = math.std(...durations);
-
-  const counts = results.map((result) => result.count);
-  const meanCount = math.mean(counts) as number;
-  const stdevCount = math.std(...counts);
-
-  return {
-    runs: results.length,
-    meanDuration,
-    stdevDuration,
-    durations,
-    meanCount,
-    stdevCount,
-    counts,
-  };
 }
