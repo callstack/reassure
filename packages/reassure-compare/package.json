@@ -54,7 +54,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "babel-jest": "^29.2.2",
+    "babel-jest": "^29.3.1",
     "ts-jest": "^29.0.3"
   }
 }
