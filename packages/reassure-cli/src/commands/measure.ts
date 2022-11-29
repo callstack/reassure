@@ -7,11 +7,7 @@ import type { PerformanceMetadata } from '@callstack/reassure-compare';
 import { logger } from '@callstack/reassure-logger';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
-import { configureLoggerOptions } from '../utils/logger';
-
-const RESULTS_DIRECTORY = '.reassure';
-const RESULTS_FILE = '.reassure/current.perf';
-const BASELINE_FILE = '.reassure/baseline.perf';
+import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 
 interface MeasureOptions extends CommonOptions {
   baseline?: boolean;

@@ -42,6 +42,7 @@
     "@callstack/reassure-compare": "0.4.0",
     "@callstack/reassure-logger": "0.2.0",
     "simple-git": "^3.16.0",
+    "chalk": "4.1.2",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
