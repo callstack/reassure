@@ -2379,10 +2379,10 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@types/yargs@^17.0.14", "@types/yargs@^17.0.8":
-  version "17.0.14"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.14.tgz#0943473052c24bd8cf2d1de25f1a710259327237"
-  integrity sha512-9Pj7abXoW1RSTcZaL2Hk6G2XyLMlp5ECdVC/Zf2p/KBjC3srijLGgRAXOBjtFrJoIrvxdTKyKDA14bEcbxBaWw==
+"@types/yargs@^17.0.15", "@types/yargs@^17.0.8":
+  version "17.0.15"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.15.tgz#5b62c89fb049e2fc8378394a2861a593055f0866"
+  integrity sha512-ZHc4W2dnEQPfhn06TBEdWaiUHEZAocYaiVMfwOipY5jcJt/251wVrKCBWBetGZWO5CF8tdb7L3DmdxVlZ2BOIg==
   dependencies:
     "@types/yargs-parser" "*"
 

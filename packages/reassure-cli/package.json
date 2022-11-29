@@ -44,7 +44,7 @@
     "yargs": "^17.6.2"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.14"
+    "@types/yargs": "^17.0.15"
   },
   "react-native-builder-bob": {
     "source": "src",
