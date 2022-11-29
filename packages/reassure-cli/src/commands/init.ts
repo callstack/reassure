@@ -9,7 +9,7 @@ type InitOptions = {
 };
 /**
  * @param args arguments which come from the CLI command when ran
- * 
+ *
  * Main runner function for the init command for reassure-cli. It will create the .reassure directory
  * and copy the test shell script template over there. It will additionally copy over the dangerfile
  * template to the root folder and update .gitignore file if present and not already containing mentions
