@@ -33,23 +33,27 @@ const bye = `
 ========================================================================
 `;
 
-export const printHello = () => console.log(chalk.hex(CHALK.colors.primary)(hello));
-export const printBye = () => console.log(chalk.hex(CHALK.colors.primary)(bye));
+export const printHello = (logLevel: string | undefined) => {
+  if (logLevel === 'silent') return;
+  return console.log(chalk.hex(CHALK.colors.primary)(hello));
+};
+
+export const printBye = (logLevel: string | undefined) => {
+  if (logLevel === 'silent') return;
+  return console.log(chalk.hex(CHALK.colors.primary)(bye));
+};
 
 export const printLog = (logLevel: string | undefined, ...args: string[]) => {
-  if (logLevel === 'silent') return;
-  if (logLevel === 'default') return;
-  if (logLevel === 'verbose') return console.log(prefix, chalk.hex(CHALK.colors.dim)(args));
+  if (logLevel === 'silent' || logLevel === 'default') return;
+  return console.log(prefix, chalk.hex(CHALK.colors.dim)(args));
 };
 
 export const printWarn = (logLevel: string | undefined, ...args: string[]) => {
   if (logLevel === 'silent') return;
-  if (logLevel === 'default') return console.log(prefix, chalk.hex(CHALK.colors.warn)(args));
-  if (logLevel === 'verbose') return console.log(prefix, chalk.hex(CHALK.colors.warn)(args));
+  return console.log(prefix, chalk.hex(CHALK.colors.warn)(args));
 };
 
 export const printError = (logLevel: string | undefined, ...args: string[]) => {
   if (logLevel === 'silent') return;
-  if (logLevel === 'default') return console.log(prefix, chalk.hex(CHALK.colors.error)(args));
-  if (logLevel === 'verbose') return console.log(prefix, chalk.hex(CHALK.colors.error)(args));
+  return console.log(prefix, chalk.hex(CHALK.colors.error)(args));
 };
