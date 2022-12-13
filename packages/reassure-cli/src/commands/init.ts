@@ -6,6 +6,7 @@ import { printBye, printCiSetupHint, printError, printHello, printLog, printWarn
 
 type InitOptions = {
   logLevel?: string;
+  jsStandard?: string;
 };
 /**
  * @param args arguments which come from the CLI command when ran
@@ -39,13 +40,13 @@ async function run(args: InitOptions): Promise<void> {
     log('Copying the reassure-tests.sh template file');
     await copyFileSync(`${__dirname}/../templates/reassure-tests`, `${RESULTS_DIRECTORY}/reassure-tests.sh`);
 
-    if (!(await existsSync('dangerfile.js')) && !(await existsSync('dangerfile.ts'))) {
-      log('Copying the dangerfile.js template file');
-      await copyFileSync(`${__dirname}/../templates/dangerfile`, './dangerfile.ts');
+    if (!(await existsSync(`dangerfile.${args.jsStandard}`))) {
+      log(`Copying the dangerfile.${args.jsStandard} template file`);
+      await copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.${args.jsStandard}`);
     } else {
-      warn('Dangerfile already present, copying as dangerfile.reassure.js.');
+      warn(`Dangerfile already present, copying as dangerfile.reassure.${args.jsStandard}.`);
       warn('Please compare your dangerfile configuration with our template');
-      await copyFileSync(`${__dirname}/../templates/dangerfile`, './dangerfile.reassure.ts');
+      await copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.reassure.${args.jsStandard}`);
     }
 
     log('Checking if .gitignore file exists');
@@ -74,12 +75,20 @@ export const command: CommandModule<{}, InitOptions> = {
   command: ['init', '$0'],
   describe: 'Initializes basic reassure setup, thus allowing for further configuration of your CI pipeline.',
   builder: (yargs) => {
-    return yargs.option('logLevel', {
-      string: true,
-      default: 'default',
-      choices: ['verbose', 'silent', 'default'],
-      describe:
-        'Types of logs which will be printed to console - verbose: all logs | default: warnings and errors | silent: no logs',
+    return yargs.options({
+      logLevel: {
+        string: true,
+        default: 'default',
+        choices: ['verbose', 'silent', 'default'],
+        describe:
+          'Types of logs which will be printed to console - verbose: all logs | default: warnings and errors | silent: no logs',
+      },
+      jsStandard: {
+        string: true,
+        default: 'ts',
+        choices: ['js', 'ts'],
+        describe: 'The standard of JS used for template generation',
+      },
     });
   },
   handler: (args) => run(args),
