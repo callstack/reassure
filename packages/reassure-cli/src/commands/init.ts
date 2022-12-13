@@ -2,7 +2,7 @@ import { mkdirSync, copyFileSync, existsSync, readFileSync, appendFileSync } fro
 import type { CommandModule } from 'yargs';
 
 import { RESULTS_DIRECTORY, GITIGNORE_DATA } from '../constants';
-import { printBye, printError, printHello, printLog, printWarn } from '../utils/printer';
+import { printBye, printCiSetupHint, printError, printHello, printLog, printWarn } from '../utils/printer';
 
 type InitOptions = {
   logLevel?: string;
@@ -24,7 +24,7 @@ async function run(args: InitOptions): Promise<void> {
   const warn = (...logs: string[]): void => printWarn(args.logLevel, ...logs);
   const error = (...logs: string[]): void => printError(args.logLevel, ...logs);
 
-  printHello();
+  printHello(args.logLevel);
 
   log('Checking if reassure setup exists');
   if (await existsSync(RESULTS_DIRECTORY)) {
@@ -37,15 +37,15 @@ async function run(args: InitOptions): Promise<void> {
     await mkdirSync(RESULTS_DIRECTORY);
 
     log('Copying the reassure-tests.sh template file');
-    await copyFileSync(`${__dirname}/../templates/reassure-tests.sh`, `${RESULTS_DIRECTORY}/reassure-tests.sh`);
+    await copyFileSync(`${__dirname}/../templates/reassure-tests`, `${RESULTS_DIRECTORY}/reassure-tests.sh`);
 
     if (!(await existsSync('dangerfile.js')) && !(await existsSync('dangerfile.ts'))) {
       log('Copying the dangerfile.js template file');
-      await copyFileSync(`${__dirname}/../templates/dangerfile.js`, './dangerfile.js');
+      await copyFileSync(`${__dirname}/../templates/dangerfile`, './dangerfile.ts');
     } else {
       warn('Dangerfile already present, copying as dangerfile.reassure.js.');
       warn('Please compare your dangerfile configuration with our template');
-      await copyFileSync(`${__dirname}/../templates/dangerfile.js`, './dangerfile.reassure.js');
+      await copyFileSync(`${__dirname}/../templates/dangerfile`, './dangerfile.reassure.ts');
     }
 
     log('Checking if .gitignore file exists');
@@ -63,10 +63,8 @@ async function run(args: InitOptions): Promise<void> {
       }
     }
 
-    printLog('verbose', 'Finished initalizing new reassure testing environment.');
-    printLog('verbose', 'Please refer to our CI guide in order to set up your pipelines.');
-    printLog('verbose', 'Find more @ https://github.com/callstack/reassure#ci-integration');
-    printBye();
+    printCiSetupHint(args.logLevel);
+    printBye(args.logLevel);
   } catch (err) {
     error('Reassure initialization script failed, please refer to the error message : ', err as any);
   }

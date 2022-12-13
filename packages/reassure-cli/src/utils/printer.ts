@@ -38,6 +38,16 @@ export const printHello = (logLevel: string | undefined) => {
   return console.log(chalk.hex(CHALK.colors.primary)(hello));
 };
 
+export const printCiSetupHint = (logLevel: string | undefined) => {
+  if (logLevel === 'silent') return;
+
+  console.log(chalk.hex(CHALK.colors.dim)('Finished initalizing new reassure testing environment.'));
+  console.log(chalk.hex(CHALK.colors.dim)('Please refer to our CI guide in order to set up your pipelines.'));
+  console.log(
+    chalk.hex(CHALK.colors.dim)('Find more @ https://callstack.github.io/reassure/docs/installation#ci-setup')
+  );
+};
+
 export const printBye = (logLevel: string | undefined) => {
   if (logLevel === 'silent') return;
   return console.log(chalk.hex(CHALK.colors.primary)(bye));
