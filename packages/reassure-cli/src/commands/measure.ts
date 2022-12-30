@@ -10,6 +10,7 @@ import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 import { printBye, printError, printHello, printLog, printWarn } from '../utils/printer';
 import type { DefaultOptions } from '../types';
+import { getGitBranch, getGitCommitHash } from './git';
 
 interface MeasureOptions extends CommonOptions {
   baseline?: boolean;

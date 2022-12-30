@@ -1,3 +1,3 @@
 export type DefaultOptions = {
-    logLevel?: string;
-}
+  logLevel?: string;
+};

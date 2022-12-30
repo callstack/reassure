@@ -1,6 +1,6 @@
 import { mkdirSync, copyFileSync, existsSync, readFileSync, appendFileSync } from 'fs';
-import type { DefaultOptions } from '../types';
 import type { CommandModule } from 'yargs';
+import type { DefaultOptions } from '../types';
 
 import { RESULTS_DIRECTORY, GITIGNORE_DATA } from '../constants';
 import { printBye, printCiSetupHint, printError, printHello, printLog, printWarn } from '../utils/printer';
