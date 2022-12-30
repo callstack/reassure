@@ -8,6 +8,8 @@ import { logger } from '@callstack/reassure-logger';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
+import { printBye, printError, printHello, printLog, printWarn } from '../utils/printer';
+import type { DefaultOptions } from '../types';
 
 interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
@@ -23,8 +25,8 @@ export async function run(options: MeasureOptions) {
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
   const metadata: PerformanceMetadata = {
-    branch: options?.branch ?? (await getGitBranch()),
-    commitHash: options?.commitHash ?? (await getGitCommitHash()),
+    branch: options?.branch ?? (await getGitBranch(options.logLevel)),
+    commitHash: options?.commitHash ?? (await getGitCommitHash(options.logLevel)),
   };
 
   logger.log(`\n❇️  Running performance tests:`);
@@ -108,36 +110,39 @@ export async function run(options: MeasureOptions) {
       return;
     }
   }
+
+  printBye(options.logLevel);
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
   describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
-    return applyCommonOptions(yargs)
-      .option('baseline', {
+    return applyCommonOptions(yargs).options({
+      baseline: {
         type: 'boolean',
         default: false,
         describe: 'Save measurements as baseline instead of current',
-      })
-      .option('compare', {
+      },
+      compare: {
         type: 'boolean',
         default: true,
         describe: 'Outputs performance comparison results',
-      })
-      .option('branch', {
+      },
+      branch: {
         type: 'string',
         describe: 'Branch name of current code to be included in the report',
-      })
-      .option('commit-hash', {
+      },
+      commitHash: {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
-      })
-      .option('testMatch', {
+      },
+      testMatch: {
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
-      });
+      },
+    });
   },
   handler: (args) => run(args),
 };

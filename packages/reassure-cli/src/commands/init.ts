@@ -1,13 +1,13 @@
 import { mkdirSync, copyFileSync, existsSync, readFileSync, appendFileSync } from 'fs';
+import type { DefaultOptions } from '../types';
 import type { CommandModule } from 'yargs';
 
 import { RESULTS_DIRECTORY, GITIGNORE_DATA } from '../constants';
 import { printBye, printCiSetupHint, printError, printHello, printLog, printWarn } from '../utils/printer';
 
 type InitOptions = {
-  logLevel?: string;
   jsStandard?: string;
-};
+} & DefaultOptions;
 /**
  * @param args arguments which come from the CLI command when ran
  *
