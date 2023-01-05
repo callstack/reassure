@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
-    "@babel/core": "^7.20.7",
+    "@babel/core": "^7.20.12",
     "@babel/runtime": "^7.20.7",
     "@callstack/eslint-config": "^13.0.2",
     "@changesets/cli": "^2.26.0",
