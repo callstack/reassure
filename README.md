@@ -380,6 +380,10 @@ Example:
 TEST_RUNNER_PATH=myOwnPath/jest/bin yarn reassure
 ```
 
+## External References
+
+- [The Ultimate Guide to React Native Optimization 2023 Edition](https://www.callstack.com/campaigns/download-the-ultimate-guide-to-react-native-optimization?utm_campaign=RN_Performance&utm_source=readme_reassure) - Mentioned in "Make your app consistently fast" chapter.
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
