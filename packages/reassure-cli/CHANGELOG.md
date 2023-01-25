@@ -1,5 +1,18 @@
 # @callstack/reassure-cli
 
+## 0.6.0
+
+### Minor Changes
+
+- 7691e28: feat: windows support
+- 3a180f2: Validate format of performance results files when loading for comparison
+
+### Patch Changes
+
+- 7cbd1d3: Fix random race condition for `reassure check-stability` command
+- Updated dependencies [3a180f2]
+  - @callstack/reassure-compare@0.3.0
+
 ## 0.5.0
 
 ### Minor Changes

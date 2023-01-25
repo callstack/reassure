@@ -1,5 +1,18 @@
 # reassure
 
+## 0.7.0
+
+### Minor Changes
+
+- 7691e28: feat: windows support
+- 3a180f2: Validate format of performance results files when loading for comparison
+
+### Patch Changes
+- Updated dependencies [3a180f2]
+- Updated dependencies [7691e28]
+- Updated dependencies [7cbd1d3]
+  - @callstack/reassure-cli@0.6.0
+
 ## 0.6.0
 
 ### Minor Changes

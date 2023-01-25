@@ -1,5 +1,11 @@
 # @callstack/reassure-compare
 
+## 0.3.0
+
+### Minor Changes
+
+- 3a180f2: Validate format of performance results files when loading for comparison
+
 ## 0.2.0
 
 ### Minor Changes
