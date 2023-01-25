@@ -2,8 +2,8 @@ import type { CommandModule } from 'yargs';
 import { run as measure } from './measure';
 
 export async function run() {
-  measure({ baseline: true });
-  measure({ baseline: false, compare: true });
+  await measure({ baseline: true });
+  await measure({ baseline: false, compare: true });
 }
 
 export const command: CommandModule = {
