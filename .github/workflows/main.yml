@@ -6,36 +6,78 @@ on:
   pull_request:
     branches: ['**']
 
+name: Main
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: ['**']
+
 jobs:
-  build-validate-pref-tests:
-    name: Build, validate & run performance tests
+  install-cache-deps:
     runs-on: ubuntu-latest
+    name: Install and Cache deps
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: 'yarn'
+      - name: Setup
+        uses: ./.github/actions/setup-deps
 
-      - name: Install and build
-        run: yarn install --force
+  lint:
+    needs: [install-cache-deps]
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Install Docusaurus modules
-        run: cd ./docusaurus && yarn install --force
+      - name: Setup Node.js and deps
+        uses: ./.github/actions/setup-deps
 
-      - name: Validate TypeScript
+      - name: Run ESLint
+        run: yarn lint && yarn lint:example
+
+  typecheck:
+    needs: [install-cache-deps]
+    runs-on: ubuntu-latest
+    name: Typecheck
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js and deps
+        uses: ./.github/actions/setup-deps
+
+      - name: Typecheck
         run: yarn typescript && yarn typescript:example
 
-      - name: Validate ESLint
-        run: yarn lint && yarn lint:example
+  test:
+    needs: [install-cache-deps]
+    runs-on: ubuntu-latest
+    name: Test React 18
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js and deps
+        uses: ./.github/actions/setup-deps
 
       - name: Run tests
         run: yarn --cwd packages/reassure-compare test
 
-      - name: Run performance tests
+  perf-test:
+    needs: [lint, typecheck, test]
+    runs-on: ubuntu-latest
+    name: Performance Tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js and deps
+        uses: ./.github/actions/setup-deps
+
+      - name: Run perf tests script
         run: cd examples/native && ./reassure-tests.sh
 
       - name: Run Danger.js
