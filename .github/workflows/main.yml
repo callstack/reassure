@@ -6,13 +6,6 @@ on:
   pull_request:
     branches: ['**']
 
-name: Main
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: ['**']
-
 jobs:
   install-cache-deps:
     runs-on: ubuntu-latest
