@@ -4,7 +4,7 @@ import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
-import { getGitBranch, getGitCommitHash } from './git';
+import { getGitBranch, getGitCommitHash } from '../utils/git';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';

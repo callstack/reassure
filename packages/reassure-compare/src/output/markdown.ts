@@ -26,7 +26,7 @@ const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
     const markdown = buildMarkdown(data);
-    writeToFile(filePath, markdown);
+    await writeToFile(filePath, markdown);
   } catch (error: any) {
     console.error(error);
     throw error;
