@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-cli",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

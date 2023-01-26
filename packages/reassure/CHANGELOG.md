@@ -1,5 +1,11 @@
 # reassure
 
+## 0.7.1
+
+### Patch Changes
+
+- ff5e2ff: fix: handling of TEST_RUNNER_PATH env variable
+
 ## 0.7.0
 
 ### Minor Changes
@@ -8,6 +14,7 @@
 - 3a180f2: Validate format of performance results files when loading for comparison
 
 ### Patch Changes
+
 - Updated dependencies [3a180f2]
 - Updated dependencies [7691e28]
 - Updated dependencies [7cbd1d3]

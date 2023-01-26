@@ -1,5 +1,11 @@
 # @callstack/reassure-cli
 
+## 0.6.1
+
+### Patch Changes
+
+- ff5e2ff: fix: handling of TEST_RUNNER_PATH env variable
+
 ## 0.6.0
 
 ### Minor Changes
