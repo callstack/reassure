@@ -36,11 +36,11 @@ export async function run(options: MeasureOptions) {
   const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
-  const defaultTestRunnerPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
-  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? defaultTestRunnerPath;
+  const defaultPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
+  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? defaultPath;
 
-  const defaultTestRunnerArgs = '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
-  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultTestRunnerArgs;
+  const defaultArgs = '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
+  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
 
   const spawnInfo = spawnSync(
     'node',
