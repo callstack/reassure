@@ -55,7 +55,7 @@
     "prettier": "^2.8.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-native": "0.70.6",
+    "react-native": "0.71.2",
     "react-native-builder-bob": "^0.20.3",
     "react-test-renderer": "^18.2.0",
     "turbo": "^1.6.3",
