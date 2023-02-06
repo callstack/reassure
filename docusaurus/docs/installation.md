@@ -132,7 +132,7 @@ This will generate the following file structure
 │   ├──  reassure-tests.sh
 │   ├── dangerfile.ts (conditional)
 │   ├── dangerfile.reassure.ts (conditional)
-│   └── .gitignore (conditional)
+│   └── .gitignore (append)
 ```
 
 ### Options
