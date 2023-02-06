@@ -197,7 +197,93 @@ yarn install --force
 yarn reassure
 ```
 
-### CI integration
+## CI setup
+
+To make setting up the CI integration and all prerequisites more convenient, we have prepared a CLI command which will generate all necessary templates for you to get started with.
+
+Simply run:
+
+```bash
+yarn reassure init
+```
+
+This will generate the following file structure
+
+```
+├── <ROOT>
+│   ├── .reassure/
+│   ├──  reassure-tests.sh
+│   ├── dangerfile.ts (conditional)
+│   ├── dangerfile.reassure.ts (conditional)
+│   └── .gitignore (conditional)
+```
+
+### Options
+
+You can also use the following options in order to further adjust the script
+
+#### `--verbose` (optional)
+
+This is one of the options controlling the level of logs printed into the command prompt while running reassure scripts. It will
+
+#### `--silent` (optional)
+
+Just like the previous, this option also controls the level of logs. It will suppress all logs besides explicit errors.
+
+#### `--no-ascii-art` (optional)
+
+Just like the previous, this option also controls the level of logs. It will suppress ascii art based Hello and Bye messages.
+
+#### `--javascript` (optional)
+
+By default Reassure scripts will generate TypeScript files. You can use this option, if you'd like to generate JavaScript files instead.
+
+### Scaffolding
+
+#### `dangerfile.ts and dangerfile.reassure.ts`
+
+If your project already contains a `dangerfile`, the CLI will not override it in any way. Instead, it will generate a `dangerfile.reassure.ts` file which will allow you to compare and update your own at your own convenience.
+
+#### `.gitignore`
+
+If .gitignore file is present and no mentions of `reassure` appear within it, the script will append the `.reassure/` directory to its end.
+
+#### `reassure-tests.sh`
+
+Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the following section.
+
+### Performance test script
+
+In order to detect performance changes, you need to measure the performance of two versions of your code
+current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
+on two different branches you need to either switch branches in git or clone two copies of your repository.
+
+We want to automate this task, so it can run on the CI. In order to do that you will need to create a
+performance testing script. You should save it in your repository, e.g. as `reassure-tests.sh`.
+
+A simple version of such script, using branch changing approach is as follows:
+
+```sh
+#!/usr/bin/env bash
+set -e
+
+BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+
+# Required for `git switch` on CI
+git fetch origin
+
+# Gather baseline perf measurements
+git switch "$BASELINE_BRANCH"
+yarn install --force
+yarn reassure --baseline
+
+# Gather current perf measurements & compare results
+git switch --detach -
+yarn install --force
+yarn reassure
+```
+
+### Integration
 
 As a final setup step you need to configure your CI to run the performance testing script and output the result.
 For presenting output at the moment we integrate with Danger JS, which supports all major CI tools.
