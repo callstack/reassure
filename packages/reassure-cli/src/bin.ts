@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
+import { command as main } from './commands/main';
 import { command as init } from './commands/init';
 import { command as measure } from './commands/measure';
 import { command as checkStability } from './commands/check-stability';
 
 yargs(hideBin(process.argv))
+  .command(main)
   .command(init)
   .command(measure)
   .command(checkStability)

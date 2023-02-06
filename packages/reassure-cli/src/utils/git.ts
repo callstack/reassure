@@ -1,7 +1,7 @@
 import simpleGit from 'simple-git';
 import { logger } from '@callstack/reassure-logger';
 
-export async function getGitBranch(logLevel?: string) {
+export async function getGitBranch() {
   try {
     const git = simpleGit();
     const isRepo = await git.checkIsRepo();
@@ -17,7 +17,7 @@ export async function getGitBranch(logLevel?: string) {
   }
 }
 
-export async function getGitCommitHash(logLevel?: string) {
+export async function getGitCommitHash() {
   try {
     const git = simpleGit();
     const isRepo = await git.checkIsRepo();

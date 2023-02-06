@@ -1,3 +1,8 @@
 export type DefaultOptions = {
-  logLevel?: string;
+  /** All logs */
+  verbose?: boolean;
+  /** No logs */
+  silent?: boolean;
+  /** No Ascii art */
+  'no-ascii-art'?: boolean;
 };

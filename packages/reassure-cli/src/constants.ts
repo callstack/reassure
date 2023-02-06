@@ -10,8 +10,3 @@ export const CHALK = {
     dim: '#919191',
   },
 };
-
-export const GITIGNORE_DATA = `
-# reassure output directory
-.reassure
-`;

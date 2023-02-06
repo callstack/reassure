@@ -4,13 +4,11 @@ import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare';
-import { logger } from '@callstack/reassure-logger';
+import { logger, configureLoggerOptions } from '@callstack/reassure-logger';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
-import { printBye, printError, printHello, printLog, printWarn } from '../utils/printer';
 import type { DefaultOptions } from '../types';
-import { getGitBranch, getGitCommitHash } from './git';
 
 interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
@@ -26,8 +24,8 @@ export async function run(options: MeasureOptions) {
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
   const metadata: PerformanceMetadata = {
-    branch: options?.branch ?? (await getGitBranch(options.logLevel)),
-    commitHash: options?.commitHash ?? (await getGitCommitHash(options.logLevel)),
+    branch: options?.branch ?? (await getGitBranch()),
+    commitHash: options?.commitHash ?? (await getGitCommitHash()),
   };
 
   logger.log(`\n❇️  Running performance tests:`);
@@ -112,7 +110,7 @@ export async function run(options: MeasureOptions) {
     }
   }
 
-  printBye(options.logLevel);
+  logger.bye();
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
