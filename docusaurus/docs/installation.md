@@ -116,7 +116,7 @@ yarn reassure --branch [branch name] --commit-hash [commit hash]
 
 ## CI setup
 
-To make setting up the CI integration and all prerequisites more convenient, we have prepared a CLI command which will generate all necessary templates for you to get started with.
+To make setting up Reassure more convenient we have prepared a CLI command which will generate all necessary templates for you to get started with.
 
 Simply run:
 
