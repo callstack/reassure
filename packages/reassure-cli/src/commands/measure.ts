@@ -126,6 +126,12 @@ export const command: CommandModule<{}, MeasureOptions> = {
       .option('commit-hash', {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
+      })
+      .option('file', {
+        alias: 'f',
+        type: 'string',
+        default: undefined,
+        describe: 'Run performance tests for a specific test file',
       });
   },
   handler: (args) => run(args),
