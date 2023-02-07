@@ -45,7 +45,7 @@
     "@types/jest": "^29.2.5",
     "@types/react": "^18.0.26",
     "@types/react-native": "0.70.8",
-    "babel-jest": "^29.3.1",
+    "babel-jest": "^29.4.1",
     "danger": "^11.2.3",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",
