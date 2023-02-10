@@ -4,6 +4,7 @@ import * as path from 'path';
 import { headers, emphasis } from 'markdown-builder';
 // @ts-ignore
 import markdownTable from 'markdown-table';
+import { logger } from '@callstack/reassure-logger';
 import {
   formatCount,
   formatDuration,
@@ -12,7 +13,6 @@ import {
   formatRenderCountChange,
   formatRenderDurationChange,
 } from '../utils/format';
-import { logger } from '../utils/logger';
 import type {
   AddedEntry,
   CompareEntry,

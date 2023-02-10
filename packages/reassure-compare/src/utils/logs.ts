@@ -1,4 +1,4 @@
-import { logger } from './logger';
+import { logger } from '@callstack/reassure-logger';
 
 export let errors: string[] = [];
 export let warnings: string[] = [];

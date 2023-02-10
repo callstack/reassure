@@ -3,10 +3,11 @@ import { resolve } from 'path';
 import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
-import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
+import type { PerformanceMetadata } from '@callstack/reassure-compare';
+import { logger } from '@callstack/reassure-logger';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
-import { configureLoggerOptions, logger } from '../utils/logger';
+import { configureLoggerOptions } from '../utils/logger';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as math from 'mathjs';
+import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';
-import { logger } from './utils/logger';
 import type { MeasureRenderResult } from './types';
 
 export interface MeasureOptions {

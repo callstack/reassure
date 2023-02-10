@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { logger } from '@callstack/reassure-logger';
 import type { CompareResult } from '../types';
-import { logger } from '../utils/logger';
 
 export async function writeToJson(filePath: string, data: CompareResult) {
   try {

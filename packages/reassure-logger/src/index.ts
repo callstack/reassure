@@ -1,1 +1,1 @@
-export { bindLogger, configure } from './logger';
+export * as logger from './logger';
