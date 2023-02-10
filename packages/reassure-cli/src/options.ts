@@ -2,10 +2,10 @@ import type yargs from 'yargs';
 
 export interface CommonOptions {
   /** Silent all non-error messages. */
-  silent?: boolean;
+  silent: boolean;
 
   /** Show verbose-level logs. */
-  verbose?: boolean;
+  verbose: boolean;
 }
 
 export function applyCommonOptions(yargs: yargs.Argv<{}>) {

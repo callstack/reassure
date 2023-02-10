@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
+    "@callstack/reassure-logger": "0.1.0",
     "mathjs": "^11.5.0"
   },
   "peerDependencies": {
