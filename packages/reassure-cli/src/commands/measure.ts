@@ -30,8 +30,7 @@ export async function run(options: MeasureOptions) {
     commitHash: options?.commitHash ?? (await getGitCommitHash()),
   };
 
-  logger.newLine();
-  logger.log(`❇️  Running performance tests:`);
+  logger.log(`\n❇️  Running performance tests:`);
   logger.log(` - ${measurementType}: ${formatMetadata(metadata)}\n`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
@@ -71,7 +70,7 @@ export async function run(options: MeasureOptions) {
     },
   });
 
-  logger.newLine();
+  logger.log();
 
   if (spawnInfo.status !== 0) {
     logger.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);

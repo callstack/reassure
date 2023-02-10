@@ -48,7 +48,3 @@ export function verbose(...args: unknown[]) {
 
   rawConsole.log(colorVerbose(...args));
 }
-
-export function newLine() {
-  rawConsole.log();
-}

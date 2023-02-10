@@ -16,27 +16,22 @@ export function printToConsole(data: CompareResult) {
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
 
-  logger.newLine();
-  logger.log('➡️  Signficant changes to render duration');
+  logger.log('\n➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);
 
-  logger.newLine();
-  logger.log('➡️  Meaningless changes to render duration');
+  logger.log('\n➡️  Meaningless changes to render duration');
   data.meaningless.forEach(printRegularLine);
 
-  logger.newLine();
-  logger.log('➡️  Render count changes');
+  logger.log('\n➡️  Render count changes');
   data.countChanged.forEach(printRegularLine);
 
-  logger.newLine();
-  logger.log('➡️  Added scenarios');
+  logger.log('\n➡️  Added scenarios');
   data.added.forEach(printAddedLine);
 
-  logger.newLine();
-  logger.log('➡️  Removed scenarios');
+  logger.log('\n➡️  Removed scenarios');
   data.removed.forEach(printRemovedLine);
 
-  logger.newLine();
+  logger.log();
 }
 
 function printMetadata(name: string, metadata?: PerformanceMetadata) {
