@@ -40,7 +40,7 @@ export function showFlagsOuputIfNeeded() {
         'Make sure you use the Reassure CLI and run it using "reassure" command.'
     );
   } else {
-    logger.verbose('Measure code is running under correct node flags');
+    logger.verbose('Measure code is running with correct Node.js configuration.');
   }
 
   hasShowFlagsOutput = true;

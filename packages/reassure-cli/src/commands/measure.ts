@@ -57,7 +57,8 @@ export async function run(options: MeasureOptions) {
     testRunnerPath,
     testRunnerArgs,
   ];
-  logger.verbose('Running tests: node ', nodeArgs.join(' '));
+  logger.verbose('Running tests using command:');
+  logger.verbose(`$ node ${nodeArgs.join(' \\\n    ')}\n`);
 
   const spawnInfo = spawnSync('node', nodeArgs, {
     shell: true,
