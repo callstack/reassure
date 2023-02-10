@@ -73,7 +73,7 @@ export async function run(options: MeasureOptions) {
   logger.newLine();
 
   if (spawnInfo.status !== 0) {
-    console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
+    logger.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
     process.exitCode = 1;
     return;
   }
