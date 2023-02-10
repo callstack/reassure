@@ -13,7 +13,7 @@ type Config = {
 const defaultConfig: Config = {
   runs: 10,
   dropWorst: 1,
-  outputFile: process.env.OUTPUT_FILE ?? '.reassure/current.perf',
+  outputFile: process.env.REASSURE_OUTPUT_FILE ?? '.reassure/current.perf',
   testingLibrary: undefined,
 };
 

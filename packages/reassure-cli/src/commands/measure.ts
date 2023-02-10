@@ -65,7 +65,7 @@ export async function run(options: MeasureOptions) {
     stdio: 'inherit',
     env: {
       ...process.env,
-      OUTPUT_FILE: outputFile,
+      REASSURE_OUTPUT_FILE: outputFile,
       REASSURE_SILENT: options.silent.toString(),
       REASSURE_VERBOSE: options.verbose.toString(),
     },
