@@ -29,7 +29,7 @@ export const writeToMarkdown = async (filePath: string, data: CompareResult) => 
     const markdown = buildMarkdown(data);
     await writeToFile(filePath, markdown);
   } catch (error: any) {
-    console.error(error);
+    logger.error(error);
     throw error;
   }
 };
@@ -41,9 +41,9 @@ async function writeToFile(filePath: string, content: string) {
     logger.log(`✅  Written output markdown output file ${filePath}`);
     logger.log(`🔗 ${path.resolve(filePath)}\n`);
   } catch (error) {
-    logger.log(`❌  Could not write markdown output file ${filePath}`);
-    logger.log(`🔗 ${path.resolve(filePath)}`);
-    console.error(error);
+    logger.error(`❌  Could not write markdown output file ${filePath}`);
+    logger.error(`🔗 ${path.resolve(filePath)}`);
+    logger.error(error);
     throw error;
   }
 }

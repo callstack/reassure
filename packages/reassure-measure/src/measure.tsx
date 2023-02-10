@@ -3,6 +3,7 @@ import * as math from 'mathjs';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';
+import { logger } from './utils/logger';
 import type { MeasureRenderResult } from './types';
 
 export interface MeasureOptions {
@@ -71,7 +72,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
-    console.error(
+    logger.error(
       `Warning: test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
     );
   }

@@ -13,7 +13,7 @@ export async function writeTestStats(
   try {
     await fs.appendFile(outputFilePath, line);
   } catch (error) {
-    console.error(`Error writing ${outputFilePath}`, error);
+    logger.error(`Error writing ${outputFilePath}`, error);
     throw error;
   }
 }
@@ -22,7 +22,7 @@ export async function clearTestStats(outputFilePath: string = config.outputFile)
   try {
     await fs.unlink(outputFilePath);
   } catch (error) {
-    console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
+    logger.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
   }
 }
 
