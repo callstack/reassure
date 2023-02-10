@@ -10,8 +10,8 @@ export async function writeToJson(filePath: string, data: CompareResult) {
     logger.log(`✅  Written JSON output file ${filePath}`);
     logger.log(`🔗 ${path.resolve(filePath)}\n`);
   } catch (error) {
-    logger.log(`❌  Could not write JSON output file ${filePath}`);
-    logger.log(`🔗 ${path.resolve(filePath)}`);
+    logger.error(`❌  Could not write JSON output file ${filePath}`);
+    logger.error(`🔗 ${path.resolve(filePath)}`);
     logger.error(error);
     throw error;
   }
