@@ -13,11 +13,11 @@ export function applyCommonOptions(yargs: yargs.Argv<{}>) {
     .option('silent', {
       type: 'boolean',
       default: false,
-      describe: 'Silences all logs except errors',
+      describe: 'Silence all logs except errors',
     })
     .option('verbose', {
       type: 'boolean',
-      default: true,
-      describe: 'Outputs verbose level logs',
+      default: false,
+      describe: 'Output verbose level logs',
     });
 }
