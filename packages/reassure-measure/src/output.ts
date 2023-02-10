@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises';
 import { config } from './config';
+import { logger } from './utils/logger';
 import type { MeasureRenderResult } from './types';
 
 export async function writeTestStats(
@@ -33,13 +34,13 @@ export function showFlagsOuputIfNeeded() {
   }
 
   if (!global.gc) {
-    console.error(
+    logger.error(
       '❌ Reassure: measure code is running under incorrect Node.js configuration.\n' +
         'Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.\n' +
         'Make sure you use the Reassure CLI and run it using "reassure" command.'
     );
-  } else if (config.verbose) {
-    console.log('✅ Reassure: measure code is running under correct node flags');
+  } else {
+    logger.verbose('✅ Reassure: measure code is running under correct node flags');
   }
 
   hasShowFlagsOutput = true;

@@ -1,4 +1,5 @@
 import { config, Render, Cleanup } from './config';
+import { logger } from './utils/logger';
 
 type TestingLibraryApi = {
   render: Render;
@@ -29,7 +30,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
         throw new Error(`Reassure: unable to import '@testing-library/react-native' dependency`);
       }
 
-      if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
+      logger.verbose(`Reassure: using '@testing-library/react-native' to render components`);
       return RNTL;
     }
 
@@ -38,7 +39,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
         throw new Error(`Reassure: unable to import '@testing-library/react' dependency`);
       }
 
-      if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
+      logger.log(`Reassure: using '@testing-library/react' to render components`);
       return RTL;
     }
 
@@ -47,7 +48,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
       typeof config.testingLibrary.render === 'function' &&
       typeof config.testingLibrary.cleanup === 'function'
     ) {
-      if (config.verbose) console.log(`Reassure: using custom 'render' and 'cleanup' functions to render components`);
+      logger.log(`Reassure: using custom 'render' and 'cleanup' functions to render components`);
       return config.testingLibrary;
     }
 
@@ -58,21 +59,23 @@ export function resolveTestingLibrary(): TestingLibraryApi {
 
   // Testing library auto-detection
   if (RNTL != null && RTL != null) {
-    console.warn(
-      `Reassure: both '@testing-library/react-native' and '@testing-library/react' are installed. Using '@testing-library/react-native' by default.` +
-        `\nYou can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file.`
+    logger.warn(
+      "Reassure: both '@testing-library/react-native' and '@testing-library/react' are installed. Using '@testing-library/react-native' by default."
+    );
+    logger.warn(
+      "You can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file."
     );
 
     return RNTL;
   }
 
   if (RNTL != null) {
-    if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
+    logger.verbose(`Reassure: using '@testing-library/react-native' to render components`);
     return RNTL;
   }
 
   if (RTL != null) {
-    if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
+    logger.verbose(`Reassure: using '@testing-library/react' to render components`);
     return RTL;
   }
 

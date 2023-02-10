@@ -5,7 +5,7 @@ import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
-import * as Logger from '../utils/logger';
+import { logger } from '../utils/logger';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
@@ -26,8 +26,9 @@ export async function run(options: MeasureOptions) {
     commitHash: options?.commitHash ?? (await getGitCommitHash()),
   };
 
-  Logger.log(`\n❇️  Running performance tests:`);
-  Logger.log(` - ${measurementType}: ${formatMetadata(metadata)}\n`);
+  logger.log('');
+  logger.log(`❇️  Running performance tests:`);
+  logger.log(` - ${measurementType}: ${formatMetadata(metadata)}\n`);
 
   mkdirSync(RESULTS_DIRECTORY, { recursive: true });
 
@@ -56,7 +57,7 @@ export async function run(options: MeasureOptions) {
     { shell: true, stdio: 'inherit', env: { ...process.env, OUTPUT_FILE: outputFile } }
   );
 
-  Logger.log('');
+  logger.log('');
 
   if (spawnInfo.status !== 0) {
     console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
@@ -65,15 +66,15 @@ export async function run(options: MeasureOptions) {
   }
 
   if (existsSync(outputFile)) {
-    Logger.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
-    Logger.log(`🔗 ${resolve(outputFile)}\n`);
+    logger.log(`✅  Written ${measurementType} performance measurements to ${outputFile}`);
+    logger.log(`🔗 ${resolve(outputFile)}\n`);
   } else {
-    Logger.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
+    logger.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
     return;
   }
 
   if (options.baseline) {
-    Logger.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
+    logger.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
     return;
   }
 
@@ -81,7 +82,7 @@ export async function run(options: MeasureOptions) {
     if (existsSync(BASELINE_FILE)) {
       compare();
     } else {
-      Logger.log(
+      logger.log(
         `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
       );
       return;

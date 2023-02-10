@@ -7,46 +7,52 @@ import {
   formatRenderDurationChange,
 } from '../utils/format';
 import type { PerformanceMetadata } from '../types';
+import { logger } from '../utils/logger';
 
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
 
-  console.log('❇️  Performance comparison results:');
+  logger.log('❇️  Performance comparison results:');
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
 
-  console.log('\n➡️  Signficant changes to render duration');
+  logger.log('');
+  logger.log('➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);
 
-  console.log('\n➡️  Meaningless changes to render duration');
+  logger.log('');
+  logger.log('➡️  Meaningless changes to render duration');
   data.meaningless.forEach(printRegularLine);
 
-  console.log('\n➡️  Render count changes');
+  logger.log('');
+  logger.log('➡️  Render count changes');
   data.countChanged.forEach(printRegularLine);
 
-  console.log('\n➡️  Added scenarios');
+  logger.log('');
+  logger.log('➡️  Added scenarios');
   data.added.forEach(printAddedLine);
 
-  console.log('\n➡️  Removed scenarios');
+  logger.log('');
+  logger.log('➡️  Removed scenarios');
   data.removed.forEach(printRemovedLine);
 
-  console.log('');
+  logger.log('');
 }
 
 function printMetadata(name: string, metadata?: PerformanceMetadata) {
-  console.log(` - ${name}: ${formatMetadata(metadata)}`);
+  logger.log(` - ${name}: ${formatMetadata(metadata)}`);
 }
 
 function printRegularLine(entry: CompareEntry) {
-  console.log(` - ${entry.name}: ${formatRenderDurationChange(entry)} | ${formatRenderCountChange(entry)}`);
+  logger.log(` - ${entry.name}: ${formatRenderDurationChange(entry)} | ${formatRenderCountChange(entry)}`);
 }
 
 function printAddedLine(entry: AddedEntry) {
   const { current } = entry;
-  console.log(` - ${entry.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`);
+  logger.log(` - ${entry.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`);
 }
 
 function printRemovedLine(entry: RemovedEntry) {
   const { baseline } = entry;
-  console.log(` - ${entry.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`);
+  logger.log(` - ${entry.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`);
 }

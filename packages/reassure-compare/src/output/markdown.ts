@@ -12,6 +12,7 @@ import {
   formatRenderCountChange,
   formatRenderDurationChange,
 } from '../utils/format';
+import { logger } from '../utils/logger';
 import type {
   AddedEntry,
   CompareEntry,
@@ -37,11 +38,11 @@ async function writeToFile(filePath: string, content: string) {
   try {
     await fs.writeFile(filePath, content);
 
-    console.log(`✅  Written output markdown output file ${filePath}`);
-    console.log(`🔗 ${path.resolve(filePath)}\n`);
+    logger.log(`✅  Written output markdown output file ${filePath}`);
+    logger.log(`🔗 ${path.resolve(filePath)}\n`);
   } catch (error) {
-    console.log(`❌  Could not write markdown output file ${filePath}`);
-    console.log(`🔗 ${path.resolve(filePath)}`);
+    logger.log(`❌  Could not write markdown output file ${filePath}`);
+    logger.log(`🔗 ${path.resolve(filePath)}`);
     console.error(error);
     throw error;
   }
