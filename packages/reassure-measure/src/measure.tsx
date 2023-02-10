@@ -6,6 +6,11 @@ import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';
 import type { MeasureRenderResult } from './types';
 
+logger.configure({
+  verbose: process.env.REASSURE_VERBOSE === 'true' || process.env.REASSURE_VERBOSE === '1',
+  silent: process.env.REASSURE_SILENT === 'true' || process.env.REASSURE_SILENT === '1',
+});
+
 export interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
