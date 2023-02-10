@@ -16,27 +16,27 @@ export function printToConsole(data: CompareResult) {
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
 
-  logger.log('');
+  logger.newLine();
   logger.log('➡️  Signficant changes to render duration');
   data.significant.forEach(printRegularLine);
 
-  logger.log('');
+  logger.newLine();
   logger.log('➡️  Meaningless changes to render duration');
   data.meaningless.forEach(printRegularLine);
 
-  logger.log('');
+  logger.newLine();
   logger.log('➡️  Render count changes');
   data.countChanged.forEach(printRegularLine);
 
-  logger.log('');
+  logger.newLine();
   logger.log('➡️  Added scenarios');
   data.added.forEach(printAddedLine);
 
-  logger.log('');
+  logger.newLine();
   logger.log('➡️  Removed scenarios');
   data.removed.forEach(printRemovedLine);
 
-  logger.log('');
+  logger.newLine();
 }
 
 function printMetadata(name: string, metadata?: PerformanceMetadata) {

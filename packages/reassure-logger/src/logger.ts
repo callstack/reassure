@@ -46,11 +46,16 @@ export function error(prefix: string, ...args: unknown[]) {
   console.error(colorPrimary(prefix), colorDim(...args));
 }
 
+export function newLine() {
+  console.log();
+}
+
 export function bindLogger(prefix: string) {
   return {
     verbose: (...args: unknown[]) => verbose(prefix, ...args),
     log: (...args: unknown[]) => log(prefix, ...args),
     warn: (...args: unknown[]) => warn(prefix, ...args),
     error: (...args: unknown[]) => error(prefix, ...args),
+    newLine: () => newLine(),
   };
 }

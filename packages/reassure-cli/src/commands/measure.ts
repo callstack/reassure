@@ -29,7 +29,7 @@ export async function run(options: MeasureOptions) {
     commitHash: options?.commitHash ?? (await getGitCommitHash()),
   };
 
-  logger.log('');
+  logger.newLine();
   logger.log(`❇️  Running performance tests:`);
   logger.log(` - ${measurementType}: ${formatMetadata(metadata)}\n`);
 
@@ -70,7 +70,7 @@ export async function run(options: MeasureOptions) {
     },
   });
 
-  logger.log('');
+  logger.newLine();
 
   if (spawnInfo.status !== 0) {
     console.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
