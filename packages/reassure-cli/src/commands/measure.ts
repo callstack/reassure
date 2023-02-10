@@ -4,21 +4,24 @@ import { spawnSync } from 'child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare/lib/typescript/types';
+import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
-import { logger } from '../utils/logger';
+import { configureLoggerOptions, logger } from '../utils/logger';
 
 const RESULTS_DIRECTORY = '.reassure';
 const RESULTS_FILE = '.reassure/current.perf';
 const BASELINE_FILE = '.reassure/baseline.perf';
 
-type MeasureOptions = {
+interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
   compare?: boolean;
   branch?: string;
   commitHash?: string;
-};
+}
 
 export async function run(options: MeasureOptions) {
+  configureLoggerOptions(options);
+
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
   const metadata: PerformanceMetadata = {
@@ -94,7 +97,7 @@ export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
   describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
-    return yargs
+    return applyCommonOptions(yargs)
       .option('baseline', {
         type: 'boolean',
         default: false,
