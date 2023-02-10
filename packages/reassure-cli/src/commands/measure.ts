@@ -44,30 +44,31 @@ export async function run(options: MeasureOptions) {
   const defaultPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? defaultPath;
 
-  const defaultArgs = '--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"';
+  const defaultArgs = `--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)" ${
+    options.silent ? '--silent' : ''
+  }`;
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
 
-  const spawnInfo = spawnSync(
-    'node',
-    [
-      '--jitless',
-      '--expose-gc',
-      '--no-concurrent-sweeping',
-      '--max-old-space-size=4096',
-      testRunnerPath,
-      testRunnerArgs,
-    ],
-    {
-      shell: true,
-      stdio: 'inherit',
-      env: {
-        ...process.env,
-        OUTPUT_FILE: outputFile,
-        REASSURE_SILENT: options.silent.toString(),
-        REASSURE_VERBOSE: options.verbose.toString(),
-      },
-    }
-  );
+  const nodeArgs = [
+    '--jitless',
+    '--expose-gc',
+    '--no-concurrent-sweeping',
+    '--max-old-space-size=4096',
+    testRunnerPath,
+    testRunnerArgs,
+  ];
+  logger.verbose('Running tests: node ', nodeArgs.join(' '));
+
+  const spawnInfo = spawnSync('node', nodeArgs, {
+    shell: true,
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      OUTPUT_FILE: outputFile,
+      REASSURE_SILENT: options.silent.toString(),
+      REASSURE_VERBOSE: options.verbose.toString(),
+    },
+  });
 
   logger.log('');
 
