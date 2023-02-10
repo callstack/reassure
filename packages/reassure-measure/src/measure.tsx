@@ -72,8 +72,8 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
-    logger.error(
-      `Warning: test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
+    logger.warn(
+      `test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
     );
   }
 

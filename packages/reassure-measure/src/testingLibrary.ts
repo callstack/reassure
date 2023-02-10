@@ -39,7 +39,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
         throw new Error(`Unable to import '@testing-library/react' dependency`);
       }
 
-      logger.log(`Using '@testing-library/react' to render components`);
+      logger.verbose(`Using '@testing-library/react' to render components`);
       return RTL;
     }
 
@@ -48,7 +48,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
       typeof config.testingLibrary.render === 'function' &&
       typeof config.testingLibrary.cleanup === 'function'
     ) {
-      logger.log(`Using custom 'render' and 'cleanup' functions to render components`);
+      logger.verbose(`Using custom 'render' and 'cleanup' functions to render components`);
       return config.testingLibrary;
     }
 
