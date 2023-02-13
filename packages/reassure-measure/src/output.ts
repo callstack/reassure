@@ -1,4 +1,5 @@
 import * as fs from 'fs/promises';
+import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
 import type { MeasureRenderResult } from './types';
 
@@ -12,7 +13,7 @@ export async function writeTestStats(
   try {
     await fs.appendFile(outputFilePath, line);
   } catch (error) {
-    console.error(`Error writing ${outputFilePath}`, error);
+    logger.error(`Error writing ${outputFilePath}`, error);
     throw error;
   }
 }
@@ -21,7 +22,7 @@ export async function clearTestStats(outputFilePath: string = config.outputFile)
   try {
     await fs.unlink(outputFilePath);
   } catch (error) {
-    console.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
+    logger.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
   }
 }
 
@@ -33,13 +34,13 @@ export function showFlagsOuputIfNeeded() {
   }
 
   if (!global.gc) {
-    console.error(
-      '❌ Reassure: measure code is running under incorrect Node.js configuration.\n' +
+    logger.error(
+      '❌ Measure code is running under incorrect Node.js configuration.\n' +
         'Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.\n' +
         'Make sure you use the Reassure CLI and run it using "reassure" command.'
     );
-  } else if (config.verbose) {
-    console.log('✅ Reassure: measure code is running under correct node flags');
+  } else {
+    logger.verbose('Measure code is running with correct Node.js configuration.');
   }
 
   hasShowFlagsOutput = true;

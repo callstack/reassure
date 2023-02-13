@@ -1,4 +1,5 @@
 import simpleGit from 'simple-git';
+import { logger } from '@callstack/reassure-logger';
 
 export async function getGitBranch() {
   try {
@@ -11,7 +12,7 @@ export async function getGitBranch() {
     const branch = await git.revparse(['--abbrev-ref', 'HEAD']);
     return branch.trim() ? branch : undefined;
   } catch (error) {
-    console.log('Failed to get git branch', error);
+    logger.warn('Failed to detect git branch', error);
     return undefined;
   }
 }
@@ -27,7 +28,7 @@ export async function getGitCommitHash() {
     const commitHash = await git.revparse(['HEAD']);
     return commitHash.trim() ? commitHash : undefined;
   } catch (error) {
-    console.log('Failed to get git commit hash', error);
+    logger.warn('Failed to detect git commit hash', error);
     return undefined;
   }
 }

@@ -1,9 +1,15 @@
 import * as React from 'react';
 import * as math from 'mathjs';
+import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';
 import type { MeasureRenderResult } from './types';
+
+logger.configure({
+  verbose: process.env.REASSURE_VERBOSE === 'true' || process.env.REASSURE_VERBOSE === '1',
+  silent: process.env.REASSURE_SILENT === 'true' || process.env.REASSURE_SILENT === '1',
+});
 
 export interface MeasureOptions {
   runs?: number;
@@ -71,8 +77,8 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
-    console.error(
-      `Warning: test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
+    logger.warn(
+      `test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
     );
   }
 

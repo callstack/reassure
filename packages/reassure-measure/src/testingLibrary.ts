@@ -1,3 +1,4 @@
+import { logger } from '@callstack/reassure-logger';
 import { config, Render, Cleanup } from './config';
 
 type TestingLibraryApi = {
@@ -26,19 +27,19 @@ export function resolveTestingLibrary(): TestingLibraryApi {
   if (config.testingLibrary) {
     if (config.testingLibrary === 'react-native') {
       if (!RNTL) {
-        throw new Error(`Reassure: unable to import '@testing-library/react-native' dependency`);
+        throw new Error(`Unable to import '@testing-library/react-native' dependency`);
       }
 
-      if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
+      logger.verbose(`Using '@testing-library/react-native' to render components`);
       return RNTL;
     }
 
     if (config.testingLibrary === 'react') {
       if (!RTL) {
-        throw new Error(`Reassure: unable to import '@testing-library/react' dependency`);
+        throw new Error(`Unable to import '@testing-library/react' dependency`);
       }
 
-      if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
+      logger.verbose(`Using '@testing-library/react' to render components`);
       return RTL;
     }
 
@@ -47,37 +48,36 @@ export function resolveTestingLibrary(): TestingLibraryApi {
       typeof config.testingLibrary.render === 'function' &&
       typeof config.testingLibrary.cleanup === 'function'
     ) {
-      if (config.verbose) console.log(`Reassure: using custom 'render' and 'cleanup' functions to render components`);
+      logger.verbose(`Using custom 'render' and 'cleanup' functions to render components`);
       return config.testingLibrary;
     }
 
     throw new Error(
-      `Reassure: unsupported 'testingLibrary' value. Please set 'testingLibrary' to one of following values: 'react-native', 'react' or { render, cleanup }.`
+      `Unsupported 'testingLibrary' value. Please set 'testingLibrary' to one of following values: 'react-native', 'react' or { render, cleanup }.`
     );
   }
 
   // Testing library auto-detection
   if (RNTL != null && RTL != null) {
-    console.warn(
-      `Reassure: both '@testing-library/react-native' and '@testing-library/react' are installed. Using '@testing-library/react-native' by default.` +
-        `\nYou can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file.`
+    logger.warn(
+      "Both '@testing-library/react-native' and '@testing-library/react' are installed. Using '@testing-library/react-native' by default.\n\nYou can resolve this warning by explicitly calling 'configure({ testingLibrary: 'react-native' })' or 'configure({ testingLibrary: 'react' })' in your test setup file."
     );
 
     return RNTL;
   }
 
   if (RNTL != null) {
-    if (config.verbose) console.log(`Reassure: using '@testing-library/react-native' to render components`);
+    logger.verbose(`Using '@testing-library/react-native' to render components`);
     return RNTL;
   }
 
   if (RTL != null) {
-    if (config.verbose) console.log(`Reassure: using '@testing-library/react' to render components`);
+    logger.verbose(`Using '@testing-library/react' to render components`);
     return RTL;
   }
 
   throw new Error(
-    `Reassure: unable to import neither '@testing-library/react-native' nor '@testing-library/react'.` +
+    `Unable to import neither '@testing-library/react-native' nor '@testing-library/react'.` +
       `\nAdd either of these testing libraries to your 'package.json'`
   );
 }

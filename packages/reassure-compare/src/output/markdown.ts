@@ -4,6 +4,7 @@ import * as path from 'path';
 import { headers, emphasis } from 'markdown-builder';
 // @ts-ignore
 import markdownTable from 'markdown-table';
+import { logger } from '@callstack/reassure-logger';
 import {
   formatCount,
   formatDuration,
@@ -28,7 +29,7 @@ export const writeToMarkdown = async (filePath: string, data: CompareResult) => 
     const markdown = buildMarkdown(data);
     await writeToFile(filePath, markdown);
   } catch (error: any) {
-    console.error(error);
+    logger.error(error);
     throw error;
   }
 };
@@ -37,12 +38,12 @@ async function writeToFile(filePath: string, content: string) {
   try {
     await fs.writeFile(filePath, content);
 
-    console.log(`✅  Written output markdown output file ${filePath}`);
-    console.log(`🔗 ${path.resolve(filePath)}\n`);
+    logger.log(`✅  Written output markdown output file ${filePath}`);
+    logger.log(`🔗 ${path.resolve(filePath)}\n`);
   } catch (error) {
-    console.log(`❌  Could not write markdown output file ${filePath}`);
-    console.log(`🔗 ${path.resolve(filePath)}`);
-    console.error(error);
+    logger.error(`❌  Could not write markdown output file ${filePath}`);
+    logger.error(`🔗 ${path.resolve(filePath)}`);
+    logger.error(error);
     throw error;
   }
 }
