@@ -25,6 +25,7 @@ const AsyncComponent = () => {
 };
 
 jest.setTimeout(60_000);
+
 test('Async Component', async () => {
   const scenario = async () => {
     const button = screen.getByText('Action');
