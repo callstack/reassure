@@ -40,7 +40,7 @@
     "@babel/runtime": "^7.20.7",
     "@callstack/eslint-config": "^13.0.2",
     "@changesets/cli": "^2.26.0",
-    "@testing-library/react": "^13.4.0",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/react-native": "^11.5.1",
     "@types/jest": "^29.2.5",
     "@types/react": "^18.0.26",
