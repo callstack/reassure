@@ -1,8 +1,9 @@
 import type { CommandModule } from 'yargs';
-import { logger } from '../utils/logger';
+
+import { bye, hello } from '../utils/logger';
 import { run as init } from './init';
-import { MeasureOptions, run as measure } from './measure';
 import { run as checkStability } from './check-stability';
+import { MeasureOptions, run as measure } from './measure';
 
 const { Select, Prompt, Confirm } = require('enquirer');
 
@@ -18,7 +19,7 @@ async function handleInit() {
 
   const jsStandard = await jsStandardPrompt.run();
 
-  await init({ 'no-ascii-art': true, verbose: true, javascript: jsStandard === 'js' });
+  await init({ isSubRoutine: true, verbose: true, javascript: jsStandard === 'js' });
 }
 async function handleMeasure() {
   /**
@@ -67,14 +68,15 @@ async function handleMeasure() {
     }
   }
 
-  await measure({ 'no-ascii-art': true, verbose: true, ...options });
+  await measure({ isSubRoutine: true, verbose: true, ...options });
 }
 async function handleCheckStability() {
-  await checkStability({ 'no-ascii-art': true, verbose: true });
+  await checkStability({ isSubRoutine: true, verbose: true });
 }
 
 export async function run(): Promise<void> {
-  logger.hello(true);
+  hello();
+
   const cliModulePrompt = new Select({
     name: 'cliModule',
     message: 'What would you like to do?',
@@ -92,22 +94,22 @@ export async function run(): Promise<void> {
       await handleInit();
       break;
     case 'measure':
-      handleMeasure();
+      await handleMeasure();
 
       break;
     case 'check-stability':
-      handleCheckStability();
+      await handleCheckStability();
 
       break;
     default:
-      console.log('default');
+      break;
   }
 
-  logger.bye(true);
+  bye();
 }
 
 export const command: CommandModule<{}, {}> = {
-  command: ['setup', '$0'],
+  command: ['cli', '$0'],
   describe: 'Interactive CLI prompter module',
   handler: () => run(),
 };

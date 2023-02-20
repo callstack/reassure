@@ -1,13 +1,15 @@
 import { mkdirSync, copyFileSync, existsSync, readFileSync, appendFileSync } from 'fs';
+import { logger } from '@callstack/reassure-logger';
+
 import type { CommandModule } from 'yargs';
-import { logger } from '../utils/logger';
-import type { DefaultOptions } from '../types';
 
 import { RESULTS_DIRECTORY } from '../constants';
+import { applyCommonOptions, CommonOptions } from '../options';
+import { bye, ciSetupHint, configureLoggerOptions, hello } from '../utils/logger';
 
-type InitOptions = {
+interface InitOptions extends CommonOptions {
   javascript?: boolean;
-} & DefaultOptions;
+}
 /**
  * @param options options which come from the CLI command when ran
  *
@@ -17,11 +19,14 @@ type InitOptions = {
  * of reassure within it.
  */
 export async function run(options: InitOptions): Promise<void> {
-  logger.configure(options);
-  logger.hello();
+  configureLoggerOptions(options);
+
+  hello(options);
   logger.log('Checking if reassure setup exists');
+
   if (await existsSync(RESULTS_DIRECTORY)) {
     logger.error('Reassure has already been initialized => exiting');
+
     return;
   }
 
@@ -59,8 +64,8 @@ export async function run(options: InitOptions): Promise<void> {
       }
     }
 
-    logger.ciSetupHint();
-    logger.bye();
+    ciSetupHint(options);
+    bye(options);
   } catch (err) {
     logger.error('Reassure initialization script failed, please refer to the error message : ', err as any);
   }
@@ -70,27 +75,10 @@ export const command: CommandModule<{}, InitOptions> = {
   command: ['init', '$0'],
   describe: 'Initializes basic reassure setup, thus allowing for further configuration of your CI pipeline.',
   builder: (yargs) => {
-    return yargs.options({
-      silent: {
-        type: 'boolean',
-        default: false,
-        describe: 'removes all logs from the process besides errors',
-      },
-      verbose: {
-        type: 'boolean',
-        default: false,
-        describe: 'keeps all logs from the process',
-      },
-      'no-ascii-art': {
-        type: 'boolean',
-        default: false,
-        describe: 'keeps logs but removes the ascii art from them',
-      },
-      javascript: {
-        type: 'boolean',
-        default: false,
-        describe: 'Optional argument allowing to switch to JS templating instead of the default - TS',
-      },
+    return applyCommonOptions(yargs).option('javascript', {
+      type: 'boolean',
+      default: false,
+      describe: 'Optional argument allowing to switch to JS templating instead of the default - TS',
     });
   },
   handler: (args) => run(args),

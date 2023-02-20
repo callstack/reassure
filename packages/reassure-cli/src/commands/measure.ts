@@ -1,16 +1,18 @@
-import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
-import type { CommandModule } from 'yargs';
+import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
-import type { PerformanceMetadata } from '@callstack/reassure-compare';
-import { logger, configureLoggerOptions } from '@callstack/reassure-logger';
-import { applyCommonOptions, CommonOptions } from '../options';
-import { getGitBranch, getGitCommitHash } from '../utils/git';
-import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
-import type { DefaultOptions } from '../types';
+import { logger } from '@callstack/reassure-logger';
 
-interface MeasureOptions extends CommonOptions {
+import type { CommandModule } from 'yargs';
+import type { PerformanceMetadata } from '@callstack/reassure-compare';
+
+import { getGitBranch, getGitCommitHash } from '../utils/git';
+import { applyCommonOptions, CommonOptions } from '../options';
+import { bye, configureLoggerOptions, hello } from '../utils/logger';
+import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
+
+export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
   compare?: boolean;
   branch?: string;
@@ -20,6 +22,7 @@ interface MeasureOptions extends CommonOptions {
 
 export async function run(options: MeasureOptions) {
   configureLoggerOptions(options);
+  hello(options);
 
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
@@ -73,8 +76,8 @@ export async function run(options: MeasureOptions) {
     env: {
       ...process.env,
       REASSURE_OUTPUT_FILE: outputFile,
-      REASSURE_SILENT: options.silent.toString(),
-      REASSURE_VERBOSE: options.verbose.toString(),
+      REASSURE_SILENT: options.silent?.toString() || 'false',
+      REASSURE_VERBOSE: options.verbose?.toString() || 'false',
     },
   });
 
@@ -82,7 +85,9 @@ export async function run(options: MeasureOptions) {
 
   if (spawnInfo.status !== 0) {
     logger.error(`❌  Test runner (${testRunnerPath}) exited with error code ${spawnInfo.status}`);
+    bye(options);
     process.exitCode = 1;
+
     return;
   }
 
@@ -91,11 +96,15 @@ export async function run(options: MeasureOptions) {
     logger.log(`🔗 ${resolve(outputFile)}\n`);
   } else {
     logger.error(`❌  Something went wrong, ${measurementType} performance file (${outputFile}) does not exist\n`);
+    bye(options);
+
     return;
   }
 
   if (options.baseline) {
     logger.log("Hint: You can now run 'reassure' to measure & compare performance against modified code.\n");
+    bye(options);
+
     return;
   }
 
@@ -106,11 +115,11 @@ export async function run(options: MeasureOptions) {
       logger.log(
         `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`
       );
+      bye(options);
+
       return;
     }
   }
-
-  logger.bye();
 }
 
 export const command: CommandModule<{}, MeasureOptions> = {
