@@ -18,6 +18,7 @@ interface MeasureOptions extends CommonOptions {
   compare?: boolean;
   branch?: string;
   commitHash?: string;
+  testMatch?: string;
 }
 
 export async function run(options: MeasureOptions) {
@@ -44,9 +45,10 @@ export async function run(options: MeasureOptions) {
   const defaultPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? defaultPath;
 
-  const defaultArgs = `--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)" ${
-    options.silent ? '--silent' : ''
-  }`;
+  const defaultMatchPattern = '**/*.perf-test.[jt]s?(x)';
+  const testRunnerMatchPattern = options.testMatch || defaultMatchPattern;
+
+  const defaultArgs = `--runInBand --testMatch "<rootDir>/${testRunnerMatchPattern}"`;
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
 
   const nodeArgs = [
@@ -127,8 +129,8 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
       })
-      .option('file', {
-        alias: 'f',
+      .option('testMatch', {
+        alias: 'tm',
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
