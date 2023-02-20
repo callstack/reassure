@@ -45,10 +45,18 @@ export async function run(options: MeasureOptions) {
   const defaultPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? defaultPath;
 
-  const defaultMatchPattern = '**/*.perf-test.[jt]s?(x)';
-  const testRunnerMatchPattern = options.testMatch || defaultMatchPattern;
+  // NOTE: Consider updating the default testMatch to better reflect
+  // default patterns used in Jest and allow users to also place their
+  // performance tests into specific /__perf__/ directory without the need
+  // of adding the *.perf-test. prefix
+  // ---
+  // [ **/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ]
+  // ---
+  // GH: https://github.com/callstack/reassure/issues/363
+  const defaultTestMatch = '**/*.perf-test.[jt]s?(x)';
+  const testMatch = options.testMatch || defaultTestMatch;
 
-  const defaultArgs = `--runInBand --testMatch "<rootDir>/${testRunnerMatchPattern}"`;
+  const defaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
 
   const nodeArgs = [
