@@ -42,10 +42,10 @@
     "@callstack/reassure-compare": "0.3.0",
     "@callstack/reassure-logger": "0.1.0",
     "simple-git": "^3.16.0",
-    "yargs": "^17.6.2"
+    "yargs": "^17.7.0"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.20"
+    "@types/yargs": "^17.0.22"
   },
   "react-native-builder-bob": {
     "source": "src",
