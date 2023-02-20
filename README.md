@@ -104,7 +104,7 @@ test('Simple test', async () => {
 
 This test will measure render times of `ComponentUnderTest` during mounting and resulting sync effects.
 
-> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
+> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`. However, if you would like to pass a custom `--testMatch` option, you may add it to the `reassure measure` script in order to pass your own glob. More about `--testMatch` in [Jest docs](https://jestjs.io/docs/configuration#testmatch-arraystring)
 
 #### Writing async tests
 
