@@ -138,7 +138,6 @@ export const command: CommandModule<{}, MeasureOptions> = {
         describe: 'Commit hash of current code to be included in the report',
       })
       .option('testMatch', {
-        alias: 'tm',
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
