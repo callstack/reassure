@@ -20,9 +20,8 @@ npm install --save-dev reassure
 
 You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
-> **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
-
 You can check our example projects:
+
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 
@@ -112,7 +111,7 @@ command for the first time.
 Reassure CLI will automatically try to detect your source code branch name and commit hash when you are using Git. You can override these options, e.g. if you are using different version control system:
 
 ```sh
-yarn reassure --branch [branch name] --commit-hash [commit hash] 
+yarn reassure --branch [branch name] --commit-hash [commit hash]
 ```
 
 ## Write performance testing script

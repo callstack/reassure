@@ -70,8 +70,6 @@ npm install --save-dev reassure
 
 You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
-> **Note**: React Native Testing Library is fully supported, while React Testing Library in beta stage.
-
 You can check our example projects:
 
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
