@@ -1,5 +1,18 @@
 # @callstack/reassure-cli
 
+## 0.7.0
+
+### Minor Changes
+
+- 35af62a4: Custom logger implementation with verbose and silent modes.
+- a046afde: Add support for passing a custom `--testMatch` option to Jest
+
+### Patch Changes
+
+- Updated dependencies [35af62a4]
+  - @callstack/reassure-compare@0.4.0
+  - @callstack/reassure-logger@0.2.0
+
 ## 0.6.1
 
 ### Patch Changes

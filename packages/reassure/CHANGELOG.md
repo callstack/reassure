@@ -1,5 +1,14 @@
 # reassure
 
+## 0.7.2
+
+### Patch Changes
+
+- Updated dependencies [35af62a4]
+- Updated dependencies [a046afde]
+  - @callstack/reassure-measure@0.4.0
+  - @callstack/reassure-cli@0.7.0
+
 ## 0.7.1
 
 ### Patch Changes

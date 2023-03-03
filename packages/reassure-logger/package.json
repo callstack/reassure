@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-logger",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Logger for Reassure project",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -38,7 +38,7 @@
   "dependencies": {
     "chalk": "4.1.2"
   },
-  "devDependencies": { },
+  "devDependencies": {},
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",

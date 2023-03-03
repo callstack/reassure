@@ -1,5 +1,16 @@
 # @callstack/reassure-measure
 
+## 0.4.0
+
+### Minor Changes
+
+- 35af62a4: Custom logger implementation with verbose and silent modes.
+
+### Patch Changes
+
+- Updated dependencies [35af62a4]
+  - @callstack/reassure-logger@0.2.0
+
 ## 0.3.1
 
 ### Patch Changes
