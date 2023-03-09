@@ -27,10 +27,10 @@ jobs:
         run: cd ./docusaurus && yarn install --force
 
       - name: Validate TypeScript
-        run: yarn typescript && yarn typescript:example
+        run: yarn typescript && yarn typescript:control-app
 
       - name: Validate ESLint
-        run: yarn lint && yarn lint:example
+        run: yarn lint && yarn lint:control-app
 
       - name: Run tests
         run: yarn --cwd packages/reassure-compare test
