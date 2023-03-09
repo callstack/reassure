@@ -43,12 +43,12 @@ test('Other Component 10', async () => {
 });
 
 test('Other Component 10 legacy scenario', async () => {
-  const scenario = async (screen: RenderAPI) => {
-    const button = screen.getByText('Action');
+  const scenario = async (_screen: RenderAPI) => {
+    const button = _screen.getByText('Action');
 
     fireEvent.press(button);
     fireEvent.press(button);
-    await screen.findByText('Count: 2');
+    await _screen.findByText('Count: 2');
   };
 
   await measurePerformance(<AsyncComponent />, {scenario, runs: 10});
