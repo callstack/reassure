@@ -3,5 +3,5 @@ module.exports = {
   rules: {
     "require-await": "error"
   },
-  ignorePatterns: ["docusaurus/**", "examples/web-nextjs"]
+  ignorePatterns: ["docusaurus/**", "**/lib/**/*", "examples/web-nextjs"]
 };
