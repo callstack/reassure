@@ -71,8 +71,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "examples/native",
-      "examples/web-nextjs"
+      "examples/native"
     ]
   }
 }
