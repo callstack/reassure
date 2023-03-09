@@ -72,7 +72,7 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 
 You can check our example projects:
 
-- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
+- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native-cli)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 
 Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will

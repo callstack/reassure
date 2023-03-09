@@ -42,7 +42,7 @@ android.iml
 
 # Cocoapods
 #
-examples/native/ios/Pods
+core/reassure-core-control-app/ios/Pods
 
 # node.js
 #

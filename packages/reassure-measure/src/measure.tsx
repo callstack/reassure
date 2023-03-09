@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as math from 'mathjs';
-import { logger } from '@callstack/reassure-logger';
+import { logger } from '@callstack/reassure-core-logger';
 import { config } from './config';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';

@@ -3,5 +3,5 @@ import path from 'path';
 import { dangerReassure } from 'reassure';
 
 dangerReassure({
-  inputFilePath: path.join(__dirname, './examples/native/.reassure/output.md'),
+  inputFilePath: path.join(__dirname, './core/reassure-core-control-app/.reassure/output.md'),
 });

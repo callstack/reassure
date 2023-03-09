@@ -1,5 +1,5 @@
 {
-  "name": "@callstack/reassure-logger",
+  "name": "@callstack/reassure-core-logger",
   "version": "0.2.0",
   "description": "Logger for Reassure project",
   "main": "lib/commonjs/index",

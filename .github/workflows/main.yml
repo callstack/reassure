@@ -7,7 +7,7 @@ on:
     branches: ['**']
 
 jobs:
-  build-validate-pref-tests:
+  build-validate-perf-tests:
     name: Build, validate & run performance tests
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,7 @@ jobs:
         run: yarn --cwd packages/reassure-compare test
 
       - name: Run performance tests
-        run: cd examples/native && ./reassure-tests.sh
+        run: cd core/reassure-core-control-app && ./reassure-tests.sh
 
       - name: Run Danger.js
         run: yarn danger ci

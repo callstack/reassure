@@ -1,5 +1,5 @@
 {
-  "name": "example-native",
+  "name": "reassure-core-control-app",
   "description": "Example app for Reassure",
   "version": "0.1.0",
   "private": true,
@@ -7,7 +7,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "yarn run perf-test",
     "perf-test": "reassure",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "build": "yarn --force",

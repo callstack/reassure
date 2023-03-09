@@ -1,4 +1,4 @@
-import { logger } from '@callstack/reassure-logger';
+import { logger } from '@callstack/reassure-core-logger';
 import type { CommonOptions } from '../options';
 
 export function configureLoggerOptions(options: CommonOptions) {

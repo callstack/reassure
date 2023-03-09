@@ -72,7 +72,7 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 
 You can check our example projects:
 
-- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
+- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native-cli)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
 - [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs) 
 

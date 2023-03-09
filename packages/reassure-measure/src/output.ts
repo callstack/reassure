@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-import { logger } from '@callstack/reassure-logger';
+import { logger } from '@callstack/reassure-core-logger';
 import { config } from './config';
 import type { MeasureRenderResult } from './types';
 

@@ -1,4 +1,4 @@
-import { logger } from '@callstack/reassure-logger';
+import { logger } from '@callstack/reassure-core-logger';
 import { config, Render, Cleanup } from './config';
 
 type TestingLibraryApi = {

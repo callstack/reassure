@@ -23,7 +23,7 @@ While developing, you can run the example apps, located in `examples` folder, to
 To run the performance tests in the examples run the following command:
 
 ```sh
-cd examples/native
+cd core/reassure-core-control-app
 yarn reassure
 ```
 

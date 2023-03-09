@@ -4,7 +4,7 @@ import * as path from 'path';
 import { headers, emphasis } from 'markdown-builder';
 // @ts-ignore
 import markdownTable from 'markdown-table';
-import { logger } from '@callstack/reassure-logger';
+import { logger } from '@callstack/reassure-core-logger';
 import {
   formatCount,
   formatDuration,
