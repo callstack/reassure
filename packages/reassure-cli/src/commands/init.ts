@@ -18,57 +18,53 @@ interface InitOptions extends CommonOptions {
  * template to the root folder and update .gitignore file if present and not already containing mentions
  * of reassure within it.
  */
-export async function run(options: InitOptions): Promise<void> {
+export function run(options: InitOptions): void {
   configureLoggerOptions(options);
 
   hello(options);
   logger.log('Checking if reassure setup exists');
 
-  if (await existsSync(RESULTS_DIRECTORY)) {
+  if (existsSync(RESULTS_DIRECTORY)) {
     logger.error('Reassure has already been initialized => exiting');
 
     return;
   }
 
-  try {
-    logger.log('Creating the results directory');
-    await mkdirSync(RESULTS_DIRECTORY);
+  logger.log('Creating the results directory');
+  mkdirSync(RESULTS_DIRECTORY);
 
-    logger.log('Copying the reassure-tests.sh template file');
-    await copyFileSync(`${__dirname}/../templates/reassure-tests`, `./reassure-tests.sh`);
+  logger.log('Copying the reassure-tests.sh template file');
+  copyFileSync(`${__dirname}/../templates/reassure-tests`, `./reassure-tests.sh`);
 
-    const extension = options.javascript ? 'js' : 'ts';
+  const extension = options.javascript ? 'js' : 'ts';
 
-    if (!(await existsSync(`dangerfile.${extension}`))) {
-      logger.log(`Copying the dangerfile.${extension} template file`);
-      await copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.${extension}`);
-    } else {
-      logger.warn(`Dangerfile already present, copying as dangerfile.reassure.${extension}.`);
-      logger.warn('Please compare your dangerfile configuration with our template');
-      await copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.reassure.${extension}`);
-    }
-
-    logger.log('Checking if .gitignore file exists');
-
-    if (!(await existsSync('.gitignore'))) {
-      logger.warn("File { .gitignore } doesn't exists => skipping");
-    } else {
-      const currentGitIgnore = await readFileSync('.gitignore');
-
-      if (currentGitIgnore.includes('.reassure')) {
-        logger.warn('File { .gitignore } already up-to-date => skipping');
-      } else {
-        const gitIgnoreTemplate = await readFileSync(`${__dirname}/../templates/gitignore`);
-        logger.log('Appeding .gitignore file with: ', JSON.stringify(gitIgnoreTemplate));
-        await appendFileSync('.gitignore', gitIgnoreTemplate);
-      }
-    }
-
-    ciSetupHint(options);
-    bye(options);
-  } catch (err) {
-    logger.error('Reassure initialization script failed, please refer to the error message : ', err as any);
+  if (!existsSync(`dangerfile.${extension}`)) {
+    logger.log(`Copying the dangerfile.${extension} template file`);
+    copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.${extension}`);
+  } else {
+    logger.warn(`Dangerfile already present, copying as dangerfile.reassure.${extension}.`);
+    logger.warn('Please compare your dangerfile configuration with our template');
+    copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.reassure.${extension}`);
   }
+
+  logger.log('Checking if .gitignore file exists');
+
+  if (!existsSync('.gitignore')) {
+    logger.warn("File { .gitignore } doesn't exists => skipping");
+  } else {
+    const currentGitIgnore = readFileSync('.gitignore');
+
+    if (currentGitIgnore.includes('.reassure')) {
+      logger.warn('File { .gitignore } already up-to-date => skipping');
+    } else {
+      const gitIgnoreTemplate = readFileSync(`${__dirname}/../templates/gitignore`);
+      logger.log('Appeding .gitignore file with: ', JSON.stringify(gitIgnoreTemplate));
+      appendFileSync('.gitignore', gitIgnoreTemplate);
+    }
+  }
+
+  ciSetupHint(options);
+  bye(options);
 }
 
 export const command: CommandModule<{}, InitOptions> = {

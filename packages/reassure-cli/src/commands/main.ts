@@ -19,7 +19,7 @@ async function handleInit() {
 
   const jsStandard = await jsStandardPrompt.run();
 
-  await init({ isSubRoutine: true, verbose: true, javascript: jsStandard === 'js' });
+  init({ isSubRoutine: true, verbose: true, javascript: jsStandard === 'js' });
 }
 async function handleMeasure() {
   /**
