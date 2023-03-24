@@ -18,22 +18,19 @@
 - [This solution](#this-solution)
 - [Installation and setup](#installation-and-setup)
   - [Writing your first test](#writing-your-first-test)
-    - [Writing async tests](#writing-async-tests)
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
-  - [CI integration](#ci-integration)
-  - [Optional: ESLint setup](#optional-eslint-setup)
+- [CI setup](#ci-setup)
+  - [Options](#options)
+  - [Scaffolding](#scaffolding)
+  - [Performance test script](#performance-test-script)
+  - [Integration](#integration)
 - [Assessing CI stability](#assessing-ci-stability)
 - [Analyzing results](#analyzing-results)
 - [API](#api)
   - [Measurements](#measurements)
-    - [`measurePerformance` function](#measureperformance-function)
-    - [`MeasureOptions` type](#measureoptions-type)
   - [Configuration](#configuration)
-    - [Default configuration](#default-configuration)
-    - [`configure` function](#configure-function)
-    - [`resetToDefault` function](#resettodefault-function)
-    - [Environmental variables](#environmental-variables)
+- [External References](#external-references)
 - [Contributing](#contributing)
 - [License](#license)
 - [Made with ❤️ at Callstack](#made-with-️-at-callstack)
@@ -211,11 +208,9 @@ This will generate the following file structure
 
 ```
 ├── <ROOT>
-│   ├── .reassure/
-│   ├──  reassure-tests.sh
-│   ├── dangerfile.ts (conditional)
-│   ├── dangerfile.reassure.ts (conditional)
-│   └── .gitignore (conditional)
+│   ├── reassure-tests.sh
+│   ├── dangerfile.ts (or dangerfile.reassure.ts if dangerfile already present)
+│   └── .gitignore
 ```
 
 ### Options

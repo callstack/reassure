@@ -1,12 +1,10 @@
 import { mkdirSync, copyFileSync, existsSync, readFileSync, appendFileSync } from 'fs';
 import { logger } from '@callstack/reassure-logger';
-
 import type { CommandModule } from 'yargs';
-
 import { RESULTS_DIRECTORY } from '../constants';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { BYE, HELLO } from '../utils/ascii';
-import { bye, configureLoggerOptions } from '../utils/logger';
+import { configureLoggerOptions } from '../utils/logger';
 
 interface InitOptions extends CommonOptions {
   javascript?: boolean;

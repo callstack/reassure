@@ -128,10 +128,8 @@ This will generate the following file structure
 
 ```
 ├── <ROOT>
-│   ├── .reassure/
-│   ├──  reassure-tests.sh
-│   ├── dangerfile.ts (conditional)
-│   ├── dangerfile.reassure.ts (conditional)
+│   ├── reassure-tests.sh
+│   ├── dangerfile.ts (or dangerfile.reassure.ts if dangerfile already present)
 │   └── .gitignore (append)
 ```
 
@@ -147,27 +145,25 @@ This is one of the options controlling the level of logs printed into the comman
 
 Just like the previous, this option also controls the level of logs. It will suppress all logs besides explicit errors.
 
-#### `--no-ascii-art` (optional)
-
-Just like the previous, this option also controls the level of logs. It will suppress ascii art based Hello and Bye messages.
-
 #### `--javascript` (optional)
 
 By default Reassure scripts will generate TypeScript files. You can use this option, if you'd like to generate JavaScript files instead.
 
 ### Scaffolding
 
-#### `dangerfile.ts and dangerfile.reassure.ts`
+#### `reassure-tests.sh`
+
+Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the next section.
+
+
+#### `dangerfile.ts`
 
 If your project already contains a `dangerfile`, the CLI will not override it in any way. Instead, it will generate a `dangerfile.reassure.ts` file which will allow you to compare and update your own at your own convenience.
 
 #### `.gitignore`
 
-If .gitignore file is present and no mentions of `reassure` appear within it, the script will append the `.reassure/` directory to its end.
+If `.gitignore` file is present and no mentions of `reassure` appear within it, the script will append the `.reassure/` directory to its end.
 
-#### `reassure-tests.sh`
-
-Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the following section.
 
 ### Performance test script
 
