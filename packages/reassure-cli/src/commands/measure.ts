@@ -73,8 +73,8 @@ export async function run(options: MeasureOptions) {
     env: {
       ...process.env,
       REASSURE_OUTPUT_FILE: outputFile,
-      REASSURE_SILENT: options.silent?.toString() || 'false',
-      REASSURE_VERBOSE: options.verbose?.toString() || 'false',
+      REASSURE_SILENT: options.silent?.toString(),
+      REASSURE_VERBOSE: options.verbose?.toString(),
     },
   });
 
