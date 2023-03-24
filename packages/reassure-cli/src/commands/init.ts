@@ -37,8 +37,8 @@ export function run(options: CommonOptions): void {
 }
 
 export const command: CommandModule<{}, CommonOptions> = {
-  command: ['init', '$0'],
-  describe: 'Initializes basic reassure setup, thus allowing for further configuration of your CI pipeline.',
+  command: ['init'],
+  describe: 'Automates basic Reassure setup steps.',
   builder: (yargs) => {
     return applyCommonOptions(yargs);
   },

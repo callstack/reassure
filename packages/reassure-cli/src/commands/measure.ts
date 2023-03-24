@@ -113,7 +113,7 @@ export async function run(options: MeasureOptions) {
 
 export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
-  describe: 'Gather performance measurements by running performance tests',
+  describe: '[Default] Gather performance measurements by running performance tests.',
   builder: (yargs) => {
     return applyCommonOptions(yargs)
       .option('baseline', {
