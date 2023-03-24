@@ -115,31 +115,30 @@ export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
   describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
-    return applyCommonOptions(yargs).options({
-      baseline: {
+    return applyCommonOptions(yargs)
+      .option('baseline', {
         type: 'boolean',
         default: false,
         describe: 'Save measurements as baseline instead of current',
-      },
-      compare: {
+      })
+      .option('compare', {
         type: 'boolean',
         default: true,
         describe: 'Outputs performance comparison results',
-      },
-      branch: {
+      })
+      .option('branch', {
         type: 'string',
         describe: 'Branch name of current code to be included in the report',
-      },
-      commitHash: {
+      })
+      .option('commit-hash', {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
-      },
-      testMatch: {
+      })
+      .option('testMatch', {
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
-      },
-    });
+      });
   },
   handler: (args) => run(args),
 };
