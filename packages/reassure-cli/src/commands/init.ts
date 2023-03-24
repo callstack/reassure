@@ -25,7 +25,6 @@ export function run(options: InitOptions): void {
 
   if (existsSync(RESULTS_DIRECTORY)) {
     logger.error('Reassure has already been initialized => exiting');
-
     return;
   }
 
