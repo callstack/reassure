@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { logger } from '@callstack/reassure-logger';
 import type { CommandModule } from 'yargs';
 import { applyCommonOptions, CommonOptions } from '../options';
-import { BYE, HELLO } from '../utils/ascii';
+import { ASCII_BYE, ASCII_HELLO } from '../utils/ascii';
 import { configureLoggerOptions } from '../utils/logger';
 
 const TEMPLATE_PATH = `${__dirname}/../templates`;
@@ -24,7 +24,7 @@ interface InitOptions extends CommonOptions {
 export function run(options: InitOptions): void {
   configureLoggerOptions(options);
 
-  logger.colorLog('brand', HELLO);
+  logger.colorLog('brand', ASCII_HELLO);
 
   setUpCiScript();
   setUpDangerFile(options);
@@ -35,7 +35,7 @@ export function run(options: InitOptions): void {
   logger.log('Please refer to our CI guide in order to set up your pipelines.');
   logger.log('🔗 https://callstack.github.io/reassure/docs/installation#ci-setup');
 
-  logger.colorLog('brand', BYE);
+  logger.colorLog('brand', ASCII_BYE);
 }
 
 export const command: CommandModule<{}, InitOptions> = {
