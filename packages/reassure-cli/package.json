@@ -43,7 +43,6 @@
     "@callstack/reassure-logger": "0.2.0",
     "simple-git": "^3.16.0",
     "chalk": "4.1.2",
-    "enquirer": "^2.3.6",
     "yargs": "^17.6.2"
   },
   "devDependencies": {
