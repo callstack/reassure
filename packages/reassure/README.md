@@ -18,22 +18,19 @@
 - [This solution](#this-solution)
 - [Installation and setup](#installation-and-setup)
   - [Writing your first test](#writing-your-first-test)
-    - [Writing async tests](#writing-async-tests)
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
-  - [CI integration](#ci-integration)
-  - [Optional: ESLint setup](#optional-eslint-setup)
+- [CI setup](#ci-setup)
+  - [Options](#options)
+  - [Scaffolding](#scaffolding)
+  - [Performance test script](#performance-test-script)
+  - [Integration](#integration)
 - [Assessing CI stability](#assessing-ci-stability)
 - [Analyzing results](#analyzing-results)
 - [API](#api)
   - [Measurements](#measurements)
-    - [`measurePerformance` function](#measureperformance-function)
-    - [`MeasureOptions` type](#measureoptions-type)
   - [Configuration](#configuration)
-    - [Default configuration](#default-configuration)
-    - [`configure` function](#configure-function)
-    - [`resetToDefault` function](#resettodefault-function)
-    - [Environmental variables](#environmental-variables)
+- [External References](#external-references)
 - [Contributing](#contributing)
 - [License](#license)
 - [Made with ❤️ at Callstack](#made-with-️-at-callstack)
@@ -93,6 +90,7 @@ Now that the library is installed, you can write you first test scenario in a fi
 ```ts
 // ComponentUnderTest.perf-test.tsx
 import { measurePerformance } from 'reassure';
+import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Simple test', async () => {
   await measurePerformance(<ComponentUnderTest />);
@@ -101,7 +99,7 @@ test('Simple test', async () => {
 
 This test will measure render times of `ComponentUnderTest` during mounting and resulting sync effects.
 
-> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`.
+> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`. However, if you would like to pass a custom `--testMatch` option, you may add it to the `reassure measure` script in order to pass your own glob. More about `--testMatch` in [Jest docs](https://jestjs.io/docs/configuration#testmatch-arraystring)
 
 #### Writing async tests
 
@@ -129,7 +127,6 @@ In case of using a version of React Native Testing Library lower than v10.1.0, w
 ```ts
 import { measurePerformance } from 'reassure';
 import { fireEvent } from '@testing-library/react-native';
-import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Test with scenario', async () => {
   const scenario = async (screen) => {
@@ -159,6 +156,12 @@ This command will run your tests multiple times using Jest, gathering render sta
 command for the first time.
 
 > **Note:** You can add `.reassure/` folder to your `.gitignore` file to avoid accidentally committing your results.
+
+Reassure CLI will automatically try to detect your source code branch name and commit hash when you are using Git. You can override these options, e.g. if you are using different version control system:
+
+```sh
+yarn reassure --branch [branch name] --commit-hash [commit hash]
+```
 
 ### Write performance testing script
 
@@ -191,16 +194,100 @@ yarn install --force
 yarn reassure
 ```
 
-### CI integration
+## CI setup
+
+To make setting up the CI integration and all prerequisites more convenient, we have prepared a CLI command which will generate all necessary templates for you to get started with.
+
+Simply run:
+
+```bash
+yarn reassure init
+```
+
+This will generate the following file structure
+
+```
+├── <ROOT>
+│   ├── reassure-tests.sh
+│   ├── dangerfile.ts (or dangerfile.reassure.ts if dangerfile already present)
+│   └── .gitignore
+```
+
+### Options
+
+You can also use the following options in order to further adjust the script
+
+#### `--verbose` (optional)
+
+This is one of the options controlling the level of logs printed into the command prompt while running reassure scripts. It will
+
+#### `--silent` (optional)
+
+Just like the previous, this option also controls the level of logs. It will suppress all logs besides explicit errors.
+
+#### `--javascript` (optional)
+
+By default Reassure scripts will generate TypeScript files. You can use this option, if you'd like to generate JavaScript files instead.
+
+### Scaffolding
+
+#### `dangerfile.ts and dangerfile.reassure.ts`
+
+If your project already contains a `dangerfile`, the CLI will not override it in any way. Instead, it will generate a `dangerfile.reassure.ts` file which will allow you to compare and update your own at your own convenience.
+
+#### `.gitignore`
+
+If .gitignore file is present and no mentions of `reassure` appear within it, the script will append the `.reassure/` directory to its end.
+
+#### `reassure-tests.sh`
+
+Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the following section.
+
+### Performance test script
+
+In order to detect performance changes, you need to measure the performance of two versions of your code
+current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
+on two different branches you need to either switch branches in git or clone two copies of your repository.
+
+We want to automate this task, so it can run on the CI. In order to do that you will need to create a
+performance testing script. You should save it in your repository, e.g. as `reassure-tests.sh`.
+
+A simple version of such script, using branch changing approach is as follows:
+
+```sh
+#!/usr/bin/env bash
+set -e
+
+BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+
+# Required for `git switch` on CI
+git fetch origin
+
+# Gather baseline perf measurements
+git switch "$BASELINE_BRANCH"
+yarn install --force
+yarn reassure --baseline
+
+# Gather current perf measurements & compare results
+git switch --detach -
+yarn install --force
+yarn reassure
+```
+
+### Integration
 
 As a final setup step you need to configure your CI to run the performance testing script and output the result.
 For presenting output at the moment we integrate with Danger JS, which supports all major CI tools.
+
+#### Updating existing `dangerfile`
 
 You will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
 
 Then add Reassure Danger JS plugin to your dangerfile :
 
 ```ts
+// /<project_root>/dangerfile.reassure.ts (generated by the init script)
+
 import path from 'path';
 import { dangerReassure } from 'reassure';
 
@@ -209,7 +296,13 @@ dangerReassure({
 });
 ```
 
-You can also check our example [Dangerfile](https://github.com/callstack/reassure/blob/main/dangerfile.ts).
+#### Creating a new `dangerfile`
+
+If you do not have a dangerfile yet, you can use the one generated by the `reassure init` script without making any additional changes.
+
+You can also find it in our example file [Dangerfile](https://github.com/callstack/reassure/blob/main/dangerfile.ts).
+
+#### Updating the CI configuration file
 
 Finally run both performance testing script & danger in your CI config:
 
@@ -225,21 +318,9 @@ Finally run both performance testing script & danger in your CI config:
 
 You can also check our example [GitHub workflow](https://github.com/callstack/reassure/blob/main/.github/workflows/main.yml).
 
+The above example is based on GitHub Actions, but it should be similar to other CI config files and should only serve as a reference in such cases.
+
 > **Note**: Your performance test will run much longer than regular integration tests. It's because we run each test scenario multiple times (by default 10), and we repeat that for two branches of your code. Hence, each test will run 20 times by default. That's unless you increase that number even higher.
-
-### Optional: ESLint setup
-
-ESLint might require you to have at least one `expect` statement in each of your tests. In order to avoid this requirement
-for performance tests you can add following override to your `.eslintrc` file:
-
-```js
-rules: {
- 'jest/expect-expect': [
- 'error',
-    { assertFunctionNames: ['expect', 'measurePerformance'] },
-  ],
-}
-```
 
 ## Assessing CI stability
 
@@ -371,6 +452,10 @@ Example:
 ```sh
 TEST_RUNNER_PATH=myOwnPath/jest/bin yarn reassure
 ```
+
+## External References
+
+- [The Ultimate Guide to React Native Optimization 2023 Edition](https://www.callstack.com/campaigns/download-the-ultimate-guide-to-react-native-optimization?utm_campaign=RN_Performance&utm_source=readme_reassure) - Mentioned in "Make your app consistently fast" chapter.
 
 ## Contributing
 

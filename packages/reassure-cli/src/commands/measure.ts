@@ -1,14 +1,14 @@
-import { resolve } from 'path';
-import { spawnSync } from 'child_process';
-import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
-import { compare, formatMetadata } from '@callstack/reassure-compare';
-import { logger } from '@callstack/reassure-logger';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import type { CommandModule } from 'yargs';
+import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare';
-import { getGitBranch, getGitCommitHash } from '../utils/git';
-import { applyCommonOptions, CommonOptions } from '../options';
-import { configureLoggerOptions } from '../utils/logger';
+import { logger } from '@callstack/reassure-logger';
 import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
+import { applyCommonOptions, CommonOptions } from '../options';
+import { getGitBranch, getGitCommitHash } from '../utils/git';
+import { configureLoggerOptions } from '../utils/logger';
 
 export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
