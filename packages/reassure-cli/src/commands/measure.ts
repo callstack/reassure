@@ -1,19 +1,16 @@
-import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { spawnSync } from 'child_process';
-import type { CommandModule } from 'yargs';
+import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
-import type { PerformanceMetadata } from '@callstack/reassure-compare';
 import { logger } from '@callstack/reassure-logger';
-import { applyCommonOptions, CommonOptions } from '../options';
+import type { CommandModule } from 'yargs';
+import type { PerformanceMetadata } from '@callstack/reassure-compare';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
+import { applyCommonOptions, CommonOptions } from '../options';
 import { configureLoggerOptions } from '../utils/logger';
+import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 
-const RESULTS_DIRECTORY = '.reassure';
-const RESULTS_FILE = '.reassure/current.perf';
-const BASELINE_FILE = '.reassure/baseline.perf';
-
-interface MeasureOptions extends CommonOptions {
+export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
   compare?: boolean;
   branch?: string;
@@ -76,8 +73,8 @@ export async function run(options: MeasureOptions) {
     env: {
       ...process.env,
       REASSURE_OUTPUT_FILE: outputFile,
-      REASSURE_SILENT: options.silent.toString(),
-      REASSURE_VERBOSE: options.verbose.toString(),
+      REASSURE_SILENT: options.silent?.toString() || 'false',
+      REASSURE_VERBOSE: options.verbose?.toString() || 'false',
     },
   });
 
@@ -118,30 +115,31 @@ export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
   describe: 'Gather performance measurements by running performance tests',
   builder: (yargs) => {
-    return applyCommonOptions(yargs)
-      .option('baseline', {
+    return applyCommonOptions(yargs).options({
+      baseline: {
         type: 'boolean',
         default: false,
         describe: 'Save measurements as baseline instead of current',
-      })
-      .option('compare', {
+      },
+      compare: {
         type: 'boolean',
         default: true,
         describe: 'Outputs performance comparison results',
-      })
-      .option('branch', {
+      },
+      branch: {
         type: 'string',
         describe: 'Branch name of current code to be included in the report',
-      })
-      .option('commit-hash', {
+      },
+      commitHash: {
         type: 'string',
         describe: 'Commit hash of current code to be included in the report',
-      })
-      .option('testMatch', {
+      },
+      testMatch: {
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
-      });
+      },
+    });
   },
   handler: (args) => run(args),
 };

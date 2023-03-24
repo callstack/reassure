@@ -48,3 +48,9 @@ export function verbose(...args: unknown[]) {
 
   rawConsole.log(colorVerbose(...args));
 }
+
+export function colorLog(color: keyof typeof colors, ...args: unknown[]) {
+  if (config.silent) return;
+
+  return rawConsole.log(chalk.hex(colors[color])(args));
+}

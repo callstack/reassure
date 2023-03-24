@@ -2,22 +2,23 @@ import type yargs from 'yargs';
 
 export interface CommonOptions {
   /** Silent all non-error messages. */
-  silent: boolean;
+  silent?: boolean;
 
   /** Show verbose-level logs. */
-  verbose: boolean;
+  verbose?: boolean;
 }
 
 export function applyCommonOptions(yargs: yargs.Argv<{}>) {
-  return yargs
-    .option('silent', {
+  return yargs.options({
+    silent: {
       type: 'boolean',
       default: false,
       describe: 'Silence all logs except errors',
-    })
-    .option('verbose', {
+    },
+    verbose: {
       type: 'boolean',
       default: false,
       describe: 'Output verbose level logs',
-    });
+    },
+  });
 }
