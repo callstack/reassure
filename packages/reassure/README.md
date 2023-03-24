@@ -23,7 +23,7 @@
 - [CI setup](#ci-setup)
   - [Options](#options)
   - [Scaffolding](#scaffolding)
-  - [Performance test script](#performance-test-script)
+  - [CI script (`reassure-tests.sh`)](#ci-script-reassure-testssh-1)
   - [Integration](#integration)
 - [Assessing CI stability](#assessing-ci-stability)
 - [Analyzing results](#analyzing-results)
@@ -209,7 +209,7 @@ This will generate the following file structure
 ```
 ├── <ROOT>
 │   ├── reassure-tests.sh
-│   ├── dangerfile.ts (or dangerfile.reassure.ts if dangerfile already present)
+│   ├── dangerfile.ts/js (or dangerfile.reassure.ts/js if dangerfile.ts/js already present)
 │   └── .gitignore
 ```
 
@@ -227,19 +227,19 @@ Just like the previous, this option also controls the level of logs. It will sup
 
 ### Scaffolding
 
-#### `dangerfile.ts and dangerfile.reassure.ts`
+#### CI Script (`reassure-tests.sh`)
 
-If your project already contains a `dangerfile`, the CLI will not override it in any way. Instead, it will generate a `dangerfile.reassure.ts` file which will allow you to compare and update your own at your own convenience.
+Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the following section.
+
+#### Dangerfile
+
+If your project already contains a `dangerfile.ts/js`, the CLI will not override it in any way. Instead, it will generate a `dangerfile.reassure.ts/js` file which will allow you to compare and update your own at your own convenience.
 
 #### `.gitignore`
 
 If .gitignore file is present and no mentions of `reassure` appear within it, the script will append the `.reassure/` directory to its end.
 
-#### `reassure-tests.sh`
-
-Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the following section.
-
-### Performance test script
+### CI script (`reassure-tests.sh`)
 
 In order to detect performance changes, you need to measure the performance of two versions of your code
 current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
@@ -275,7 +275,7 @@ yarn reassure
 As a final setup step you need to configure your CI to run the performance testing script and output the result.
 For presenting output at the moment we integrate with Danger JS, which supports all major CI tools.
 
-#### Updating existing `dangerfile`
+#### Updating existing Dangerfile
 
 You will need a working [Danger JS setup](https://danger.systems/js/guides/getting_started.html).
 

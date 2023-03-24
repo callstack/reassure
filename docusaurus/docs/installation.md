@@ -129,7 +129,7 @@ This will generate the following file structure
 ```
 ├── <ROOT>
 │   ├── reassure-tests.sh
-│   ├── dangerfile.ts (or dangerfile.reassure.ts if dangerfile already present)
+│   ├── dangerfile.ts/js (or dangerfile.reassure.ts/js if dangerfile.ts/js already present)
 │   └── .gitignore (append)
 ```
 
@@ -147,12 +147,12 @@ Just like the previous, this option also controls the level of logs. It will sup
 
 ### Scaffolding
 
-#### `reassure-tests.sh`
+#### CI Script (`reassure-tests.sh`)
 
 Basic script allowing you to run Reassure on CI. More on the importance and structure of this file in the next section.
 
 
-#### `dangerfile.ts`
+#### Dangerfile
 
 If your project already contains a `dangerfile`, the CLI will not override it in any way. Instead, it will generate a `dangerfile.reassure.ts` file which will allow you to compare and update your own at your own convenience.
 
@@ -161,7 +161,7 @@ If your project already contains a `dangerfile`, the CLI will not override it in
 If `.gitignore` file is present and no mentions of `reassure` appear within it, the script will append the `.reassure/` directory to its end.
 
 
-### Performance test script
+### CI Script (`reassure-tests.sh`)
 
 In order to detect performance changes, you need to measure the performance of two versions of your code
 current (your modified code), and baseline (your reference point, e.g. `main` branch). In order to measure performance
