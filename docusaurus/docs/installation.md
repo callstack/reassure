@@ -145,10 +145,6 @@ This is one of the options controlling the level of logs printed into the comman
 
 Just like the previous, this option also controls the level of logs. It will suppress all logs besides explicit errors.
 
-#### `--javascript` (optional)
-
-By default Reassure scripts will generate TypeScript files. You can use this option, if you'd like to generate JavaScript files instead.
-
 ### Scaffolding
 
 #### `reassure-tests.sh`
