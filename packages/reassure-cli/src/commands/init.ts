@@ -22,18 +22,18 @@ const TEMPLATE_PATH = `${__dirname}/../templates`;
 export function run(options: CommonOptions): void {
   configureLoggerOptions(options);
 
-  logger.colorLog('brand', ASCII_HELLO);
+  logger.color('brand', ASCII_HELLO);
 
   setUpCiScript();
   setUpDangerFile();
   setUpGitIgnore();
 
   logger.log('');
-  logger.colorLog('brand', 'Finished initalizing new Reassure testing environment.');
+  logger.color('brand', 'Finished initalizing new Reassure testing environment.');
   logger.log('Please refer to our CI guide in order to set up your pipelines.');
   logger.log('🔗 https://callstack.github.io/reassure/docs/installation#ci-setup');
 
-  logger.colorLog('brand', ASCII_BYE);
+  logger.color('brand', ASCII_BYE);
 }
 
 export const command: CommandModule<{}, CommonOptions> = {
@@ -47,7 +47,7 @@ export const command: CommandModule<{}, CommonOptions> = {
 
 function setUpCiScript() {
   logger.log('');
-  logger.logProgress('#️⃣  CI Script:');
+  logger.progress('#️⃣  CI Script:');
 
   if (existsSync(CI_SCRIPT)) {
     logger.clearLine();
@@ -66,7 +66,7 @@ function setUpDangerFile() {
   const [existingFile, fallbackFile] = queryDangerfile();
 
   logger.log('');
-  logger.logProgress('#️⃣  Dangerfile:');
+  logger.progress('#️⃣  Dangerfile:');
 
   if (!existingFile) {
     // If users does not have existing dangerfile, let use the JS one, as potentially less prolematic.
@@ -104,7 +104,7 @@ function queryDangerfile(): [string, string] | [null, null] {
 
 function setUpGitIgnore() {
   logger.log('');
-  logger.logProgress('#️⃣  .gitignore:');
+  logger.progress('#️⃣  .gitignore:');
 
   if (!existsSync(GIT_IGNORE)) {
     copyFileSync(`${TEMPLATE_PATH}/gitignore`, GIT_IGNORE);

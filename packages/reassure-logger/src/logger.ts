@@ -50,19 +50,19 @@ export function verbose(...args: unknown[]) {
   rawConsole.log(colorVerbose(...args));
 }
 
-export function colorLog(color: keyof typeof colors, ...args: unknown[]) {
+export function color(color: keyof typeof colors, ...args: unknown[]) {
   if (config.silent) return;
 
   return rawConsole.log(chalk.hex(colors[color])(args));
 }
 
 /** Log message that indicates progress of operation, does not output the trailing newline. */
-export function logProgress(message: string) {
+export function progress(message: string) {
   process.stdout.write(message);
 }
 
 /**
- * Clears current lint. To be used in conjunction with `logProgress`.
+ * Clears current lint. To be used in conjunction with `progress`.
  */
 export function clearLine() {
   readline.clearLine(process.stdout, 0);
