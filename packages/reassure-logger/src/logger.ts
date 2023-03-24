@@ -1,3 +1,4 @@
+import readline from 'node:readline';
 import chalk from 'chalk';
 import { colors } from './colors';
 
@@ -53,4 +54,17 @@ export function colorLog(color: keyof typeof colors, ...args: unknown[]) {
   if (config.silent) return;
 
   return rawConsole.log(chalk.hex(colors[color])(args));
+}
+
+/** Log message that indicates progress of operation, does not output the trailing newline. */
+export function logProgress(message: string) {
+  process.stdout.write(message);
+}
+
+/**
+ * Clears current lint. To be used in conjunction with `logProgress`.
+ */
+export function clearLine() {
+  readline.clearLine(process.stdout, 0);
+  readline.cursorTo(process.stdout, 0);
 }

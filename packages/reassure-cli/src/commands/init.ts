@@ -1,10 +1,14 @@
-import { mkdirSync, copyFileSync, existsSync, readFileSync, appendFileSync } from 'fs';
+import { copyFileSync, existsSync, readFileSync, appendFileSync } from 'fs';
+import { resolve } from 'path';
 import { logger } from '@callstack/reassure-logger';
 import type { CommandModule } from 'yargs';
-import { RESULTS_DIRECTORY } from '../constants';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { BYE, HELLO } from '../utils/ascii';
 import { configureLoggerOptions } from '../utils/logger';
+
+const TEMPLATE_PATH = `${__dirname}/../templates`;
+const PATH_GIT_IGNORE = './.gitignore';
+const PATH_REASSURE_SCRIPT = './reassure-tests.sh';
 
 interface InitOptions extends CommonOptions {
   javascript?: boolean;
@@ -21,49 +25,15 @@ export function run(options: InitOptions): void {
   configureLoggerOptions(options);
 
   logger.colorLog('brand', HELLO);
-  logger.log('Checking if reassure setup exists');
 
-  if (existsSync(RESULTS_DIRECTORY)) {
-    logger.error('Reassure has already been initialized => exiting');
-    return;
-  }
+  setUpCiScript();
+  setUpDangerFile(options);
+  setUpGitIgnore();
 
-  logger.log('Creating the results directory');
-  mkdirSync(RESULTS_DIRECTORY);
-
-  logger.log('Copying the reassure-tests.sh template file');
-  copyFileSync(`${__dirname}/../templates/reassure-tests`, `./reassure-tests.sh`);
-
-  const extension = options.javascript ? 'js' : 'ts';
-
-  if (!existsSync(`dangerfile.${extension}`)) {
-    logger.log(`Copying the dangerfile.${extension} template file`);
-    copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.${extension}`);
-  } else {
-    logger.warn(`Dangerfile already present, copying as dangerfile.reassure.${extension}.`);
-    logger.warn('Please compare your dangerfile configuration with our template');
-    copyFileSync(`${__dirname}/../templates/dangerfile`, `./dangerfile.reassure.${extension}`);
-  }
-
-  logger.log('Checking if .gitignore file exists');
-
-  if (!existsSync('.gitignore')) {
-    logger.warn("File { .gitignore } doesn't exists => skipping");
-  } else {
-    const currentGitIgnore = readFileSync('.gitignore');
-
-    if (currentGitIgnore.includes('.reassure')) {
-      logger.warn('File { .gitignore } already up-to-date => skipping');
-    } else {
-      const gitIgnoreTemplate = readFileSync(`${__dirname}/../templates/gitignore`);
-      logger.log('Appeding .gitignore file with: ', JSON.stringify(gitIgnoreTemplate));
-      appendFileSync('.gitignore', gitIgnoreTemplate);
-    }
-  }
-
-  logger.log('Finished initalizing new reassure testing environment.');
+  logger.log('');
+  logger.colorLog('brand', 'Finished initalizing new Reassure testing environment.');
   logger.log('Please refer to our CI guide in order to set up your pipelines.');
-  logger.log('Find more @ https://callstack.github.io/reassure/docs/installation#ci-setup');
+  logger.log('🔗 https://callstack.github.io/reassure/docs/installation#ci-setup');
 
   logger.colorLog('brand', BYE);
 }
@@ -80,3 +50,77 @@ export const command: CommandModule<{}, InitOptions> = {
   },
   handler: (args) => run(args),
 };
+
+function setUpCiScript() {
+  logger.log('');
+  logger.logProgress('#️⃣  CI Script:');
+
+  if (existsSync(PATH_REASSURE_SCRIPT)) {
+    logger.clearLine();
+    logger.log(`✅  CI Script: skipping - already exists`);
+    logger.log(`🔗 ${resolve(PATH_REASSURE_SCRIPT)}`);
+    return;
+  }
+
+  copyFileSync(`${TEMPLATE_PATH}/reassure-tests`, PATH_REASSURE_SCRIPT);
+  logger.clearLine();
+  logger.log(`✅  CI Script: created`);
+  logger.log(`🔗 ${resolve(PATH_REASSURE_SCRIPT)}`);
+}
+
+function setUpDangerFile({ javascript }: InitOptions) {
+  const extension = javascript ? 'js' : 'ts';
+  const dangerfileName = `dangerfile.${extension}`;
+  const dangerfileFallback = `dangerfile.reassure.${extension}`;
+  const pathToDangerfile = `./${dangerfileName}`;
+
+  logger.log('');
+  logger.logProgress('#️⃣  Dangerfile:');
+
+  if (!existsSync(pathToDangerfile)) {
+    copyFileSync(`${TEMPLATE_PATH}/dangerfile`, pathToDangerfile);
+    logger.clearLine();
+    logger.log(`✅  Dangerfile: created`);
+    logger.log(`🔗 ${resolve(dangerfileName)}`);
+    return;
+  }
+
+  const currentContent = readFileSync(pathToDangerfile);
+  if (currentContent.includes('reassure')) {
+    logger.clearLine();
+    logger.log(`✅  Dangerfile: skipping - already contains Reassure code`);
+    logger.log(`🔗 ${resolve(dangerfileName)}`);
+    return;
+  }
+
+  logger.clearLine();
+  logger.log(`⚠️   Dangerfile: created ${dangerfileFallback} - merge with existing ${dangerfileName}`);
+  logger.log(`🔗 ${resolve(dangerfileFallback)}`);
+}
+
+function setUpGitIgnore() {
+  logger.log('');
+  logger.logProgress('#️⃣  .gitignore:');
+
+  if (!existsSync(PATH_GIT_IGNORE)) {
+    copyFileSync(`${TEMPLATE_PATH}/gitignore`, PATH_GIT_IGNORE);
+    logger.clearLine();
+    logger.log('✅  .gitignore: created');
+    logger.log(`🔗 ${resolve(PATH_GIT_IGNORE)}`);
+    return;
+  }
+
+  const currentGitIgnore = readFileSync(PATH_GIT_IGNORE);
+  if (currentGitIgnore.includes('.reassure')) {
+    logger.clearLine();
+    logger.log(`✅  .gitignore: skipping - already contains '.reassure' entry.`);
+    logger.log(`🔗 ${resolve(PATH_GIT_IGNORE)}`);
+    return;
+  }
+
+  const gitIgnoreTemplate = readFileSync(`${TEMPLATE_PATH}/gitignore`);
+  appendFileSync('.gitignore', gitIgnoreTemplate);
+  logger.clearLine();
+  logger.log(`✅  .gitignore: added '.reassure' entry.`);
+  logger.log(`🔗 ${resolve(PATH_GIT_IGNORE)}`);
+}
