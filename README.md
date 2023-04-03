@@ -74,6 +74,7 @@ You can check our example projects:
 
 - [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+- [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs) 
 
 Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will
 warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
