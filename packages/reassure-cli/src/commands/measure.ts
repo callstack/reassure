@@ -1,19 +1,16 @@
-import { mkdirSync, rmSync, existsSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
-import { spawnSync } from 'child_process';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare';
 import { logger } from '@callstack/reassure-logger';
+import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { configureLoggerOptions } from '../utils/logger';
 
-const RESULTS_DIRECTORY = '.reassure';
-const RESULTS_FILE = '.reassure/current.perf';
-const BASELINE_FILE = '.reassure/baseline.perf';
-
-interface MeasureOptions extends CommonOptions {
+export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
   compare?: boolean;
   branch?: string;
@@ -116,7 +113,7 @@ export async function run(options: MeasureOptions) {
 
 export const command: CommandModule<{}, MeasureOptions> = {
   command: ['measure', '$0'],
-  describe: 'Gather performance measurements by running performance tests',
+  describe: '[Default] Gather performance measurements by running performance tests.',
   builder: (yargs) => {
     return applyCommonOptions(yargs)
       .option('baseline', {
