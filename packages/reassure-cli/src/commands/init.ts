@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, readFileSync, appendFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import * as path from 'node:path';
 import { logger } from '@callstack/reassure-logger';
 import type { CommandModule } from 'yargs';
 import {
@@ -14,7 +14,7 @@ import { applyCommonOptions, CommonOptions } from '../options';
 import { ASCII_BYE, ASCII_HELLO } from '../utils/ascii';
 import { configureLoggerOptions } from '../utils/logger';
 
-const TEMPLATE_PATH = `${__dirname}/../templates`;
+const TEMPLATE_PATH = path.join(__dirname, '..', 'templates');
 
 /**
  * Generate requred Reassure files.
@@ -52,14 +52,14 @@ function setUpCiScript() {
   if (existsSync(CI_SCRIPT)) {
     logger.clearLine();
     logger.log(`✅  CI Script: skipping - already exists`);
-    logger.log(`🔗 ${resolve(CI_SCRIPT)}`);
+    logger.log(`🔗 ${path.resolve(CI_SCRIPT)}`);
     return;
   }
 
-  copyFileSync(`${TEMPLATE_PATH}/reassure-tests`, CI_SCRIPT);
+  copyFileSync(path.join(TEMPLATE_PATH, 'reassure-tests'), CI_SCRIPT);
   logger.clearLine();
   logger.log(`✅  CI Script: created`);
-  logger.log(`🔗 ${resolve(CI_SCRIPT)}`);
+  logger.log(`🔗 ${path.resolve(CI_SCRIPT)}`);
 }
 
 function setUpDangerFile() {
@@ -70,10 +70,10 @@ function setUpDangerFile() {
 
   if (!existingFile) {
     // If users does not have existing dangerfile, let use the JS one, as potentially less prolematic.
-    copyFileSync(`${TEMPLATE_PATH}/dangerfile`, DANGERFILE_JS);
+    copyFileSync(path.join(TEMPLATE_PATH, 'dangerfile'), DANGERFILE_JS);
     logger.clearLine();
     logger.log(`✅  Dangerfile: created`);
-    logger.log(`🔗 ${resolve(DANGERFILE_JS)}`);
+    logger.log(`🔗 ${path.resolve(DANGERFILE_JS)}`);
     return;
   }
 
@@ -81,13 +81,13 @@ function setUpDangerFile() {
   if (existingContent.includes('reassure')) {
     logger.clearLine();
     logger.log(`✅  Dangerfile: skipping - already contains Reassure code`);
-    logger.log(`🔗 ${resolve(existingFile)}`);
+    logger.log(`🔗 ${path.resolve(existingFile)}`);
     return;
   }
 
   logger.clearLine();
   logger.log(`⚠️   Dangerfile: created ${fallbackFile} - merge with existing ${existingFile}`);
-  logger.log(`🔗 ${resolve(fallbackFile)}`);
+  logger.log(`🔗 ${path.resolve(fallbackFile)}`);
 }
 
 function queryDangerfile(): [string, string] | [null, null] {
@@ -107,10 +107,10 @@ function setUpGitIgnore() {
   logger.progress('#️⃣  .gitignore:');
 
   if (!existsSync(GIT_IGNORE)) {
-    copyFileSync(`${TEMPLATE_PATH}/gitignore`, GIT_IGNORE);
+    copyFileSync(path.join(TEMPLATE_PATH, 'gitignore'), GIT_IGNORE);
     logger.clearLine();
     logger.log('✅  .gitignore: created');
-    logger.log(`🔗 ${resolve(GIT_IGNORE)}`);
+    logger.log(`🔗 ${path.resolve(GIT_IGNORE)}`);
     return;
   }
 
@@ -118,7 +118,7 @@ function setUpGitIgnore() {
   if (existingContent.includes('.reassure')) {
     logger.clearLine();
     logger.log(`✅  .gitignore: skipping - already contains '.reassure' entry.`);
-    logger.log(`🔗 ${resolve(GIT_IGNORE)}`);
+    logger.log(`🔗 ${path.resolve(GIT_IGNORE)}`);
     return;
   }
 
@@ -126,5 +126,5 @@ function setUpGitIgnore() {
   appendFileSync('.gitignore', gitIgnoreTemplate);
   logger.clearLine();
   logger.log(`✅  .gitignore: added '.reassure' entry.`);
-  logger.log(`🔗 ${resolve(GIT_IGNORE)}`);
+  logger.log(`🔗 ${path.resolve(GIT_IGNORE)}`);
 }
