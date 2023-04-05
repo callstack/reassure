@@ -1,5 +1,17 @@
 # reassure
 
+## 0.8.0
+
+### Minor Changes
+
+- 235f37d4: init CLI command
+
+### Patch Changes
+
+- Updated dependencies [235f37d4]
+  - @callstack/reassure-cli@0.8.0
+  - @callstack/reassure-measure@0.4.1
+
 ## 0.7.2
 
 ### Patch Changes
