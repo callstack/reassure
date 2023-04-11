@@ -29,6 +29,6 @@
     "@types/jest": "^29.4.0",
     "jest": "^29.4.3",
     "jest-environment-jsdom": "^29.4.3",
-    "reassure": "^0.7.1"
+    "reassure": "^0.8.0"
   }
 }

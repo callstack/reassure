@@ -960,7 +960,7 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.7", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.8.4":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.0.tgz#5b55c9d394e5fcf304909a8b00c07dc217b56673"
   integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
@@ -1006,20 +1006,23 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@callstack/reassure-cli@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-cli/-/reassure-cli-0.6.1.tgz#19d373e259d785aa5c94d34542fa9e13cd49fb77"
-  integrity sha512-c5Pihix9anX9hSLsN8Y5cpRUuB5vHSFeaGAHuiRyNLlEOAIEODjQIOCQ7MkxEiWd5rT5t00m9EMfANb1FcnfiA==
+"@callstack/reassure-cli@0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-cli/-/reassure-cli-0.8.0.tgz#082ab9acfa39259735aa80cd56c0d4519e60ad98"
+  integrity sha512-qckdbcyDyLJ3AYbGDXg93q4b2szPLfprkhldUS0TLpxz0ZEAyWCplHTVX9q6ipiAc5L0tNOxNufFDz0Fjkwh7A==
   dependencies:
-    "@callstack/reassure-compare" "0.3.0"
+    "@callstack/reassure-compare" "0.4.1"
+    "@callstack/reassure-logger" "0.3.0"
+    chalk "4.1.2"
     simple-git "^3.16.0"
     yargs "^17.6.2"
 
-"@callstack/reassure-compare@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-compare/-/reassure-compare-0.3.0.tgz#47bbc40648057985d7123c085c13f90ca09939f2"
-  integrity sha512-1TIUhzZELlXkVJE9wH6qm7IkoLChTsKj7rOE9h86yRX4y4vrSru9cdHwktjsuopQ543YbOxehMMx6tGbefsGBA==
+"@callstack/reassure-compare@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-compare/-/reassure-compare-0.4.1.tgz#a6ba806fbe51cea0bc7fdc03e727d91207a21c50"
+  integrity sha512-FJ2QOnloioe73vleC+gmNqpEr3hy8LqNcuibPiJor8BaVIpwNkzV4FhVuolEeNrQ1b5gu5U29anyTsiK6sXCgw==
   dependencies:
+    "@callstack/reassure-logger" "0.3.0"
     markdown-builder "^0.9.0"
     markdown-table "^2.0.0"
     zod "^3.20.2"
@@ -1029,12 +1032,20 @@
   resolved "https://registry.yarnpkg.com/@callstack/reassure-danger/-/reassure-danger-0.1.1.tgz#e3aa581dc8b698c18ecb6eb15d7759fdcba5d8a4"
   integrity sha512-lfza+qBdvVYtP7WvMTT+LfjBfuYsXZ4RxuBldsL8wJArGeCl3OZwUg+9bTo8v6kk/nY8memk5HxrCwWDSO24UA==
 
-"@callstack/reassure-measure@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@callstack/reassure-measure/-/reassure-measure-0.3.1.tgz#4ab64317eb90da9de8076ca61a064c6afd820906"
-  integrity sha512-A7gdyA9nfm6TZt4bQs5bfgy9SOFn8FmMdOjPojSpmpSyECXRK/7aMqqBIuwPt4jgIFFDiEFsd5w88FgsE13CTQ==
+"@callstack/reassure-logger@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-logger/-/reassure-logger-0.3.0.tgz#7fb1162122a5bd37b8fdb144a424b4e861e5c1bc"
+  integrity sha512-JX5o+8qkIbIRL+cQn9XlQYdv9p/3L6J70zZX6NYi9j0VrSS9PZIRfo8ujMdLSqUNV6HZN1ay59RzuncLjVu0aQ==
   dependencies:
-    mathjs "^10.1.1"
+    chalk "4.1.2"
+
+"@callstack/reassure-measure@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@callstack/reassure-measure/-/reassure-measure-0.4.1.tgz#4701323c92fc4aafd7fd1d84d119cf44a645613b"
+  integrity sha512-E3cClYYtGC3wgMGAnycTR+2kndUJMHrgzrocVgELtHV0DHS1fqoYD3spR15PG3pSgQPr7TYDFsym2ZWoQAJlhw==
+  dependencies:
+    "@callstack/reassure-logger" "0.3.0"
+    mathjs "^11.5.0"
 
 "@eslint/eslintrc@^1.4.1":
   version "1.4.1"
@@ -2037,6 +2048,14 @@ caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001449:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001458.tgz#871e35866b4654a7d25eccca86864f411825540c"
   integrity sha512-lQ1VlUUq5q9ro9X+5gOEyH7i3vm+AYVT1WDCVB69XOZ17KZRhnZ9J0Sqz7wTHQaLBJccNCHq8/Ww5LlOIZbB0w==
 
+chalk@4.1.2, chalk@^4.0.0, chalk@^4.1.0:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
+  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
 chalk@^2.0.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -2045,14 +2064,6 @@ chalk@^2.0.0:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
-
-chalk@^4.0.0, chalk@^4.1.0:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
-  integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
-  dependencies:
-    ansi-styles "^4.1.0"
-    supports-color "^7.1.0"
 
 char-regex@^1.0.2:
   version "1.0.2"
@@ -2236,7 +2247,7 @@ debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-decimal.js@^10.3.1, decimal.js@^10.4.2:
+decimal.js@^10.4.2, decimal.js@^10.4.3:
   version "10.4.3"
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.4.3.tgz#1044092884d245d1b7f65725fa4ad4c6f781cc23"
   integrity sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==
@@ -4111,20 +4122,20 @@ markdown-table@^2.0.0:
   dependencies:
     repeat-string "^1.0.0"
 
-mathjs@^10.1.1:
-  version "10.6.4"
-  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-10.6.4.tgz#1b87a1268781d64f0c8b4e5e1b36cf7ecf58bb05"
-  integrity sha512-omQyvRE1jIy+3k2qsqkWASOcd45aZguXZDckr3HtnTYyXk5+2xpVfC3kATgbO2Srjxlqww3TVdhD0oUdZ/hiFA==
+mathjs@^11.5.0:
+  version "11.8.0"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.8.0.tgz#b02e66461ec068fadf1e90c221121704dc14d8f5"
+  integrity sha512-I7r8HCoqUGyEiHQdeOCF2m2k9N+tcOHO3cZQ3tyJkMMBQMFqMR7dMQEboBMJAiFW2Um3PEItGPwcOc4P6KRqwg==
   dependencies:
-    "@babel/runtime" "^7.18.6"
+    "@babel/runtime" "^7.21.0"
     complex.js "^2.1.1"
-    decimal.js "^10.3.1"
+    decimal.js "^10.4.3"
     escape-latex "^1.2.0"
     fraction.js "^4.2.0"
     javascript-natural-sort "^0.7.1"
     seedrandom "^3.0.5"
     tiny-emitter "^2.1.0"
-    typed-function "^2.1.0"
+    typed-function "^4.1.0"
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -4656,14 +4667,14 @@ read-pkg@^4.0.1:
     parse-json "^4.0.0"
     pify "^3.0.0"
 
-reassure@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.7.1.tgz#b6cb5cf854a47ca4b1ed9549a286a5384007e261"
-  integrity sha512-dCDo4AInl48Q66PAbF3JzV5WVGIQu2AiCNAy+zhcZ0ESalb4zsVuAvhLdgXCsWr9DhPju63rEGgoNWl9noDVKg==
+reassure@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/reassure/-/reassure-0.8.0.tgz#117847780bfedd535414b3a250bfa29e717b4e91"
+  integrity sha512-l4ohgcTH2/8uy2bXKOkMeu2JXpsJp15G6nCK2waNRtYN01YFLqXfAzg9binK2NU61v+6Dz0VoA02oJ1B3kfckg==
   dependencies:
-    "@callstack/reassure-cli" "0.6.1"
+    "@callstack/reassure-cli" "0.8.0"
     "@callstack/reassure-danger" "0.1.1"
-    "@callstack/reassure-measure" "0.3.1"
+    "@callstack/reassure-measure" "0.4.1"
 
 regenerate-unicode-properties@^10.1.0:
   version "10.1.0"
@@ -5249,10 +5260,10 @@ typed-array-length@^1.0.4:
     for-each "^0.3.3"
     is-typed-array "^1.1.9"
 
-typed-function@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/typed-function/-/typed-function-2.1.0.tgz#ded6f8a442ba8749ff3fe75bc41419c8d46ccc3f"
-  integrity sha512-bctQIOqx2iVbWGDGPWwIm18QScpu2XRmkC19D8rQGFsjKSgteq/o1hTZvIG/wuDq8fanpBDrLkLq+aEN/6y5XQ==
+typed-function@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/typed-function/-/typed-function-4.1.0.tgz#da4bdd8a6d19a89e22732f75e4a410860aaf9712"
+  integrity sha512-DGwUl6cioBW5gw2L+6SMupGwH/kZOqivy17E4nsh1JI9fKF87orMmlQx3KISQPmg3sfnOUGlwVkroosvgddrlg==
 
 typescript@4.9.5:
   version "4.9.5"
