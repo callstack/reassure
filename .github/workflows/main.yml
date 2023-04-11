@@ -27,7 +27,7 @@ jobs:
         run: cd ./docusaurus && yarn install --force
 
       - name: Validate TypeScript
-        run: yarn typescript && yarn typescript:example
+        run: yarn typecheck && yarn typecheck:example
 
       - name: Validate ESLint
         run: yarn lint && yarn lint:example
