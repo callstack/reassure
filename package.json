@@ -6,7 +6,7 @@
   "source": "src/index",
   "scripts": {
     "postinstall": "yarn build",
-    "test": "jest",
+    "test": "turbo run test",
     "test:example": "cd ./examples/native && yarn test",
     "typecheck": "tsc --noEmit",
     "typecheck:example": "cd ./examples/native && yarn typecheck",
