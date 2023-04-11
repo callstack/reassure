@@ -46,7 +46,6 @@ export async function run(options: MeasureOptions) {
   const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
-  // const defaultPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? getJestBinPath();
 
   // NOTE: Consider updating the default testMatch to better reflect
