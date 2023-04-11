@@ -1,7 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
-  transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
-    '^.+\\.(js|jsx)$': 'babel-jest',
-  },
+  preset: '@testing-library/react-native',
+  transformIgnorePatterns: ['node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation)'],
+  clearMocks: true,
 };

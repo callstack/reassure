@@ -53,9 +53,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "babel-jest": "^29.3.1",
-    "ts-jest": "^29.0.5"
   }
 }
