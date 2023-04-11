@@ -1,6 +1,18 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { measureRender, processRunResults } from '../measure';
+import { resetHasShownFlagsOutput } from '../output';
+
+const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
+const realConsole = jest.requireActual('console') as Console;
+
+beforeEach(() => {
+  jest.spyOn(realConsole, 'error').mockImplementation((message) => {
+    if (!errorsToIgnore.some((error) => message.includes(error))) {
+      realConsole.error(message);
+    }
+  });
+});
 
 test('measureRender run test given number of times', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
@@ -29,6 +41,16 @@ test('processRunResults calculates correct means and stdevs', () => {
     stdevCount: 0,
     counts: [2, 2, 2],
   });
+});
+
+test('measureRender should log error when running under incorrect node flags', async () => {
+  resetHasShownFlagsOutput();
+  const result = await measureRender(<View />, { runs: 1 });
+
+  expect(result.runs).toBe(1);
+  expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
+Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
+Make sure you use the Reassure CLI and run it using "reassure" command.`);
 });
 
 test('processRunResults applies dropWorst option', () => {
