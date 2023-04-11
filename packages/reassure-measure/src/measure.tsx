@@ -34,15 +34,13 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   const scenario = options?.scenario;
   const dropWorst = options?.dropWorst ?? config.dropWorst;
 
-  let entries = [];
-  let hasTooLateRender = false;
-
   const wrappedUi = wrapper ? wrapper(ui) : ui;
+  const { render, cleanup } = resolveTestingLibrary();
 
   showFlagsOuputIfNeeded();
 
-  const { render, cleanup } = resolveTestingLibrary();
-
+  const runResults: RunResult[] = [];
+  let hasTooLateRender = false;
   for (let i = 0; i < runs + dropWorst; i += 1) {
     let duration = 0;
     let count = 0;
@@ -72,7 +70,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     isFinished = true;
     global.gc?.();
 
-    entries.push({ duration, count });
+    runResults.push({ duration, count });
   }
 
   if (hasTooLateRender) {
@@ -82,20 +80,28 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     );
   }
 
-  // Drop worst measurements outliers (usually warm up runs)
-  entries.sort((first, second) => second.duration - first.duration); // duration DESC
-  entries = entries.slice(dropWorst);
+  return processRunResults(runResults, dropWorst);
+}
 
-  const durations = entries.map((entry) => entry.duration);
+interface RunResult {
+  duration: number;
+  count: number;
+}
+
+export function processRunResults(results: RunResult[], dropWorst: number) {
+  results.sort((first, second) => second.duration - first.duration); // duration DESC
+  results = results.slice(dropWorst);
+
+  const durations = results.map((result) => result.duration);
   const meanDuration = math.mean(durations) as number;
   const stdevDuration = math.std(...durations);
 
-  const counts = entries.map((entry) => entry.count);
+  const counts = results.map((result) => result.count);
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(...counts);
 
   return {
-    runs,
+    runs: results.length,
     meanDuration,
     stdevDuration,
     durations,

@@ -37,6 +37,8 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
     "@babel/core": "^7.20.12",
+    "@babel/plugin-transform-flow-strip-types": "^7.19.0",
+    "@babel/preset-typescript": "^7.20.7",
     "@babel/runtime": "^7.20.7",
     "@callstack/eslint-config": "^13.0.2",
     "@changesets/cli": "^2.26.0",
