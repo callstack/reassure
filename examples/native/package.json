@@ -11,7 +11,7 @@
     "perf-test": "reassure",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "build": "yarn --force",
-    "typescript": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "react": "18.2.0",

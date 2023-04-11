@@ -32,7 +32,7 @@ yarn reassure
 Make sure your code passes TypeScript and ESLint. Run the following to verify:
 
 ```sh
-yarn typescript
+yarn typecheck
 yarn lint
 ```
 
@@ -70,7 +70,7 @@ yarn publish
 
 The `package.json` file contains various scripts for common tasks:
 
-- `yarn typescript`: type-check files with TypeScript.
+- `yarn typecheck`: type-check files with TypeScript.
 - `yarn lint`: lint files with ESLint.
 - `yarn test`: run unit tests with Jest.
 - `yarn build`: build the files.
