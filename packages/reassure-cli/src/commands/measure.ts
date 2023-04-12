@@ -24,6 +24,7 @@ export async function run(options: MeasureOptions) {
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
   const metadata: PerformanceMetadata = {
+    creationDate: new Date().toISOString(),
     branch: options?.branch ?? (await getGitBranch()),
     commitHash: options?.commitHash ?? (await getGitCommitHash()),
   };

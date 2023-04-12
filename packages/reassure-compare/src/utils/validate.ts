@@ -6,6 +6,7 @@ import { hasDuplicateValues } from './array';
 export const performanceMetadataSchema = z.object({
   branch: z.string().optional(),
   commitHash: z.string().optional(),
+  creationDate: z.string().datetime().optional(),
 });
 
 /** Header of performance results file. */

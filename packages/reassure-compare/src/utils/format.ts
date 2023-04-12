@@ -98,10 +98,24 @@ function getRenderCountSymbols(entry: CompareEntry) {
   return '';
 }
 
-export function formatMetadata(metadata?: PerformanceMetadata) {
+function formatCommitMetadata(metadata?: PerformanceMetadata) {
   if (metadata?.branch && metadata?.commitHash) {
     return `${metadata.branch} (${metadata.commitHash})`;
   }
 
   return metadata?.branch || metadata?.commitHash || '(unknown)';
+}
+
+function formatDateTime(dateString: string) {
+  // Remove 'T' and miliseconds part
+  return dateString.replace('T', ' ').replace(/.\d\d\dZ/, 'Z');
+}
+
+export function formatMetadata(metadata?: PerformanceMetadata) {
+  let result = formatCommitMetadata(metadata);
+  if (metadata?.creationDate) {
+    result += ` - ${formatDateTime(metadata.creationDate)}`;
+  }
+
+  return result;
 }
