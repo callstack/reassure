@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
@@ -39,8 +39,14 @@ export async function run(options: MeasureOptions) {
   const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
-  const defaultPath = process.platform === 'win32' ? 'node_modules/jest/bin/jest' : 'node_modules/.bin/jest';
-  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? defaultPath;
+  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? getJestBinPath();
+  if (!testRunnerPath) {
+    logger.error(
+      `❌ Unable to find Jest binary path. Pass explicit $TEST_RUNNER_PATH env variable to resolve the issue.`
+    );
+    process.exitCode = 1;
+    return;
+  }
 
   // NOTE: Consider updating the default testMatch to better reflect
   // default patterns used in Jest and allow users to also place their
@@ -142,3 +148,14 @@ export const command: CommandModule<{}, MeasureOptions> = {
   },
   handler: (args) => run(args),
 };
+
+export function getJestBinPath() {
+  try {
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    const jestPackageJson = require('jest/package.json');
+    const jestPackagePath = dirname(require.resolve('jest/package.json'));
+    return resolve(jestPackagePath, jestPackageJson.bin.jest || jestPackageJson.bin);
+  } catch (error) {
+    return null;
+  }
+}
