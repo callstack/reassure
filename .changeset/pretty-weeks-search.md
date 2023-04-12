@@ -5,4 +5,4 @@
 '@callstack/reassure-measure': minor
 ---
 
-add data and time to measurement file
+feat: capture date and time of measurements
