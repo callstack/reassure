@@ -99,8 +99,8 @@ function getRenderCountSymbols(entry: CompareEntry) {
 }
 
 export function formatMetadata(metadata?: PerformanceMetadata) {
-  if (metadata?.branch && metadata?.commitHash && metadata.creationDate) {
-    return `${metadata.branch} (${metadata.commitHash}) : ${metadata.creationDate}`;
+  if (metadata?.branch && metadata?.commitHash) {
+    return `${metadata.branch} (${metadata.commitHash}) ${metadata.creationDate ? `: ${metadata.creationDate}` : ''}`;
   }
 
   return metadata?.branch || metadata?.commitHash || '(unknown)';
