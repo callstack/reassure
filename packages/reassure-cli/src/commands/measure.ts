@@ -22,13 +22,11 @@ export async function run(options: MeasureOptions) {
   configureLoggerOptions(options);
 
   const measurementType = options.baseline ? 'Baseline' : 'Current';
-  const date = new Date();
 
   const metadata: PerformanceMetadata = {
-    date: date.toISOString().substring(0, 10),
+    creationDate: new Date().toISOString(),
     branch: options?.branch ?? (await getGitBranch()),
     commitHash: options?.commitHash ?? (await getGitCommitHash()),
-    time: date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }),
   };
 
   logger.log(`\n❇️  Running performance tests:`);
