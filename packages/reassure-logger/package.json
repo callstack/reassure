@@ -16,8 +16,7 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "build": "bob build",
-    "test": "jest"
+    "build": "bob build"
   },
   "keywords": [
     "react-native",

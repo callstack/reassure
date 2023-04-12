@@ -16,6 +16,7 @@
     "!**/__mocks__"
   ],
   "scripts": {
+    "test": "jest",
     "build": "bob build"
   },
   "keywords": [
@@ -38,6 +39,9 @@
   "dependencies": {
     "@callstack/reassure-logger": "0.3.0",
     "mathjs": "^11.5.0"
+  },
+  "devDependencies": {
+    "react-native": "0.71.4"
   },
   "peerDependencies": {
     "react": "*"

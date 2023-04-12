@@ -26,10 +26,10 @@ export async function clearTestStats(outputFilePath: string = config.outputFile)
   }
 }
 
-let hasShowFlagsOutput = false;
+let hasShownFlagsOutput = false;
 
 export function showFlagsOuputIfNeeded() {
-  if (hasShowFlagsOutput) {
+  if (hasShownFlagsOutput) {
     return;
   }
 
@@ -43,5 +43,9 @@ export function showFlagsOuputIfNeeded() {
     logger.verbose('Measure code is running with correct Node.js configuration.');
   }
 
-  hasShowFlagsOutput = true;
+  hasShownFlagsOutput = true;
+}
+
+export function resetHasShownFlagsOutput() {
+  hasShownFlagsOutput = false;
 }
