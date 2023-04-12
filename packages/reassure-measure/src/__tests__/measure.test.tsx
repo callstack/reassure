@@ -22,6 +22,8 @@ test('measureRender run test given number of times', async () => {
   expect(result.counts).toHaveLength(20);
   expect(result.meanCount).toBe(1);
   expect(result.stdevCount).toBe(0);
+
+  // Test is actually run 21 times = 20 runs + 1 drop worst
   expect(scenario).toHaveBeenCalledTimes(21);
 });
 
