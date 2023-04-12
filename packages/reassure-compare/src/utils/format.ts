@@ -98,10 +98,19 @@ function getRenderCountSymbols(entry: CompareEntry) {
   return '';
 }
 
-export function formatMetadata(metadata?: PerformanceMetadata) {
+function formatCommitMetadata(metadata?: PerformanceMetadata) {
   if (metadata?.branch && metadata?.commitHash) {
-    return `${metadata.branch} (${metadata.commitHash}) ${metadata.creationDate ? `: ${metadata.creationDate}` : ''}`;
+    return `${metadata.branch} (${metadata.commitHash})`;
   }
 
   return metadata?.branch || metadata?.commitHash || '(unknown)';
+}
+
+export function formatMetadata(metadata?: PerformanceMetadata) {
+  let result = formatCommitMetadata(metadata);
+  if (metadata?.creationDate) {
+    result += ` - ${metadata.creationDate}`;
+  }
+
+  return result;
 }
