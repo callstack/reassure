@@ -4,6 +4,8 @@ import { hasDuplicateValues } from './array';
 
 /** Metadata information for performance results. */
 export const performanceMetadataSchema = z.object({
+  time: z.string().optional(),
+  date: z.string().optional(),
   branch: z.string().optional(),
   commitHash: z.string().optional(),
 });
