@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Typecheck files
           command: |
-            yarn typescript
+            yarn typecheck
 
   unit-tests:
     executor: default

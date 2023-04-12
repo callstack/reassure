@@ -6,12 +6,15 @@
       "dependsOn": ["^build"],
       "outputs": ["lib/**"]
     },
-    "typescript": {
+    "typecheck": {
       "dependsOn": ["build"],
       "outputs": []
     },
+    "test": {
+      "outputs": []
+    },
     "deploy": {
-      "dependsOn": ["build", "typescript", "lint"],
+      "dependsOn": ["build", "test", "typescript", "lint"],
       "outputs": []
     }
   }

@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 0.3.0
+
+### Minor Changes
+
+- 235f37d4: init CLI command
+
 ## 0.2.0
 
 ### Minor Changes

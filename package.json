@@ -6,10 +6,10 @@
   "source": "src/index",
   "scripts": {
     "postinstall": "yarn build",
-    "test": "jest",
+    "test": "turbo run test",
     "test:example": "cd ./examples/native && yarn test",
-    "typescript": "tsc --noEmit",
-    "typescript:example": "cd ./examples/native && yarn typescript",
+    "typecheck": "tsc --noEmit",
+    "typecheck:example": "cd ./examples/native && yarn typecheck",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "lint:example": "cd ./examples/native && yarn lint",
     "pods": "cd examples/native && pod-install --quiet",
@@ -37,6 +37,8 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
     "@babel/core": "^7.20.12",
+    "@babel/plugin-transform-flow-strip-types": "^7.19.0",
+    "@babel/preset-typescript": "^7.20.7",
     "@babel/runtime": "^7.20.7",
     "@callstack/eslint-config": "^13.0.2",
     "@changesets/cli": "^2.26.0",

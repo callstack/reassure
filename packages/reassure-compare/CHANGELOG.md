@@ -1,5 +1,12 @@
 # @callstack/reassure-compare
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [235f37d4]
+  - @callstack/reassure-logger@0.3.0
+
 ## 0.4.0
 
 ### Minor Changes
