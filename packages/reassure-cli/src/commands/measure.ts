@@ -18,13 +18,6 @@ export interface MeasureOptions extends CommonOptions {
   testMatch?: string;
 }
 
-export function getJestBinPath() {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  const jestPackageJson = require('jest/package.json');
-  const jestPackagePath = dirname(require.resolve('jest/package.json'));
-  return resolve(jestPackagePath, jestPackageJson.bin.jest || jestPackageJson.bin);
-}
-
 export async function run(options: MeasureOptions) {
   configureLoggerOptions(options);
 
@@ -47,6 +40,13 @@ export async function run(options: MeasureOptions) {
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? getJestBinPath();
+  if (!testRunnerPath) {
+    logger.error(
+      `❌ Unable to find Jest binary path. Pass explicit $TEST_RUNNER_PATH env variable to resolve the issue.`
+    );
+    process.exitCode = 1;
+    return;
+  }
 
   // NOTE: Consider updating the default testMatch to better reflect
   // default patterns used in Jest and allow users to also place their
@@ -148,3 +148,14 @@ export const command: CommandModule<{}, MeasureOptions> = {
   },
   handler: (args) => run(args),
 };
+
+export function getJestBinPath() {
+  try {
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    const jestPackageJson = require('jest/package.json');
+    const jestPackagePath = dirname(require.resolve('jest/package.json'));
+    return resolve(jestPackagePath, jestPackageJson.bin.jest || jestPackageJson.bin);
+  } catch (error) {
+    return null;
+  }
+}
