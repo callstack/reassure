@@ -106,10 +106,15 @@ function formatCommitMetadata(metadata?: PerformanceMetadata) {
   return metadata?.branch || metadata?.commitHash || '(unknown)';
 }
 
+function formatDateTime(dateString: string) {
+  // Remove 'T' and miliseconds part
+  return dateString.replace('T', ' ').replace(/.\d\d\dZ/, 'Z');
+}
+
 export function formatMetadata(metadata?: PerformanceMetadata) {
   let result = formatCommitMetadata(metadata);
   if (metadata?.creationDate) {
-    result += ` - ${metadata.creationDate}`;
+    result += ` - ${formatDateTime(metadata.creationDate)}`;
   }
 
   return result;
