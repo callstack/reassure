@@ -20,4 +20,4 @@ jobs:
         run: yarn install --force
 
       - name: Run stability checks
-        run: cd examples/native && yarn reassure check-stability
+        run: cd test-apps/native && yarn reassure check-stability

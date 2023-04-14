@@ -69,9 +69,9 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 
 You can check our example projects:
 
-- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
+- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/test-apps/native)
 - [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
-- [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs) 
+- [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs)
 
 Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will
 warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
@@ -142,7 +142,7 @@ test('Test with scenario', async () => {
 If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using
 `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
 
-For more examples look into our [test example app](https://github.com/callstack/reassure/tree/main/examples/native/src).
+For more examples look into our [test example app](https://github.com/callstack/reassure/tree/main/test-apps/native/src).
 
 ### Measuring test performance
 

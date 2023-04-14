@@ -7,12 +7,12 @@
   "scripts": {
     "postinstall": "yarn build",
     "test": "turbo run test",
-    "test:example": "cd ./examples/native && yarn test",
+    "test:example": "cd ./test-apps/native && yarn test",
     "typecheck": "tsc --noEmit",
-    "typecheck:example": "cd ./examples/native && yarn typecheck",
+    "typecheck:example": "cd ./test-apps/native && yarn typecheck",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "lint:example": "cd ./examples/native && yarn lint",
-    "pods": "cd examples/native && pod-install --quiet",
+    "lint:example": "cd ./test-apps/native && yarn lint",
+    "pods": "cd test-apps/native && pod-install --quiet",
     "build": "turbo run build",
     "changeset": "changeset",
     "version": "changeset version",
@@ -73,7 +73,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "examples/native"
+      "test-apps/native"
     ]
   }
 }
