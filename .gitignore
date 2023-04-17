@@ -42,7 +42,7 @@ android.iml
 
 # Cocoapods
 #
-examples/native/ios/Pods
+test-apps/native/ios/Pods
 
 # node.js
 #
