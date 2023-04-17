@@ -1,6 +1,6 @@
 {
-  "name": "example-native",
-  "description": "Example app for Reassure",
+  "name": "test-app-native",
+  "description": "Internal Reassure testing app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
