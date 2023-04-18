@@ -39,8 +39,8 @@ test('Other Component 10', async () => {
 });
 
 test('Other Component 10 legacy scenario', async () => {
-  const scenario = async (screen: RenderAPI) => {
-    const button = screen.getByText('Action');
+  const scenario = async (legacyScreen: RenderAPI) => {
+    const button = legacyScreen.getByText('Action');
 
     fireEvent.press(button);
     fireEvent.press(button);
