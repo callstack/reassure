@@ -7,6 +7,7 @@ id: examples
 
 Reassure works with any React or React Native project. Here you can find a list of the example integrations:
 
-- [React Native](https://github.com/callstack/reassure/tree/main/test-apps/native)
-- [Expo](https://github.com/callstack/reassure/tree/main/examples/native-expo)
-- [Vite](https://github.com/callstack/reassure/tree/main/examples/web-vite)
+- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
+- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+- [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs)
+- [React (Vite)](https://github.com/callstack/reassure/tree/main/examples/web-vite)
