@@ -69,10 +69,10 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 
 You can check our example projects:
 
-- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
-- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
-- [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs)
-- [React (Vite)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native)
+- [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
+- [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
+- [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 
 Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will
 warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
@@ -145,10 +145,10 @@ If your test contains any async changes, you will need to make sure that the sce
 
 For more examples look into our example apps:
 
-- [React Native (CLI)](https://github.com/callstack/reassure/tree/main/examples/native)
-- [React Native (Expo)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
-- [React (Next.js)](https://github.com/callstack/reassure/tree/main/examples/web-nextjs)
-- [React (Vite)](https://github.com/callstack/reassure/tree/main/examples/native-expo)
+- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native)
+- [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
+- [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
+- [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 
 ### Measuring test performance
 

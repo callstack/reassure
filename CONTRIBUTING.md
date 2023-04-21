@@ -18,9 +18,9 @@ yarn build
 
 > While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
 
-While developing, you can run the example apps, located in `examples` folder, to test your changes. Any changes you make in the library's JavaScript code will have to rebuilt using `yarn build` command run in the top-level folder.
+While developing, you can run the test app app, located in `test-apps/native` folder, to test your changes. Any changes you make in the library's JavaScript code will have to rebuilt using `yarn build` command run in the top-level folder.
 
-To run the performance tests in the examples run the following command:
+To run the performance tests in the test app run the following command:
 
 ```sh
 cd test-apps/native
