@@ -10,7 +10,6 @@
   "files": [
     "src",
     "lib",
-    "!lib/typescript/examples",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__"
