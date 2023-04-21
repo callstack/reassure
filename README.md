@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-[**Read The Docs**](https://callstack.github.io/reassure/)
+  <a href="https://callstack.github.io/reassure/"><b>Read The Docs</b></a>
 </p>
 
 ---
