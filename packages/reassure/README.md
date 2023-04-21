@@ -12,6 +12,10 @@
   </picture>
 </p>
 
+<p align="center">
+  <a href="https://callstack.github.io/reassure/"><b>Read The Docs</b></a>
+</p>
+
 ---
 
 - [The problem](#the-problem)
