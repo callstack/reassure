@@ -27,13 +27,13 @@ jobs:
         run: cd ./docusaurus && yarn install --force
 
       - name: Validate TypeScript
-        run: yarn typecheck && yarn typecheck:example
+        run: yarn typecheck && yarn typecheck:test-app
 
       - name: Validate ESLint
-        run: yarn lint && yarn lint:example
+        run: yarn lint
 
       - name: Run tests
-        run: yarn test
+        run: yarn test && yarn test:test-app
 
       - name: Run performance tests
         run: cd test-apps/native && ./reassure-tests.sh
