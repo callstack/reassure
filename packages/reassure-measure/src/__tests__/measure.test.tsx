@@ -27,6 +27,16 @@ test('measureRender run test given number of times', async () => {
   expect(scenario).toHaveBeenCalledTimes(21);
 });
 
+test('measureRender should log error when running under incorrect node flags', async () => {
+  resetHasShownFlagsOutput();
+  const result = await measureRender(<View />, { runs: 1 });
+
+  expect(result.runs).toBe(1);
+  expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
+Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
+Make sure you use the Reassure CLI and run it using "reassure" command.`);
+});
+
 test('processRunResults calculates correct means and stdevs', () => {
   const input = [
     { duration: 10, count: 2 },
@@ -43,16 +53,6 @@ test('processRunResults calculates correct means and stdevs', () => {
     stdevCount: 0,
     counts: [2, 2, 2],
   });
-});
-
-test('measureRender should log error when running under incorrect node flags', async () => {
-  resetHasShownFlagsOutput();
-  const result = await measureRender(<View />, { runs: 1 });
-
-  expect(result.runs).toBe(1);
-  expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
-Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
-Make sure you use the Reassure CLI and run it using "reassure" command.`);
 });
 
 test('processRunResults applies dropWorst option', () => {

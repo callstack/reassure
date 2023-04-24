@@ -34,7 +34,6 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   const scenario = options?.scenario;
   const dropWorst = options?.dropWorst ?? config.dropWorst;
 
-  const wrappedUi = wrapper ? wrapper(ui) : ui;
   const { render, cleanup } = resolveTestingLibrary();
 
   showFlagsOuputIfNeeded();
@@ -55,11 +54,14 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
       }
     };
 
-    const screen = render(
-      <React.Profiler id="Test" onRender={handleRender}>
-        {wrappedUi}
+    const uiWithProfiler = (
+      <React.Profiler id="REASSURE_ROOT" onRender={handleRender}>
+        {ui}
       </React.Profiler>
     );
+
+    const uiToRender = wrapper ? wrapper(uiWithProfiler) : uiWithProfiler;
+    const screen = render(uiToRender);
 
     if (scenario) {
       await scenario(screen);
