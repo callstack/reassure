@@ -1,5 +1,18 @@
 # @callstack/reassure-cli
 
+## 0.9.0
+
+### Minor Changes
+
+- f8aa25fe: feat: capture date and time of measurements
+
+### Patch Changes
+
+- fa59394e: fix: exclude wrapper component from render measurements
+- c2dffec0: fix: support running perf tests when user has `jest-expo` installed
+- Updated dependencies [f8aa25fe]
+  - @callstack/reassure-compare@0.5.0
+
 ## 0.8.0
 
 ### Minor Changes

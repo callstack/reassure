@@ -1,5 +1,15 @@
 # @callstack/reassure-measure
 
+## 0.5.0
+
+### Minor Changes
+
+- f8aa25fe: feat: capture date and time of measurements
+
+### Patch Changes
+
+- fa59394e: fix: exclude wrapper component from render measurements
+
 ## 0.4.1
 
 ### Patch Changes

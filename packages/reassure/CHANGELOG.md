@@ -1,5 +1,20 @@
 # reassure
 
+## 0.9.0
+
+### Minor Changes
+
+- f8aa25fe: feat: capture date and time of measurements
+
+### Patch Changes
+
+- fa59394e: fix: exclude wrapper component from render measurements
+- Updated dependencies [fa59394e]
+- Updated dependencies [f8aa25fe]
+- Updated dependencies [c2dffec0]
+  - @callstack/reassure-measure@0.5.0
+  - @callstack/reassure-cli@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @callstack/reassure-compare
 
+## 0.5.0
+
+### Minor Changes
+
+- f8aa25fe: feat: capture date and time of measurements
+
 ## 0.4.1
 
 ### Patch Changes
