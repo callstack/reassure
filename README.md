@@ -392,7 +392,7 @@ interface MeasureOptions {
 
 - **`runs`**: number of runs per series for the particular test
 - **`dropWorst`**: number of worst (highest) runs dropped from a test series
-- **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with
+- **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapper component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 
 ### Configuration
