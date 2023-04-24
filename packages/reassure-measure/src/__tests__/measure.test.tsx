@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { measureRender, processRunResults } from '../measure';
+import { buildUiToRender, measureRender, processRunResults } from '../measure';
 import { resetHasShownFlagsOutput } from '../output';
 
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
@@ -42,8 +42,7 @@ function IgnoreChildren(_: React.PropsWithChildren<{}>) {
 }
 
 test('measureRender does not meassure wrapper', async () => {
-  const wrapper = (ui: React.ReactElement) => <IgnoreChildren>{ui}</IgnoreChildren>;
-  const result = await measureRender(<View />, { wrapper });
+  const result = await measureRender(<View />, { wrapper: IgnoreChildren });
   expect(result.runs).toBe(10);
   expect(result.durations).toHaveLength(10);
   expect(result.counts).toHaveLength(10);
@@ -51,6 +50,44 @@ test('measureRender does not meassure wrapper', async () => {
   expect(result.meanCount).toBe(0);
   expect(result.stdevDuration).toBe(0);
   expect(result.stdevCount).toBe(0);
+});
+
+function Wrapper({ children }: React.PropsWithChildren<{}>) {
+  return <View testID="wrapper">{children}</View>;
+}
+
+test('buildUiToRender wraps ui with wrapper', () => {
+  const ui = <View testID="ui" />;
+  const onRender = jest.fn();
+  const result = buildUiToRender(ui, onRender, Wrapper);
+  expect(result).toMatchInlineSnapshot(`
+    <Wrapper>
+      <UNDEFINED
+        id="REASSURE_ROOT"
+        onRender={[MockFunction]}
+      >
+        <View
+          testID="ui"
+        />
+      </UNDEFINED>
+    </Wrapper>
+  `);
+});
+
+test('buildUiToRender does not wrap when no wrapper is passed', () => {
+  const ui = <View testID="ui" />;
+  const onRender = jest.fn();
+  const result = buildUiToRender(ui, onRender);
+  expect(result).toMatchInlineSnapshot(`
+    <UNDEFINED
+      id="REASSURE_ROOT"
+      onRender={[MockFunction]}
+    >
+      <View
+        testID="ui"
+      />
+    </UNDEFINED>
+  `);
 });
 
 test('processRunResults calculates correct means and stdevs', () => {

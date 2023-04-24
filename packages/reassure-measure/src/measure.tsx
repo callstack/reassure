@@ -14,7 +14,7 @@ logger.configure({
 export interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
-  wrapper?: (node: React.ReactElement) => JSX.Element;
+  wrapper?: React.ComponentType<any>;
   scenario?: (screen: any) => Promise<any>;
 }
 
@@ -30,7 +30,6 @@ export async function measurePerformance(
 
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
   const runs = options?.runs ?? config.runs;
-  const wrapper = options?.wrapper;
   const scenario = options?.scenario;
   const dropWorst = options?.dropWorst ?? config.dropWorst;
 
@@ -54,13 +53,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
       }
     };
 
-    const uiWithProfiler = (
-      <React.Profiler id="REASSURE_ROOT" onRender={handleRender}>
-        {ui}
-      </React.Profiler>
-    );
-
-    const uiToRender = wrapper ? wrapper(uiWithProfiler) : uiWithProfiler;
+    const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
     const screen = render(uiToRender);
 
     if (scenario) {
@@ -83,6 +76,20 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   }
 
   return processRunResults(runResults, dropWorst);
+}
+
+export function buildUiToRender(
+  ui: React.ReactElement,
+  onRender: React.ProfilerOnRenderCallback,
+  Wrapper?: React.ComponentType<any>
+) {
+  const uiWithProfiler = (
+    <React.Profiler id="REASSURE_ROOT" onRender={onRender}>
+      {ui}
+    </React.Profiler>
+  );
+
+  return Wrapper ? <Wrapper>{uiWithProfiler}</Wrapper> : uiWithProfiler;
 }
 
 interface RunResult {

@@ -41,14 +41,14 @@ test('Test with scenario', async () => {
 interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
-  wrapper?: (node: React.ReactElement) => JSX.Element;
+  wrapper?: React.ComponentType<any>;
   scenario?: (view?: RenderResult) => Promise<any>;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`dropWorst`**: number of worst (highest) runs dropped from a test series
-- **`wrapper`**: custom JSX wrapper, such as a `<Provider />` component, which the ui needs to be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
+- **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 
 ## Configuration
