@@ -27,6 +27,32 @@ test('measureRender run test given number of times', async () => {
   expect(scenario).toHaveBeenCalledTimes(21);
 });
 
+test('measureRender should log error when running under incorrect node flags', async () => {
+  resetHasShownFlagsOutput();
+  const result = await measureRender(<View />, { runs: 1 });
+
+  expect(result.runs).toBe(1);
+  expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
+Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
+Make sure you use the Reassure CLI and run it using "reassure" command.`);
+});
+
+function IgnoreChildren(_: React.PropsWithChildren<{}>) {
+  return <View />;
+}
+
+test('measureRender does not meassure wrapper', async () => {
+  const wrapper = (ui: React.ReactElement) => <IgnoreChildren>{ui}</IgnoreChildren>;
+  const result = await measureRender(<View />, { wrapper });
+  expect(result.runs).toBe(10);
+  expect(result.durations).toHaveLength(10);
+  expect(result.counts).toHaveLength(10);
+  expect(result.meanDuration).toBe(0);
+  expect(result.meanCount).toBe(0);
+  expect(result.stdevDuration).toBe(0);
+  expect(result.stdevCount).toBe(0);
+});
+
 test('processRunResults calculates correct means and stdevs', () => {
   const input = [
     { duration: 10, count: 2 },
@@ -43,16 +69,6 @@ test('processRunResults calculates correct means and stdevs', () => {
     stdevCount: 0,
     counts: [2, 2, 2],
   });
-});
-
-test('measureRender should log error when running under incorrect node flags', async () => {
-  resetHasShownFlagsOutput();
-  const result = await measureRender(<View />, { runs: 1 });
-
-  expect(result.runs).toBe(1);
-  expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
-Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
-Make sure you use the Reassure CLI and run it using "reassure" command.`);
 });
 
 test('processRunResults applies dropWorst option', () => {
