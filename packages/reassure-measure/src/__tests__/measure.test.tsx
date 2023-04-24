@@ -37,6 +37,22 @@ Performance test code should be run in Jest with certain Node.js flags to increa
 Make sure you use the Reassure CLI and run it using "reassure" command.`);
 });
 
+function IgnoreChildren(_: React.PropsWithChildren<{}>) {
+  return <View />;
+}
+
+test('measureRender does not meassure wrapper', async () => {
+  const wrapper = (ui: React.ReactElement) => <IgnoreChildren>{ui}</IgnoreChildren>;
+  const result = await measureRender(<View />, { wrapper });
+  expect(result.runs).toBe(10);
+  expect(result.durations).toHaveLength(10);
+  expect(result.counts).toHaveLength(10);
+  expect(result.meanDuration).toBe(0);
+  expect(result.meanCount).toBe(0);
+  expect(result.stdevDuration).toBe(0);
+  expect(result.stdevCount).toBe(0);
+});
+
 test('processRunResults calculates correct means and stdevs', () => {
   const input = [
     { duration: 10, count: 2 },
