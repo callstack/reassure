@@ -41,7 +41,7 @@ test('Test with scenario', async () => {
 interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
-  wrapper?: React.ComponentType<any>;
+  wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
 }
 ```

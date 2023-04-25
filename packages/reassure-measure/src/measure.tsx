@@ -14,7 +14,7 @@ logger.configure({
 export interface MeasureOptions {
   runs?: number;
   dropWorst?: number;
-  wrapper?: React.ComponentType<any>;
+  wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
 }
 
@@ -81,7 +81,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 export function buildUiToRender(
   ui: React.ReactElement,
   onRender: React.ProfilerOnRenderCallback,
-  Wrapper?: React.ComponentType<any>
+  Wrapper?: React.ComponentType<{ children: React.ReactElement }>
 ) {
   const uiWithProfiler = (
     <React.Profiler id="REASSURE_ROOT" onRender={onRender}>
