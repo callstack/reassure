@@ -5,14 +5,14 @@ export type Cleanup = () => void;
 
 type Config = {
   runs: number;
-  dropWorst: number;
+  warmupRuns: number;
   outputFile: string;
   testingLibrary?: TestingLibrary;
 };
 
 const defaultConfig: Config = {
   runs: 10,
-  dropWorst: 1,
+  warmupRuns: 1,
   outputFile: process.env.REASSURE_OUTPUT_FILE ?? '.reassure/current.perf',
   testingLibrary: undefined,
 };
