@@ -13,7 +13,7 @@ logger.configure({
 
 export interface MeasureOptions {
   runs?: number;
-  dropWorst?: number;
+  warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
 }
@@ -31,7 +31,7 @@ export async function measurePerformance(
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
-  const dropWorst = options?.dropWorst ?? config.dropWorst;
+  const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
   const { render, cleanup } = resolveTestingLibrary();
 
@@ -39,7 +39,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
-  for (let i = 0; i < runs + dropWorst; i += 1) {
+  for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
@@ -75,7 +75,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     );
   }
 
-  return processRunResults(runResults, dropWorst);
+  return processRunResults(runResults, warmupRuns);
 }
 
 export function buildUiToRender(
@@ -97,9 +97,9 @@ interface RunResult {
   count: number;
 }
 
-export function processRunResults(results: RunResult[], dropWorst: number) {
+export function processRunResults(results: RunResult[], warmupRuns: number) {
+  results = results.slice(warmupRuns);
   results.sort((first, second) => second.duration - first.duration); // duration DESC
-  results = results.slice(dropWorst);
 
   const durations = results.map((result) => result.duration);
   const meanDuration = math.mean(durations) as number;

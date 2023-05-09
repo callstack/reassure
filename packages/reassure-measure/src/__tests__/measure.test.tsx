@@ -108,12 +108,12 @@ test('processRunResults calculates correct means and stdevs', () => {
   });
 });
 
-test('processRunResults applies dropWorst option', () => {
+test('processRunResults applies warmupRuns option', () => {
   const input = [
+    { duration: 23, count: 1 },
     { duration: 20, count: 5 },
     { duration: 24, count: 5 },
     { duration: 22, count: 5 },
-    { duration: 1000, count: 1 },
   ];
 
   expect(processRunResults(input, 1)).toEqual({

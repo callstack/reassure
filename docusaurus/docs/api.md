@@ -40,14 +40,14 @@ test('Test with scenario', async () => {
 ```ts
 interface MeasureOptions {
   runs?: number;
-  dropWorst?: number;
+  warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
-- **`dropWorst`**: number of worst (highest) runs dropped from a test series
+- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 
@@ -61,7 +61,7 @@ of the `configure` function.
 ```ts
 type Config = {
   runs?: number;
-  dropWorst?: number;
+  warmupRuns?: number;
   outputFile?: string;
   verbose?: boolean;
   testingLibrary?:
@@ -74,7 +74,7 @@ type Config = {
 ```ts
 const defaultConfig: Config = {
   runs: 10,
-  dropWorst: 1,
+  warmupRuns: 1,
   outputFile: '.reassure/current.perf',
   verbose: false,
   testingLibrary: undefined, // Will try auto-detect first RNTL, then RTL
@@ -82,7 +82,7 @@ const defaultConfig: Config = {
 ```
 
 **`runs`**: number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
-**`dropWorst`**: number of worst dropped results from the series per test (used to remove test run outliers)
+- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 **`outputFile`**: name of the file the records will be saved to
 **`verbose`**: make Reassure log more, e.g. for debugging purposes
 **`testingLibrary`**: where to look for `render` and `cleanup` functions, supported values `'react-native'`, `'react'` or object providing custom `render` and `cleanup` functions
