@@ -2,4 +2,4 @@
 '@callstack/reassure-logger': patch
 ---
 
-Removed "node:" prefix from readline import
+Removed "node:" prefix from "readline" import.
