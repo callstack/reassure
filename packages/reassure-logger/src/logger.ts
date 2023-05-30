@@ -1,4 +1,4 @@
-import readline from 'node:readline';
+import readline from 'readline';
 import chalk from 'chalk';
 import { colors } from './colors';
 
