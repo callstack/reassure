@@ -1,5 +1,12 @@
 # @callstack/reassure-measure
 
+## 0.5.1
+
+### Patch Changes
+
+- Updated dependencies [2e127815]
+  - @callstack/reassure-logger@0.3.1
+
 ## 0.5.0
 
 ### Minor Changes
