@@ -16,7 +16,7 @@ export function printToConsole(data: CompareResult) {
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
 
-  logger.log('\n➡️  Signficant changes to render duration');
+  logger.log('\n➡️  Significant changes to render duration');
   data.significant.forEach(printRegularLine);
 
   logger.log('\n➡️  Meaningless changes to render duration');
