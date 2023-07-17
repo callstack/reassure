@@ -16,7 +16,7 @@ import { errors, warnings, logError, logWarning } from './utils/logs';
 import { parseHeader, parsePerformanceEntries } from './utils/validate';
 
 /**
- * Probability threshold for considering given difference signficiant.
+ * Probability threshold for considering given difference significant.
  */
 const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 
@@ -176,7 +176,7 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
 }
 
 /**
- * Establish statisticial signficance of render duration difference build compare entry.
+ * Establish statisticial significance of render duration difference build compare entry.
  */
 function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
