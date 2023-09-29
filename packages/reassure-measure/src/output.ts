@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
-import type { MeasureResults } from './measure-helpers';
+import type { MeasureResults } from './types';
 
 export async function writeTestStats(stats: MeasureResults, outputFilePath: string = config.outputFile): Promise<void> {
   const name = expect.getState().currentTestName;

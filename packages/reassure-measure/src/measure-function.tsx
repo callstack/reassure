@@ -1,5 +1,6 @@
 import { config } from './config';
-import { RunResult, MeasureResults, processRunResults } from './measure-helpers';
+import type { MeasureResults } from './types';
+import { type RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 
 interface MeasureFunctionOptions {
@@ -16,7 +17,7 @@ export async function measureFunction(fn: () => void, options?: MeasureFunctionO
 
 export function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
   const runs = options?.runs ?? config.runs;
-  const dropWorst = options?.dropWorst ?? config.dropWorst;
+  const dropWorst = options?.dropWorst ?? config.warmupRuns;
 
   showFlagsOuputIfNeeded();
 
