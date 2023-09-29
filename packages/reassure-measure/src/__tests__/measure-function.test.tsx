@@ -11,7 +11,7 @@ function fib(n: number): number {
 
 test('measureFunctionInternal captures results', () => {
   const fn = jest.fn(() => fib(5));
-  const results = measureFunctionInternal(fn, { runs: 1, dropWorst: 0 });
+  const results = measureFunctionInternal(fn, { runs: 1, warmupRuns: 0 });
 
   expect(fn).toHaveBeenCalledTimes(1);
   expect(results.runs).toBe(1);
@@ -20,7 +20,7 @@ test('measureFunctionInternal captures results', () => {
 
 test('measureFunctionInternal runs specified number of times', () => {
   const fn = jest.fn(() => fib(5));
-  const results = measureFunctionInternal(fn, { runs: 20, dropWorst: 0 });
+  const results = measureFunctionInternal(fn, { runs: 20, warmupRuns: 0 });
 
   expect(fn).toHaveBeenCalledTimes(20);
   expect(results.runs).toBe(20);
@@ -32,7 +32,7 @@ test('measureFunctionInternal runs specified number of times', () => {
 
 test('measureFunctionInternal applies dropsWorst option', () => {
   const fn = jest.fn(() => fib(5));
-  const results = measureFunctionInternal(fn, { runs: 10, dropWorst: 1 });
+  const results = measureFunctionInternal(fn, { runs: 10, warmupRuns: 1 });
 
   expect(fn).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);

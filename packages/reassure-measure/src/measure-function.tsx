@@ -5,7 +5,7 @@ import { showFlagsOuputIfNeeded, writeTestStats } from './output';
 
 interface MeasureFunctionOptions {
   runs?: number;
-  dropWorst?: number;
+  warmupRuns?: number;
 }
 
 export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
@@ -17,12 +17,12 @@ export async function measureFunction(fn: () => void, options?: MeasureFunctionO
 
 export function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
   const runs = options?.runs ?? config.runs;
-  const dropWorst = options?.dropWorst ?? config.warmupRuns;
+  const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
   showFlagsOuputIfNeeded();
 
   const runResults: RunResult[] = [];
-  for (let i = 0; i < runs + dropWorst; i += 1) {
+  for (let i = 0; i < runs + warmupRuns; i += 1) {
     const timeStart = getCurrentTime();
     fn();
     const timeEnd = getCurrentTime();
@@ -31,7 +31,7 @@ export function measureFunctionInternal(fn: () => void, options?: MeasureFunctio
     runResults.push({ duration, count: 1 });
   }
 
-  return processRunResults(runResults, dropWorst);
+  return processRunResults(runResults, warmupRuns);
 }
 
 function getCurrentTime() {
