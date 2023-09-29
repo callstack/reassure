@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import { config } from './config';
 import type { MeasureResults } from './types';
 import { type RunResult, processRunResults } from './measure-helpers';
@@ -27,7 +28,7 @@ export function measureFunctionInternal(fn: () => void, options?: MeasureFunctio
     fn();
     const timeEnd = getCurrentTime();
 
-    const duration = Number((timeEnd - timeStart) / 1_000_000n);
+    const duration = timeEnd - timeStart;
     runResults.push({ duration, count: 1 });
   }
 
@@ -35,5 +36,5 @@ export function measureFunctionInternal(fn: () => void, options?: MeasureFunctio
 }
 
 function getCurrentTime() {
-  return process.hrtime.bigint();
+  return performance.now();
 }
