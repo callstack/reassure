@@ -10,8 +10,8 @@ import {
   formatDuration,
   formatMetadata,
   formatPercent,
-  formatRenderCountChange,
-  formatRenderDurationChange,
+  formatOutputCountChange,
+  formatOutputDurationChange,
 } from '../utils/format';
 import type {
   AddedEntry,
@@ -22,7 +22,7 @@ import type {
   PerformanceMetadata,
 } from '../types';
 
-const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
+const tableHeader = ['Name', 'Duration', 'Count'] as const;
 
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
@@ -68,13 +68,13 @@ function buildMarkdown(data: CompareResult) {
     });
   }
 
-  result += `\n\n${headers.h3('Significant Changes To Render Duration')}`;
+  result += `\n\n${headers.h3('Significant Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.significant)}`;
   result += `\n${buildDetailsTable(data.significant)}`;
-  result += `\n\n${headers.h3('Meaningless Changes To Render Duration')}`;
+  result += `\n\n${headers.h3('Meaningless Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
-  result += `\n\n${headers.h3('Changes To Render Count')}`;
+  result += `\n\n${headers.h3('Changes To Count')}`;
   result += `\n${buildSummaryTable(data.countChanged)}`;
   result += `\n${buildDetailsTable(data.countChanged)}`;
   result += `\n\n${headers.h3('Added Scenarios')}`;
@@ -111,14 +111,14 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatRenderDurationChange(entry);
+  if ('baseline' in entry && 'current' in entry) return formatOutputDurationChange(entry);
   if ('baseline' in entry) return formatDuration(entry.baseline.meanDuration);
   if ('current' in entry) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatRenderCountChange(entry);
+  if ('baseline' in entry && 'current' in entry) return formatOutputCountChange(entry);
   if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
   if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';

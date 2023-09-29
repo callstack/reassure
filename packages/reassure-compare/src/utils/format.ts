@@ -46,7 +46,7 @@ export function formatChange(value: number): string {
   return '0';
 }
 
-export function formatRenderDurationChange(entry: CompareEntry) {
+export function formatOutputDurationChange(entry: CompareEntry) {
   const { baseline, current } = entry;
 
   let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
@@ -55,12 +55,12 @@ export function formatRenderDurationChange(entry: CompareEntry) {
     output += ` (${formatDurationChange(entry.durationDiff)}, ${formatPercentChange(entry.relativeDurationDiff)})`;
   }
 
-  output += ` ${getRenderDurationSymbols(entry)}`;
+  output += ` ${getDurationSymbols(entry)}`;
 
   return output;
 }
 
-function getRenderDurationSymbols(entry: CompareEntry) {
+function getDurationSymbols(entry: CompareEntry) {
   if (!entry.isDurationDiffSignificant) {
     if (entry.relativeDurationDiff > 0.15) return '🔴';
     if (entry.relativeDurationDiff < -0.15) return '🟢';
@@ -75,7 +75,7 @@ function getRenderDurationSymbols(entry: CompareEntry) {
   return '';
 }
 
-export function formatRenderCountChange(entry: CompareEntry) {
+export function formatOutputCountChange(entry: CompareEntry) {
   const { baseline, current } = entry;
 
   let output = `${formatCount(baseline.meanCount)} → ${formatCount(current.meanCount)}`;
@@ -84,12 +84,12 @@ export function formatRenderCountChange(entry: CompareEntry) {
     output += ` (${formatCountChange(entry.countDiff)}, ${formatPercentChange(entry.relativeCountDiff)})`;
   }
 
-  output += ` ${getRenderCountSymbols(entry)}`;
+  output += ` ${getOutputCountSymbols(entry)}`;
 
   return output;
 }
 
-function getRenderCountSymbols(entry: CompareEntry) {
+function getOutputCountSymbols(entry: CompareEntry) {
   if (entry.countDiff > 1.5) return '🔴🔴';
   if (entry.countDiff > 0.5) return '🔴';
   if (entry.countDiff < -1.5) return '🟢🟢';

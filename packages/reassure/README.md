@@ -359,9 +359,9 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
-- **Significant Changes To Render Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
-- **Meaningless Changes To Render Duration** shows test scenarios where the change is not stastatistically significant
-- **Changes To Render Count** shows test scenarios where render count did change
+- **Significant Changes To Duration** shows test scenario where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
+- **Meaningless Changes To Duration** shows test scenarios where the change is not stastatistically significant
+- **Changes To Count** shows test scenarios where count did change
 - **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
 
