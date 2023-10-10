@@ -39,15 +39,21 @@ function printMetadata(name: string, metadata?: PerformanceMetadata) {
 }
 
 function printRegularLine(entry: CompareEntry) {
-  logger.log(` - ${entry.name}: ${formatOutputDurationChange(entry)} | ${formatOutputCountChange(entry)}`);
+  logger.log(
+    ` - [${entry.type}] ${entry.name}: ${formatOutputDurationChange(entry)} | ${formatOutputCountChange(entry)}`
+  );
 }
 
 function printAddedLine(entry: AddedEntry) {
   const { current } = entry;
-  logger.log(` - ${entry.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`);
+  logger.log(
+    ` - [${entry.type}] ${entry.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`
+  );
 }
 
 function printRemovedLine(entry: RemovedEntry) {
   const { baseline } = entry;
-  logger.log(` - ${entry.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`);
+  logger.log(
+    ` - [${entry.type}] ${entry.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`
+  );
 }

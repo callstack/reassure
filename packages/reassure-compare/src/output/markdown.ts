@@ -22,7 +22,7 @@ import type {
   PerformanceMetadata,
 } from '../types';
 
-const tableHeader = ['Name', 'Duration', 'Count'] as const;
+const tableHeader = ['Name', 'Type', 'Duration', 'Count'] as const;
 
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
@@ -95,7 +95,7 @@ function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | und
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {
   if (!entries.length) return emphasis.i('There are no entries');
 
-  const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
+  const rows = entries.map((entry) => [entry.name, entry.type, formatEntryDuration(entry), formatEntryCount(entry)]);
   const content = markdownTable([tableHeader, ...rows]);
 
   return collapse ? collapsibleSection('Show entries', content) : content;
@@ -104,7 +104,12 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
   if (!entries.length) return '';
 
-  const rows = entries.map((entry) => [entry.name, buildDurationDetailsEntry(entry), buildCountDetailsEntry(entry)]);
+  const rows = entries.map((entry) => [
+    entry.name,
+    entry.type,
+    buildDurationDetailsEntry(entry),
+    buildCountDetailsEntry(entry),
+  ]);
   const content = markdownTable([tableHeader, ...rows]);
 
   return collapsibleSection('Show details', content);
