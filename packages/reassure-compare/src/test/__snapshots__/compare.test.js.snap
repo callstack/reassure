@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadFile should fail for file with invalid JSON structure 1`] = `"Unexpected token : in JSON at position 6"`;
+exports[`loadFile should fail for file with invalid JSON structure 1`] = `"Unexpected non-whitespace character after JSON at position 6"`;
 
 exports[`loadFile should fail for file with invalid entry 1`] = `
 "[
@@ -61,6 +61,7 @@ exports[`loadFile should load results file with header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 7.554248252914823,
+      "type": "render",
     },
     "Other Component 10": {
       "counts": [
@@ -93,6 +94,7 @@ exports[`loadFile should load results file with header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 4.831608887776871,
+      "type": "render",
     },
     "Other Component 10 legacy scenario": {
       "counts": [
@@ -125,6 +127,7 @@ exports[`loadFile should load results file with header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 4.552166761249221,
+      "type": "render",
     },
     "Other Component 20": {
       "counts": [
@@ -177,6 +180,40 @@ exports[`loadFile should load results file with header 1`] = `
       "runs": 20,
       "stdevCount": 0,
       "stdevDuration": 4.595191995301633,
+      "type": "render",
+    },
+    "fib 30": {
+      "counts": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+      ],
+      "durations": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        79,
+        79,
+        79,
+        79,
+        79,
+      ],
+      "meanCount": 1,
+      "meanDuration": 79.9,
+      "name": "fib 30",
+      "runs": 10,
+      "stdevCount": 0,
+      "stdevDuration": 0.4532780026900862,
+      "type": "syncFunction",
     },
   },
   "metadata": {
@@ -220,6 +257,7 @@ exports[`loadFile should load results file without header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 7.554248252914823,
+      "type": "render",
     },
     "Other Component 10": {
       "counts": [
@@ -252,6 +290,7 @@ exports[`loadFile should load results file without header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 4.831608887776871,
+      "type": "render",
     },
     "Other Component 10 legacy scenario": {
       "counts": [
@@ -284,6 +323,7 @@ exports[`loadFile should load results file without header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 4.552166761249221,
+      "type": "render",
     },
     "Other Component 20": {
       "counts": [
@@ -336,6 +376,40 @@ exports[`loadFile should load results file without header 1`] = `
       "runs": 20,
       "stdevCount": 0,
       "stdevDuration": 4.595191995301633,
+      "type": "render",
+    },
+    "fib 30": {
+      "counts": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+      ],
+      "durations": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        79,
+        79,
+        79,
+        79,
+        79,
+      ],
+      "meanCount": 1,
+      "meanDuration": 79.9,
+      "name": "fib 30",
+      "runs": 10,
+      "stdevCount": 0,
+      "stdevDuration": 0.4532780026900862,
+      "type": "syncFunction",
     },
   },
   "metadata": undefined,
