@@ -5,6 +5,7 @@ import type { performanceEntrySchema, performanceHeaderSchema, performanceMetada
 export type PerformanceHeader = z.infer<typeof performanceHeaderSchema>;
 export type PerformanceMetadata = z.infer<typeof performanceMetadataSchema>;
 export type PerformanceEntry = z.infer<typeof performanceEntrySchema>;
+export type MeasureType = PerformanceEntry['type'];
 
 export interface PerformanceResults {
   metadata?: PerformanceMetadata;
@@ -12,10 +13,17 @@ export interface PerformanceResults {
 }
 
 /**
+ * Common interface for all compare entries
+ */
+interface BaseEntry {
+  name: string;
+  type: MeasureType;
+}
+
+/**
  * Compare entry for tests that have both baseline and current entry
  */
-export interface CompareEntry {
-  name: string;
+export interface CompareEntry extends BaseEntry {
   current: PerformanceEntry;
   baseline: PerformanceEntry;
   durationDiff: number;
@@ -28,16 +36,14 @@ export interface CompareEntry {
 /**
  * Compare entry for tests that have only current entry
  */
-export interface AddedEntry {
-  name: string;
+export interface AddedEntry extends BaseEntry {
   current: PerformanceEntry;
 }
 
 /**
  * Compare entry for tests that have only baseline entry
  */
-export interface RemovedEntry {
-  name: string;
+export interface RemovedEntry extends BaseEntry {
   baseline: PerformanceEntry;
 }
 

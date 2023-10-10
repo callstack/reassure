@@ -1,11 +1,15 @@
 import * as fs from 'fs/promises';
 import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
-import type { MeasureResults } from './types';
+import type { MeasureResults, MeasureType } from './types';
 
-export async function writeTestStats(stats: MeasureResults, outputFilePath: string = config.outputFile): Promise<void> {
+export async function writeTestStats(
+  type: MeasureType,
+  stats: MeasureResults,
+  outputFilePath: string = config.outputFile
+): Promise<void> {
   const name = expect.getState().currentTestName;
-  const line = JSON.stringify({ name, ...stats }) + '\n';
+  const line = JSON.stringify({ name, type, ...stats }) + '\n';
 
   try {
     await fs.appendFile(outputFilePath, line);

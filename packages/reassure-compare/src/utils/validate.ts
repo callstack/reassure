@@ -19,6 +19,9 @@ export const performanceEntrySchema = z.object({
   /** Name of the test scenario */
   name: z.string(),
 
+  /** Type of the test scenario */
+  type: z.enum(['render', 'syncFunction']),
+
   /** Number of times the measurment test was run */
   runs: z.number(),
 

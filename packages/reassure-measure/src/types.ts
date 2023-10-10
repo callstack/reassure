@@ -24,9 +24,4 @@ export interface MeasureResults {
   counts: number[];
 }
 
-/**
- * Output of specific test scenarion as written to perf results file.
- */
-export interface PerformanceEntry extends MeasureResults {
-  name: string;
-}
+export type MeasureType = 'render' | 'syncFunction';

@@ -8,6 +8,7 @@ import type {
   PerformanceResults,
   PerformanceEntry,
   PerformanceHeader,
+  MeasureType,
 } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
@@ -143,11 +144,11 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     const baselineEntry = baseline?.entries[name];
 
     if (currentEntry && baselineEntry) {
-      compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
+      compared.push(buildCompareEntry(name, currentEntry.type, currentEntry, baselineEntry));
     } else if (currentEntry) {
-      added.push({ name, current: currentEntry });
+      added.push({ name, type: currentEntry.type, current: currentEntry });
     } else if (baselineEntry) {
-      removed.push({ name, baseline: baselineEntry });
+      removed.push({ name, type: baselineEntry.type, baseline: baselineEntry });
     }
   });
 
@@ -178,7 +179,12 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
 /**
  * Establish statisticial significance of duration difference build compare entry.
  */
-function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
+function buildCompareEntry(
+  name: string,
+  type: MeasureType,
+  current: PerformanceEntry,
+  baseline: PerformanceEntry
+): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const relativeDurationDiff = durationDiff / baseline.meanDuration;
   const countDiff = current.meanCount - baseline.meanCount;
@@ -192,6 +198,7 @@ function buildCompareEntry(name: string, current: PerformanceEntry, baseline: Pe
 
   return {
     name,
+    type,
     baseline,
     current,
     durationDiff,

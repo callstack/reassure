@@ -20,7 +20,7 @@ export interface MeasureOptions {
 
 export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const stats = await measureRender(ui, options);
-  await writeTestStats(stats);
+  await writeTestStats('render', stats);
 
   return stats;
 }
