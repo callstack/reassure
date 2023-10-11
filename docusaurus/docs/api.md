@@ -35,26 +35,6 @@ test('Test with scenario', async () => {
 });
 ```
 
-### `measureFunction` function
-
-Allows you to wrap any synchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
-
-```ts
-async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
-```
-
-#### Example
-
-```ts
-// sample.perf-test.tsx
-import { measureFunction } from '@callstack/reassure-measure';
-import { fib } from './fib';
-
-test('fib 30', async () => {
-  await measureFunction(() => fib(30));
-});
-```
-
 ### `MeasureOptions` type
 
 ```ts
@@ -70,6 +50,26 @@ interface MeasureOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
+
+### `measureFunction` function
+
+Allows you to wrap any synchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
+
+```ts
+async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
+```
+
+#### Example
+
+```ts
+// sample.perf-test.tsx
+import { measureFunction } from 'reassure';
+import { fib } from './fib';
+
+test('fib 30', async () => {
+  await measureFunction(() => fib(30));
+});
+```
 
 ### `MeasureFunctionOptions` type
 
