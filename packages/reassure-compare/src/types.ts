@@ -1,6 +1,6 @@
 /** Parsed performance results file. */
 import type { z } from 'zod';
-import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './utils/validate';
+import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './type-schemas';
 
 export type PerformanceHeader = z.infer<typeof performanceHeaderSchema>;
 export type PerformanceMetadata = z.infer<typeof performanceMetadataSchema>;
