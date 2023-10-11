@@ -380,7 +380,7 @@ interface MeasureOptions {
 
 #### `measureFunction` function
 
-Allows you to wrap any synchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
+Allows you to wrap any synchronous function, measure its execution times and write results to the output file. You can use optional `options` to customize aspects of the testing. Note: the execution count will always be one.
 
 ```ts
 async function measureFunction(
