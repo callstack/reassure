@@ -13,17 +13,11 @@ export interface PerformanceResults {
 }
 
 /**
- * Common interface for all compare entries
- */
-interface BaseEntry {
-  name: string;
-  type: MeasureType;
-}
-
-/**
  * Compare entry for tests that have both baseline and current entry
  */
-export interface CompareEntry extends BaseEntry {
+export interface CompareEntry {
+  name: string;
+  type: MeasureType;
   current: PerformanceEntry;
   baseline: PerformanceEntry;
   durationDiff: number;
@@ -36,14 +30,18 @@ export interface CompareEntry extends BaseEntry {
 /**
  * Compare entry for tests that have only current entry
  */
-export interface AddedEntry extends BaseEntry {
+export interface AddedEntry {
+  name: string;
+  type: MeasureType;
   current: PerformanceEntry;
 }
 
 /**
  * Compare entry for tests that have only baseline entry
  */
-export interface RemovedEntry extends BaseEntry {
+export interface RemovedEntry {
+  name: string;
+  type: MeasureType;
   baseline: PerformanceEntry;
 }
 

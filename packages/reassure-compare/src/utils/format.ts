@@ -21,7 +21,7 @@ export function formatDuration(duration: number): string {
   return `${duration.toFixed(1)} ms`;
 }
 
-export function formatDurationChange(value: number): string {
+export function formatDurationDiff(value: number): string {
   if (value > 0) {
     return `+${formatDuration(value)}`;
   }
@@ -34,7 +34,7 @@ export function formatDurationChange(value: number): string {
 export function formatCount(value: number) {
   return Number.isInteger(value) ? `${value}` : `${value.toFixed(2)}`;
 }
-export function formatCountChange(value: number): string {
+export function formatCountDiff(value: number): string {
   if (value > 0) return `+${value}`;
   if (value < 0) return `${value}`;
   return '±0';
@@ -46,21 +46,21 @@ export function formatChange(value: number): string {
   return '0';
 }
 
-export function formatOutputDurationChange(entry: CompareEntry) {
+export function formatDurationChange(entry: CompareEntry) {
   const { baseline, current } = entry;
 
   let output = `${formatDuration(baseline.meanDuration)} → ${formatDuration(current.meanDuration)}`;
 
   if (baseline.meanDuration != current.meanDuration) {
-    output += ` (${formatDurationChange(entry.durationDiff)}, ${formatPercentChange(entry.relativeDurationDiff)})`;
+    output += ` (${formatDurationDiff(entry.durationDiff)}, ${formatPercentChange(entry.relativeDurationDiff)})`;
   }
 
-  output += ` ${getDurationSymbols(entry)}`;
+  output += ` ${getDurationChangeSymbols(entry)}`;
 
   return output;
 }
 
-function getDurationSymbols(entry: CompareEntry) {
+function getDurationChangeSymbols(entry: CompareEntry) {
   if (!entry.isDurationDiffSignificant) {
     if (entry.relativeDurationDiff > 0.15) return '🔴';
     if (entry.relativeDurationDiff < -0.15) return '🟢';
@@ -75,21 +75,21 @@ function getDurationSymbols(entry: CompareEntry) {
   return '';
 }
 
-export function formatOutputCountChange(entry: CompareEntry) {
+export function formatCountChange(entry: CompareEntry) {
   const { baseline, current } = entry;
 
   let output = `${formatCount(baseline.meanCount)} → ${formatCount(current.meanCount)}`;
 
   if (baseline.meanCount != current.meanCount) {
-    output += ` (${formatCountChange(entry.countDiff)}, ${formatPercentChange(entry.relativeCountDiff)})`;
+    output += ` (${formatCountDiff(entry.countDiff)}, ${formatPercentChange(entry.relativeCountDiff)})`;
   }
 
-  output += ` ${getOutputCountSymbols(entry)}`;
+  output += ` ${getCountChangeSymbols(entry)}`;
 
   return output;
 }
 
-function getOutputCountSymbols(entry: CompareEntry) {
+function getCountChangeSymbols(entry: CompareEntry) {
   if (entry.countDiff > 1.5) return '🔴🔴';
   if (entry.countDiff > 0.5) return '🔴';
   if (entry.countDiff < -1.5) return '🟢🟢';

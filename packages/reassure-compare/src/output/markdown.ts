@@ -10,8 +10,8 @@ import {
   formatDuration,
   formatMetadata,
   formatPercent,
-  formatOutputCountChange,
-  formatOutputDurationChange,
+  formatCountDiff,
+  formatDurationChange,
 } from '../utils/format';
 import type {
   AddedEntry,
@@ -116,14 +116,14 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatOutputDurationChange(entry);
+  if ('baseline' in entry && 'current' in entry) return formatDurationChange(entry);
   if ('baseline' in entry) return formatDuration(entry.baseline.meanDuration);
   if ('current' in entry) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatOutputCountChange(entry);
+  if ('baseline' in entry && 'current' in entry) return formatCountDiff(entry);
   if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
   if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';

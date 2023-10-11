@@ -1,12 +1,6 @@
 import { logger } from '@callstack/reassure-logger';
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
-import {
-  formatCount,
-  formatDuration,
-  formatMetadata,
-  formatOutputCountChange,
-  formatOutputDurationChange,
-} from '../utils/format';
+import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
 import type { PerformanceMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
@@ -39,9 +33,7 @@ function printMetadata(name: string, metadata?: PerformanceMetadata) {
 }
 
 function printRegularLine(entry: CompareEntry) {
-  logger.log(
-    ` - [${entry.type}] ${entry.name}: ${formatOutputDurationChange(entry)} | ${formatOutputCountChange(entry)}`
-  );
+  logger.log(` - [${entry.type}] ${entry.name}: ${formatDurationChange(entry)} | ${formatCountChange(entry)}`);
 }
 
 function printAddedLine(entry: AddedEntry) {
