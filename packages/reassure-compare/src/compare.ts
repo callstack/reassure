@@ -30,7 +30,7 @@ const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
 
 /**
- * Threshold for considering count change as significant. This implies inclusion
+ * Threshold for considering render or execution count change as significant. This implies inclusion
  * of scenario results in Count Changed output section.
  */
 const COUNT_DIFF_THRESHOLD = 0.5;
@@ -144,7 +144,7 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     const baselineEntry = baseline?.entries[name];
 
     if (currentEntry && baselineEntry) {
-      compared.push(buildCompareEntry(name, currentEntry.type, currentEntry, baselineEntry));
+      compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
     } else if (currentEntry) {
       added.push({ name, type: currentEntry.type, current: currentEntry });
     } else if (baselineEntry) {
@@ -181,7 +181,6 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
  */
 function buildCompareEntry(
   name: string,
-  type: MeasureType,
   current: PerformanceEntry,
   baseline: PerformanceEntry
 ): CompareEntry {
@@ -198,7 +197,7 @@ function buildCompareEntry(
 
   return {
     name,
-    type,
+    type: current.type,
     baseline,
     current,
     durationDiff,
