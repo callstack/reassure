@@ -33,19 +33,19 @@ function printMetadata(name: string, metadata?: PerformanceMetadata) {
 }
 
 function printRegularLine(entry: CompareEntry) {
-  logger.log(` - [${entry.type}] ${entry.name}: ${formatDurationChange(entry)} | ${formatCountChange(entry)}`);
+  logger.log(` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(entry)}`);
 }
 
 function printAddedLine(entry: AddedEntry) {
   const { current } = entry;
   logger.log(
-    ` - [${entry.type}] ${entry.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`
   );
 }
 
 function printRemovedLine(entry: RemovedEntry) {
   const { baseline } = entry;
   logger.log(
-    ` - [${entry.type}] ${entry.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`
   );
 }
