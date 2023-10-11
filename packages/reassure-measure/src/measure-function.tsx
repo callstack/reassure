@@ -11,7 +11,7 @@ interface MeasureFunctionOptions {
 
 export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
   const stats = await measureFunctionInternal(fn, options);
-  await writeTestStats('syncFunction', stats);
+  await writeTestStats(stats, 'function');
 
   return stats;
 }

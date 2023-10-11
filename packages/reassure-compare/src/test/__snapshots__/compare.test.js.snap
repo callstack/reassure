@@ -213,7 +213,7 @@ exports[`loadFile should load results file with header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 0.4532780026900862,
-      "type": "syncFunction",
+      "type": "function",
     },
   },
   "metadata": {
@@ -409,7 +409,7 @@ exports[`loadFile should load results file without header 1`] = `
       "runs": 10,
       "stdevCount": 0,
       "stdevDuration": 0.4532780026900862,
-      "type": "syncFunction",
+      "type": "function",
     },
   },
   "metadata": undefined,

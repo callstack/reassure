@@ -4,8 +4,8 @@ import { config } from './config';
 import type { MeasureResults, MeasureType } from './types';
 
 export async function writeTestStats(
-  type: MeasureType,
   stats: MeasureResults,
+  type: MeasureType,
   outputFilePath: string = config.outputFile
 ): Promise<void> {
   const name = expect.getState().currentTestName;

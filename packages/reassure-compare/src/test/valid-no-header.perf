@@ -2,4 +2,4 @@
 {"name":"Other Component 10 legacy scenario","type":"render","runs":10,"meanDuration":90.5,"stdevDuration":4.552166761249221,"durations":[97,96,94,92,91,91,88,88,85,83],"meanCount":4,"stdevCount":0,"counts":[4,4,4,4,4,4,4,4,4,4]}
 {"name":"Other Component 20","type":"render","runs":20,"meanDuration":92.2,"stdevDuration":4.595191995301633,"durations":[99,99,98,98,96,95,94,93,93,93,93,92,90,90,89,88,88,87,87,82],"meanCount":4,"stdevCount":0,"counts":[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]}
 {"name":"Async Component","type":"render","runs":10,"meanDuration":150.8,"stdevDuration":7.554248252914823,"durations":[160,158,158,155,153,150,149,145,144,136],"meanCount":7,"stdevCount":0,"counts":[7,7,7,7,7,7,7,7,7,7]}
-{"name":"fib 30","type":"syncFunction","runs":10,"meanDuration":79.9,"stdevDuration":0.4532780026900862,"durations":[80,80,80,80,80,79,79,79,79,79],"meanCount":1,"stdevCount":0,"counts":[1,1,1,1,1,1,1,1,1,1]}
+{"name":"fib 30","type":"function","runs":10,"meanDuration":79.9,"stdevDuration":0.4532780026900862,"durations":[80,80,80,80,80,79,79,79,79,79],"meanCount":1,"stdevCount":0,"counts":[1,1,1,1,1,1,1,1,1,1]}

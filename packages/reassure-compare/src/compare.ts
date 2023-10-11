@@ -8,7 +8,6 @@ import type {
   PerformanceResults,
   PerformanceEntry,
   PerformanceHeader,
-  MeasureType,
 } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
@@ -177,13 +176,9 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
 }
 
 /**
- * Establish statisticial significance of duration difference build compare entry.
+ * Establish statisticial significance of render/execution duration difference build compare entry.
  */
-function buildCompareEntry(
-  name: string,
-  current: PerformanceEntry,
-  baseline: PerformanceEntry
-): CompareEntry {
+function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const relativeDurationDiff = durationDiff / baseline.meanDuration;
   const countDiff = current.meanCount - baseline.meanCount;

@@ -1,3 +1,6 @@
+/** Type (natute) of measured characteristic. */
+export type MeasureType = 'render' | 'function';
+
 /**
  * Type representing output of measure functions, e.g. `measurePerformance`, `measureFunction`.
  */
@@ -23,5 +26,3 @@ export interface MeasureResults {
   /** Array of measured execution count for each run */
   counts: number[];
 }
-
-export type MeasureType = 'render' | 'syncFunction';
