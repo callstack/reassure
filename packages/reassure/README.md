@@ -342,9 +342,9 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 
 Looking at the example, you can notice that test scenarios can be assigned to certain categories:
 
-- **Significant Changes To Duration** shows test scenarios where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
-- **Meaningless Changes To Duration** shows test scenarios where the change is not statistically significant
-- **Changes To Count** shows test scenarios where the count did change
+- **Significant Changes To Duration** shows test scenarios where the performance change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
+- **Meaningless Changes To Duration** shows test scenarios where the performance change is not statistically significant
+- **Changes To Count** shows test scenarios where the render or execution count did change
 - **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
 
@@ -377,35 +377,6 @@ interface MeasureOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs (default 1).
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results; only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the UI by utilising RNTL or RTL functions
-
-#### `measurePerformance` function
-
-Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
-measuring its performance and writing results to the output file. You can use the optional `options` object that allows customizing aspects
-of the testing
-
-```ts
-async function measurePerformance(
-  ui: React.ReactElement,
-  options?: MeasureOptions
-): Promise<MeasureResults> {
-```
-
-#### `MeasureOptions` type
-
-```ts
-interface MeasureOptions {
-  runs?: number;
-  warmupRuns?: number;
-  wrapper?: React.ComponentType<{ children: ReactElement }>;
-  scenario?: (view?: RenderResult) => Promise<any>;
-}
-```
-
-- **`runs`**: number of runs per series for the particular test
-- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs (default 1)
-- **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results; only the wrapped component is measured.
-- **`scenario`**: a custom async function, which defines user interaction within the UI by utilising RNTL functions
 
 #### `measureFunction` function
 
