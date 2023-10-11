@@ -154,7 +154,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
-    entry.durations ? `Runs: ${entry.durations.join(' ')}` : '',
+    entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
   ]
     .filter(Boolean)
     .join(`<br/>`);
@@ -175,4 +175,8 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
 
 export function collapsibleSection(title: string, content: string) {
   return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
+}
+
+export function formatRunDurations(values: number[]) {
+  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
 }
