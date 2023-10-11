@@ -51,6 +51,8 @@ You can think about it as a React performance testing library. In fact, Reassure
 
 Reassure works by measuring render characteristics – duration and count – of the testing scenario you provide and comparing that to the stable version. It repeats the scenario multiple times to reduce the impact of random variations in render times caused by the runtime environment. Then, it applies statistical analysis to determine whether the code changes are statistically significant. As a result, it generates a human-readable report summarizing the results and displays it on the CI or as a comment to your pull request.
 
+In addition to measuring component render times it can also measure execution of regular JavaScript functions.
+
 ## Installation and setup
 
 To install Reassure, run the following command in your app folder:
@@ -158,7 +160,7 @@ To measure your first test performance, you need to run the following command in
 yarn reassure
 ```
 
-This command will run your tests multiple times using Jest, gathering render statistics and will write them to `.reassure/current.perf` file. To check your setup, check if the output file exists after running the command for the first time.
+This command will run your tests multiple times using Jest, gathering performance statistics and will write them to `.reassure/current.perf` file. To check your setup, check if the output file exists after running the command for the first time.
 
 > **Note:** You can add `.reassure/` folder to your `.gitignore` file to avoid accidentally committing your results.
 
@@ -340,9 +342,9 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 
 Looking at the example, you can notice that test scenarios can be assigned to certain categories:
 
-- **Significant Changes To Render Duration** shows test scenarios where the change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
-- **Meaningless Changes To Render Duration** shows test scenarios where the change is not statistically significant
-- **Changes To Render Count** shows test scenarios where the render count did change
+- **Significant Changes To Duration** shows test scenarios where the performance change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
+- **Meaningless Changes To Duration** shows test scenarios where the performance change is not statistically significant
+- **Changes To Count** shows test scenarios where the render or execution count did change
 - **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
 
@@ -357,7 +359,10 @@ measuring its performance and writing results to the output file. You can use th
 of the testing
 
 ```ts
-async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureRenderResult> {
+async function measurePerformance(
+  ui: React.ReactElement,
+  options?: MeasureOptions,
+): Promise<MeasureResults> {
 ```
 
 #### `MeasureOptions` type
@@ -374,7 +379,30 @@ interface MeasureOptions {
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs (default 1).
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results; only the wrapped component is measured.
-- **`scenario`**: a custom async function, which defines user interaction within the UI by utilising RNTL functions
+- **`scenario`**: a custom async function, which defines user interaction within the UI by utilising RNTL or RTL functions
+
+#### `measureFunction` function
+
+Allows you to wrap any synchronous function, measure its execution times and write results to the output file. You can use optional `options` to customize aspects of the testing. Note: the execution count will always be one.
+
+```ts
+async function measureFunction(
+  fn: () => void,
+  options?: MeasureFunctionOptions
+): Promise<MeasureResults> {
+```
+
+#### `MeasureFunctionOptions` type
+
+```ts
+interface MeasureFunctionOptions {
+  runs?: number;
+  warmupRuns?: number;
+}
+```
+
+- **`runs`**: number of runs per series for the particular test
+- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 
 ### Configuration
 

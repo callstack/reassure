@@ -1,32 +1,28 @@
+/** Type of measured performance characteristic. */
+export type MeasureType = 'render' | 'function';
+
 /**
- * Type representing output from `measureRender` function.
+ * Type representing the result of `measure*` functions.
  */
-export interface MeasureRenderResult {
-  /** Number of times the measurment test was run */
+export interface MeasureResults {
+  /** Number of times the test subject was run */
   runs: number;
 
-  /** Array of measured render durations for each run */
-  durations: number[];
-
-  /** Arithmetic average of measured render durations for each run */
+  /** Arithmetic average of measured render/execution durations for each run */
   meanDuration: number;
 
-  /* Standard deviation of measured render durations for each run */
+  /** Standard deviation of measured render/execution durations for each run */
   stdevDuration: number;
 
-  /** Array of measured render counts for each run */
-  counts: number[];
+  /** Array of measured render/execution durations for each run */
+  durations: number[];
 
-  /** Arithmetic average of measured render counts for each run */
+  /** Arithmetic average of measured render/execution count for each run */
   meanCount: number;
 
-  /** Standard deviation of measured render counts for each run */
+  /** Standard deviation of measured render/execution count for each run */
   stdevCount: number;
-}
 
-/**
- * Output of specific test scenarion as written to perf results file.
- */
-export interface PerformanceEntry extends MeasureRenderResult {
-  name: string;
+  /** Array of measured render/execution count for each run */
+  counts: number[];
 }

@@ -10,12 +10,13 @@ describe('loadFile', () => {
     });
 
     const entries = Object.keys(results.entries);
-    expect(entries).toHaveLength(4);
+    expect(entries).toHaveLength(5);
     expect(entries).toEqual([
       'Other Component 10',
       'Other Component 10 legacy scenario',
       'Other Component 20',
       'Async Component',
+      'fib 30',
     ]);
     expect(results).toMatchSnapshot();
   });
@@ -26,12 +27,13 @@ describe('loadFile', () => {
     expect(results.metadata).toBeUndefined();
 
     const entries = Object.keys(results.entries);
-    expect(entries).toHaveLength(4);
+    expect(entries).toHaveLength(5);
     expect(entries).toEqual([
       'Other Component 10',
       'Other Component 10 legacy scenario',
       'Other Component 20',
       'Async Component',
+      'fib 30',
     ]);
     expect(results).toMatchSnapshot();
   });
@@ -42,5 +44,12 @@ describe('loadFile', () => {
 
   it('should fail for file with invalid entry', async () => {
     expect(() => loadFile(`${__dirname}/invalid-entry.perf`)).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should support entries without type', async () => {
+    const results = loadFile(`${__dirname}/default-type.perf`);
+
+    const types = Object.entries(results.entries).map(([key, value]) => value.type);
+    expect(types).toEqual(['render', 'render', 'function']);
   });
 });

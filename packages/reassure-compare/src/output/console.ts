@@ -1,12 +1,6 @@
 import { logger } from '@callstack/reassure-logger';
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
-import {
-  formatCount,
-  formatDuration,
-  formatMetadata,
-  formatRenderCountChange,
-  formatRenderDurationChange,
-} from '../utils/format';
+import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
 import type { PerformanceMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
@@ -16,13 +10,13 @@ export function printToConsole(data: CompareResult) {
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
 
-  logger.log('\n➡️  Significant changes to render duration');
+  logger.log('\n➡️  Significant changes to duration');
   data.significant.forEach(printRegularLine);
 
-  logger.log('\n➡️  Meaningless changes to render duration');
+  logger.log('\n➡️  Meaningless changes to duration');
   data.meaningless.forEach(printRegularLine);
 
-  logger.log('\n➡️  Render count changes');
+  logger.log('\n➡️  Count changes');
   data.countChanged.forEach(printRegularLine);
 
   logger.log('\n➡️  Added scenarios');
@@ -39,15 +33,19 @@ function printMetadata(name: string, metadata?: PerformanceMetadata) {
 }
 
 function printRegularLine(entry: CompareEntry) {
-  logger.log(` - ${entry.name}: ${formatRenderDurationChange(entry)} | ${formatRenderCountChange(entry)}`);
+  logger.log(` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(entry)}`);
 }
 
 function printAddedLine(entry: AddedEntry) {
   const { current } = entry;
-  logger.log(` - ${entry.name}: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`);
+  logger.log(
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`
+  );
 }
 
 function printRemovedLine(entry: RemovedEntry) {
   const { baseline } = entry;
-  logger.log(` - ${entry.name}: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`);
+  logger.log(
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`
+  );
 }

@@ -21,7 +21,7 @@ import { parseHeader, parsePerformanceEntries } from './utils/validate';
 const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 
 /**
- * Render duration threshold (in ms) for treating given difference as significant.
+ * Duration threshold (in ms) for treating given difference as significant.
  *
  * This is additional filter, in addition to probability threshold above.
  * Too small duration difference might be result of measurement grain of 1 ms.
@@ -29,8 +29,8 @@ const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
 
 /**
- * Threshold for considering render count change as significant. This implies inclusion
- * of scenario results in Render Count Changed output section.
+ * Threshold for considering render or execution count change as significant. This implies inclusion
+ * of scenario results in Count Changed output section.
  */
 const COUNT_DIFF_THRESHOLD = 0.5;
 
@@ -145,9 +145,9 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     if (currentEntry && baselineEntry) {
       compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
     } else if (currentEntry) {
-      added.push({ name, current: currentEntry });
+      added.push({ name, type: currentEntry.type, current: currentEntry });
     } else if (baselineEntry) {
-      removed.push({ name, baseline: baselineEntry });
+      removed.push({ name, type: baselineEntry.type, baseline: baselineEntry });
     }
   });
 
@@ -176,7 +176,7 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
 }
 
 /**
- * Establish statisticial significance of render duration difference build compare entry.
+ * Establish statisticial significance of render/execution duration difference build compare entry.
  */
 function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
@@ -192,6 +192,7 @@ function buildCompareEntry(name: string, current: PerformanceEntry, baseline: Pe
 
   return {
     name,
+    type: current.type,
     baseline,
     current,
     durationDiff,

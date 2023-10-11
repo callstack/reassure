@@ -1,10 +1,11 @@
 /** Parsed performance results file. */
 import type { z } from 'zod';
-import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './utils/validate';
+import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './type-schemas';
 
 export type PerformanceHeader = z.infer<typeof performanceHeaderSchema>;
 export type PerformanceMetadata = z.infer<typeof performanceMetadataSchema>;
 export type PerformanceEntry = z.infer<typeof performanceEntrySchema>;
+export type MeasureType = PerformanceEntry['type'];
 
 export interface PerformanceResults {
   metadata?: PerformanceMetadata;
@@ -16,6 +17,7 @@ export interface PerformanceResults {
  */
 export interface CompareEntry {
   name: string;
+  type: MeasureType;
   current: PerformanceEntry;
   baseline: PerformanceEntry;
   durationDiff: number;
@@ -30,6 +32,7 @@ export interface CompareEntry {
  */
 export interface AddedEntry {
   name: string;
+  type: MeasureType;
   current: PerformanceEntry;
 }
 
@@ -38,6 +41,7 @@ export interface AddedEntry {
  */
 export interface RemovedEntry {
   name: string;
+  type: MeasureType;
   baseline: PerformanceEntry;
 }
 

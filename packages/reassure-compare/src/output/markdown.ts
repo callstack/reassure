@@ -10,8 +10,8 @@ import {
   formatDuration,
   formatMetadata,
   formatPercent,
-  formatRenderCountChange,
-  formatRenderDurationChange,
+  formatCountChange,
+  formatDurationChange,
 } from '../utils/format';
 import type {
   AddedEntry,
@@ -22,7 +22,7 @@ import type {
   PerformanceMetadata,
 } from '../types';
 
-const tableHeader = ['Name', 'Render Duration', 'Render Count'] as const;
+const tableHeader = ['Name', 'Type', 'Duration', 'Count'] as const;
 
 export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
   try {
@@ -68,13 +68,13 @@ function buildMarkdown(data: CompareResult) {
     });
   }
 
-  result += `\n\n${headers.h3('Significant Changes To Render Duration')}`;
+  result += `\n\n${headers.h3('Significant Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.significant)}`;
   result += `\n${buildDetailsTable(data.significant)}`;
-  result += `\n\n${headers.h3('Meaningless Changes To Render Duration')}`;
+  result += `\n\n${headers.h3('Meaningless Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
-  result += `\n\n${headers.h3('Changes To Render Count')}`;
+  result += `\n\n${headers.h3('Changes To Count')}`;
   result += `\n${buildSummaryTable(data.countChanged)}`;
   result += `\n${buildDetailsTable(data.countChanged)}`;
   result += `\n\n${headers.h3('Added Scenarios')}`;
@@ -95,7 +95,7 @@ function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | und
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {
   if (!entries.length) return emphasis.i('There are no entries');
 
-  const rows = entries.map((entry) => [entry.name, formatEntryDuration(entry), formatEntryCount(entry)]);
+  const rows = entries.map((entry) => [entry.name, entry.type, formatEntryDuration(entry), formatEntryCount(entry)]);
   const content = markdownTable([tableHeader, ...rows]);
 
   return collapse ? collapsibleSection('Show entries', content) : content;
@@ -104,21 +104,26 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
   if (!entries.length) return '';
 
-  const rows = entries.map((entry) => [entry.name, buildDurationDetailsEntry(entry), buildCountDetailsEntry(entry)]);
+  const rows = entries.map((entry) => [
+    entry.name,
+    entry.type,
+    buildDurationDetailsEntry(entry),
+    buildCountDetailsEntry(entry),
+  ]);
   const content = markdownTable([tableHeader, ...rows]);
 
   return collapsibleSection('Show details', content);
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatRenderDurationChange(entry);
+  if ('baseline' in entry && 'current' in entry) return formatDurationChange(entry);
   if ('baseline' in entry) return formatDuration(entry.baseline.meanDuration);
   if ('current' in entry) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatRenderCountChange(entry);
+  if ('baseline' in entry && 'current' in entry) return formatCountChange(entry);
   if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
   if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';
@@ -149,7 +154,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     emphasis.b(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
-    entry.durations ? `Runs: ${entry.durations.join(' ')}` : '',
+    entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
   ]
     .filter(Boolean)
     .join(`<br/>`);
@@ -170,4 +175,8 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
 
 export function collapsibleSection(title: string, content: string) {
   return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
+}
+
+export function formatRunDurations(values: number[]) {
+  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
 }

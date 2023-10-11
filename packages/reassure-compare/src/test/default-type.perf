@@ -1,0 +1,4 @@
+{"metadata":{"branch":"feat/perf-file-validation","commitHash":"991427a413b1ff05497a881287c9ddcba7b8de54"}}
+{"name":"Other Component 10 with type","type":"render","runs":10,"meanDuration":92.7,"stdevDuration":4.831608887776871,"durations":[100,97,95,94,94,94,93,90,86,84],"meanCount":4,"stdevCount":0,"counts":[4,4,4,4,4,4,4,4,4,4]}
+{"name":"Other Component 10 without type","runs":10,"meanDuration":90.5,"stdevDuration":4.552166761249221,"durations":[97,96,94,92,91,91,88,88,85,83],"meanCount":4,"stdevCount":0,"counts":[4,4,4,4,4,4,4,4,4,4]}
+{"name":"fib 30","type":"function","runs":10,"meanDuration":79.9,"stdevDuration":0.4532780026900862,"durations":[80,80,80,80,80,79,79,79,79,79],"meanCount":1,"stdevCount":0,"counts":[1,1,1,1,1,1,1,1,1,1]}
