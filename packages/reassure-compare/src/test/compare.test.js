@@ -45,4 +45,11 @@ describe('loadFile', () => {
   it('should fail for file with invalid entry', async () => {
     expect(() => loadFile(`${__dirname}/invalid-entry.perf`)).toThrowErrorMatchingSnapshot();
   });
+
+  it('should support entries without type', async () => {
+    const results = loadFile(`${__dirname}/default-type.perf`);
+
+    const types = Object.entries(results.entries).map(([key, value]) => value.type);
+    expect(types).toEqual(['render', 'render', 'function']);
+  });
 });
