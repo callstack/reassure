@@ -156,12 +156,12 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     .sort((a, b) => b.durationDiff - a.durationDiff);
   const meaningless = compared
     .filter((item) => !item.isDurationDiffSignificant)
-    .sort((a, b) => b.durationDiff - a.durationDiff);
+    .sort((a, b) => a.name.localeCompare(b.name));
   const countChanged = compared
     .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
-  added.sort((a, b) => b.current.meanDuration - a.current.meanDuration);
-  removed.sort((a, b) => b.baseline.meanDuration - a.baseline.meanDuration);
+  added.sort((a, b) => a.name.localeCompare(b.name));
+  removed.sort((a, b) => a.name.localeCompare(b.name));
 
   return {
     metadata: { current: current.metadata, baseline: baseline?.metadata },
