@@ -14,7 +14,10 @@ measuring its performance and writing results to the output file. You can use op
 of the testing
 
 ```ts
-async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
+async function measurePerformance(
+  ui: React.ReactElement,
+  options?: MeasureOptions,
+): Promise<MeasureResults> {
 ```
 
 #### Example
@@ -56,7 +59,10 @@ interface MeasureOptions {
 Allows you to wrap any synchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
 
 ```ts
-async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
+async function measureFunction(
+  fn: () => void,
+  options?: MeasureFunctionOptions,
+): Promise<MeasureResults> {
 ```
 
 #### Example
