@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 0.3.1
+
+### Patch Changes
+
+- 2e127815: Removed "node:" prefix from "readline" import.
+
 ## 0.3.0
 
 ### Minor Changes

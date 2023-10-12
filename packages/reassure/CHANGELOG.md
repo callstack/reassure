@@ -1,5 +1,12 @@
 # reassure
 
+## 0.9.1
+
+### Patch Changes
+
+- @callstack/reassure-cli@0.9.1
+- @callstack/reassure-measure@0.5.1
+
 ## 0.9.0
 
 ### Minor Changes

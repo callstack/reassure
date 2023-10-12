@@ -1,5 +1,13 @@
 # @callstack/reassure-cli
 
+## 0.9.1
+
+### Patch Changes
+
+- Updated dependencies [2e127815]
+  - @callstack/reassure-logger@0.3.1
+  - @callstack/reassure-compare@0.5.1
+
 ## 0.9.0
 
 ### Minor Changes
