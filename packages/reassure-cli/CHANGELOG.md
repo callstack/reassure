@@ -1,5 +1,19 @@
 # @callstack/reassure-cli
 
+## 0.10.0
+
+### Minor Changes
+
+- baf90de1: (BREAKING) feat: `wrapper` option for `measurePerformance`/`measureRender` function now accepts a React component instead of wrapper function.
+- feat: `measureFunction` API to measure regular JS functions execution time
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies [99afdf98]
+  - @callstack/reassure-compare@0.6.0
+  - @callstack/reassure-logger@0.3.2
+
 ## 0.9.1
 
 ### Patch Changes

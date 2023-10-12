@@ -1,5 +1,16 @@
 # @callstack/reassure-compare
 
+## 0.6.0
+
+### Minor Changes
+
+- feat: `measureFunction` API to measure regular JS functions execution time
+
+### Patch Changes
+
+- Updated dependencies [99afdf98]
+  - @callstack/reassure-logger@0.3.2
+
 ## 0.5.1
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # reassure
 
+## 0.10.0
+
+### Minor Changes
+
+- baf90de1: (BREAKING) feat: `wrapper` option for `measurePerformance`/`measureRender` function now accepts a React component instead of wrapper function.
+- ea70aabb: (BREAKING) refactor: renamed `dropWorst` option to `warmupRuns` with slight change of logic behind it.
+- feat: `measureFunction` API to measure regular JS functions execution time
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies [baf90de1]
+- Updated dependencies [ea70aabb]
+  - @callstack/reassure-cli@0.10.0
+  - @callstack/reassure-measure@0.6.0
+
 ## 0.9.1
 
 ### Patch Changes
