@@ -1,5 +1,11 @@
 # reassure
 
+## 0.10.1
+
+### Patch Changes
+
+- d74f81e: hotfix: make measureFunction a publicly available API
+
 ## 0.10.0
 
 ### Minor Changes

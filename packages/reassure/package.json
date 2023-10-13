@@ -1,6 +1,6 @@
 {
   "name": "reassure",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
