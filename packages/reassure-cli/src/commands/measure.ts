@@ -10,13 +10,15 @@ import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { configureLoggerOptions } from '../utils/logger';
 
+const RUNNERS: string[] = ['jest', 'vitest'] as const;
+
 export interface MeasureOptions extends CommonOptions {
+  runner: string; // default value is provided so not marking as optional
   baseline?: boolean;
   compare?: boolean;
   branch?: string;
   commitHash?: string;
   testMatch?: string;
-  runner?: string;
 }
 
 export async function run(options: MeasureOptions) {
@@ -41,10 +43,17 @@ export async function run(options: MeasureOptions) {
   const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
-  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? getJestBinPath();
+  if (!RUNNERS.includes(options.runner)) {
+    logger.error(`❌ Invalid runner provided: ${options.runner}. Valid options are 'jest' and 'vitest'`);
+    process.exitCode = 1;
+    return;
+  }
+
+  const testRunnerPath = process.env.TEST_RUNNER_PATH ?? getBinPath(options.runner);
+
   if (!testRunnerPath) {
     logger.error(
-      `❌ Unable to find Jest binary path. Pass explicit $TEST_RUNNER_PATH env variable to resolve the issue.`
+      `❌ Unable to find test runner binary path for ${options.runner}. Pass explicit $TEST_RUNNER_PATH env variable to resolve the issue.`
     );
     process.exitCode = 1;
     return;
@@ -155,6 +164,17 @@ export const command: CommandModule<{}, MeasureOptions> = {
   },
   handler: (args) => run(args),
 };
+
+export function getBinPath(runner: string) {
+  try {
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    const runnerPackageJson = require(`${runner}/package.json`);
+    const runnerPackagePath = dirname(require.resolve(`${runner}/package.json`));
+    return resolve(runnerPackagePath, runnerPackageJson.bin.jest || runnerPackageJson.bin);
+  } catch (error) {
+    return null;
+  }
+}
 
 export function getJestBinPath() {
   try {
