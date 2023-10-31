@@ -16,6 +16,7 @@ export interface MeasureOptions extends CommonOptions {
   branch?: string;
   commitHash?: string;
   testMatch?: string;
+  runner?: string;
 }
 
 export async function run(options: MeasureOptions) {
@@ -145,6 +146,11 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
+      })
+      .option('runner', {
+        type: 'string',
+        default: 'jest',
+        describe: 'Specify which test runner to use. Valid values are: jest (default) and vitest.',
       });
   },
   handler: (args) => run(args),
