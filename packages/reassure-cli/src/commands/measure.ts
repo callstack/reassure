@@ -170,7 +170,7 @@ export function getBinPath(runner: string) {
     // eslint-disable-next-line import/no-extraneous-dependencies
     const runnerPackageJson = require(`${runner}/package.json`);
     const runnerPackagePath = dirname(require.resolve(`${runner}/package.json`));
-    return resolve(runnerPackagePath, runnerPackageJson.bin.jest || runnerPackageJson.bin);
+    return resolve(runnerPackagePath, runnerPackageJson.bin['runner'] || runnerPackageJson.bin);
   } catch (error) {
     return null;
   }
