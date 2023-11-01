@@ -175,14 +175,3 @@ export function getBinPath(runner: string) {
     return null;
   }
 }
-
-export function getJestBinPath() {
-  try {
-    // eslint-disable-next-line import/no-extraneous-dependencies
-    const jestPackageJson = require('jest/package.json');
-    const jestPackagePath = dirname(require.resolve('jest/package.json'));
-    return resolve(jestPackagePath, jestPackageJson.bin.jest || jestPackageJson.bin);
-  } catch (error) {
-    return null;
-  }
-}
