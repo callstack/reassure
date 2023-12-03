@@ -6,9 +6,14 @@ export interface RunResult {
   count: number;
 }
 
-export function processRunResults(results: RunResult[], warmupRuns: number): MeasureResults {
+export function processRunResults(results: RunResult[], runs: number | 'quick-3', warmupRuns: number): MeasureResults {
   results = results.slice(warmupRuns);
+
   results.sort((first, second) => second.duration - first.duration); // duration DESC
+
+  if (runs === 'quick-3') {
+    results = [results[0], results[1], results[1], results[1], results[1], results[2]];
+  }
 
   const durations = results.map((result) => result.duration);
   const meanDuration = math.mean(durations) as number;

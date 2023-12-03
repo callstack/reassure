@@ -41,3 +41,15 @@ test('measureFunctionInternal applies dropsWorst option', () => {
   expect(results.meanCount).toBe(1);
   expect(results.stdevCount).toBe(0);
 });
+
+test('measureFunctionInternal supports "runs: quick-3" option', () => {
+  const fn = jest.fn(() => fib(5));
+  const results = measureFunctionInternal(fn, { runs: 'quick-3', warmupRuns: 1 });
+
+  expect(fn).toHaveBeenCalledTimes(4);
+  expect(results.runs).toBe(6);
+  expect(results.durations).toHaveLength(6);
+  expect(results.counts).toHaveLength(6);
+  expect(results.meanCount).toBe(1);
+  expect(results.stdevCount).toBe(0);
+});

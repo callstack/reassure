@@ -89,3 +89,27 @@ test('buildUiToRender does not wrap when no wrapper is passed', () => {
     </UNDEFINED>
   `);
 });
+
+test('measureRender applies dropsWorst option', async () => {
+  const scenario = jest.fn(() => Promise.resolve(null));
+  const results = await measureRender(<View />, { runs: 10, warmupRuns: 1, scenario });
+
+  expect(scenario).toHaveBeenCalledTimes(11);
+  expect(results.runs).toBe(10);
+  expect(results.durations).toHaveLength(10);
+  expect(results.counts).toHaveLength(10);
+  expect(results.meanCount).toBe(1);
+  expect(results.stdevCount).toBe(0);
+});
+
+test('measureRender supports "runs: quick-3" option', async () => {
+  const scenario = jest.fn(() => Promise.resolve(null));
+  const results = await measureRender(<View />, { runs: 'quick-3', warmupRuns: 1, scenario });
+
+  expect(scenario).toHaveBeenCalledTimes(4);
+  expect(results.runs).toBe(6);
+  expect(results.durations).toHaveLength(6);
+  expect(results.counts).toHaveLength(6);
+  expect(results.meanCount).toBe(1);
+  expect(results.stdevCount).toBe(0);
+});
