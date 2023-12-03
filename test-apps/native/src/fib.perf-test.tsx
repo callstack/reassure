@@ -1,4 +1,6 @@
-import { measureFunction } from '@callstack/reassure-measure';
+import { configure, measureFunction } from '@callstack/reassure-measure';
+
+configure({ runs: 'quick-3' });
 
 function fib(n: number): number {
   if (n <= 1) {

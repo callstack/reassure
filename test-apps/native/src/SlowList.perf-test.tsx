@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { fireEvent, screen } from '@testing-library/react-native';
-import { measurePerformance } from 'reassure';
+import { measurePerformance, configure } from 'reassure';
 import { SlowList } from './SlowList';
+
+configure({ runs: 'quick-3' });
 
 const AsyncComponent = () => {
   const [count, setCount] = React.useState(0);

@@ -12,7 +12,7 @@ logger.configure({
 });
 
 export interface MeasureOptions {
-  runs?: number;
+  runs?: number | 'quick-3';
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
@@ -27,6 +27,8 @@ export async function measurePerformance(ui: React.ReactElement, options?: Measu
 
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
+  const runCount = runs === 'quick-3' ? 3 : runs;
+
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
@@ -36,7 +38,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
-  for (let i = 0; i < runs + warmupRuns; i += 1) {
+  for (let i = 0; i < runCount + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
@@ -72,7 +74,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     );
   }
 
-  return processRunResults(runResults, warmupRuns);
+  return processRunResults(runResults, runs, warmupRuns);
 }
 
 export function buildUiToRender(

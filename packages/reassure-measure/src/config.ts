@@ -4,7 +4,7 @@ export type Render = (component: React.ReactElement<any>) => any;
 export type Cleanup = () => void;
 
 type Config = {
-  runs: number;
+  runs: number | 'quick-3';
   warmupRuns: number;
   outputFile: string;
   testingLibrary?: TestingLibrary;
