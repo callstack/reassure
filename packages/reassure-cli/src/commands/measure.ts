@@ -16,6 +16,7 @@ export interface MeasureOptions extends CommonOptions {
   branch?: string;
   commitHash?: string;
   testMatch?: string;
+  enableWasm?: boolean;
 }
 
 export async function run(options: MeasureOptions) {
@@ -64,7 +65,8 @@ export async function run(options: MeasureOptions) {
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
 
   const nodeArgs = [
-    '--jitless',
+    // Use less restrictive flags to allow running WASM code (e.g. `fetch`) in tests.
+    options.enableWasm ? '--no-opt --no-sparkplug' : '--jitless',
     '--expose-gc',
     '--no-concurrent-sweeping',
     '--max-old-space-size=4096',
@@ -72,7 +74,7 @@ export async function run(options: MeasureOptions) {
     testRunnerArgs,
   ];
   logger.verbose('Running tests using command:');
-  logger.verbose(`$ node ${nodeArgs.join(' \\\n    ')}\n`);
+  logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
   const spawnInfo = spawnSync('node', nodeArgs, {
     shell: true,
@@ -145,6 +147,12 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
+      })
+      .option('enable-wasm', {
+        type: 'boolean',
+        default: false,
+        describe:
+          '(experimental) Enables WebAssembly support in tests by modifying Node flags. This may affect test stability.',
       });
   },
   handler: (args) => run(args),
