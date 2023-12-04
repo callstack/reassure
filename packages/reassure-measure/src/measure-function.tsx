@@ -2,7 +2,7 @@ import { performance } from 'perf_hooks';
 import { config } from './config';
 import type { MeasureResults } from './types';
 import { type RunResult, processRunResults } from './measure-helpers';
-import { showFlagsOuputIfNeeded, writeTestStats } from './output';
+import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 
 interface MeasureFunctionOptions {
   runs?: number;
@@ -20,7 +20,7 @@ export function measureFunctionInternal(fn: () => void, options?: MeasureFunctio
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
-  showFlagsOuputIfNeeded();
+  showFlagsOutputIfNeeded();
 
   const runResults: RunResult[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {

@@ -29,7 +29,7 @@ export async function clearTestStats(outputFilePath: string = config.outputFile)
 
 let hasShownFlagsOutput = false;
 
-export function showFlagsOuputIfNeeded() {
+export function showFlagsOutputIfNeeded() {
   if (hasShownFlagsOutput) {
     return;
   }

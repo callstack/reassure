@@ -2,7 +2,7 @@ import * as React from 'react';
 import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
-import { showFlagsOuputIfNeeded, writeTestStats } from './output';
+import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary } from './testingLibrary';
 import type { MeasureResults } from './types';
 
@@ -32,7 +32,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
   const { render, cleanup } = resolveTestingLibrary();
 
-  showFlagsOuputIfNeeded();
+  showFlagsOutputIfNeeded();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
