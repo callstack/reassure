@@ -1,5 +1,11 @@
 # reassure
 
+## 0.10.2
+
+### Patch Changes
+
+- 8ca46a44: feat: Experimental options to enable WebAssembly (--enable-wasm)
+
 ## 0.10.1
 
 ### Patch Changes

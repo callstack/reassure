@@ -1,5 +1,11 @@
 # @callstack/reassure-cli
 
+## 0.10.2
+
+### Patch Changes
+
+- 8ca46a44: feat: Experimental options to enable WebAssembly (--enable-wasm)
+
 ## 0.10.0
 
 ### Minor Changes
