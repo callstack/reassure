@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { buildUiToRender, measureRender } from '../measure-render';
+import { buildUiToRender, measureRendersInternal } from '../measure-renders';
 import { resetHasShownFlagsOutput } from '../output';
 
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
@@ -14,9 +14,9 @@ beforeEach(() => {
   });
 });
 
-test('measureRender run test given number of times', async () => {
+test('measureRendersInternal run test given number of times', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
-  const results = await measureRender(<View />, { runs: 20, scenario });
+  const results = await measureRendersInternal(<View />, { runs: 20, scenario });
   expect(results.runs).toBe(20);
   expect(results.durations).toHaveLength(20);
   expect(results.counts).toHaveLength(20);
@@ -27,9 +27,9 @@ test('measureRender run test given number of times', async () => {
   expect(scenario).toHaveBeenCalledTimes(21);
 });
 
-test('measureRender applies "warmupRuns" option', async () => {
+test('measureRendersInternal applies "warmupRuns" option', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
-  const results = await measureRender(<View />, { runs: 10, scenario });
+  const results = await measureRendersInternal(<View />, { runs: 10, scenario });
 
   expect(scenario).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
@@ -39,9 +39,9 @@ test('measureRender applies "warmupRuns" option', async () => {
   expect(results.stdevCount).toBe(0);
 });
 
-test('measureRender should log error when running under incorrect node flags', async () => {
+test('measureRendersInternal should log error when running under incorrect node flags', async () => {
   resetHasShownFlagsOutput();
-  const results = await measureRender(<View />, { runs: 1 });
+  const results = await measureRendersInternal(<View />, { runs: 1 });
 
   expect(results.runs).toBe(1);
   expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
@@ -53,8 +53,8 @@ function IgnoreChildren(_: React.PropsWithChildren<{}>) {
   return <View />;
 }
 
-test('measureRender does not measure wrapper execution', async () => {
-  const results = await measureRender(<View />, { wrapper: IgnoreChildren });
+test('measureRendersInternal does not measure wrapper execution', async () => {
+  const results = await measureRendersInternal(<View />, { wrapper: IgnoreChildren });
   expect(results.runs).toBe(10);
   expect(results.durations).toHaveLength(10);
   expect(results.counts).toHaveLength(10);

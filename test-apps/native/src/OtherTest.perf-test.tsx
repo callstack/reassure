@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { fireEvent, RenderAPI, screen } from '@testing-library/react-native';
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 
 import { SlowList } from './SlowList';
 
@@ -35,7 +35,7 @@ test('Other Component 10', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await measurePerformance(<AsyncComponent />, { scenario, runs: 10 });
+  await measureRenders(<AsyncComponent />, { scenario, runs: 10 });
 });
 
 test('Other Component 10 legacy scenario', async () => {
@@ -47,7 +47,7 @@ test('Other Component 10 legacy scenario', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await measurePerformance(<AsyncComponent />, { scenario, runs: 10 });
+  await measureRenders(<AsyncComponent />, { scenario, runs: 10 });
 });
 
 test('Other Component 20', async () => {
@@ -59,5 +59,5 @@ test('Other Component 20', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await measurePerformance(<AsyncComponent />, { scenario, runs: 20 });
+  await measureRenders(<AsyncComponent />, { scenario, runs: 20 });
 });

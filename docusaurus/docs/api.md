@@ -7,14 +7,14 @@ sidebar_position: 4
 
 ## Measurements
 
-### `measurePerformance` function
+### `measureRenders` function
 
 Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
 measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
 of the testing
 
 ```ts
-async function measurePerformance(
+async function measureRenders(
   ui: React.ReactElement,
   options?: MeasureOptions,
 ): Promise<MeasureResults> {
@@ -24,7 +24,7 @@ async function measurePerformance(
 
 ```ts
 // sample.perf-test.tsx
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { ComponentUnderTest } from './ComponentUnderTest';
 
@@ -34,7 +34,7 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measurePerformance(<ComponentUnderTest />, { scenario });
+  await measureRenders(<ComponentUnderTest />, { scenario });
 });
 ```
 

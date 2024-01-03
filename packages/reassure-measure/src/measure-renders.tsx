@@ -18,14 +18,17 @@ export interface MeasureOptions {
   scenario?: (screen: any) => Promise<any>;
 }
 
-export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
-  const stats = await measureRender(ui, options);
+export async function measureRenders(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
+  const stats = await measureRendersInternal(ui, options);
   await writeTestStats(stats, 'render');
 
   return stats;
 }
 
-export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
+export async function measureRendersInternal(
+  ui: React.ReactElement,
+  options?: MeasureOptions
+): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
