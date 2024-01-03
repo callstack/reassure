@@ -48,6 +48,7 @@ interface MeasureOptions {
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
+  writeFile?: boolean;
 }
 ```
 
@@ -55,6 +56,7 @@ interface MeasureOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
+- **`writeFile`**: (default `true`) should write output to file.
 
 ### `measureFunction` function
 
@@ -85,11 +87,13 @@ test('fib 30', async () => {
 interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
+  writeFile?: boolean;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
 
 ## Configuration
 

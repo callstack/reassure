@@ -16,11 +16,15 @@ export interface MeasureOptions {
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
+  writeFile?: boolean;
 }
 
 export async function measureRenders(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const stats = await measureRendersInternal(ui, options);
-  await writeTestStats(stats, 'render');
+
+  if (options?.writeFile !== false) {
+    await writeTestStats(stats, 'render');
+  }
 
   return stats;
 }
@@ -36,10 +40,7 @@ export async function measurePerformance(ui: React.ReactElement, options?: Measu
   return await measureRenders(ui, options);
 }
 
-export async function measureRendersInternal(
-  ui: React.ReactElement,
-  options?: MeasureOptions
-): Promise<MeasureResults> {
+async function measureRendersInternal(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
