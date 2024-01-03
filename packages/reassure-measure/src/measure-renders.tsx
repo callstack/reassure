@@ -3,7 +3,7 @@ import { logger } from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { resolveTestingLibrary } from './testingLibrary';
+import { resolveTestingLibrary } from './testing-library';
 import type { MeasureResults } from './types';
 
 logger.configure({
