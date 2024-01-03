@@ -9,9 +9,11 @@ sidebar_position: 4
 
 ### `measureRenders` function
 
-Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
+This function has been previously named `measurePerformance`.
+
+Custom wrapper for the RNTL/RTL's `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
 measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
-of the testing
+of the testing.
 
 ```ts
 async function measureRenders(

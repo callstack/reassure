@@ -1,3 +1,9 @@
-export { measureRenders, measureFunction, configure, resetToDefault } from '@callstack/reassure-measure';
+export {
+  measureRenders,
+  measurePerformance,
+  measureFunction,
+  configure,
+  resetToDefault,
+} from '@callstack/reassure-measure';
 
 export { dangerReassure } from '@callstack/reassure-danger';

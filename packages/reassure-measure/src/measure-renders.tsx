@@ -25,6 +25,17 @@ export async function measureRenders(ui: React.ReactElement, options?: MeasureOp
   return stats;
 }
 
+/**
+ * @deprecated The `measurePerformance` function has been renamed to `measureRenders`. The `measurePerformance` alias is now deprecated and will be removed in future releases.
+ */
+export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
+  console.warn(
+    'The `measurePerformance` function has been renamed to `measureRenders`.\n\nThe `measurePerformance` alias is now deprecated and will be removed in future releases.'
+  );
+
+  return await measureRenders(ui, options);
+}
+
 export async function measureRendersInternal(
   ui: React.ReactElement,
   options?: MeasureOptions
