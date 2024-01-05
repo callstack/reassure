@@ -12,7 +12,7 @@ export async function writeToJson(filePath: string, data: CompareResult) {
   } catch (error) {
     logger.error(`❌  Could not write JSON output file ${filePath}`);
     logger.error(`🔗 ${path.resolve(filePath)}`);
-    logger.error(error);
+    logger.error('Error details:', error);
     throw error;
   }
 }

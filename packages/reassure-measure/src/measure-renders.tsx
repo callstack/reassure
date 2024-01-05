@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { logger } from '@callstack/reassure-logger';
+import { logger, warnOnce } from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
@@ -33,7 +33,7 @@ export async function measureRenders(ui: React.ReactElement, options?: MeasureOp
  * @deprecated The `measurePerformance` function has been renamed to `measureRenders`. The `measurePerformance` alias is now deprecated and will be removed in future releases.
  */
 export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
-  console.warn(
+  warnOnce(
     'The `measurePerformance` function has been renamed to `measureRenders`.\n\nThe `measurePerformance` alias is now deprecated and will be removed in future releases.'
   );
 
