@@ -1,4 +1,4 @@
-import { logger } from '@callstack/reassure-logger';
+import * as logger from '@callstack/reassure-logger';
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
 import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
 import type { PerformanceMetadata } from '../types';
