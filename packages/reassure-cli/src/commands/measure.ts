@@ -110,7 +110,7 @@ export async function run(options: MeasureOptions) {
 
   if (options.compare) {
     if (existsSync(BASELINE_FILE)) {
-      compare();
+      await compare();
     } else {
       logger.log(
         `Baseline performance file does not exist, run 'reassure --baseline' on your baseline code branch to create it.\n`

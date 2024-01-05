@@ -21,7 +21,5 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["**/__tests__/**"]
+  }
 }
