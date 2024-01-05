@@ -6,10 +6,10 @@ module.exports = {
   ignorePatterns: ['docusaurus/**'],
   overrides: [
     {
-      "files": ["*.ts", "*.tsx"],
-      "parserOptions": {
-        "project": "./packages/**/tsconfig.json"
-      }
-    }
+      files: ['*.ts', '*.tsx'],
+      parserOptions: {
+        project: './packages/**/tsconfig.json',
+      },
+    },
   ],
 };
