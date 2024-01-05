@@ -28,17 +28,17 @@ export function configure(options: Partial<LoggerOptions>) {
 // Jest is wrapping console.* calls, so we need to get the raw console object
 const rawConsole = require('console') as typeof console;
 
-export function error(message?: string, ...args: unknown[]) {
+export function error(message: string, ...args: unknown[]) {
   rawConsole.error(colorError(message, ...args));
 }
 
-export function warn(message?: string, ...args: unknown[]) {
+export function warn(message: string, ...args: unknown[]) {
   if (config.silent) return;
 
   rawConsole.warn(colorWarn(message, ...args));
 }
 
-export function log(message?: string, ...args: unknown[]) {
+export function log(message: string, ...args: unknown[]) {
   if (config.silent) return;
 
   rawConsole.log(message, ...args);
@@ -48,6 +48,12 @@ export function verbose(message?: string, ...args: unknown[]) {
   if (!config.verbose || config.silent) return;
 
   rawConsole.log(colorVerbose(message, ...args));
+}
+
+export function newLine() {
+  if (config.silent) return;
+
+  rawConsole.log();
 }
 
 export function color(color: keyof typeof colors, ...args: unknown[]) {
