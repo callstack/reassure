@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { logger } from '@callstack/reassure-logger';
+import { logger, warnOnce } from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { resolveTestingLibrary } from './testingLibrary';
+import { resolveTestingLibrary } from './testing-library';
 import type { MeasureResults } from './types';
 
 logger.configure({
@@ -11,21 +11,42 @@ logger.configure({
   silent: process.env.REASSURE_SILENT === 'true' || process.env.REASSURE_SILENT === '1',
 });
 
-export interface MeasureOptions {
+export interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
+  writeFile?: boolean;
 }
 
-export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
-  const stats = await measureRender(ui, options);
-  await writeTestStats(stats, 'render');
+export async function measureRenders(ui: React.ReactElement, options?: MeasureRendersOptions): Promise<MeasureResults> {
+  const stats = await measureRendersInternal(ui, options);
+
+  if (options?.writeFile !== false) {
+    await writeTestStats(stats, 'render');
+  }
 
   return stats;
 }
 
-export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
+/**
+ * @deprecated The `measurePerformance` function has been renamed to `measureRenders`. The `measurePerformance` alias is now deprecated and will be removed in future releases.
+ */
+export async function measurePerformance(
+  ui: React.ReactElement,
+  options?: MeasureRendersOptions
+): Promise<MeasureResults> {
+  warnOnce(
+    'The `measurePerformance` function has been renamed to `measureRenders`.\n\nThe `measurePerformance` alias is now deprecated and will be removed in future releases.'
+  );
+
+  return await measureRenders(ui, options);
+}
+
+async function measureRendersInternal(
+  ui: React.ReactElement,
+  options?: MeasureRendersOptions
+): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;

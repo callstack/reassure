@@ -43,7 +43,7 @@ async function writeToFile(filePath: string, content: string) {
   } catch (error) {
     logger.error(`❌  Could not write markdown output file ${filePath}`);
     logger.error(`🔗 ${path.resolve(filePath)}`);
-    logger.error(error);
+    logger.error('Error details:', error);
     throw error;
   }
 }
