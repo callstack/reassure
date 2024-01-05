@@ -7,9 +7,13 @@ sidebar_position: 4
 
 ## Measurements
 
-### `measureRenders` function
+### `measureRenders()` function {#measure-renders}
 
-This function has been previously named `measurePerformance`.
+:::info
+
+Prior to version 1.0, this function has been named `measurePerformance`.
+
+:::
 
 Custom wrapper for the RNTL/RTL's `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
 measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
@@ -22,7 +26,7 @@ async function measureRenders(
 ): Promise<MeasureResults> {
 ```
 
-#### Example
+#### Example {#measure-renders-example}
 
 ```ts
 // sample.perf-test.tsx
@@ -40,10 +44,10 @@ test('Test with scenario', async () => {
 });
 ```
 
-### `MeasureOptions` type
+### `MeasureRendersOptions` type {#measure-renders-options}
 
 ```ts
-interface MeasureOptions {
+interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
@@ -58,7 +62,7 @@ interface MeasureOptions {
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 - **`writeFile`**: (default `true`) should write output to file.
 
-### `measureFunction` function
+### `measureFunction` function {#measure-function}
 
 Allows you to wrap any synchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
 
@@ -69,7 +73,7 @@ async function measureFunction(
 ): Promise<MeasureResults> {
 ```
 
-#### Example
+#### Example {#measure-function-example}
 
 ```ts
 // sample.perf-test.tsx
@@ -81,7 +85,7 @@ test('fib 30', async () => {
 });
 ```
 
-### `MeasureFunctionOptions` type
+### `MeasureFunctionOptions` type {#measure-function-options}
 
 ```ts
 interface MeasureFunctionOptions {
@@ -139,7 +143,7 @@ function configure(customConfig: Partial<Config>): void;
 
 You can use the `configure` function to override the default config parameters.
 
-#### Example
+#### Example {#configure-example}
 
 ```ts
 import { configure } from 'reassure';
@@ -150,7 +154,7 @@ configure({
 });
 ```
 
-### `resetToDefault` function
+### `resetToDefault` function {#reset-to-default}
 
 ```ts
 resetToDefault(): void
