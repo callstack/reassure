@@ -1,6 +1,6 @@
 import { copyFileSync, existsSync, readFileSync, appendFileSync } from 'node:fs';
 import * as path from 'node:path';
-import { logger } from '@callstack/reassure-logger';
+import * as logger from '@callstack/reassure-logger';
 import type { CommandModule } from 'yargs';
 import {
   CI_SCRIPT,
