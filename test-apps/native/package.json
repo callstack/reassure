@@ -1,7 +1,7 @@
 {
   "name": "test-app-native",
   "description": "Internal Reassure testing app",
-  "version": "0.1.0",
+  "version": "1.0.0-beta",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -29,7 +29,7 @@
     "metro-react-native-babel-preset": "0.77.0",
     "jest": "^29.7.0",
     "react-test-renderer": "18.2.0",
-    "reassure": "0.10.2",
+    "reassure": "1.0.0-beta",
     "typescript": "^5.2.2"
   }
 }

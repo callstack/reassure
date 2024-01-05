@@ -1,5 +1,23 @@
 # @callstack/reassure-measure
 
+## 1.0.0-beta
+
+### Major Changes
+
+- v1.0
+
+### Minor Changes
+
+- 4352279: - Rename `measurePerformance` to `measureRenders`.
+  - Add `writeFile` option to `measureRenders`/`measureFunction`.
+
+### Patch Changes
+
+- f9116d0: refactor: simplify `reassure-logger` package exports
+- Updated dependencies
+- Updated dependencies [f9116d0]
+  - @callstack/reassure-logger@1.0.0
+
 ## 0.6.0
 
 ### Minor Changes

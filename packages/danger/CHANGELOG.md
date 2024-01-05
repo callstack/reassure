@@ -1,5 +1,11 @@
 # @callstack/reassure-danger
 
+## 1.0.0-beta
+
+### Major Changes
+
+- v1.0
+
 ## 0.1.1
 
 ### Patch Changes
