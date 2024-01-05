@@ -5,7 +5,7 @@ import { command as init } from './commands/init';
 import { command as checkStability } from './commands/check-stability';
 import { command as measure } from './commands/measure';
 
-yargs(hideBin(process.argv))
+void yargs(hideBin(process.argv))
   .command(measure)
   .command(init)
   .command(checkStability)

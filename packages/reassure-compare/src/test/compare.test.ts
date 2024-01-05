@@ -1,7 +1,7 @@
 import { loadFile } from '../compare';
 
 describe('loadFile', () => {
-  it('should load results file with header', async () => {
+  it('should load results file with header', () => {
     const results = loadFile(`${__dirname}/valid-header.perf`);
 
     expect(results.metadata).toEqual({
@@ -21,7 +21,7 @@ describe('loadFile', () => {
     expect(results).toMatchSnapshot();
   });
 
-  it('should load results file without header', async () => {
+  it('should load results file without header', () => {
     const results = loadFile(`${__dirname}/valid-no-header.perf`);
 
     expect(results.metadata).toBeUndefined();
@@ -38,18 +38,18 @@ describe('loadFile', () => {
     expect(results).toMatchSnapshot();
   });
 
-  it('should fail for file with invalid JSON structure', async () => {
+  it('should fail for file with invalid JSON structure', () => {
     expect(() => loadFile(`${__dirname}/invalid-json.perf`)).toThrowErrorMatchingSnapshot();
   });
 
-  it('should fail for file with invalid entry', async () => {
+  it('should fail for file with invalid entry', () => {
     expect(() => loadFile(`${__dirname}/invalid-entry.perf`)).toThrowErrorMatchingSnapshot();
   });
 
-  it('should support entries without type', async () => {
+  it('should support entries without type', () => {
     const results = loadFile(`${__dirname}/default-type.perf`);
 
-    const types = Object.entries(results.entries).map(([key, value]) => value.type);
+    const types = Object.entries(results.entries).map(([_, value]) => value.type);
     expect(types).toEqual(['render', 'render', 'function']);
   });
 });

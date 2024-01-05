@@ -1,6 +1,6 @@
-import type { PerformanceEntry, PerformanceHeader } from 'src/types';
 import { z } from 'zod';
 import { performanceHeaderSchema, performanceEntrySchema } from '../type-schemas';
+import type { PerformanceEntry, PerformanceHeader } from '../types';
 import { hasDuplicateValues } from './array';
 
 const performanceEntriesSchema = z
