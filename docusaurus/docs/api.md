@@ -154,13 +154,13 @@ configure({
 });
 ```
 
-### `resetToDefault` function {#reset-to-default}
+### `resetToDefaults` function {#reset-to-defaults}
 
 ```ts
-resetToDefault(): void
+resetToDefaults(): void
 ```
 
-Reset current config to the original `defaultConfig` object. You can call `resetToDefault()` anywhere in your performance test file.
+Reset current config to the original `defaultConfig` object. You can call `resetToDefaults()` anywhere in your performance test file.
 
 ### Environmental variables
 

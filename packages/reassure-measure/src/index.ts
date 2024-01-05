@@ -1,4 +1,4 @@
-export { configure, resetToDefault } from './config';
+export { configure, resetToDefaults } from './config';
 export { measureRenders, measurePerformance } from './measure-renders';
 export { measureFunction } from './measure-function';
 export type { MeasureRendersOptions } from './measure-renders';
