@@ -25,7 +25,7 @@ export function printToConsole(data: CompareResult) {
   logger.log('\n➡️  Removed scenarios');
   data.removed.forEach(printRemovedLine);
 
-  logger.log();
+  logger.newLine();
 }
 
 function printMetadata(name: string, metadata?: PerformanceMetadata) {
