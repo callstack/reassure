@@ -1,5 +1,20 @@
 # reassure
 
+### Major Changes
+
+- v1.0
+
+### Minor Changes
+
+- 4352279: - Rename `measurePerformance` to `measureRenders`, `resetToDefault` to `resetToDefaults`.
+
+### Patch Changes
+
+- Updated dependencies [f9116d0]
+  - @callstack/reassure-cli@1.0.0-beta
+  - @callstack/reassure-danger@1.0.0-beta
+  - @callstack/reassure-measure@1.0.0-beta
+
 ## 0.11.0
 
 ### Minor Changes
@@ -13,6 +28,8 @@
   - @callstack/reassure-measure@0.11.0
   - @callstack/reassure-cli@0.11.0
   - @callstack/reassure-danger@0.11.0
+
+## 1.0.0-beta
 
 ## 0.10.2
 
