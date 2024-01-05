@@ -4,19 +4,23 @@ import type { MeasureResults } from './types';
 import { type RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 
-interface MeasureFunctionOptions {
+export interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
+  writeFile?: boolean;
 }
 
 export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
   const stats = await measureFunctionInternal(fn, options);
-  await writeTestStats(stats, 'function');
+
+  if (options?.writeFile !== false) {
+    await writeTestStats(stats, 'function');
+  }
 
   return stats;
 }
 
-export function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
+function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 

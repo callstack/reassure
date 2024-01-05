@@ -1,4 +1,4 @@
-import { measureFunctionInternal } from '../measure-function';
+import { measureFunction } from '../measure-function';
 import { resetHasShownFlagsOutput } from '../output';
 
 // Exponentially slow function
@@ -10,18 +10,18 @@ function fib(n: number): number {
   return fib(n - 1) + fib(n - 2);
 }
 
-test('measureFunctionInternal captures results', () => {
+test('measureFunction captures results', async () => {
   const fn = jest.fn(() => fib(5));
-  const results = measureFunctionInternal(fn, { runs: 1, warmupRuns: 0 });
+  const results = await measureFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(1);
   expect(results.runs).toBe(1);
   expect(results.counts).toEqual([1]);
 });
 
-test('measureFunctionInternal runs specified number of times', () => {
+test('measureFunction runs specified number of times', async () => {
   const fn = jest.fn(() => fib(5));
-  const results = measureFunctionInternal(fn, { runs: 20, warmupRuns: 0 });
+  const results = await measureFunction(fn, { runs: 20, warmupRuns: 0, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(20);
   expect(results.runs).toBe(20);
@@ -31,9 +31,9 @@ test('measureFunctionInternal runs specified number of times', () => {
   expect(results.stdevCount).toBe(0);
 });
 
-test('measureFunctionInternal applies "warmupRuns" option', () => {
+test('measureFunction applies "warmupRuns" option', async () => {
   const fn = jest.fn(() => fib(5));
-  const results = measureFunctionInternal(fn, { runs: 10, warmupRuns: 1 });
+  const results = await measureFunction(fn, { runs: 10, warmupRuns: 1, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
@@ -54,9 +54,9 @@ beforeEach(() => {
   });
 });
 
-test('measureFunctionInternal should log error when running under incorrect node flags', () => {
+test('measureFunction should log error when running under incorrect node flags', async () => {
   resetHasShownFlagsOutput();
-  const results = measureFunctionInternal(jest.fn(), { runs: 1 });
+  const results = await measureFunction(jest.fn(), { runs: 1, writeFile: false });
 
   expect(results.runs).toBe(1);
   expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.

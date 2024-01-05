@@ -10,7 +10,7 @@ module.exports = {
       {
         assertFunctionNames: [
           'expect',
-          'measurePerformance',
+          'measureRenders',
           'measureFunction',
         ],
       },
