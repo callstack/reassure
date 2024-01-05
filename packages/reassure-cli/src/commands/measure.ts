@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
 import type { PerformanceMetadata } from '@callstack/reassure-compare';
-import { logger } from '@callstack/reassure-logger';
+import * as logger from '@callstack/reassure-logger';
 import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
