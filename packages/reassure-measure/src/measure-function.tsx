@@ -4,7 +4,7 @@ import type { MeasureResults } from './types';
 import { type RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 
-interface MeasureFunctionOptions {
+export interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
   writeFile?: boolean;

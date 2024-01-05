@@ -22,7 +22,7 @@ of the testing.
 ```ts
 async function measureRenders(
   ui: React.ReactElement,
-  options?: MeasureOptions,
+  options?: MeasureRendersOptions,
 ): Promise<MeasureResults> {
 ```
 

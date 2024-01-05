@@ -361,18 +361,19 @@ of the testing
 ```ts
 async function measureRenders(
   ui: React.ReactElement,
-  options?: MeasureOptions,
+  options?: MeasureRendersOptions,
 ): Promise<MeasureResults> {
 ```
 
-#### `MeasureOptions` type
+#### `MeasureRendersOptions` type
 
 ```ts
-interface MeasureOptions {
+interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
+  writeFile?: boolean;
 }
 ```
 
@@ -380,6 +381,7 @@ interface MeasureOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs (default 1).
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results; only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the UI by utilising RNTL or RTL functions
+- **`writeFile`**: (default `true`) should write output to file.
 
 #### `measureFunction` function
 
