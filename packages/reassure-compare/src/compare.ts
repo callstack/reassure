@@ -46,7 +46,7 @@ type CompareOptions = {
  *
  * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
-export function compare({
+export async function compare({
   baselineFile = '.reassure/baseline.perf',
   currentFile = '.reassure/current.perf',
   outputFile = '.reassure/output.json',
@@ -88,10 +88,10 @@ export function compare({
     printToConsole(output);
   }
   if (outputFormat === 'json' || outputFormat === 'all') {
-    writeToJson(outputFile, output);
+    await writeToJson(outputFile, output);
   }
   if (outputFormat === 'markdown' || outputFormat === 'all') {
-    writeToMarkdown('.reassure/output.md', output);
+    await writeToMarkdown('.reassure/output.md', output);
   }
 }
 

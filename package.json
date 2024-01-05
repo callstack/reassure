@@ -39,7 +39,7 @@
     "@babel/preset-env": "^7.23.7",
     "@babel/preset-typescript": "^7.23.3",
     "@babel/runtime": "^7.23.7",
-    "@callstack/eslint-config": "^13.0.2",
+    "@callstack/eslint-config": "^14.1.0",
     "@changesets/cli": "^2.26.0",
     "@testing-library/react": "^14.1.2",
     "@testing-library/react-native": "^12.4.3",
