@@ -80,10 +80,10 @@ You can check our example projects:
 
 Reassure will try to detect which Testing Library you have installed. If both React Native Testing Library and React Testing Library are present, it will warn you about that and give precedence to React Native Testing Library. You can explicitly specify Testing Library to be used by using [`configure`](#configure-function) option:
 
-```
-configure({ testingLibrary: 'react-native' })
+```ts
+configure({ testingLibrary: 'react-native' });
 // or
-configure({ testingLibrary: 'react' })
+configure({ testingLibrary: 'react' });
 ```
 
 You should set it in your Jest setup file, and you can override it in particular test files if needed.
