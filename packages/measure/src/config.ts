@@ -26,6 +26,6 @@ export function configure(customConfig: Partial<Config>) {
   };
 }
 
-export function resetToDefault() {
+export function resetToDefaults() {
   config = defaultConfig;
 }
