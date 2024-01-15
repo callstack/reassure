@@ -37,7 +37,7 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
     "@callstack/reassure-logger": "1.0.0-beta",
-    "mathjs": "^11.5.0"
+    "mathjs": "^12.3.0"
   },
   "devDependencies": {
     "react-native": "0.73.1"
