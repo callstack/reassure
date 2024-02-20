@@ -44,10 +44,10 @@ Now that the library is installed, you can write you first test scenario in a fi
 
 ```ts
 // ComponentUnderTest.perf-test.tsx
-import { measureRenders } from 'reassure';
+import { measurePerformance } from 'reassure';
 
 test('Simple test', async () => {
-  await measureRenders(<ComponentUnderTest />);
+  await measurePerformance(<ComponentUnderTest />);
 });
 ```
 
@@ -60,7 +60,7 @@ This test will measure render times of `ComponentUnderTest` during mounting and 
 If your component contains any async logic or you want to test some interaction you should pass the `scenario` option:
 
 ```ts
-import { measureRenders } from 'reassure';
+import { measurePerformance } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
 
 test('Test with scenario', async () => {
@@ -69,7 +69,7 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measureRenders(<ComponentUnderTest />, { scenario });
+  await measurePerformance(<ComponentUnderTest />, { scenario });
 });
 ```
 
@@ -78,7 +78,7 @@ The body of the `scenario` function is using familiar React Native Testing Libra
 In case of using a version of React Native Testing Library lower than v10.1.0, where [`screen` helper](https://callstack.github.io/react-native-testing-library/docs/api/#screen) is not available, the `scenario` function provides it as its first argument:
 
 ```ts
-import { measureRenders } from 'reassure';
+import { measurePerformance } from 'reassure';
 import { fireEvent } from '@testing-library/react-native';
 
 test('Test with scenario', async () => {
@@ -87,7 +87,7 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measureRenders(<ComponentUnderTest />, { scenario });
+  await measurePerformance(<ComponentUnderTest />, { scenario });
 });
 ```
 
@@ -254,7 +254,7 @@ for performance tests you can add following override to your `.eslintrc` file:
 rules: {
  'jest/expect-expect': [
  'error',
-    { assertFunctionNames: ['expect', 'measureRenders'] },
+    { assertFunctionNames: ['expect', 'measurePerformance'] },
   ],
 }
 ```
