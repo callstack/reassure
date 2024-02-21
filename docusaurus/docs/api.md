@@ -7,7 +7,7 @@ sidebar_position: 4
 
 ## Measurements
 
-### `measureRenders()` function {#measure-renders}
+### `measurePerformance()` function {#measure-renders}
 
 :::info
 
@@ -20,9 +20,9 @@ measuring its performance and writing results to the output file. You can use op
 of the testing.
 
 ```ts
-async function measureRenders(
+async function measurePerformance(
   ui: React.ReactElement,
-  options?: MeasureRendersOptions,
+  options?: MeasureOptions,
 ): Promise<MeasureResults> {
 ```
 
@@ -30,7 +30,7 @@ async function measureRenders(
 
 ```ts
 // sample.perf-test.tsx
-import { measureRenders } from 'reassure';
+import { measurePerformance } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { ComponentUnderTest } from './ComponentUnderTest';
 
@@ -40,14 +40,14 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measureRenders(<ComponentUnderTest />, { scenario });
+  await measurePerformance(<ComponentUnderTest />, { scenario });
 });
 ```
 
-### `MeasureRendersOptions` type {#measure-renders-options}
+### `MeasureOptions` type {#measure-renders-options}
 
 ```ts
-interface MeasureRendersOptions {
+interface MeasureOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;

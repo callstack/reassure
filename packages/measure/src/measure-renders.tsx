@@ -11,7 +11,7 @@ logger.configure({
   silent: process.env.REASSURE_SILENT === 'true' || process.env.REASSURE_SILENT === '1',
 });
 
-export interface MeasureRendersOptions {
+export interface MeasureOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
@@ -19,7 +19,7 @@ export interface MeasureRendersOptions {
   writeFile?: boolean;
 }
 
-export async function measureRenders(ui: React.ReactElement, options?: MeasureRendersOptions): Promise<MeasureResults> {
+export async function measurePerformance(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const stats = await measureRendersInternal(ui, options);
 
   if (options?.writeFile !== false) {
@@ -29,24 +29,7 @@ export async function measureRenders(ui: React.ReactElement, options?: MeasureRe
   return stats;
 }
 
-/**
- * @deprecated The `measurePerformance` function has been renamed to `measureRenders`. The `measurePerformance` alias is now deprecated and will be removed in future releases.
- */
-export async function measurePerformance(
-  ui: React.ReactElement,
-  options?: MeasureRendersOptions
-): Promise<MeasureResults> {
-  logger.warnOnce(
-    'The `measurePerformance` function has been renamed to `measureRenders`.\n\nThe `measurePerformance` alias is now deprecated and will be removed in future releases.'
-  );
-
-  return await measureRenders(ui, options);
-}
-
-async function measureRendersInternal(
-  ui: React.ReactElement,
-  options?: MeasureRendersOptions
-): Promise<MeasureResults> {
+async function measureRendersInternal(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;

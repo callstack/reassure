@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { fireEvent, screen } from '@testing-library/react-native';
-import { measureRenders } from 'reassure';
+import { measurePerformance } from 'reassure';
 import { SlowList } from './SlowList';
 
 const AsyncComponent = () => {
@@ -42,5 +42,5 @@ test('Async Component', async () => {
     await screen.findByText('Count: 5');
   };
 
-  await measureRenders(<AsyncComponent />, { scenario });
+  await measurePerformance(<AsyncComponent />, { scenario });
 });

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import { buildUiToRender, measureRenders } from '../measure-renders';
+import { buildUiToRender, measurePerformance } from '../measure-renders';
 import { resetHasShownFlagsOutput } from '../output';
 
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
@@ -14,9 +14,9 @@ beforeEach(() => {
   });
 });
 
-test('measureRenders run test given number of times', async () => {
+test('measurePerformance run test given number of times', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
-  const results = await measureRenders(<View />, { runs: 20, scenario, writeFile: false });
+  const results = await measurePerformance(<View />, { runs: 20, scenario, writeFile: false });
   expect(results.runs).toBe(20);
   expect(results.durations).toHaveLength(20);
   expect(results.counts).toHaveLength(20);
@@ -27,9 +27,9 @@ test('measureRenders run test given number of times', async () => {
   expect(scenario).toHaveBeenCalledTimes(21);
 });
 
-test('measureRenders applies "warmupRuns" option', async () => {
+test('measurePerformance applies "warmupRuns" option', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
-  const results = await measureRenders(<View />, { runs: 10, scenario, writeFile: false });
+  const results = await measurePerformance(<View />, { runs: 10, scenario, writeFile: false });
 
   expect(scenario).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
@@ -39,9 +39,9 @@ test('measureRenders applies "warmupRuns" option', async () => {
   expect(results.stdevCount).toBe(0);
 });
 
-test('measureRenders should log error when running under incorrect node flags', async () => {
+test('measurePerformance should log error when running under incorrect node flags', async () => {
   resetHasShownFlagsOutput();
-  const results = await measureRenders(<View />, { runs: 1, writeFile: false });
+  const results = await measurePerformance(<View />, { runs: 1, writeFile: false });
 
   expect(results.runs).toBe(1);
   expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
@@ -53,8 +53,8 @@ function IgnoreChildren(_: React.PropsWithChildren<{}>) {
   return <View />;
 }
 
-test('measureRenders does not measure wrapper execution', async () => {
-  const results = await measureRenders(<View />, { wrapper: IgnoreChildren, writeFile: false });
+test('measurePerformance does not measure wrapper execution', async () => {
+  const results = await measurePerformance(<View />, { wrapper: IgnoreChildren, writeFile: false });
   expect(results.runs).toBe(10);
   expect(results.durations).toHaveLength(10);
   expect(results.counts).toHaveLength(10);
