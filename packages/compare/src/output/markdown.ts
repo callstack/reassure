@@ -88,7 +88,7 @@ function buildMarkdown(data: CompareResult) {
 }
 
 function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
-  return ` - **${name}**: ${formatMetadata(metadata)}`;
+  return ` - ${md.bold(name)}: ${formatMetadata(metadata)}`;
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {
