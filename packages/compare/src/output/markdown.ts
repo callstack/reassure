@@ -1,8 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 // @ts-ignore
-import { headers, emphasis } from 'markdown-builder';
-// @ts-ignore
 import markdownTable from 'markdown-table';
 import * as logger from '@callstack/reassure-logger';
 import {
@@ -13,6 +11,7 @@ import {
   formatCountChange,
   formatDurationChange,
 } from '../utils/format';
+import * as md from '../utils/markdown';
 import type {
   AddedEntry,
   CompareEntry,
@@ -49,38 +48,38 @@ async function writeToFile(filePath: string, content: string) {
 }
 
 function buildMarkdown(data: CompareResult) {
-  let result = headers.h1('Performance Comparison Report');
+  let result = md.header1('Performance Comparison Report');
 
   result += `\n${buildMetadataMarkdown('Current', data.metadata.current)}`;
   result += `\n${buildMetadataMarkdown('Baseline', data.metadata.baseline)}`;
 
   if (data.errors?.length) {
-    result += `\n\n${headers.h3('Errors')}\n`;
+    result += `\n\n${md.header3('Errors')}\n`;
     data.errors.forEach((message) => {
       result += ` 1. 🛑 ${message}\n`;
     });
   }
 
   if (data.warnings?.length) {
-    result += `\n\n${headers.h3('Warnings')}\n`;
+    result += `\n\n${md.header3('Warnings')}\n`;
     data.warnings.forEach((message) => {
       result += ` 1. 🟡 ${message}\n`;
     });
   }
 
-  result += `\n\n${headers.h3('Significant Changes To Duration')}`;
+  result += `\n\n${md.header3('Significant Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.significant)}`;
   result += `\n${buildDetailsTable(data.significant)}`;
-  result += `\n\n${headers.h3('Meaningless Changes To Duration')}`;
+  result += `\n\n${md.header3('Meaningless Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
-  result += `\n\n${headers.h3('Changes To Count')}`;
+  result += `\n\n${md.header3('Changes To Count')}`;
   result += `\n${buildSummaryTable(data.countChanged)}`;
   result += `\n${buildDetailsTable(data.countChanged)}`;
-  result += `\n\n${headers.h3('Added Scenarios')}`;
+  result += `\n\n${md.header3('Added Scenarios')}`;
   result += `\n${buildSummaryTable(data.added)}`;
   result += `\n${buildDetailsTable(data.added)}`;
-  result += `\n\n${headers.h3('Removed Scenarios')}`;
+  result += `\n\n${md.header3('Removed Scenarios')}`;
   result += `\n${buildSummaryTable(data.removed)}`;
   result += `\n${buildDetailsTable(data.removed)}`;
   result += '\n';
@@ -93,7 +92,7 @@ function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | und
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {
-  if (!entries.length) return emphasis.i('There are no entries');
+  if (!entries.length) return md.italic('There are no entries');
 
   const rows = entries.map((entry) => [entry.name, entry.type, formatEntryDuration(entry), formatEntryCount(entry)]);
   const content = markdownTable([tableHeader, ...rows]);
@@ -151,7 +150,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
   const relativeStdev = entry.stdevDuration / entry.meanDuration;
 
   return [
-    emphasis.b(title),
+    md.bold(title),
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
@@ -164,7 +163,7 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
   const relativeStdev = entry.stdevCount / entry.meanCount;
 
   return [
-    emphasis.b(title),
+    md.bold(title),
     `Mean: ${formatCount(entry.meanCount)}`,
     `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev)})`,
     entry.counts ? `Runs: ${entry.counts.map(formatCount).join(' ')}` : '',
