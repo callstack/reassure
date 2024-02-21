@@ -451,10 +451,10 @@ function configure(customConfig: Partial<Config>): void;
 
 The `configure` function can override the default config parameters.
 
-#### `resetToDefaults` function
+#### `resetToDefault` function
 
 ```ts
-resetToDefaults(): void
+resetToDefault(): void
 ```
 
 Reset the current config to the original `defaultConfig` object
