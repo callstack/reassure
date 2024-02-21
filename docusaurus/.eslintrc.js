@@ -1,4 +1,4 @@
 module.exports = {
   extends: './../.eslintrc',
-  rules: {"react-native/no-raw-text": 0}
+  rules: { 'react-native/no-raw-text': 0 },
 };

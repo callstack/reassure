@@ -4,7 +4,6 @@ about: Suggestions for improvement (refactors, CI, etc)
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 **Describe the improvement**
