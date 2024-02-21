@@ -48,38 +48,38 @@ async function writeToFile(filePath: string, content: string) {
 }
 
 function buildMarkdown(data: CompareResult) {
-  let result = md.header1('Performance Comparison Report');
+  let result = md.heading1('Performance Comparison Report');
 
   result += `\n${buildMetadataMarkdown('Current', data.metadata.current)}`;
   result += `\n${buildMetadataMarkdown('Baseline', data.metadata.baseline)}`;
 
   if (data.errors?.length) {
-    result += `\n\n${md.header3('Errors')}\n`;
+    result += `\n\n${md.heading3('Errors')}\n`;
     data.errors.forEach((message) => {
       result += ` 1. 🛑 ${message}\n`;
     });
   }
 
   if (data.warnings?.length) {
-    result += `\n\n${md.header3('Warnings')}\n`;
+    result += `\n\n${md.heading3('Warnings')}\n`;
     data.warnings.forEach((message) => {
       result += ` 1. 🟡 ${message}\n`;
     });
   }
 
-  result += `\n\n${md.header3('Significant Changes To Duration')}`;
+  result += `\n\n${md.heading3('Significant Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.significant)}`;
   result += `\n${buildDetailsTable(data.significant)}`;
-  result += `\n\n${md.header3('Meaningless Changes To Duration')}`;
+  result += `\n\n${md.heading3('Meaningless Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
-  result += `\n\n${md.header3('Changes To Count')}`;
+  result += `\n\n${md.heading3('Changes To Count')}`;
   result += `\n${buildSummaryTable(data.countChanged)}`;
   result += `\n${buildDetailsTable(data.countChanged)}`;
-  result += `\n\n${md.header3('Added Scenarios')}`;
+  result += `\n\n${md.heading3('Added Scenarios')}`;
   result += `\n${buildSummaryTable(data.added)}`;
   result += `\n${buildDetailsTable(data.added)}`;
-  result += `\n\n${md.header3('Removed Scenarios')}`;
+  result += `\n\n${md.heading3('Removed Scenarios')}`;
   result += `\n${buildSummaryTable(data.removed)}`;
   result += `\n${buildDetailsTable(data.removed)}`;
   result += '\n';

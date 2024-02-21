@@ -1,12 +1,12 @@
-export function header1(text: string) {
+export function heading1(text: string) {
   return `# ${text}\n`;
 }
 
-export function header2(text: string) {
+export function heading2(text: string) {
   return `## ${text}\n`;
 }
 
-export function header3(text: string) {
+export function heading3(text: string) {
   return `### ${text}\n`;
 }
 
