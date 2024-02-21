@@ -373,6 +373,7 @@ interface MeasureOptions {
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
+  writeFile?: boolean;
 }
 ```
 
@@ -380,6 +381,7 @@ interface MeasureOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs (default 1).
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results; only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the UI by utilising RNTL or RTL functions
+- **`writeFile`**: (default `true`) should write output to file.
 
 #### `measureFunction` function
 
@@ -435,10 +437,11 @@ const defaultConfig: Config = {
 ```
 
 **`runs`**: the number of repeated runs in a series per test (allows for higher accuracy by aggregating more data). Should be handled with care.
+
 - **`warmupRuns`**: the number of additional warmup runs that will be done and discarded before the actual runs.
-**`outputFile`**: the name of the file the records will be saved to
-**`verbose`**: make Reassure log more, e.g. for debugging purposes
-**`testingLibrary`**: where to look for `render` and `cleanup` functions, supported values `'react-native'`, `'react'` or object providing custom `render` and `cleanup` functions
+  **`outputFile`**: the name of the file the records will be saved to
+  **`verbose`**: make Reassure log more, e.g. for debugging purposes
+  **`testingLibrary`**: where to look for `render` and `cleanup` functions, supported values `'react-native'`, `'react'` or object providing custom `render` and `cleanup` functions
 
 #### `configure` function
 

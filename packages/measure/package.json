@@ -1,7 +1,7 @@
 {
-  "name": "reassure",
-  "version": "0.10.2",
-  "description": "Performance testing companion for React and React Native",
+  "name": "@callstack/reassure-measure",
+  "version": "0.6.0",
+  "description": "Performance measurement library for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -15,6 +15,7 @@
     "!**/__mocks__"
   ],
   "scripts": {
+    "test": "jest",
     "build": "bob build"
   },
   "keywords": [
@@ -35,9 +36,14 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@callstack/reassure-cli": "0.10.2",
-    "@callstack/reassure-measure": "0.6.0",
-    "@callstack/reassure-danger": "0.1.1"
+    "@callstack/reassure-logger": "0.3.1",
+    "mathjs": "^12.3.2"
+  },
+  "devDependencies": {
+    "react-native": "0.73.1"
+  },
+  "peerDependencies": {
+    "react": "*"
   },
   "react-native-builder-bob": {
     "source": "src",

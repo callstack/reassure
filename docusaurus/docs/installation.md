@@ -95,6 +95,7 @@ If your test contains any async changes, you will need to make sure that the sce
 `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
 
 For more examples look into our example apps:
+
 - [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 - [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)

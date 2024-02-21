@@ -7,11 +7,17 @@ sidebar_position: 4
 
 ## Measurements
 
-### `measurePerformance` function
+### `measurePerformance()` function {#measure-renders}
 
-Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
+:::info
+
+Prior to version 1.0, this function has been named `measurePerformance`.
+
+:::
+
+Custom wrapper for the RNTL/RTL's `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
 measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
-of the testing
+of the testing.
 
 ```ts
 async function measurePerformance(
@@ -20,7 +26,7 @@ async function measurePerformance(
 ): Promise<MeasureResults> {
 ```
 
-#### Example
+#### Example {#measure-renders-example}
 
 ```ts
 // sample.perf-test.tsx
@@ -38,7 +44,7 @@ test('Test with scenario', async () => {
 });
 ```
 
-### `MeasureOptions` type
+### `MeasureOptions` type {#measure-renders-options}
 
 ```ts
 interface MeasureOptions {
@@ -46,6 +52,7 @@ interface MeasureOptions {
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
+  writeFile?: boolean;
 }
 ```
 
@@ -53,8 +60,9 @@ interface MeasureOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
+- **`writeFile`**: (default `true`) should write output to file.
 
-### `measureFunction` function
+### `measureFunction` function {#measure-function}
 
 Allows you to wrap any synchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
 
@@ -65,7 +73,7 @@ async function measureFunction(
 ): Promise<MeasureResults> {
 ```
 
-#### Example
+#### Example {#measure-function-example}
 
 ```ts
 // sample.perf-test.tsx
@@ -77,17 +85,19 @@ test('fib 30', async () => {
 });
 ```
 
-### `MeasureFunctionOptions` type
+### `MeasureFunctionOptions` type {#measure-function-options}
 
 ```ts
 interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
+  writeFile?: boolean;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
 
 ## Configuration
 
@@ -133,7 +143,7 @@ function configure(customConfig: Partial<Config>): void;
 
 You can use the `configure` function to override the default config parameters.
 
-#### Example
+#### Example {#configure-example}
 
 ```ts
 import { configure } from 'reassure';
@@ -144,7 +154,7 @@ configure({
 });
 ```
 
-### `resetToDefault` function
+### `resetToDefault` function {#reset-to-defaults}
 
 ```ts
 resetToDefault(): void
