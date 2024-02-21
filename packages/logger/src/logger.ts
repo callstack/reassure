@@ -44,7 +44,7 @@ export function log(message: string, ...args: unknown[]) {
   rawConsole.log(message, ...args);
 }
 
-export function verbose(message?: string, ...args: unknown[]) {
+export function verbose(message: string, ...args: unknown[]) {
   if (!config.verbose || config.silent) return;
 
   rawConsole.log(colorVerbose(message, ...args));
