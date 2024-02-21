@@ -1,3 +1,4 @@
+import stripAnsi from 'strip-ansi';
 import { measureFunction } from '../measure-function';
 import { resetHasShownFlagsOutput } from '../output';
 
@@ -59,7 +60,10 @@ test('measureFunction should log error when running under incorrect node flags',
   const results = await measureFunction(jest.fn(), { runs: 1, writeFile: false });
 
   expect(results.runs).toBe(1);
-  expect(realConsole.error).toHaveBeenCalledWith(`❌ Measure code is running under incorrect Node.js configuration.
-Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
-Make sure you use the Reassure CLI and run it using "reassure" command.`);
+  const consoleErrorCalls = jest.mocked(realConsole.error).mock.calls;
+  expect(stripAnsi(consoleErrorCalls[0][0])).toMatchInlineSnapshot(`
+    "❌ Measure code is running under incorrect Node.js configuration.
+    Performance test code should be run in Jest with certain Node.js flags to increase measurements stability.
+    Make sure you use the Reassure CLI and run it using "reassure" command."
+  `);
 });
