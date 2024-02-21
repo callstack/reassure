@@ -1,5 +1,15 @@
 # @callstack/reassure-cli
 
+## 0.11.0
+
+### Patch Changes
+
+- b455bd4: refactor: simplify `reassure-logger` package exports
+- Updated dependencies [b455bd4]
+- Updated dependencies [bb2046a]
+  - @callstack/reassure-logger@0.11.0
+  - @callstack/reassure-compare@0.11.0
+
 ## 0.10.2
 
 ### Patch Changes

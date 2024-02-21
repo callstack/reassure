@@ -1,5 +1,14 @@
 # @callstack/reassure-compare
 
+## 0.11.0
+
+### Patch Changes
+
+- b455bd4: refactor: simplify `reassure-logger` package exports
+- bb2046a: Replace unmaintained `markdown-builder` library with internal helper functions.
+- Updated dependencies [b455bd4]
+  - @callstack/reassure-logger@0.11.0
+
 ## 0.6.0
 
 ### Minor Changes

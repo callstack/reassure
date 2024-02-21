@@ -1,5 +1,17 @@
 # @callstack/reassure-measure
 
+## 0.11.0
+
+### Minor Changes
+
+- b455bd4: - Add `writeFile` option to `measurePerformance`/`measureFunction`.
+
+### Patch Changes
+
+- b455bd4: refactor: simplify `reassure-logger` package exports
+- Updated dependencies [b455bd4]
+  - @callstack/reassure-logger@0.11.0
+
 ## 0.6.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 0.11.0
+
+### Minor Changes
+
+- b455bd4: refactor: simplify `reassure-logger` package exports
+
 ## 0.3.1
 
 ### Patch Changes

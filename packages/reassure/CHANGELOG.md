@@ -1,5 +1,19 @@
 # reassure
 
+## 0.11.0
+
+### Minor Changes
+
+- b455bd4: - Add `writeFile` option to `measurePerformance`/`measureFunction`.
+
+### Patch Changes
+
+- Updated dependencies [b455bd4]
+- Updated dependencies [b455bd4]
+  - @callstack/reassure-measure@0.11.0
+  - @callstack/reassure-cli@0.11.0
+  - @callstack/reassure-danger@0.11.0
+
 ## 0.10.2
 
 ### Patch Changes
