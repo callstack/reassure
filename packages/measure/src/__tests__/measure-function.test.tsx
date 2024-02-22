@@ -14,34 +14,37 @@ function fib(n: number): number {
 test('measureFunction captures results', async () => {
   const fn = jest.fn(() => fib(5));
   const results = await measureFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
+  const mainResult = results[0];
 
   expect(fn).toHaveBeenCalledTimes(1);
-  expect(results.runs).toBe(1);
-  expect(results.counts).toEqual([1]);
+  expect(mainResult.runs).toBe(1);
+  expect(mainResult.counts).toEqual([1]);
 });
 
 test('measureFunction runs specified number of times', async () => {
   const fn = jest.fn(() => fib(5));
   const results = await measureFunction(fn, { runs: 20, warmupRuns: 0, writeFile: false });
+  const mainResult = results[0];
 
   expect(fn).toHaveBeenCalledTimes(20);
-  expect(results.runs).toBe(20);
-  expect(results.durations).toHaveLength(20);
-  expect(results.counts).toHaveLength(20);
-  expect(results.meanCount).toBe(1);
-  expect(results.stdevCount).toBe(0);
+  expect(mainResult.runs).toBe(20);
+  expect(mainResult.durations).toHaveLength(20);
+  expect(mainResult.counts).toHaveLength(20);
+  expect(mainResult.meanCount).toBe(1);
+  expect(mainResult.stdevCount).toBe(0);
 });
 
 test('measureFunction applies "warmupRuns" option', async () => {
   const fn = jest.fn(() => fib(5));
   const results = await measureFunction(fn, { runs: 10, warmupRuns: 1, writeFile: false });
+  const mainResult = results[0];
 
   expect(fn).toHaveBeenCalledTimes(11);
-  expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
-  expect(results.counts).toHaveLength(10);
-  expect(results.meanCount).toBe(1);
-  expect(results.stdevCount).toBe(0);
+  expect(mainResult.runs).toBe(10);
+  expect(mainResult.durations).toHaveLength(10);
+  expect(mainResult.counts).toHaveLength(10);
+  expect(mainResult.meanCount).toBe(1);
+  expect(mainResult.stdevCount).toBe(0);
 });
 
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
@@ -59,7 +62,7 @@ test('measureFunction should log error when running under incorrect node flags',
   resetHasShownFlagsOutput();
   const results = await measureFunction(jest.fn(), { runs: 1, writeFile: false });
 
-  expect(results.runs).toBe(1);
+  expect(results[0].runs).toBe(1);
   const consoleErrorCalls = jest.mocked(realConsole.error).mock.calls;
   expect(stripAnsi(consoleErrorCalls[0][0])).toMatchInlineSnapshot(`
     "❌ Measure code is running under incorrect Node.js configuration.

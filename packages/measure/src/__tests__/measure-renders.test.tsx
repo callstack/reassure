@@ -18,11 +18,13 @@ beforeEach(() => {
 test('measureRenders run test given number of times', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
   const results = await measureRenders(<View />, { runs: 20, scenario, writeFile: false });
-  expect(results.runs).toBe(20);
-  expect(results.durations).toHaveLength(20);
-  expect(results.counts).toHaveLength(20);
-  expect(results.meanCount).toBe(1);
-  expect(results.stdevCount).toBe(0);
+  const mainResult = results[0];
+
+  expect(mainResult.runs).toBe(20);
+  expect(mainResult.durations).toHaveLength(20);
+  expect(mainResult.counts).toHaveLength(20);
+  expect(mainResult.meanCount).toBe(1);
+  expect(mainResult.stdevCount).toBe(0);
 
   // Test is actually run 21 times = 20 runs + 1 warmup runs
   expect(scenario).toHaveBeenCalledTimes(21);
@@ -31,20 +33,21 @@ test('measureRenders run test given number of times', async () => {
 test('measureRenders applies "warmupRuns" option', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
   const results = await measureRenders(<View />, { runs: 10, scenario, writeFile: false });
+  const mainResult = results[0];
 
   expect(scenario).toHaveBeenCalledTimes(11);
-  expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
-  expect(results.counts).toHaveLength(10);
-  expect(results.meanCount).toBe(1);
-  expect(results.stdevCount).toBe(0);
+  expect(mainResult.runs).toBe(10);
+  expect(mainResult.durations).toHaveLength(10);
+  expect(mainResult.counts).toHaveLength(10);
+  expect(mainResult.meanCount).toBe(1);
+  expect(mainResult.stdevCount).toBe(0);
 });
 
 test('measureRenders should log error when running under incorrect node flags', async () => {
   resetHasShownFlagsOutput();
   const results = await measureRenders(<View />, { runs: 1, writeFile: false });
 
-  expect(results.runs).toBe(1);
+  expect(results[0].runs).toBe(1);
   const consoleErrorCalls = jest.mocked(realConsole.error).mock.calls;
   expect(stripAnsi(consoleErrorCalls[0][0])).toMatchInlineSnapshot(`
     "❌ Measure code is running under incorrect Node.js configuration.
@@ -59,13 +62,15 @@ function IgnoreChildren(_: React.PropsWithChildren<{}>) {
 
 test('measureRenders does not measure wrapper execution', async () => {
   const results = await measureRenders(<View />, { wrapper: IgnoreChildren, writeFile: false });
-  expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
-  expect(results.counts).toHaveLength(10);
-  expect(results.meanDuration).toBe(0);
-  expect(results.meanCount).toBe(0);
-  expect(results.stdevDuration).toBe(0);
-  expect(results.stdevCount).toBe(0);
+  const mainResult = results[0];
+
+  expect(mainResult.runs).toBe(10);
+  expect(mainResult.durations).toHaveLength(10);
+  expect(mainResult.counts).toHaveLength(10);
+  expect(mainResult.meanDuration).toBe(0);
+  expect(mainResult.meanCount).toBe(0);
+  expect(mainResult.stdevDuration).toBe(0);
+  expect(mainResult.stdevCount).toBe(0);
 });
 
 function Wrapper({ children }: React.PropsWithChildren<{}>) {
