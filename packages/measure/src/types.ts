@@ -2,9 +2,9 @@
 export type MeasureType = 'render' | 'function';
 
 /**
- * Type representing the result of `measure*` functions.
+ * Result of a single measurement.
  */
-export interface MeasureResults {
+export interface MeasureResult {
   /** Number of times the test subject was run */
   runs: number;
 
