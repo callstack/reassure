@@ -1,6 +1,6 @@
 import { performance } from 'perf_hooks';
 import { config } from './config';
-import type { MeasureResults } from './types';
+import type { MeasureResult } from './types';
 import { type RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 
@@ -10,17 +10,18 @@ export interface MeasureFunctionOptions {
   writeFile?: boolean;
 }
 
-export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
-  const stats = await measureFunctionInternal(fn, options);
+export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResult[]> {
+  const results = await measureFunctionInternal(fn, options);
 
   if (options?.writeFile !== false) {
-    await writeTestStats(stats, 'function');
+    // Currently measureRenders returns only a single result, but in the future it might return multiple ones.
+    await writeTestStats(results[0], 'function');
   }
 
-  return stats;
+  return results;
 }
 
-function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
+function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResult[] {
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
@@ -36,7 +37,9 @@ function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOption
     runResults.push({ duration, count: 1 });
   }
 
-  return processRunResults(runResults, warmupRuns);
+  // Currently we return only a single result, but in the future we plan to return multiple ones.
+  const result = processRunResults(runResults, warmupRuns);
+  return [result];
 }
 
 function getCurrentTime() {

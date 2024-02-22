@@ -1,12 +1,12 @@
 import * as math from 'mathjs';
-import type { MeasureResults } from './types';
+import type { MeasureResult } from './types';
 
 export interface RunResult {
   duration: number;
   count: number;
 }
 
-export function processRunResults(results: RunResult[], warmupRuns: number): MeasureResults {
+export function processRunResults(results: RunResult[], warmupRuns: number): MeasureResult {
   results = results.slice(warmupRuns);
   results.sort((first, second) => second.duration - first.duration); // duration DESC
 
