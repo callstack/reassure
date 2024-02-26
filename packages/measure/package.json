@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "react-native": "0.73.1",
-    "strip-ansi": "^6.0.1"
+    "strip-ansi": "^7.1.0"
   },
   "peerDependencies": {
     "react": "*"
