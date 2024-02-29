@@ -94,11 +94,11 @@ Now that the library is installed, you can write your first test scenario in a f
 
 ```ts
 // ComponentUnderTest.perf-test.tsx
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 import { ComponentUnderTest } from './ComponentUnderTest';
 
 test('Simple test', async () => {
-  await measurePerformance(<ComponentUnderTest />);
+  await measureRenders(<ComponentUnderTest />);
 });
 ```
 
@@ -111,7 +111,7 @@ This test will measure render times of `ComponentUnderTest` during mounting and 
 If your component contains any async logic or you want to test some interaction, you should pass the `scenario` option:
 
 ```ts
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { ComponentUnderTest } from './ComponentUnderTest';
 
@@ -121,7 +121,7 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measurePerformance(<ComponentUnderTest />, { scenario });
+  await measureRenders(<ComponentUnderTest />, { scenario });
 });
 ```
 
@@ -130,7 +130,7 @@ The body of the `scenario` function is using familiar React Native Testing Libra
 In case of using a version of React Native Testing Library lower than v10.1.0, where [`screen` helper](https://callstack.github.io/react-native-testing-library/docs/api/#screen) is not available, the `scenario` function provides it as its first argument:
 
 ```ts
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 import { fireEvent } from '@testing-library/react-native';
 
 test('Test with scenario', async () => {
@@ -139,7 +139,7 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measurePerformance(<ComponentUnderTest />, { scenario });
+  await measureRenders(<ComponentUnderTest />, { scenario });
 });
 ```
 
@@ -352,23 +352,23 @@ Looking at the example, you can notice that test scenarios can be assigned to ce
 
 ### Measurements
 
-#### `measurePerformance` function
+#### `measureRenders` function
 
 Custom wrapper for the RNTL `render` function responsible for rendering the passed screen inside a `React.Profiler` component,
 measuring its performance and writing results to the output file. You can use the optional `options` object that allows customizing aspects
 of the testing
 
 ```ts
-async function measurePerformance(
+async function measureRenders(
   ui: React.ReactElement,
-  options?: MeasureOptions,
+  options?: MeasureRendersOptions,
 ): Promise<MeasureResults> {
 ```
 
-#### `MeasureOptions` type
+#### `MeasureRendersOptions` type
 
 ```ts
-interface MeasureOptions {
+interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
@@ -451,10 +451,10 @@ function configure(customConfig: Partial<Config>): void;
 
 The `configure` function can override the default config parameters.
 
-#### `resetToDefault` function
+#### `resetToDefaults` function
 
 ```ts
-resetToDefault(): void
+resetToDefaults(): void
 ```
 
 Reset the current config to the original `defaultConfig` object

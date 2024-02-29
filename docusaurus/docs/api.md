@@ -7,7 +7,7 @@ sidebar_position: 4
 
 ## Measurements
 
-### `measurePerformance()` function {#measure-renders}
+### `measureRenders()` function {#measure-renders}
 
 :::info
 
@@ -20,9 +20,9 @@ measuring its performance and writing results to the output file. You can use op
 of the testing.
 
 ```ts
-async function measurePerformance(
+async function measureRenders(
   ui: React.ReactElement,
-  options?: MeasureOptions,
+  options?: MeasureRendersOptions,
 ): Promise<MeasureResults> {
 ```
 
@@ -30,7 +30,7 @@ async function measurePerformance(
 
 ```ts
 // sample.perf-test.tsx
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { ComponentUnderTest } from './ComponentUnderTest';
 
@@ -40,14 +40,14 @@ test('Test with scenario', async () => {
     await screen.findByText('Done');
   };
 
-  await measurePerformance(<ComponentUnderTest />, { scenario });
+  await measureRenders(<ComponentUnderTest />, { scenario });
 });
 ```
 
-### `MeasureOptions` type {#measure-renders-options}
+### `MeasureRendersOptions` type {#measure-renders-options}
 
 ```ts
-interface MeasureOptions {
+interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
@@ -154,13 +154,13 @@ configure({
 });
 ```
 
-### `resetToDefault` function {#reset-to-defaults}
+### `resetToDefaults` function {#reset-to-defaults}
 
 ```ts
-resetToDefault(): void
+resetToDefaults(): void
 ```
 
-Reset current config to the original `defaultConfig` object. You can call `resetToDefault()` anywhere in your performance test file.
+Reset current config to the original `defaultConfig` object. You can call `resetToDefaults()` anywhere in your performance test file.
 
 ### Environmental variables
 
