@@ -1,10 +1,15 @@
 import * as math from 'mathjs';
+import type { ReactTestRendererJSON } from 'react-test-renderer';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { format as prettyFormat, plugins as prettyFormatPlugins } from 'pretty-format';
 import type { MeasureResults } from './types';
 
 export interface RunResult {
   duration: number;
   count: number;
 }
+
+export type ToJsonTree = ReactTestRendererJSON | ReactTestRendererJSON[] | null;
 
 export function processRunResults(inputResults: RunResult[], warmupRuns: number): MeasureResults {
   const warmupResults = inputResults.slice(0, warmupRuns);
@@ -29,4 +34,24 @@ export function processRunResults(inputResults: RunResult[], warmupRuns: number)
     stdevCount,
     counts,
   };
+}
+
+const { AsymmetricMatcher, DOMCollection, DOMElement, Immutable, ReactElement, ReactTestComponent } =
+  prettyFormatPlugins;
+const PLUGINS = [ReactTestComponent, ReactElement, DOMElement, DOMCollection, Immutable, AsymmetricMatcher];
+const FORMAT_OPTIONS = {
+  plugins: PLUGINS,
+};
+export function subsequentlyDifferencies(components: ToJsonTree[]): number {
+  const formatOptionsZeroIndent = { ...FORMAT_OPTIONS, indent: 0 };
+  let count = 0;
+
+  for (let i = 0; i < components.length - 1; i++) {
+    const aCompare = prettyFormat(components[i], formatOptionsZeroIndent);
+    const bCompare = prettyFormat(components[i + 1], formatOptionsZeroIndent);
+    if (aCompare === bCompare) {
+      count++;
+    }
+  }
+  return count;
 }

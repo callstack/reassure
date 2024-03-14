@@ -1,6 +1,11 @@
 /** Type of measured performance characteristic. */
 export type MeasureType = 'render' | 'function';
 
+interface RendundantRendersResults {
+  initialRenders: number;
+  updates: number;
+}
+
 /**
  * Type representing the result of `measure*` functions.
  */
@@ -28,4 +33,8 @@ export interface MeasureResults {
 
   /** Array of measured render/execution count for each run */
   counts: number[];
+}
+
+export interface MeasureRendersResults extends MeasureResults {
+  redundantRenders: RendundantRendersResults;
 }

@@ -151,6 +151,10 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     }
   });
 
+  const reduntantRenderChanged: CompareEntry[] = compared.filter(
+    (item) => item.redundantInitialRenderDiff !== 0 || item.redundantUpdateRenderDiff
+  );
+
   const significant = compared
     .filter((item) => item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
@@ -172,6 +176,7 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     countChanged,
     added,
     removed,
+    reduntantRenderChanged,
   };
 }
 
@@ -183,6 +188,11 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
   const relativeDurationDiff = durationDiff / baseline.meanDuration;
   const countDiff = current.meanCount - baseline.meanCount;
   const relativeCountDiff = countDiff / baseline.meanCount;
+
+  const redundantInitialRenderDiff =
+    (current.redundantRenders?.initialRenders ?? 0) - (baseline.redundantRenders?.initialRenders ?? 0);
+  const redundantUpdateRenderDiff =
+    (current.redundantRenders?.updates ?? 0) - (baseline.redundantRenders?.updates ?? 0);
 
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
   const prob = computeProbability(z);
@@ -200,6 +210,8 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
     isDurationDiffSignificant,
     countDiff,
     relativeCountDiff,
+    redundantInitialRenderDiff,
+    redundantUpdateRenderDiff,
   };
 }
 
