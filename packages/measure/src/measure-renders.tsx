@@ -3,7 +3,7 @@ import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { resolveTestingLibrary } from './testing-library';
+import { resolveTestingLibrary, isRNTLRunning } from './testing-library';
 import type { MeasureResults } from './types';
 
 logger.configure({
@@ -29,23 +29,33 @@ export async function measurePerformance(ui: React.ReactElement, options?: Measu
   return stats;
 }
 
+const isFirstRun = 0;
+const minRecordToCompare = 2;
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
   const { render, cleanup } = resolveTestingLibrary();
+  const isCurrentlyRNTL = isRNTLRunning();
 
   showFlagsOutputIfNeeded();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
+  let hasUnnecessaryRender = false;
+  let screen: any | undefined;
+  let jsonRepresentations: string[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
+      if (isCurrentlyRNTL && screen !== undefined && i === isFirstRun && screen.toJSON()) {
+        jsonRepresentations.push(JSON.stringify(screen.toJSON()));
+      }
+
       duration += actualDuration;
       count += 1;
 
@@ -55,8 +65,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
-    const screen = render(uiToRender);
-
+    screen = render(uiToRender);
     if (scenario) {
       await scenario(screen);
     }
@@ -67,6 +76,19 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     global.gc?.();
 
     runResults.push({ duration, count });
+  }
+
+  if (
+    jsonRepresentations.length >= minRecordToCompare &&
+    jsonRepresentations.every((json) => json === jsonRepresentations.at(0))
+  ) {
+    const testName = expect.getState().currentTestName;
+    logger.warn(`test "${testName}" has unnecessary renders. Please update your code to avoid unnecessary renders.`);
+  }
+
+  if (hasUnnecessaryRender) {
+    const testName = expect.getState().currentTestName;
+    logger.warn(`test "${testName}" has unnecessary renders. Please update your code to avoid unnecessary renders.`);
   }
 
   if (hasTooLateRender) {

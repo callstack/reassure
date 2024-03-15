@@ -81,3 +81,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
       `\nAdd either of these testing libraries to your 'package.json'`
   );
 }
+
+export function isRNTLRunning(): boolean {
+  return RNTL != null;
+}
