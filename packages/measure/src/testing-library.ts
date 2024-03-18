@@ -82,6 +82,18 @@ export function resolveTestingLibrary(): TestingLibraryApi {
   );
 }
 
-export function isRNTLRunning(): boolean {
-  return RNTL != null;
+export function getTestingLibrary(): string | null {
+  if (typeof config.testingLibrary === 'string') {
+    config.testingLibrary;
+  }
+
+  if (RNTL != null) {
+    return 'react-native';
+  }
+
+  if (RTL != null) {
+    return 'react';
+  }
+
+  return null;
 }

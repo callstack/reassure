@@ -3,7 +3,7 @@ import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { resolveTestingLibrary, isRNTLRunning } from './testing-library';
+import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureResults } from './types';
 
 logger.configure({
@@ -29,7 +29,6 @@ export async function measurePerformance(ui: React.ReactElement, options?: Measu
   return stats;
 }
 
-const isFirstRun = 0;
 const minRecordToCompare = 2;
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
@@ -37,14 +36,14 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
   const { render, cleanup } = resolveTestingLibrary();
-  const isCurrentlyRNTL = isRNTLRunning();
+  const testingLibrary = getTestingLibrary();
 
   showFlagsOutputIfNeeded();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
   let hasUnnecessaryRender = false;
-  let screen: any | undefined;
+  let screen: any | null = null;
   let jsonRepresentations: string[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
@@ -52,8 +51,9 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     let isFinished = false;
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
-      if (isCurrentlyRNTL && screen !== undefined && i === isFirstRun && screen.toJSON()) {
-        jsonRepresentations.push(JSON.stringify(screen.toJSON()));
+      if (i === 0 && testingLibrary === 'react-native' && screen !== null) {
+        const json = screen.toJSON();
+        jsonRepresentations.push(JSON.stringify(json));
       }
 
       duration += actualDuration;
