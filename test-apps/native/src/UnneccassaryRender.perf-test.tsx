@@ -28,8 +28,6 @@ test('Unncessary Component', async () => {
     const button = screen.getByText('Action');
     await screen.findByText('Count: 0');
     await fireEvent.press(button);
-    await fireEvent.press(button);
-    await fireEvent.press(button);
   };
 
   await measurePerformance(<UnnecessaryComponent />, { scenario });

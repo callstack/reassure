@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
-import { RunResult, processRunResults } from './measure-helpers';
+import { ComponentNode, RunResult, dfs, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureResults } from './types';
@@ -29,7 +29,6 @@ export async function measurePerformance(ui: React.ReactElement, options?: Measu
   return stats;
 }
 
-const minRecordToCompare = 2;
 export async function measureRender(ui: React.ReactElement, options?: MeasureOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
@@ -43,18 +42,20 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
   let hasUnnecessaryRender = false;
-  let screen: any | null = null;
-  let jsonRepresentations: string[] = [];
+  let components: ComponentNode[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
 
-    const handleRender = (_id: string, _phase: string, actualDuration: number) => {
-      if (i === 0 && testingLibrary === 'react-native' && screen !== null) {
-        const json = screen.toJSON();
-        jsonRepresentations.push(JSON.stringify(json));
+    const captureJSONs = () => {
+      if (i === 0 && testingLibrary === 'react-native') {
+        components.push(screen?.toJSON());
       }
+    };
+
+    const handleRender = (_id: string, _phase: string, actualDuration: number) => {
+      captureJSONs();
 
       duration += actualDuration;
       count += 1;
@@ -65,7 +66,9 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
-    screen = render(uiToRender);
+    const screen = render(uiToRender);
+    captureJSONs();
+
     if (scenario) {
       await scenario(screen);
     }
@@ -78,10 +81,9 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     runResults.push({ duration, count });
   }
 
-  if (
-    jsonRepresentations.length >= minRecordToCompare &&
-    jsonRepresentations.every((json) => json === jsonRepresentations.at(0))
-  ) {
+  // Disarc first record
+  components.shift();
+  if (components && dfs(components)) {
     const testName = expect.getState().currentTestName;
     logger.warn(`test "${testName}" has unnecessary renders. Please update your code to avoid unnecessary renders.`);
   }
