@@ -23,7 +23,7 @@ const UnnecessaryComponent = () => {
 
 jest.setTimeout(60_000);
 
-test('Unncessary Component', async () => {
+test('Unncessary Renders Component', async () => {
   const scenario = async () => {
     const button = screen.getByText('Action');
     await screen.findByText('Count: 0');
