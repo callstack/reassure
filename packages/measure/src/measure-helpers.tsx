@@ -1,4 +1,7 @@
 import * as math from 'mathjs';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { format as prettyFormat, plugins as prettyFormatPlugins } from 'pretty-format';
 import type { MeasureResults } from './types';
 
 export interface RunResult {
@@ -6,7 +9,13 @@ export interface RunResult {
   count: number;
 }
 
-export function processRunResults(results: RunResult[], warmupRuns: number): MeasureResults {
+export type RenderMeasureResult = Array<Object | undefined>;
+
+export function processRunResults(
+  results: RunResult[],
+  warmupRuns: number,
+  renderMeasure?: RenderMeasureResult
+): MeasureResults {
   results = results.slice(warmupRuns);
   results.sort((first, second) => second.duration - first.duration); // duration DESC
 
@@ -20,6 +29,12 @@ export function processRunResults(results: RunResult[], warmupRuns: number): Mea
 
   return {
     runs: results.length,
+    redundantRender: {
+      initial: (renderMeasure && renderMeasure?.filter((measurement) => measurement === undefined).length - 1) ?? 0,
+      update: renderMeasure
+        ? subsequentlyDifferencies(renderMeasure.filter((measurement) => measurement !== undefined))
+        : 0,
+    },
     meanDuration,
     stdevDuration,
     durations,
@@ -29,49 +44,22 @@ export function processRunResults(results: RunResult[], warmupRuns: number): Mea
   };
 }
 
-export interface ComponentNode {
-  type: string;
-  props: { [key: string]: any };
-  children?: ComponentNode[];
-}
-
-function deepEqual(obj1: any, obj2: any): boolean {
-  if (obj1 === obj2) return true;
-  if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 == null || obj2 == null) return false;
-
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
-
-  if (keys1.length !== keys2.length) return false;
-
-  for (const key of keys1) {
-    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) return false;
-  }
-
-  return true;
-}
-
-export function dfs(nodes: ComponentNode[], prevNode: ComponentNode | null = null): boolean {
+const { AsymmetricMatcher, DOMCollection, DOMElement, Immutable, ReactElement, ReactTestComponent } =
+  prettyFormatPlugins;
+const PLUGINS = [ReactTestComponent, ReactElement, DOMElement, DOMCollection, Immutable, AsymmetricMatcher];
+const FORMAT_OPTIONS = {
+  plugins: PLUGINS,
+};
+export function subsequentlyDifferencies(components: RenderMeasureResult): number {
+  const formatOptionsZeroIndent = { ...FORMAT_OPTIONS, indent: 0 };
   let count = 0;
-  for (const node of nodes) {
-    if (!node && !prevNode) {
-      count++;
-    }
 
-    if (
-      prevNode &&
-      prevNode.type === node.type &&
-      deepEqual(prevNode.props, node.props) &&
-      deepEqual(prevNode?.children, node?.children)
-    ) {
+  for (let i = 0; i < components.length - 1; i++) {
+    const aCompare = prettyFormat(components[i], formatOptionsZeroIndent);
+    const bCompare = prettyFormat(components[i + 1], formatOptionsZeroIndent);
+    if (aCompare === bCompare) {
       count++;
     }
-
-    if (node?.children && dfs(node?.children, node)) {
-      count++;
-    }
-    prevNode = node;
   }
-
-  return count >= 1;
+  return count;
 }

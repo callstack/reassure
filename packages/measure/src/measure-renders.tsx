@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
-import { ComponentNode, RunResult, dfs, processRunResults } from './measure-helpers';
+import { RenderMeasureResult, RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureResults } from './types';
@@ -42,7 +42,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
   let hasUnnecessaryRender = false;
-  let components: ComponentNode[] = [];
+  let components: RenderMeasureResult = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
@@ -81,13 +81,6 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     runResults.push({ duration, count });
   }
 
-  // Disarc first record
-  components.shift();
-  if (components && dfs(components)) {
-    const testName = expect.getState().currentTestName;
-    logger.warn(`test "${testName}" has unnecessary renders. Please update your code to avoid unnecessary renders.`);
-  }
-
   if (hasUnnecessaryRender) {
     const testName = expect.getState().currentTestName;
     logger.warn(`test "${testName}" has unnecessary renders. Please update your code to avoid unnecessary renders.`);
@@ -100,7 +93,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     );
   }
 
-  return processRunResults(runResults, warmupRuns);
+  return processRunResults(runResults, warmupRuns, components);
 }
 
 export function buildUiToRender(

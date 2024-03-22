@@ -89,6 +89,41 @@ export function formatCountChange(entry: CompareEntry) {
   return output;
 }
 
+export function formatRenderInitialChange(entry: CompareEntry) {
+  const { baseline, current } = entry;
+
+  let output = `${formatCount(baseline.redundantRender.initial)} → ${formatCount(current.redundantRender.initial)}`;
+
+  if (baseline.redundantRender.initial != current.redundantRender.initial) {
+    const redundantRenderDiff = current.redundantRender.initial - baseline.redundantRender.initial;
+    const relativeReduntantRenderDiff =
+      redundantRenderDiff / (baseline.redundantRender.initial === 0 ? 1 : baseline.redundantRender.initial);
+
+    output += ` (${formatCountDiff(redundantRenderDiff)}, ${formatPercentChange(relativeReduntantRenderDiff)})`;
+  }
+
+  output += ` ${getCountChangeSymbols(entry)}`;
+
+  return output;
+}
+
+export function formatRenderUpdateChange(entry: CompareEntry) {
+  const { baseline, current } = entry;
+
+  let output = `${formatCount(baseline.redundantRender.update)} → ${formatCount(current.redundantRender.update)}`;
+
+  if (baseline.redundantRender.update != current.redundantRender.update) {
+    const redundantRenderDiff = current.redundantRender.update - baseline.redundantRender.update;
+    const relativeReduntantRenderDiff =
+      redundantRenderDiff / (baseline.redundantRender.update === 0 ? 1 : baseline.redundantRender.update);
+    output += ` (${formatCountDiff(redundantRenderDiff)}, ${formatPercentChange(relativeReduntantRenderDiff)})`;
+  }
+
+  output += ` ${getCountChangeSymbols(entry)}`;
+
+  return output;
+}
+
 function getCountChangeSymbols(entry: CompareEntry) {
   if (entry.countDiff > 1.5) return '🔴🔴';
   if (entry.countDiff > 0.5) return '🔴';
