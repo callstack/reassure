@@ -1,6 +1,14 @@
 import * as logger from '@callstack/reassure-logger';
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
-import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
+import {
+  formatCount,
+  formatDuration,
+  formatMetadata,
+  formatCountChange,
+  formatDurationChange,
+  formatRenderInitialChange,
+  formatRenderUpdateChange,
+} from '../utils/format';
 import type { PerformanceMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
@@ -19,6 +27,9 @@ export function printToConsole(data: CompareResult) {
   logger.log('\n➡️  Count changes');
   data.countChanged.forEach(printRegularLine);
 
+  logger.log('\n➡️  Redundant Render');
+  data.reduntantRenderChanged.forEach(printRegularLineRender);
+
   logger.log('\n➡️  Added scenarios');
   data.added.forEach(printAddedLine);
 
@@ -34,6 +45,14 @@ function printMetadata(name: string, metadata?: PerformanceMetadata) {
 
 function printRegularLine(entry: CompareEntry) {
   logger.log(` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(entry)}`);
+}
+
+function printRegularLineRender(entry: CompareEntry) {
+  const shouldShowInitial = entry.baseline.redundantRender.initial !== entry.current.redundantRender.initial;
+  const shouldShowUpdate = entry.baseline.redundantRender.update !== entry.current.redundantRender.update;
+
+  shouldShowInitial && logger.log(` - ${entry.name} [Initial]: | ${formatRenderInitialChange(entry)}`);
+  shouldShowUpdate && logger.log(` - ${entry.name} [Update]: | ${formatRenderUpdateChange(entry)}`);
 }
 
 function printAddedLine(entry: AddedEntry) {

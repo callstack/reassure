@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
-import { RunResult, processRunResults } from './measure-helpers';
+import { RenderMeasureResult, RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { resolveTestingLibrary } from './testing-library';
+import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureResults } from './types';
 
 logger.configure({
@@ -35,17 +35,28 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
   const { render, cleanup } = resolveTestingLibrary();
+  const testingLibrary = getTestingLibrary();
 
   showFlagsOutputIfNeeded();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
+  let hasUnnecessaryRender = false;
+  let components: RenderMeasureResult = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
 
+    const captureJSONs = () => {
+      if (i === 0 && testingLibrary === 'react-native') {
+        components.push(screen?.toJSON());
+      }
+    };
+
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
+      captureJSONs();
+
       duration += actualDuration;
       count += 1;
 
@@ -56,6 +67,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
     const screen = render(uiToRender);
+    captureJSONs();
 
     if (scenario) {
       await scenario(screen);
@@ -69,6 +81,11 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     runResults.push({ duration, count });
   }
 
+  if (hasUnnecessaryRender) {
+    const testName = expect.getState().currentTestName;
+    logger.warn(`test "${testName}" has unnecessary renders. Please update your code to avoid unnecessary renders.`);
+  }
+
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
     logger.warn(
@@ -76,7 +93,7 @@ export async function measureRender(ui: React.ReactElement, options?: MeasureOpt
     );
   }
 
-  return processRunResults(runResults, warmupRuns);
+  return processRunResults(runResults, warmupRuns, components);
 }
 
 export function buildUiToRender(

@@ -25,4 +25,9 @@ export interface MeasureResults {
 
   /** Array of measured render/execution count for each run */
   counts: number[];
+
+  redundantRender: {
+    initial: number;
+    update: number;
+  };
 }

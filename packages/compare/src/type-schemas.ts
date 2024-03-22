@@ -40,4 +40,9 @@ export const performanceEntrySchema = z.object({
 
   /** Array of measured render/execution counts for each run. */
   counts: z.array(z.number()),
+
+  redundantRender: z.object({
+    initial: z.number(),
+    update: z.number(),
+  }),
 });

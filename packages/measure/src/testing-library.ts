@@ -81,3 +81,19 @@ export function resolveTestingLibrary(): TestingLibraryApi {
       `\nAdd either of these testing libraries to your 'package.json'`
   );
 }
+
+export function getTestingLibrary(): string | null {
+  if (typeof config.testingLibrary === 'string') {
+    config.testingLibrary;
+  }
+
+  if (RNTL != null) {
+    return 'react-native';
+  }
+
+  if (RTL != null) {
+    return 'react';
+  }
+
+  return null;
+}
