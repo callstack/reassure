@@ -5,10 +5,7 @@
 ### Major Changes
 
 - v1.0
-
-### Minor Changes
-
-- 4352279: - Rename `measurePerformance` to `measureRenders`.
+- Rename `measurePerformance` to `measureRenders`.
 
 ### Patch Changes
 

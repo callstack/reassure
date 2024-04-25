@@ -6,8 +6,6 @@
 
 - v1.0
 
-### Patch Changes
-
 ## 0.11.0
 
 ### Patch Changes
