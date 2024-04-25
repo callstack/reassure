@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadFile should fail for file with invalid JSON structure 1`] = `"Unexpected token : in JSON at position 6"`;
+exports[`loadFile should fail for file with invalid JSON structure 1`] = `"Unexpected non-whitespace character after JSON at position 6"`;
 
 exports[`loadFile should fail for file with invalid entry 1`] = `
 "[
