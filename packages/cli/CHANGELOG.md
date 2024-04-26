@@ -1,6 +1,6 @@
 # @callstack/reassure-cli
 
-## 1.0.0-rc
+## 1.0.0 RC
 
 ### Major Changes
 

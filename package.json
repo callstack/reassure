@@ -1,7 +1,7 @@
 {
   "name": "reassure-root",
   "private": true,
-  "version": "1.0.0-rc",
+  "version": "1.0.0-rc.1",
   "description": "Performance testing companion for React and React Native",
   "source": "src/index",
   "scripts": {

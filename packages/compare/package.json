@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-compare",
-  "version": "1.0.0-rc",
+  "version": "1.0.0-rc.1",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@callstack/reassure-logger": "1.0.0-rc",
+    "@callstack/reassure-logger": "1.0.0-rc.1",
     "markdown-table": "^2.0.0",
     "zod": "^3.20.2"
   },

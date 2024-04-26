@@ -1,6 +1,6 @@
 # reassure
 
-## 1.0.0-rc
+## 1.0.0 RC
 
 ### Major Changes
 
@@ -10,9 +10,9 @@
 ### Patch Changes
 
 - Updated dependencies [f9116d0]
-  - @callstack/reassure-cli@1.0.0-rc
-  - @callstack/reassure-danger@1.0.0-rc
-  - @callstack/reassure-measure@1.0.0-rc
+  - @callstack/reassure-cli@1.0.0-rc.1
+  - @callstack/reassure-danger@1.0.0-rc.1
+  - @callstack/reassure-measure@1.0.0-rc.1
 
 ## 0.11.0
 
