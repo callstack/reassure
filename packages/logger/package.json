@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-logger",
-  "version": "1.0.0-rc",
+  "version": "1.0.0-rc.1",
   "description": "Logger for Reassure project",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

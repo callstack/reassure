@@ -1,6 +1,6 @@
 # @callstack/reassure-measure
 
-## 1.0.0-rc
+## 1.0.0 RC
 
 ### Major Changes
 
@@ -10,7 +10,7 @@
 ### Patch Changes
 
 - Updated dependencies [f9116d0]
-  - @callstack/reassure-logger@1.0.0-rc
+  - @callstack/reassure-logger@1.0.0-rc.1
 
 ## 0.11.0
 
