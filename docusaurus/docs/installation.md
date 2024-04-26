@@ -2,21 +2,25 @@
 sidebar_position: 2
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Installation and setup
 
 In order to install Reassure run following command in your app folder:
 
-Using yarn
-
-```sh
-yarn add --dev reassure
-```
-
-Using npm
-
+<Tabs>
+<TabItem value="npm" label="npm">
 ```sh
 npm install --save-dev reassure
 ```
+</TabItem>
+<TabItem value="yarn" label="yarn">
+```sh
+yarn add --dev reassure
+```
+</TabItem>
+</Tabs>
 
 You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
@@ -30,11 +34,18 @@ You can check our example projects:
 Reassure will try to detect which Testing Library you have installed. In case both React Native Testing Library and React Testing Library are present it will
 warn you about that and give a precedence to React Native Testing Library. You can explicitly specify Testing Library to by used by using [`configure`](#configure-function) option:
 
+<Tabs>
+<TabItem value="react-native" label="React Native">
 ```ts
 configure({ testingLibrary: 'react-native' });
-// or
+```
+</TabItem>
+<TabItem value="react" label="React.js">
+```ts
 configure({ testingLibrary: 'react' });
 ```
+</TabItem>
+</Tabs>
 
 You should set it in your Jest setup file and you can override it in particular test files if needed.
 
