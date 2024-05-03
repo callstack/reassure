@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -21,10 +24,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install and build
-        run: yarn install --force
-
-      - name: Install Docusaurus modules
-        run: cd ./docusaurus && yarn install --force
+        run: yarn install --immutable
 
       - name: Validate TypeScript
         run: yarn typecheck && yarn typecheck:test-app

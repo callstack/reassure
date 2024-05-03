@@ -40,6 +40,15 @@ project.xcworkspace
 local.properties
 android.iml
 
+# Yarn
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # Cocoapods
 #
 test-apps/native/ios/Pods
