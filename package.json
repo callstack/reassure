@@ -34,9 +34,15 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
+    "@callstack/eslint-config": "^14.1.0",
     "@changesets/cli": "^2.26.0",
     "danger": "^11.3.1",
-    "turbo": "^1.11.3"
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8",
+    "turbo": "^1.11.3",
+    "typescript": "^5.2.2"
   },
   "eslintIgnore": [
     "node_modules/",
