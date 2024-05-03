@@ -1,35 +1,37 @@
 {
-  "name": "test-app-native",
-  "description": "Internal Reassure testing app",
-  "version": "1.0.0-rc",
+  "name": "ReassureTestApp",
+  "version": "1.0.0-rc.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
-    "perf-test": "reassure",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint": "eslint .",
     "build": "yarn --force",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.73.1"
+    "react-native": "0.74.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@babel/runtime": "^7.23.7",
+    "@babel/core": "^7.20.0",
+    "@babel/preset-env": "^7.20.0",
+    "@babel/runtime": "^7.20.0",
     "@callstack/eslint-config": "^14.1.0",
-    "@testing-library/react-native": "^12.4.3",
-    "@types/react": "^18.2.46",
-    "babel-jest": "^29.7.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-import": "^2.29.1",
-    "metro-react-native-babel-preset": "0.77.0",
-    "jest": "^29.7.0",
+    "@react-native/babel-preset": "0.74.83",
+    "@react-native/eslint-config": "0.74.83",
+    "@react-native/metro-config": "0.74.83",
+    "@react-native/typescript-config": "0.74.83",
+    "@testing-library/react-native": "^12.5.0",
+    "@types/react": "^18.2.6",
+    "@types/react-test-renderer": "^18.0.0",
+    "babel-jest": "^29.6.3",
+    "eslint": "^8.19.0",
+    "jest": "^29.6.3",
+    "prettier": "2.8.8",
     "react-test-renderer": "18.2.0",
-    "reassure": "1.0.0-rc",
-    "typescript": "^5.2.2"
+    "typescript": "5.0.4"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
