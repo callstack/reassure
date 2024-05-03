@@ -34,6 +34,10 @@
     "url": "https://github.com/callstack/reassure/issues"
   },
   "homepage": "https://github.com/callstack/reassure#readme",
+  "devDependencies": {
+    "react-native-builder-bob": "^0.20.3",
+    "typescript": "^5.2.2"
+  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
