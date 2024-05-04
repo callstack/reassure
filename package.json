@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "description": "Performance testing companion for React and React Native",
-  "source": "src/index",
   "scripts": {
     "postinstall": "yarn build",
     "test": "turbo run test",
@@ -14,7 +13,8 @@
     "build": "turbo run build",
     "changeset": "changeset",
     "version": "changeset version",
-    "publish": "yarn build && changeset publish"
+    "publish": "yarn build && changeset publish",
+    "danger:local": "danger local -b main"
   },
   "keywords": [
     "react-native",
@@ -41,6 +41,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8",
+    "reassure": "1.0.0-rc.1",
     "turbo": "^1.11.3",
     "typescript": "^5.2.2"
   },
@@ -53,5 +54,6 @@
       "packages/*",
       "test-apps/native"
     ]
-  }
+  },
+  "packageManager": "yarn@4.2.1"
 }

@@ -12,14 +12,20 @@ jobs:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
 
       - name: Install dependencies
-        run: cd ./docusaurus && yarn install --frozen-lockfile
+        run: cd ./docusaurus && yarn install --immutable
       - name: Build website
         run: cd ./docusaurus && yarn build
 

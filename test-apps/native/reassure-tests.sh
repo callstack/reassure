@@ -10,16 +10,16 @@ git fetch origin
 git switch "$BASELINE_BRANCH"
 
 # Next line is required because Reassure packages are imported from this monorepo and might require rebuilding.
-pushd ../.. && yarn install --force && yarn turbo run build && popd
+pushd ../.. && yarn install && yarn turbo run build && popd
 
-yarn install --force
+yarn install
 yarn reassure --baseline
 
 # Gather current perf measurements & compare results
 git switch --detach -
 
 # Next line is required because Reassure packages are imported from this monorepo and might require rebuilding.
-pushd ../.. && yarn install --force && yarn turbo run build && popd
+pushd ../.. && yarn install && yarn turbo run build && popd
 
-yarn install --force
+yarn install
 yarn reassure --branch
