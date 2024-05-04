@@ -43,9 +43,9 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@callstack/reassure-cli": "1.0.0-rc.1",
-    "@callstack/reassure-danger": "1.0.0-rc.1",
-    "@callstack/reassure-measure": "1.0.0-rc.1",
+    "@callstack/reassure-cli": "workspace:^",
+    "@callstack/reassure-danger": "workspace:^",
+    "@callstack/reassure-measure": "workspace:^",
     "import-local": "^3.0.2"
   },
   "devDependencies": {

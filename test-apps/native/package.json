@@ -28,7 +28,7 @@
     "jest": "^29.7.0",
     "metro-react-native-babel-preset": "0.77.0",
     "react-test-renderer": "18.2.0",
-    "reassure": "1.0.0-rc.1",
+    "reassure": "workspace:^",
     "typescript": "^5.2.2"
   }
 }

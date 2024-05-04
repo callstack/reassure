@@ -44,8 +44,8 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@callstack/reassure-compare": "1.0.0-rc.1",
-    "@callstack/reassure-logger": "1.0.0-rc.1",
+    "@callstack/reassure-compare": "workspace:^",
+    "@callstack/reassure-logger": "workspace:^",
     "chalk": "4.1.2",
     "simple-git": "^3.16.0",
     "yargs": "^17.6.2"
