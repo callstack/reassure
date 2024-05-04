@@ -1,5 +1,18 @@
 # reassure
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 2ef5f4d: chore: fix version deps
+
+### Patch Changes
+
+- Updated dependencies [2ef5f4d]
+  - @callstack/reassure-measure@1.0.0-rc.3
+  - @callstack/reassure-danger@1.0.0-rc.3
+  - @callstack/reassure-cli@1.0.0-rc.3
+
 ## 1.0.0-rc.2
 
 ### Minor Changes

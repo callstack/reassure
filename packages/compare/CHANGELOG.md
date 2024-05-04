@@ -1,5 +1,16 @@
 # @callstack/reassure-compare
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 2ef5f4d: chore: fix version deps
+
+### Patch Changes
+
+- Updated dependencies [2ef5f4d]
+  - @callstack/reassure-logger@1.0.0-rc.3
+
 ## 1.0.0-rc.2
 
 ### Minor Changes
