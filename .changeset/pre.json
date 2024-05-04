@@ -11,6 +11,7 @@
     "test-app-native": "1.0.0-rc.1"
   },
   "changesets": [
-    "fluffy-papayas-reply"
+    "fluffy-papayas-reply",
+    "gold-bulldogs-work"
   ]
 }

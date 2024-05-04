@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 2ef5f4d: chore: fix version deps
+
 ## 1.0.0-rc.2
 
 ### Minor Changes
