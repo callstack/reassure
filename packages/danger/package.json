@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-danger",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-next.2",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",

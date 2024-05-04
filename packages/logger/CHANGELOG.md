@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 1.0.0-rc.2
+
+### Minor Changes
+
+- f722a6d: chore: migrate to Yarn Berry (4.x)
+
 ## 1.0.0 RC
 
 ### Major Changes

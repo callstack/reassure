@@ -1,5 +1,18 @@
 # reassure
 
+## 1.0.0-rc.2
+
+### Minor Changes
+
+- f722a6d: chore: migrate to Yarn Berry (4.x)
+
+### Patch Changes
+
+- Updated dependencies [f722a6d]
+  - @callstack/reassure-measure@1.0.0-rc.2
+  - @callstack/reassure-danger@1.0.0-rc.2
+  - @callstack/reassure-cli@1.0.0-rc.2
+
 ## 1.0.0 RC
 
 ### Major Changes
