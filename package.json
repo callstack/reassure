@@ -41,7 +41,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8",
-    "reassure": "1.0.0-rc.1",
+    "reassure": "workspace:^",
     "turbo": "^1.11.3",
     "typescript": "^5.2.2"
   },

@@ -11074,13 +11074,13 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^4.2.1"
     prettier: "npm:^2.8.8"
-    reassure: "npm:1.0.0-rc.1"
+    reassure: "workspace:^"
     turbo: "npm:^1.11.3"
     typescript: "npm:^5.2.2"
   languageName: unknown
   linkType: soft
 
-"reassure@npm:1.0.0-rc.1, reassure@workspace:^, reassure@workspace:packages/reassure":
+"reassure@workspace:^, reassure@workspace:packages/reassure":
   version: 0.0.0-use.local
   resolution: "reassure@workspace:packages/reassure"
   dependencies:
