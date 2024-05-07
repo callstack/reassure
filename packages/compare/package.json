@@ -36,6 +36,7 @@
   "dependencies": {
     "@callstack/reassure-logger": "1.0.0-rc.3",
     "markdown-table": "^2.0.0",
+    "ts-regex-builder": "^1.7.1",
     "zod": "^3.20.2"
   },
   "devDependencies": {

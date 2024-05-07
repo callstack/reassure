@@ -2308,6 +2308,7 @@ __metadata:
     markdown-table: "npm:^2.0.0"
     prettier: "npm:^2.8.8"
     react-native-builder-bob: "npm:^0.20.3"
+    ts-regex-builder: "npm:^1.7.1"
     typescript: "npm:^5.2.2"
     zod: "npm:^3.20.2"
   languageName: unknown
@@ -12326,6 +12327,13 @@ __metadata:
   peerDependencies:
     typescript: ">=4.2.0"
   checksum: 10c0/8ddb493e7ae581d3f57a2e469142feb60b420d4ad8366ab969fe8e36531f8f301f370676b47e8d97f28b5f5fd10d6f2d55f656943a8546ef95e35ce5cf117754
+  languageName: node
+  linkType: hard
+
+"ts-regex-builder@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "ts-regex-builder@npm:1.7.1"
+  checksum: 10c0/c128e470d0f508064fa278b322edd1cc520ad869caf578cfb7ecde72a7175d77a1d43e1559a95f1d49ee2b0b3efb9521731352ab380991d204750b5e9ca05a4a
   languageName: node
   linkType: hard
 

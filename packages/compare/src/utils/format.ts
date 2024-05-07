@@ -1,3 +1,4 @@
+import { buildRegExp, digit, repeat } from 'ts-regex-builder';
 import type { CompareEntry, PerformanceMetadata } from '../types';
 
 /**
@@ -106,9 +107,11 @@ function formatCommitMetadata(metadata?: PerformanceMetadata) {
   return metadata?.branch || metadata?.commitHash || '(unknown)';
 }
 
+const isoDateMilliseconds = buildRegExp(['.', repeat(digit, 3), 'Z']);
+
 function formatDateTime(dateString: string) {
-  // Remove 'T' and miliseconds part
-  return dateString.replace('T', ' ').replace(/.\d\d\dZ/, 'Z');
+  // Remove 'T' and milliseconds part
+  return dateString.replace('T', ' ').replace(isoDateMilliseconds, 'Z');
 }
 
 export function formatMetadata(metadata?: PerformanceMetadata) {
