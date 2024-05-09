@@ -46,17 +46,17 @@
     "@callstack/reassure-cli": "1.0.0-rc.3",
     "@callstack/reassure-danger": "1.0.0-rc.3",
     "@callstack/reassure-measure": "1.0.0-rc.3",
-    "import-local": "^3.0.2"
+    "import-local": "^3.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
-    "@babel/plugin-transform-flow-strip-types": "^7.23.3",
-    "@babel/preset-env": "^7.23.7",
-    "@babel/preset-typescript": "^7.23.3",
-    "@babel/runtime": "^7.23.7",
+    "@babel/core": "^7.24.5",
+    "@babel/plugin-transform-flow-strip-types": "^7.24.1",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-typescript": "^7.24.1",
+    "@babel/runtime": "^7.24.5",
     "@types/react": "^18.2.46",
-    "react-native-builder-bob": "^0.20.3",
-    "typescript": "^5.2.2"
+    "react-native-builder-bob": "^0.20.4",
+    "typescript": "^5.4.5"
   },
   "react-native-builder-bob": {
     "source": "src",

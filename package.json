@@ -35,17 +35,17 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
-    "@callstack/eslint-config": "^14.1.0",
-    "@changesets/cli": "^2.26.0",
+    "@callstack/eslint-config": "^14.1.1",
+    "@changesets/cli": "^2.27.1",
     "check-dependency-version-consistency": "^4.1.0",
     "danger": "^11.3.1",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8",
     "reassure": "workspace:^",
     "turbo": "^1.11.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   },
   "eslintIgnore": [
     "node_modules/",
