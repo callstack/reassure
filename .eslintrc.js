@@ -3,7 +3,7 @@ module.exports = {
   rules: {
     'require-await': 'error',
   },
-  ignorePatterns: ['docusaurus/**'],
+  ignorePatterns: ['docusaurus/**', 'test-apps/**'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
