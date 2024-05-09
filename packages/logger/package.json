@@ -35,7 +35,7 @@
     "chalk": "4.1.2"
   },
   "devDependencies": {
-    "react-native-builder-bob": "^0.20.4",
+    "react-native-builder-bob": "^0.23.2",
     "typescript": "^5.4.5"
   },
   "react-native-builder-bob": {

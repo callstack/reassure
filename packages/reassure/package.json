@@ -55,7 +55,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@babel/runtime": "^7.24.5",
     "@types/react": "^18.2.46",
-    "react-native-builder-bob": "^0.20.4",
+    "react-native-builder-bob": "^0.23.2",
     "typescript": "^5.4.5"
   },
   "react-native-builder-bob": {
