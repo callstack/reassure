@@ -1,10 +1,6 @@
-/*
- * For a detailed explanation regarding each configuration property, visit:
- * https://jestjs.io/docs/en/configuration.html
- */
-
 module.exports = {
+  preset: 'react-native',
+  // preset: '@testing-library/react-native',
   setupFilesAfterEnv: ['./jestSetup.js'],
-  preset: '@testing-library/react-native',
   clearMocks: true,
 };

@@ -9,7 +9,7 @@ export const SlowList = ({ count }: Props) => {
 
   return (
     <View>
-      {data.map((item) => (
+      {data.map(item => (
         <SlowListItem key={item} title={`Item ${item}`} />
       ))}
     </View>
