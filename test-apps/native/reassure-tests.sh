@@ -13,7 +13,7 @@ git switch "$BASELINE_BRANCH"
 pushd ../.. && yarn install && yarn turbo run build && popd
 
 yarn install
-yarn reassure --baseline
+yarn reassure --enable-wasm --baseline
 
 # Gather current perf measurements & compare results
 git switch --detach -
@@ -22,4 +22,4 @@ git switch --detach -
 pushd ../.. && yarn install && yarn turbo run build && popd
 
 yarn install
-yarn reassure --branch
+yarn reassure --enable-wasm
