@@ -30,7 +30,7 @@ jobs:
         run: yarn typecheck && yarn typecheck:test-app
 
       - name: Validate ESLint
-        run: yarn lint
+        run: yarn lint && yarn lint:deps
 
       - name: Run tests
         run: yarn test && yarn test:test-app

@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:test-app": "yarn --cwd ./test-apps/native typecheck",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint:deps": "yarn check-dependency-version-consistency .",
     "build": "turbo run build",
     "changeset": "changeset",
     "version": "changeset version",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@callstack/eslint-config": "^14.1.0",
     "@changesets/cli": "^2.26.0",
+    "check-dependency-version-consistency": "^4.1.0",
     "danger": "^11.3.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
