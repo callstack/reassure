@@ -11533,6 +11533,7 @@ __metadata:
     danger: "npm:^11.3.1"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
+    eslint-plugin-flowtype: "npm:^8.0.3"
     eslint-plugin-prettier: "npm:^4.2.1"
     prettier: "npm:^2.8.8"
     reassure: "workspace:^"
