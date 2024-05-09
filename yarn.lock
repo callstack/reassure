@@ -2387,7 +2387,7 @@ __metadata:
     strip-ansi: "npm:^6.0.1"
     typescript: "npm:^5.4.5"
   peerDependencies:
-    react: ">=17.0.0"
+    react: ">=18.0.0"
   languageName: unknown
   linkType: soft
 
