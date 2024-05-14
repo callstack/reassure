@@ -143,12 +143,6 @@ export const command: CommandModule<{}, MeasureOptions> = {
         type: 'string',
         default: undefined,
         describe: 'Run performance tests for a specific test file',
-      })
-      .option('enable-wasm', {
-        type: 'boolean',
-        default: false,
-        describe:
-          '(experimental) Enables WebAssembly support in tests by modifying Node flags. This may affect test stability.',
       });
   },
   handler: (args) => run(args),
