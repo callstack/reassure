@@ -32,6 +32,9 @@ export const performanceEntrySchema = z.object({
   /** Array of measured render/execution durations for each run. */
   durations: z.array(z.number()),
 
+  /** Array of measured render/execution durations for each run. */
+  warmupDurations: z.optional(z.array(z.number())),
+
   /** Arithmetic average of measured render/execution counts for each run. */
   meanCount: z.number(),
 
