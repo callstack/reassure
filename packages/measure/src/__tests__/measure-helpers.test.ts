@@ -7,15 +7,26 @@ test('processRunResults calculates correct means and stdevs', () => {
     { duration: 14, count: 2 },
   ];
 
-  expect(processRunResults(input, 0)).toEqual({
-    runs: 3,
-    meanDuration: 12,
-    stdevDuration: 2,
-    durations: [14, 12, 10],
-    meanCount: 2,
-    stdevCount: 0,
-    counts: [2, 2, 2],
-  });
+  expect(processRunResults(input, 0)).toMatchInlineSnapshot(`
+    {
+      "counts": [
+        2,
+        2,
+        2,
+      ],
+      "durations": [
+        10,
+        12,
+        14,
+      ],
+      "meanCount": 2,
+      "meanDuration": 12,
+      "runs": 3,
+      "stdevCount": 0,
+      "stdevDuration": 2,
+      "warmupDurations": [],
+    }
+  `);
 });
 
 test('processRunResults applies warmupRuns option', () => {
@@ -26,13 +37,26 @@ test('processRunResults applies warmupRuns option', () => {
     { duration: 22, count: 5 },
   ];
 
-  expect(processRunResults(input, 1)).toEqual({
-    runs: 3,
-    meanDuration: 22,
-    stdevDuration: 2,
-    durations: [24, 22, 20],
-    meanCount: 5,
-    stdevCount: 0,
-    counts: [5, 5, 5],
-  });
+  expect(processRunResults(input, 1)).toMatchInlineSnapshot(`
+    {
+      "counts": [
+        5,
+        5,
+        5,
+      ],
+      "durations": [
+        20,
+        24,
+        22,
+      ],
+      "meanCount": 5,
+      "meanDuration": 22,
+      "runs": 3,
+      "stdevCount": 0,
+      "stdevDuration": 2,
+      "warmupDurations": [
+        23,
+      ],
+    }
+  `);
 });
