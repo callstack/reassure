@@ -7,24 +7,24 @@ export interface RunResult {
 }
 
 export function processRunResults(inputResults: RunResult[], warmupRuns: number): MeasureResults {
-  const warmResults = inputResults.slice(0, warmupRuns);
+  const warmupResults = inputResults.slice(0, warmupRuns);
   const results = inputResults.slice(warmupRuns);
 
   const durations = results.map((result) => result.duration);
   const meanDuration = math.mean(durations) as number;
   const stdevDuration = math.std(...durations);
-  const warmUpDurations = warmResults.map((result) => result.duration);
+  const warmupDurations = warmupResults.map((result) => result.duration);
 
   const counts = results.map((result) => result.count);
   const meanCount = math.mean(counts) as number;
   const stdevCount = math.std(...counts);
 
   return {
-    runs: inputResults.length,
+    runs: results.length,
     meanDuration,
     stdevDuration,
     durations,
-    warmUpDurations,
+    warmupDurations,
     meanCount,
     stdevCount,
     counts,
