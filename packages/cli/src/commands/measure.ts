@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
@@ -9,6 +9,7 @@ import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 import { applyCommonOptions, CommonOptions } from '../options';
 import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { configureLoggerOptions } from '../utils/logger';
+import { getJestBinPath, getNodeFlags, getNodeMajorVersion } from '../utils/node';
 
 export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
@@ -64,15 +65,10 @@ export async function run(options: MeasureOptions) {
   const defaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
   const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
 
-  const nodeArgs = [
-    // Use less restrictive flags to allow running WASM code (e.g. `fetch`) in tests.
-    options.enableWasm ? '--no-opt --no-sparkplug' : '--jitless',
-    '--expose-gc',
-    '--no-concurrent-sweeping',
-    '--max-old-space-size=4096',
-    testRunnerPath,
-    testRunnerArgs,
-  ];
+  const nodeMajorVersion = getNodeMajorVersion();
+  logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
+
+  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, testRunnerArgs];
   logger.verbose('Running tests using command:');
   logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
@@ -157,14 +153,3 @@ export const command: CommandModule<{}, MeasureOptions> = {
   },
   handler: (args) => run(args),
 };
-
-export function getJestBinPath() {
-  try {
-    // eslint-disable-next-line import/no-extraneous-dependencies
-    const jestPackageJson = require('jest/package.json');
-    const jestPackagePath = dirname(require.resolve('jest/package.json'));
-    return resolve(jestPackagePath, jestPackageJson.bin.jest || jestPackageJson.bin);
-  } catch (error) {
-    return null;
-  }
-}
