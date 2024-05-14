@@ -16,7 +16,14 @@ export function getNodeMajorVersion(): number {
   return parseInt(version.split('.')[0], 10);
 }
 
-const COMMON_NODE_FLAGS = ['--expose-gc', '--no-concurrent-sweeping', '--max-old-space-size=4096'];
+const COMMON_NODE_FLAGS = [
+  // Expose garbage collector to be able to run it manually
+  '--expose-gc',
+  // Disable concurrent sweeping to make measurements more stable
+  '--no-concurrent-sweeping',
+  // Increase max memory size to reduce garbage collection frequency
+  '--max-old-space-size=4096',
+];
 
 export function getNodeFlags(nodeMajorVersion: number): string[] {
   if (nodeMajorVersion < 18) {
@@ -24,8 +31,16 @@ export function getNodeFlags(nodeMajorVersion: number): string[] {
   }
 
   if (nodeMajorVersion == 18) {
-    return [...COMMON_NODE_FLAGS, '--no-opt'];
+    return [
+      ...COMMON_NODE_FLAGS,
+      // Disable optimizing compilers, keep the baseline compilers: sparkplug (JS), liftoff (WASM)
+      '--no-opt',
+    ];
   }
 
-  return [...COMMON_NODE_FLAGS, '--max-opt=1'];
+  return [
+    ...COMMON_NODE_FLAGS,
+    // Disable optimizing compilers, keep the baseline compilers: sparkplug (JS), liftoff (WASM)
+    '--max-opt=1',
+  ];
 }
