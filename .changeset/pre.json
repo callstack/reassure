@@ -8,7 +8,7 @@
     "@callstack/reassure-logger": "1.0.0-rc.1",
     "@callstack/reassure-measure": "1.0.0-rc.1",
     "reassure": "1.0.0-rc.1",
-    "test-app-native": "1.0.0-rc.1"
+    "ReassureNativeTester": "1.0.0-rc.1"
   },
   "changesets": [
     "fluffy-papayas-reply",
