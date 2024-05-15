@@ -11235,6 +11235,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.24.1"
     "@babel/runtime": "npm:^7.24.5"
     "@callstack/reassure-cli": "npm:1.0.0-rc.3"
+    "@callstack/reassure-compare": "npm:1.0.0-rc.3"
     "@callstack/reassure-danger": "npm:1.0.0-rc.3"
     "@callstack/reassure-measure": "npm:1.0.0-rc.3"
     "@types/react": "npm:^18.2.46"
