@@ -6,18 +6,17 @@
       "outputs": ["lib/**"]
     },
     "clean": {
-      "outputs": []
+      "cache": false
     },
     "typecheck": {
-      "dependsOn": ["build"],
-      "outputs": []
+      "dependsOn": ["^build"]
     },
     "test": {
-      "outputs": []
+      "dependsOn": ["^build"],
+      "cache": false
     },
     "deploy": {
-      "dependsOn": ["build", "test", "typescript", "lint"],
-      "outputs": []
+      "dependsOn": ["build", "test", "typescript", "lint"]
     }
   }
 }
