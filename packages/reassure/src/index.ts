@@ -8,15 +8,15 @@ export {
 export { dangerReassure } from '@callstack/reassure-danger';
 
 export type {
+  MeasureResults,
   MeasureRendersOptions,
   MeasureFunctionOptions,
   MeasureType,
-  MeasureResults,
 } from '@callstack/reassure-measure';
 export type {
-  PerformanceHeader,
-  PerformanceMetadata,
-  PerformanceEntry,
+  MeasureHeader,
+  MeasureMetadata,
+  MeasureEntry,
   CompareResult,
   CompareMetadata,
   CompareEntry,

@@ -2,9 +2,9 @@ export { compare } from './compare';
 export { formatMetadata } from './utils/format';
 
 export type {
-  PerformanceHeader,
-  PerformanceMetadata,
-  PerformanceEntry,
+  MeasureHeader,
+  MeasureMetadata,
+  MeasureEntry,
   CompareResult,
   CompareMetadata,
   CompareEntry,

@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import type { CommandModule } from 'yargs';
 import { compare, formatMetadata } from '@callstack/reassure-compare';
-import type { PerformanceMetadata } from '@callstack/reassure-compare';
+import type { MeasureMetadata } from '@callstack/reassure-compare';
 import * as logger from '@callstack/reassure-logger';
 import { RESULTS_DIRECTORY, RESULTS_FILE, BASELINE_FILE } from '../constants';
 import { applyCommonOptions, CommonOptions } from '../options';
@@ -25,7 +25,7 @@ export async function run(options: MeasureOptions) {
 
   const measurementType = options.baseline ? 'Baseline' : 'Current';
 
-  const metadata: PerformanceMetadata = {
+  const metadata: MeasureMetadata = {
     creationDate: new Date().toISOString(),
     branch: options?.branch ?? (await getGitBranch()),
     commitHash: options?.commitHash ?? (await getGitCommitHash()),
