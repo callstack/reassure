@@ -5,6 +5,9 @@
       "dependsOn": ["^build"],
       "outputs": ["lib/**"]
     },
+    "clean": {
+      "outputs": []
+    },
     "typecheck": {
       "dependsOn": ["build"],
       "outputs": []

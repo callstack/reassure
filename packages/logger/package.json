@@ -13,7 +13,8 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "build": "bob build"
+    "build": "bob build",
+    "clean": "del lib"
   },
   "keywords": [
     "react-native",
@@ -35,6 +36,7 @@
     "chalk": "4.1.2"
   },
   "devDependencies": {
+    "del-cli": "^5.1.0",
     "react-native-builder-bob": "^0.23.2",
     "typescript": "^5.4.5"
   },

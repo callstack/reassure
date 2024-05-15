@@ -25,7 +25,8 @@
     "./bin/reassure": "./lib/commonjs/bin.js"
   },
   "scripts": {
-    "build": "bob build"
+    "build": "bob build",
+    "clean": "del lib"
   },
   "keywords": [
     "react-native",
@@ -62,6 +63,7 @@
     "@types/react": "^18.2.46",
     "@types/yargs": "^17.0.32",
     "babel-jest": "^29.7.0",
+    "del-cli": "^5.1.0",
     "jest": "^29.7.0",
     "prettier": "^2.8.8",
     "react-native-builder-bob": "^0.23.2",

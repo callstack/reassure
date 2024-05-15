@@ -23,7 +23,8 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "build": "bob build"
+    "build": "bob build",
+    "clean": "del lib"
   },
   "keywords": [
     "react-native",
@@ -56,6 +57,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@babel/runtime": "^7.24.5",
     "@types/react": "^18.2.46",
+    "del-cli": "^5.1.0",
     "react-native-builder-bob": "^0.23.2",
     "typescript": "^5.4.5"
   },
