@@ -46,6 +46,23 @@ This means that:
 
 ## Non-breaking changes
 
+### Exporting of `Measure*` and `Compare*` types
+
+Reassure now exports following TypeScript types from root `reassure` package:
+
+- `MeasureResults` - return type of `measureRenders` and `measureFunction`
+- `MeasureRendersOptions` - options passed to `measureRenders`
+- `MeasureFunctionOptions` - options passed to `measureFunction`
+- `MeasureType` - type of measurement: `render` or `function`
+- `MeasureHeader` - header from performance file (`baseline.perf`, `current.perf`)
+- `MeasureMetadata` - metadata from performance file
+- `MeasureEntry` - single entry from performance file
+- `CompareResult` - format of `output.json` file
+- `CompareMetadata` - metadata from `output.json` file
+- `CompareEntry` - single comparison result from `output.json` file
+- `AddedEntry` - similar to `CompareEntry` but for cases when there is only `current` measurement
+- `RemovedEntry` - similar to `CompareEntry` but for cases when there is only `baseline` measurement
+
 ### Removal of `--enable-wasm` flag
 
 Reassure now runs tests with WebAssembly enable by default (see [testing environment](#testing-environment)).
