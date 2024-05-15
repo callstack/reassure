@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e 
 
-BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+BASELINE_BRANCH=${GITHUB_BASE_REF:="main"}
 
 # Required for `git switch` on CI
 git fetch origin
