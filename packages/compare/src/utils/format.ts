@@ -1,5 +1,5 @@
 import { buildRegExp, digit, repeat } from 'ts-regex-builder';
-import type { CompareEntry, PerformanceMetadata } from '../types';
+import type { CompareEntry, MeasureMetadata } from '../types';
 
 /**
  * Utility functions used for formatting data into strings
@@ -99,7 +99,7 @@ function getCountChangeSymbols(entry: CompareEntry) {
   return '';
 }
 
-function formatCommitMetadata(metadata?: PerformanceMetadata) {
+function formatCommitMetadata(metadata?: MeasureMetadata) {
   if (metadata?.branch && metadata?.commitHash) {
     return `${metadata.branch} (${metadata.commitHash})`;
   }
@@ -114,7 +114,7 @@ function formatDateTime(dateString: string) {
   return dateString.replace('T', ' ').replace(isoDateMilliseconds, 'Z');
 }
 
-export function formatMetadata(metadata?: PerformanceMetadata) {
+export function formatMetadata(metadata?: MeasureMetadata) {
   let result = formatCommitMetadata(metadata);
   if (metadata?.creationDate) {
     result += ` - ${formatDateTime(metadata.creationDate)}`;

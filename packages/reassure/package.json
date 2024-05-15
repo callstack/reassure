@@ -44,6 +44,7 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
     "@callstack/reassure-cli": "1.0.0-rc.3",
+    "@callstack/reassure-compare": "1.0.0-rc.3",
     "@callstack/reassure-danger": "1.0.0-rc.3",
     "@callstack/reassure-measure": "1.0.0-rc.3",
     "import-local": "^3.1.0"

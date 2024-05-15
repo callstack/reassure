@@ -1,7 +1,7 @@
 import * as logger from '@callstack/reassure-logger';
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
 import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
-import type { PerformanceMetadata } from '../types';
+import type { MeasureMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
   // No need to log errors or warnings as these were be logged on the fly
@@ -28,7 +28,7 @@ export function printToConsole(data: CompareResult) {
   logger.newLine();
 }
 
-function printMetadata(name: string, metadata?: PerformanceMetadata) {
+function printMetadata(name: string, metadata?: MeasureMetadata) {
   logger.log(` - ${name}: ${formatMetadata(metadata)}`);
 }
 

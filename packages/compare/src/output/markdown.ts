@@ -12,14 +12,7 @@ import {
   formatDurationChange,
 } from '../utils/format';
 import * as md from '../utils/markdown';
-import type {
-  AddedEntry,
-  CompareEntry,
-  CompareResult,
-  RemovedEntry,
-  PerformanceEntry,
-  PerformanceMetadata,
-} from '../types';
+import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, MeasureMetadata } from '../types';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'] as const;
 
@@ -87,7 +80,7 @@ function buildMarkdown(data: CompareResult) {
   return result;
 }
 
-function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
+function buildMetadataMarkdown(name: string, metadata: MeasureMetadata | undefined) {
   return ` - ${md.bold(name)}: ${formatMetadata(metadata)}`;
 }
 
@@ -146,7 +139,7 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
     .join('<br/><br/>');
 }
 
-function buildDurationDetails(title: string, entry: PerformanceEntry) {
+function buildDurationDetails(title: string, entry: MeasureEntry) {
   const relativeStdev = entry.stdevDuration / entry.meanDuration;
 
   return [
@@ -159,7 +152,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     .join(`<br/>`);
 }
 
-function buildCountDetails(title: string, entry: PerformanceEntry) {
+function buildCountDetails(title: string, entry: MeasureEntry) {
   const relativeStdev = entry.stdevCount / entry.meanCount;
 
   return [
