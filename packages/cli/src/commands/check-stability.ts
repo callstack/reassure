@@ -14,12 +14,7 @@ export const command: CommandModule<{}, CommonOptions> = {
   command: 'check-stability',
   describe: 'Checks how stable is the current machine by running measurements twice for the same code',
   builder: (yargs) => {
-    return applyCommonOptions(yargs).option('enable-wasm', {
-      type: 'boolean',
-      default: false,
-      describe:
-        '(experimental) Enables WebAssembly support in tests by modifying Node flags. This may affect test stability.',
-    });
+    return applyCommonOptions(yargs);
   },
   handler: (args) => run(args),
 };
