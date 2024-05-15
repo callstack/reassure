@@ -1,5 +1,16 @@
 # reassure
 
+## 1.0.0-rc.4
+
+### Patch Changes
+
+- ea761f8: `reassure` enables WASM support by default and runs using v8 baseline compilers: sparkplug and liftoff (WASM)
+- Updated dependencies [ea761f8]
+  - @callstack/reassure-cli@1.0.0-rc.4
+  - @callstack/reassure-compare@1.0.0-rc.4
+  - @callstack/reassure-danger@1.0.0-rc.4
+  - @callstack/reassure-measure@1.0.0-rc.4
+
 ## 1.0.0-rc.3
 
 ### Minor Changes
