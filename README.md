@@ -162,13 +162,6 @@ test('Test with scenario', async () => {
 
 If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
 
-For more examples, look into our example apps:
-
-- [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
-- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native-cli)
-- [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
-- [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
-
 ### Measuring test performance
 
 To measure your first test performance, you need to run the following command in the terminal:
