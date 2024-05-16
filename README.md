@@ -164,8 +164,8 @@ If your test contains any async changes, you will need to make sure that the sce
 
 For more examples, look into our example apps:
 
-- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native-cli)
 - [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
+- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native-cli)
 - [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
 - [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 
