@@ -118,7 +118,8 @@ function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatCountChange(entry);
+  if ('baseline' in entry && 'current' in entry)
+    return formatCountChange(entry.current.meanCount, entry.baseline.meanCount);
   if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
   if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';

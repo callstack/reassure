@@ -1,14 +1,6 @@
 import * as logger from '@callstack/reassure-logger';
 import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
-import {
-  formatCount,
-  formatDuration,
-  formatMetadata,
-  formatCountChange,
-  formatDurationChange,
-  formatRenderInitialChange,
-  formatRenderUpdateChange,
-} from '../utils/format';
+import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
 import type { MeasureMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
@@ -44,7 +36,12 @@ function printMetadata(name: string, metadata?: MeasureMetadata) {
 }
 
 function printRegularLine(entry: CompareEntry) {
-  logger.log(` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(entry)}`);
+  logger.log(
+    ` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(
+      entry.current.meanCount,
+      entry.baseline.meanCount
+    )}`
+  );
 }
 
 function printRegularLineRender(entry: CompareEntry) {
@@ -52,8 +49,20 @@ function printRegularLineRender(entry: CompareEntry) {
     entry.baseline.redundantRenders?.initialRenders !== entry.current.redundantRenders?.initialRenders;
   const shouldShowUpdate = entry.baseline.redundantRenders?.updates !== entry.current.redundantRenders?.updates;
 
-  shouldShowInitial && logger.log(` - ${entry.name} [Initial]: | ${formatRenderInitialChange(entry)}`);
-  shouldShowUpdate && logger.log(` - ${entry.name} [Update]: | ${formatRenderUpdateChange(entry)}`);
+  shouldShowInitial &&
+    logger.log(
+      ` - ${entry.name} [Initial]: | ${formatCountChange(
+        entry.current.redundantRenders?.initialRenders,
+        entry.baseline.redundantRenders?.initialRenders
+      )}`
+    );
+  shouldShowUpdate &&
+    logger.log(
+      ` - ${entry.name} [Update]: | ${formatCountChange(
+        entry.current.redundantRenders?.updates,
+        entry.baseline.redundantRenders?.updates
+      )}`
+    );
 }
 
 function printAddedLine(entry: AddedEntry) {
