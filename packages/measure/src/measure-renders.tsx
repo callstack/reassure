@@ -67,6 +67,8 @@ async function measureRendersInternal(
     let count = 0;
     let isFinished = false;
 
+    let screen: any = null;
+
     const captureJSONs = () => {
       if (i === 0 && testingLibrary === 'react-native') {
         renderJsonTrees.push(screen?.toJSON());
@@ -85,7 +87,7 @@ async function measureRendersInternal(
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
-    const screen = render(uiToRender);
+    screen = render(uiToRender);
     captureJSONs();
 
     if (scenario) {

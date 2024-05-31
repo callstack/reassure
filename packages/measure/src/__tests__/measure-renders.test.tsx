@@ -1,18 +1,16 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
+import { fireEvent, screen } from '@testing-library/react-native';
 import stripAnsi from 'strip-ansi';
 import { buildUiToRender, measureRenders } from '../measure-renders';
-import { resetHasShownFlagsOutput } from '../output';
+import { setHasShownFlagsOutput } from '../output';
 
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
 const realConsole = jest.requireActual('console') as Console;
 
 beforeEach(() => {
-  jest.spyOn(realConsole, 'error').mockImplementation((message) => {
-    if (!errorsToIgnore.some((error) => message.includes(error))) {
-      realConsole.error(message);
-    }
-  });
+  setHasShownFlagsOutput(true);
+  jest.mocked(realConsole.error).mockRestore?.();
 });
 
 test('measureRenders run test given number of times', async () => {
@@ -41,7 +39,13 @@ test('measureRenders applies "warmupRuns" option', async () => {
 });
 
 test('measureRenders should log error when running under incorrect node flags', async () => {
-  resetHasShownFlagsOutput();
+  jest.spyOn(realConsole, 'error').mockImplementation((message) => {
+    if (!errorsToIgnore.some((error) => message.includes(error))) {
+      realConsole.error(message);
+    }
+  });
+
+  setHasShownFlagsOutput(false);
   const results = await measureRenders(<View />, { runs: 1, writeFile: false });
 
   expect(results.runs).toBe(1);
@@ -66,6 +70,72 @@ test('measureRenders does not measure wrapper execution', async () => {
   expect(results.meanCount).toBe(0);
   expect(results.stdevDuration).toBe(0);
   expect(results.stdevCount).toBe(0);
+});
+
+const Regular = () => {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <View>
+      <Pressable onPress={() => setCount((c) => c + 1)}>
+        <Text>Increment</Text>
+      </Pressable>
+
+      <Text>Count: ${count}</Text>
+    </View>
+  );
+};
+
+test('measureRenders correctly measures regular renders', async () => {
+  const scenario = async () => {
+    await fireEvent.press(screen.getByText('Increment'));
+  };
+
+  const results = await measureRenders(<Regular />, { scenario, writeFile: false });
+  expect(results.redundantRenders?.initialRenders).toBe(0);
+  expect(results.redundantRenders?.updates).toBe(0);
+});
+
+const RedundantInitialRenders = () => {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    setCount(1);
+  }, []);
+
+  return (
+    <View>
+      <Text>Count: ${count}</Text>
+    </View>
+  );
+};
+
+test('measureRenders detects redundant initial renders', async () => {
+  const results = await measureRenders(<RedundantInitialRenders />, { writeFile: false });
+  expect(results.redundantRenders?.initialRenders).toBe(1);
+  expect(results.redundantRenders?.updates).toBe(0);
+});
+
+const RedundantUpdates = () => {
+  const [_, forceRender] = React.useState(0);
+
+  return (
+    <View>
+      <Pressable onPress={() => forceRender((c) => c + 1)}>
+        <Text>Increment</Text>
+      </Pressable>
+    </View>
+  );
+};
+
+test('measureRenders detects redundant updates', async () => {
+  const scenario = async () => {
+    await fireEvent.press(screen.getByText('Increment'));
+  };
+
+  const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
+  expect(results.redundantRenders?.updates).toBe(1);
+  expect(results.redundantRenders?.initialRenders).toBe(0);
 });
 
 function Wrapper({ children }: React.PropsWithChildren<{}>) {
