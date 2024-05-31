@@ -20,7 +20,7 @@ export function printToConsole(data: CompareResult) {
   data.countChanged.forEach(printRegularLine);
 
   logger.log('\n➡️  Redundant Renders');
-  data.redundantRenderChanged.forEach(printRegularLineRender);
+  data.redundantRenders.forEach(printRenderLine);
 
   logger.log('\n➡️  Added scenarios');
   data.added.forEach(printAddedLine);
@@ -44,25 +44,24 @@ function printRegularLine(entry: CompareEntry) {
   );
 }
 
-function printRegularLineRender(entry: CompareEntry) {
-  const shouldShowInitial =
-    entry.baseline.redundantRenders?.initialRenders !== entry.current.redundantRenders?.initialRenders;
-  const shouldShowUpdate = entry.baseline.redundantRenders?.updates !== entry.current.redundantRenders?.updates;
-
-  shouldShowInitial &&
+function printRenderLine(entry: CompareEntry | AddedEntry) {
+  if (entry.current.redundantRenders?.initialRenders !== 0) {
     logger.log(
       ` - ${entry.name} [Initial]: | ${formatCountChange(
         entry.current.redundantRenders?.initialRenders,
-        entry.baseline.redundantRenders?.initialRenders
+        entry.baseline?.redundantRenders?.initialRenders
       )}`
     );
-  shouldShowUpdate &&
+  }
+
+  if (entry.current.redundantRenders?.updates !== 0) {
     logger.log(
       ` - ${entry.name} [Update]: | ${formatCountChange(
         entry.current.redundantRenders?.updates,
-        entry.baseline.redundantRenders?.updates
+        entry.baseline?.redundantRenders?.updates
       )}`
     );
+  }
 }
 
 function printAddedLine(entry: AddedEntry) {

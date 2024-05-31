@@ -70,8 +70,8 @@ function buildMarkdown(data: CompareResult) {
   result += `\n${buildSummaryTable(data.countChanged)}`;
   result += `\n${buildDetailsTable(data.countChanged)}`;
   result += `\n\n${md.heading3('Redundant Render(s)')}`;
-  result += `\n${buildSummaryTable(data.redundantRenderChanged)}`;
-  result += `\n${buildDetailsTable(data.redundantRenderChanged)}`;
+  result += `\n${buildSummaryTable(data.redundantRenders)}`;
+  result += `\n${buildDetailsTable(data.redundantRenders)}`;
   result += `\n\n${md.heading3('Added Scenarios')}`;
   result += `\n${buildSummaryTable(data.added)}`;
   result += `\n${buildDetailsTable(data.added)}`;
@@ -111,23 +111,23 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatDurationChange(entry);
-  if ('baseline' in entry) return formatDuration(entry.baseline.meanDuration);
+  if (entry.baseline != null && 'current' in entry) return formatDurationChange(entry);
+  if (entry.baseline != null) return formatDuration(entry.baseline.meanDuration);
   if ('current' in entry) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry)
+  if (entry.baseline != null && 'current' in entry)
     return formatCountChange(entry.current.meanCount, entry.baseline.meanCount);
-  if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
+  if (entry.baseline != null) return formatCount(entry.baseline.meanCount);
   if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';
 }
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return [
-    'baseline' in entry ? buildDurationDetails('Baseline', entry.baseline) : '',
+    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline) : '',
     'current' in entry ? buildDurationDetails('Current', entry.current) : '',
   ]
     .filter(Boolean)
@@ -136,7 +136,7 @@ function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEnt
 
 function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return [
-    'baseline' in entry ? buildCountDetails('Baseline', entry.baseline) : '',
+    entry.baseline != null ? buildCountDetails('Baseline', entry.baseline) : '',
     'current' in entry ? buildCountDetails('Current', entry.current) : '',
   ]
     .filter(Boolean)

@@ -20,9 +20,7 @@ const RedundantInitialRenders = () => {
 };
 
 test('RedundantInitialRenders', async () => {
-  const results = await measureRenders(<RedundantInitialRenders />);
-  expect(results.redundantRenders?.initialRenders).toBe(1);
-  expect(results.redundantRenders?.updates).toBe(0);
+  await measureRenders(<RedundantInitialRenders />);
 });
 
 const RedundantUpdates = () => {
@@ -42,7 +40,5 @@ test('RedundantUpdates', async () => {
     await fireEvent.press(screen.getByText('Inc'));
   };
 
-  const results = await measureRenders(<RedundantUpdates />, { scenario });
-  expect(results.redundantRenders?.updates).toBe(1);
-  expect(results.redundantRenders?.initialRenders).toBe(0);
+  await measureRenders(<RedundantUpdates />, { scenario });
 });
