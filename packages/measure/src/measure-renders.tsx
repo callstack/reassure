@@ -108,13 +108,6 @@ async function measureRendersInternal(
       : 0,
   };
 
-  if (redundantRenders.initialRenders > 0) {
-    const testName = expect.getState().currentTestName;
-    logger.warn(
-      `test "${testName}" has  ${redundantRenders.initialRenders} unnecessary initial render(s). Please update your code to avoid unnecessary renders.`
-    );
-  }
-
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
     logger.warn(
