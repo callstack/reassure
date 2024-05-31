@@ -19,8 +19,8 @@ export function printToConsole(data: CompareResult) {
   logger.log('\n➡️  Count changes');
   data.countChanged.forEach(printRegularLine);
 
-  logger.log('\n➡️  Redundant Render');
-  data.reduntantRenderChanged.forEach(printRegularLineRender);
+  logger.log('\n➡️  Redundant Renders');
+  data.redundantRenderChanged.forEach(printRegularLineRender);
 
   logger.log('\n➡️  Added scenarios');
   data.added.forEach(printAddedLine);

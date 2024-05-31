@@ -58,7 +58,7 @@ export interface CompareResult {
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
-  reduntantRenderChanged: CompareEntry[];
+  redundantRenderChanged: CompareEntry[];
   added: AddedEntry[];
   removed: RemovedEntry[];
   errors: string[];

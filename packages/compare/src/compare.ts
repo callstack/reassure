@@ -151,10 +151,6 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     }
   });
 
-  const reduntantRenderChanged: CompareEntry[] = compared.filter(
-    (item) => item.redundantInitialRenderDiff !== 0 || item.redundantUpdateRenderDiff
-  );
-
   const significant = compared
     .filter((item) => item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
@@ -164,6 +160,9 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   const countChanged = compared
     .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
+  const redundantRenderChanged = compared.filter(
+    (item) => item.redundantInitialRenderDiff !== 0 || item.redundantUpdateRenderDiff
+  );
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -176,7 +175,7 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     countChanged,
     added,
     removed,
-    reduntantRenderChanged,
+    redundantRenderChanged: redundantRenderChanged,
   };
 }
 
