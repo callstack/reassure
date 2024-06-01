@@ -12,21 +12,39 @@ export function printToConsole(data: CompareResult) {
 
   logger.log('\n➡️  Significant changes to duration');
   data.significant.forEach(printRegularLine);
+  if (data.significant.length === 0) {
+    logger.log(' - (none)');
+  }
 
   logger.log('\n➡️  Meaningless changes to duration');
   data.meaningless.forEach(printRegularLine);
+  if (data.meaningless.length === 0) {
+    logger.log(' - (none)');
+  }
 
-  logger.log('\n➡️  Count changes');
+  logger.log('\n➡️  Render count changes');
   data.countChanged.forEach(printRegularLine);
+  if (data.countChanged.length === 0) {
+    logger.log(' - (none)');
+  }
 
   logger.log('\n➡️  Redundant Renders');
   data.redundantRenders.forEach(printRenderLine);
+  if (data.redundantRenders.length === 0) {
+    logger.log(' - (none)');
+  }
 
   logger.log('\n➡️  Added scenarios');
   data.added.forEach(printAddedLine);
+  if (data.added.length === 0) {
+    logger.log(' - (none)');
+  }
 
   logger.log('\n➡️  Removed scenarios');
   data.removed.forEach(printRemovedLine);
+  if (data.removed.length === 0) {
+    logger.log(' - (none)');
+  }
 
   logger.newLine();
 }
@@ -47,7 +65,7 @@ function printRegularLine(entry: CompareEntry) {
 function printRenderLine(entry: CompareEntry | AddedEntry) {
   if (entry.current.redundantRenders?.initial !== 0) {
     logger.log(
-      ` - ${entry.name} [Initial]: | ${formatCountChange(
+      ` - ${entry.name} [render:initial]: | ${formatCountChange(
         entry.current.redundantRenders?.initial,
         entry.baseline?.redundantRenders?.initial
       )}`
@@ -56,7 +74,7 @@ function printRenderLine(entry: CompareEntry | AddedEntry) {
 
   if (entry.current.redundantRenders?.update !== 0) {
     logger.log(
-      ` - ${entry.name} [Update]: | ${formatCountChange(
+      ` - ${entry.name} [render:update]: | ${formatCountChange(
         entry.current.redundantRenders?.update,
         entry.baseline?.redundantRenders?.update
       )}`

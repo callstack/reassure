@@ -51,12 +51,10 @@ export function formatCountChange(current?: number, baseline?: number): string {
   let output = `${formatCount(baseline)} → ${formatCount(current)}`;
 
   if (baseline != null && current != null && baseline !== current) {
-    const diff = current - baseline;
-
     const parts = [formatCountDiff(current, baseline)];
 
     if (baseline > 0) {
-      const relativeDiff = diff / baseline;
+      const relativeDiff = (current - baseline) / baseline;
       parts.push(formatPercentChange(relativeDiff));
     }
 
@@ -64,7 +62,6 @@ export function formatCountChange(current?: number, baseline?: number): string {
   }
 
   output += ` ${getCountChangeSymbols(current, baseline)}`;
-
   return output;
 }
 
