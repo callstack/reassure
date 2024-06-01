@@ -96,12 +96,14 @@ test('measureRenders correctly measures regular renders', async () => {
   expect(results.redundantRenders?.update).toBe(0);
 });
 
-const RedundantInitialRenders = () => {
+const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    setCount(1);
-  }, []);
+    if (count < repeat) {
+      setCount((c) => c + 1);
+    }
+  });
 
   return (
     <View>
@@ -111,8 +113,14 @@ const RedundantInitialRenders = () => {
 };
 
 test('measureRenders detects redundant initial renders', async () => {
-  const results = await measureRenders(<RedundantInitialRenders />, { writeFile: false });
+  const results = await measureRenders(<RedundantInitialRenders repeat={1} />, { writeFile: false });
   expect(results.redundantRenders?.initial).toBe(1);
+  expect(results.redundantRenders?.update).toBe(0);
+});
+
+test('measureRenders detects multiple redundant initial renders', async () => {
+  const results = await measureRenders(<RedundantInitialRenders repeat={5} />, { writeFile: false });
+  expect(results.redundantRenders?.initial).toBe(5);
   expect(results.redundantRenders?.update).toBe(0);
 });
 

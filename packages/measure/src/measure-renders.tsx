@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
-import { ToJsonTree, RunResult, processRunResults, subsequentlyDifferencies } from './measure-helpers';
+import { ToJsonTree, RunResult, processRunResults, countRedundantUpdates } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureRendersResults } from './types';
@@ -68,11 +68,11 @@ async function measureRendersInternal(
     let count = 0;
     let isFinished = false;
 
-    let screen: any = null;
+    let renderResult: any = null;
 
     const captureJsonTree = () => {
       if (testingLibrary === 'react-native' && i === 0) {
-        renderJsonTrees.push(screen?.toJSON());
+        renderJsonTrees.push(renderResult?.toJSON() ?? null);
       }
     };
 
@@ -88,11 +88,11 @@ async function measureRendersInternal(
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
-    screen = render(uiToRender);
+    renderResult = render(uiToRender);
     captureJsonTree();
 
     if (scenario) {
-      await scenario(screen);
+      await scenario(renderResult);
     }
 
     cleanup();
@@ -103,14 +103,6 @@ async function measureRendersInternal(
     runResults.push({ duration, count });
   }
 
-  const redundantRenders = {
-    initialRenders:
-      (renderJsonTrees && renderJsonTrees?.filter((measurement) => measurement === undefined).length - 1) ?? 0,
-    updates: renderJsonTrees
-      ? subsequentlyDifferencies(renderJsonTrees.filter((measurement) => measurement !== undefined))
-      : 0,
-  };
-
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
     logger.warn(
@@ -118,7 +110,16 @@ async function measureRendersInternal(
     );
   }
 
-  return { ...processRunResults(runResults, warmupRuns), redundantRenders };
+  const initialRenderTrees = renderJsonTrees.filter((tree) => tree === null);
+  const regularRenderTrees = renderJsonTrees.filter((tree) => tree !== null);
+
+  return {
+    ...processRunResults(runResults, warmupRuns),
+    redundantRenders: {
+      initial: initialRenderTrees.length - 1,
+      update: countRedundantUpdates(regularRenderTrees),
+    },
+  };
 }
 
 export function buildUiToRender(

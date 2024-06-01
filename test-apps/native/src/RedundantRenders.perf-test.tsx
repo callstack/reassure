@@ -5,12 +5,14 @@ import { measureRenders } from 'reassure';
 
 jest.setTimeout(60_000);
 
-const RedundantInitialRenders = () => {
+const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    setCount(1);
-  }, []);
+    if (count < repeat) {
+      setCount(c => c + 1);
+    }
+  }, [count, repeat]);
 
   return (
     <View>
@@ -19,8 +21,12 @@ const RedundantInitialRenders = () => {
   );
 };
 
-test('RedundantInitialRenders', async () => {
-  await measureRenders(<RedundantInitialRenders />);
+test('RedundantInitialRenders 1', async () => {
+  await measureRenders(<RedundantInitialRenders repeat={1} />);
+});
+
+test('RedundantInitialRenders 3', async () => {
+  await measureRenders(<RedundantInitialRenders repeat={3} />);
 });
 
 const RedundantUpdates = () => {

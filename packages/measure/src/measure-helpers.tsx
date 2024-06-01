@@ -42,7 +42,8 @@ const PLUGINS = [ReactTestComponent, ReactElement, DOMElement, DOMCollection, Im
 const FORMAT_OPTIONS = {
   plugins: PLUGINS,
 };
-export function subsequentlyDifferencies(components: ToJsonTree[]): number {
+
+export function countRedundantUpdates(components: ToJsonTree[]): number {
   const formatOptionsZeroIndent = { ...FORMAT_OPTIONS, indent: 0 };
   let count = 0;
 
@@ -53,5 +54,6 @@ export function subsequentlyDifferencies(components: ToJsonTree[]): number {
       count++;
     }
   }
+
   return count;
 }

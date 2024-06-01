@@ -46,8 +46,8 @@ export const MeasureEntryScheme = z.object({
 
   redundantRenders: z
     .object({
-      initialRenders: z.number(),
-      updates: z.number(),
+      initial: z.number(),
+      update: z.number(),
     })
     .optional(),
 });

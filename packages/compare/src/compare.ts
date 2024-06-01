@@ -165,7 +165,7 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   const redundantRenders = withCurrent.filter(
     (item) =>
       item.type === 'render' &&
-      (item.current.redundantRenders?.initialRenders !== 0 || item.current.redundantRenders?.updates !== 0)
+      (item.current.redundantRenders?.initial !== 0 || item.current.redundantRenders?.update !== 0)
   );
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
@@ -193,9 +193,8 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
   const relativeCountDiff = countDiff / baseline.meanCount;
 
   const redundantInitialRenderDiff =
-    (current.redundantRenders?.initialRenders ?? 0) - (baseline.redundantRenders?.initialRenders ?? 0);
-  const redundantUpdateRenderDiff =
-    (current.redundantRenders?.updates ?? 0) - (baseline.redundantRenders?.updates ?? 0);
+    (current.redundantRenders?.initial ?? 0) - (baseline.redundantRenders?.initial ?? 0);
+  const redundantUpdateRenderDiff = (current.redundantRenders?.update ?? 0) - (baseline.redundantRenders?.update ?? 0);
 
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
   const prob = computeProbability(z);

@@ -45,20 +45,20 @@ function printRegularLine(entry: CompareEntry) {
 }
 
 function printRenderLine(entry: CompareEntry | AddedEntry) {
-  if (entry.current.redundantRenders?.initialRenders !== 0) {
+  if (entry.current.redundantRenders?.initial !== 0) {
     logger.log(
       ` - ${entry.name} [Initial]: | ${formatCountChange(
-        entry.current.redundantRenders?.initialRenders,
-        entry.baseline?.redundantRenders?.initialRenders
+        entry.current.redundantRenders?.initial,
+        entry.baseline?.redundantRenders?.initial
       )}`
     );
   }
 
-  if (entry.current.redundantRenders?.updates !== 0) {
+  if (entry.current.redundantRenders?.update !== 0) {
     logger.log(
       ` - ${entry.name} [Update]: | ${formatCountChange(
-        entry.current.redundantRenders?.updates,
-        entry.baseline?.redundantRenders?.updates
+        entry.current.redundantRenders?.update,
+        entry.baseline?.redundantRenders?.update
       )}`
     );
   }
