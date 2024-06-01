@@ -1,11 +1,6 @@
 /** Type of measured performance characteristic. */
 export type MeasureType = 'render' | 'function';
 
-interface RendundantRendersResults {
-  initialRenders: number;
-  updates: number;
-}
-
 /**
  * Type representing the result of `measure*` functions.
  */
@@ -36,5 +31,21 @@ export interface MeasureResults {
 }
 
 export interface MeasureRendersResults extends MeasureResults {
-  redundantRenders: RendundantRendersResults;
+  redundantRenders: RedundantRenders;
+}
+
+/** Holds info about detected redundant re-renders. */
+export interface RedundantRenders {
+  /**
+   * Re-renders that happened immediately after component was created
+   * e.g., synchronous `useEffects` containing `setState`.
+   *
+   * This types of re-renders can be optimized by initializing the component with proper state in the initial render.
+   */
+  initial: number;
+
+  /**
+   * Re-renders that resulted in rendering the same output as the previous render.
+   */
+  update: number;
 }

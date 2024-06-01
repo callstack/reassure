@@ -92,8 +92,8 @@ test('measureRenders correctly measures regular renders', async () => {
   };
 
   const results = await measureRenders(<Regular />, { scenario, writeFile: false });
-  expect(results.redundantRenders?.initialRenders).toBe(0);
-  expect(results.redundantRenders?.updates).toBe(0);
+  expect(results.redundantRenders?.initial).toBe(0);
+  expect(results.redundantRenders?.update).toBe(0);
 });
 
 const RedundantInitialRenders = () => {
@@ -112,8 +112,8 @@ const RedundantInitialRenders = () => {
 
 test('measureRenders detects redundant initial renders', async () => {
   const results = await measureRenders(<RedundantInitialRenders />, { writeFile: false });
-  expect(results.redundantRenders?.initialRenders).toBe(1);
-  expect(results.redundantRenders?.updates).toBe(0);
+  expect(results.redundantRenders?.initial).toBe(1);
+  expect(results.redundantRenders?.update).toBe(0);
 });
 
 const RedundantUpdates = () => {
@@ -134,8 +134,8 @@ test('measureRenders detects redundant updates', async () => {
   };
 
   const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
-  expect(results.redundantRenders?.updates).toBe(1);
-  expect(results.redundantRenders?.initialRenders).toBe(0);
+  expect(results.redundantRenders?.update).toBe(1);
+  expect(results.redundantRenders?.initial).toBe(0);
 });
 
 function Wrapper({ children }: React.PropsWithChildren<{}>) {

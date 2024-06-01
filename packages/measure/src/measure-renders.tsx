@@ -62,6 +62,7 @@ async function measureRendersInternal(
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
   let renderJsonTrees: ToJsonTree[] = [];
+
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
@@ -69,14 +70,14 @@ async function measureRendersInternal(
 
     let screen: any = null;
 
-    const captureJSONs = () => {
-      if (i === 0 && testingLibrary === 'react-native') {
+    const captureJsonTree = () => {
+      if (testingLibrary === 'react-native' && i === 0) {
         renderJsonTrees.push(screen?.toJSON());
       }
     };
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
-      captureJSONs();
+      captureJsonTree();
 
       duration += actualDuration;
       count += 1;
@@ -88,7 +89,7 @@ async function measureRendersInternal(
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
     screen = render(uiToRender);
-    captureJSONs();
+    captureJsonTree();
 
     if (scenario) {
       await scenario(screen);
