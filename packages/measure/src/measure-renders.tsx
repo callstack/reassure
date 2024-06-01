@@ -1,7 +1,9 @@
 import * as React from 'react';
+import type { ReactTestRendererJSON, ReactTestRendererNode } from 'react-test-renderer';
+import * as R from 'remeda';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
-import { ToJsonTree, RunResult, processRunResults, countRedundantUpdates } from './measure-helpers';
+import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureRendersResults } from './types';
@@ -117,7 +119,7 @@ async function measureRendersInternal(
     ...processRunResults(runResults, warmupRuns),
     redundantRenders: {
       initial: initialRenderTrees.length - 1,
-      update: countRedundantUpdates(regularRenderTrees),
+      update: detectRedundantUpdates(regularRenderTrees).length,
     },
   };
 }
@@ -134,4 +136,22 @@ export function buildUiToRender(
   );
 
   return Wrapper ? <Wrapper>{uiWithProfiler}</Wrapper> : uiWithProfiler;
+}
+
+export type ToJsonTree = ReactTestRendererJSON | ReactTestRendererJSON[] | null;
+
+export function isJsonTreeEqual(a: ToJsonTree | null, b: ToJsonTree | null): boolean {
+  return R.isDeepEqual(a, b);
+}
+
+export function detectRedundantUpdates(components: ToJsonTree[]): number[] {
+  const result = [];
+
+  for (let i = 1; i < components.length; i += 1) {
+    if (isJsonTreeEqual(components[i], components[i - 1])) {
+      result.push(i);
+    }
+  }
+
+  return result;
 }

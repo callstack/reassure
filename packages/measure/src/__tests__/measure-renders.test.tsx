@@ -146,6 +146,51 @@ test('measureRenders detects redundant updates', async () => {
   expect(results.redundantRenders?.initial).toBe(0);
 });
 
+const AsyncMacroTaskEffect = () => {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    setTimeout(() => setCount(1), 0);
+  }, []);
+
+  return (
+    <View>
+      <Text>Count: ${count}</Text>
+    </View>
+  );
+};
+
+test('ignores async macro-tasks effect', async () => {
+  const results = await measureRenders(<AsyncMacroTaskEffect />, { writeFile: false });
+  expect(results.redundantRenders?.initial).toBe(0);
+  expect(results.redundantRenders?.update).toBe(0);
+});
+
+const AsyncMicrotaskEffect = () => {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    const asyncSet = async () => {
+      await Promise.resolve();
+      setCount(1);
+    };
+
+    void asyncSet();
+  }, []);
+
+  return (
+    <View>
+      <Text>Count: ${count}</Text>
+    </View>
+  );
+};
+
+test('ignores async micro-tasks effect', async () => {
+  const results = await measureRenders(<AsyncMicrotaskEffect />, { writeFile: false });
+  expect(results.redundantRenders?.initial).toBe(0);
+  expect(results.redundantRenders?.update).toBe(0);
+});
+
 function Wrapper({ children }: React.PropsWithChildren<{}>) {
   return <View testID="wrapper">{children}</View>;
 }
