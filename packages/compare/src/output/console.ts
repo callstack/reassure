@@ -10,37 +10,37 @@ export function printToConsole(data: CompareResult) {
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
 
-  logger.log('\n➡️  Significant changes to duration');
+  logger.log('\n➡️  Significant changes to duration (duration | count)');
   data.significant.forEach(printRegularLine);
   if (data.significant.length === 0) {
     logger.log(' - (none)');
   }
 
-  logger.log('\n➡️  Meaningless changes to duration');
+  logger.log('\n➡️  Meaningless changes to duration (duration | count)');
   data.meaningless.forEach(printRegularLine);
   if (data.meaningless.length === 0) {
     logger.log(' - (none)');
   }
 
-  logger.log('\n➡️  Render count changes');
+  logger.log('\n➡️  Render count changes (duration | count)');
   data.countChanged.forEach(printRegularLine);
   if (data.countChanged.length === 0) {
     logger.log(' - (none)');
   }
 
-  logger.log('\n➡️  Redundant Renders');
+  logger.log('\n➡️  Redundant Render (Initial | Updates)');
   data.redundantRenders.forEach(printRenderLine);
   if (data.redundantRenders.length === 0) {
     logger.log(' - (none)');
   }
 
-  logger.log('\n➡️  Added scenarios');
+  logger.log('\n➡️  Added scenarios (duration | count)');
   data.added.forEach(printAddedLine);
   if (data.added.length === 0) {
     logger.log(' - (none)');
   }
 
-  logger.log('\n➡️  Removed scenarios');
+  logger.log('\n➡️  Removed scenarios (duration | count)');
   data.removed.forEach(printRemovedLine);
   if (data.removed.length === 0) {
     logger.log(' - (none)');
@@ -63,21 +63,12 @@ function printRegularLine(entry: CompareEntry) {
 }
 
 function printRenderLine(entry: CompareEntry | AddedEntry) {
-  if (entry.current.redundantRenders?.initial !== 0) {
+  if (entry.current.redundantRenders?.initial !== 0 || entry.current.redundantRenders?.update !== 0) {
     logger.log(
-      ` - ${entry.name} [render:initial]: | ${formatCountChange(
+      ` - ${entry.name} [render]: | ${formatCountChange(
         entry.current.redundantRenders?.initial,
         entry.baseline?.redundantRenders?.initial
-      )}`
-    );
-  }
-
-  if (entry.current.redundantRenders?.update !== 0) {
-    logger.log(
-      ` - ${entry.name} [render:update]: | ${formatCountChange(
-        entry.current.redundantRenders?.update,
-        entry.baseline?.redundantRenders?.update
-      )}`
+      )} | ${formatCountChange(entry.current.redundantRenders?.update, entry.baseline?.redundantRenders?.update)}`
     );
   }
 }

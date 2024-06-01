@@ -13,6 +13,7 @@ import {
 } from '../utils/format';
 import * as md from '../utils/markdown';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, MeasureMetadata } from '../types';
+import { collapsibleSection } from '../utils/markdown';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'] as const;
 
@@ -66,12 +67,18 @@ function buildMarkdown(data: CompareResult) {
   result += `\n\n${md.heading3('Meaningless Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
-  result += `\n\n${md.heading3('Changes To Count')}`;
-  result += `\n${buildSummaryTable(data.countChanged)}`;
-  result += `\n${buildDetailsTable(data.countChanged)}`;
-  result += `\n\n${md.heading3('Redundant Render(s)')}`;
-  result += `\n${buildSummaryTable(data.redundantRenders)}`;
-  result += `\n${buildDetailsTable(data.redundantRenders)}`;
+
+  // Skip renders counts if user only has function measurements
+  const allEntries = [...data.significant, ...data.meaningless, ...data.added, ...data.removed];
+  const hasRenderEntries = allEntries.some((e) => e.type === 'render');
+  if (hasRenderEntries) {
+    result += `\n\n${md.heading3('Render Count Changes')}`;
+    result += `\n${buildSummaryTable(data.countChanged)}`;
+    result += `\n${buildDetailsTable(data.countChanged)}`;
+    result += `\n\n${md.heading3('Redundant Renders')}`;
+    result += `\n${buildRedundantRendersTable(data.redundantRenders)}`;
+  }
+
   result += `\n\n${md.heading3('Added Scenarios')}`;
   result += `\n${buildSummaryTable(data.added)}`;
   result += `\n${buildDetailsTable(data.added)}`;
@@ -169,10 +176,20 @@ function buildCountDetails(title: string, entry: MeasureEntry) {
     .join(`<br/>`);
 }
 
-export function collapsibleSection(title: string, content: string) {
-  return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
+function formatRunDurations(values: number[]) {
+  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
 }
 
-export function formatRunDurations(values: number[]) {
-  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
+function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
+  if (!entries.length) return md.italic('There are no entries');
+
+  const tableHeader = ['Name', 'Type', 'Initial', 'Update'] as const;
+  const rows = entries.map((entry) => [
+    entry.name,
+    entry.type,
+    entry.current.redundantRenders?.initial ?? '?',
+    entry.current.redundantRenders?.update ?? '?',
+  ]);
+
+  return markdownTable([tableHeader, ...rows]);
 }
