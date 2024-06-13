@@ -126,6 +126,7 @@ test('measureRenders detects multiple redundant initial renders', async () => {
 
 const RedundantUpdates = () => {
   const [count, setCount] = React.useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, forceRender] = React.useState(0);
 
   return (
