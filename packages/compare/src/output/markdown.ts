@@ -187,8 +187,8 @@ function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
   const rows = entries.map((entry) => [
     entry.name,
     entry.type,
-    entry.current.redundantRenders?.initial ?? '?',
-    entry.current.redundantRenders?.update ?? '?',
+    entry.current.initialRenderCount ?? '?',
+    entry.current.redundantUpdates?.length ?? '?',
   ]);
 
   return markdownTable([tableHeader, ...rows]);

@@ -63,12 +63,12 @@ function printRegularLine(entry: CompareEntry) {
 }
 
 function printRenderLine(entry: CompareEntry | AddedEntry) {
-  if (entry.current.redundantRenders?.initial !== 0 || entry.current.redundantRenders?.update !== 0) {
+  if (entry.current.initialRenderCount !== 1 || entry.current.redundantUpdates?.length !== 0) {
     logger.log(
       ` - ${entry.name} [render]: | ${formatCountChange(
-        entry.current.redundantRenders?.initial,
-        entry.baseline?.redundantRenders?.initial
-      )} | ${formatCountChange(entry.current.redundantRenders?.update, entry.baseline?.redundantRenders?.update)}`
+        entry.current.initialRenderCount,
+        entry.baseline?.initialRenderCount
+      )} | ${formatCountChange(entry.current.redundantUpdates?.length, entry.baseline?.redundantUpdates?.length)}`
     );
   }
 }

@@ -92,8 +92,8 @@ test('measureRenders correctly measures regular renders', async () => {
   };
 
   const results = await measureRenders(<Regular />, { scenario, writeFile: false });
-  expect(results.redundantRenders?.initial).toBe(0);
-  expect(results.redundantRenders?.update).toBe(0);
+  expect(results.initialRenderCount).toBe(1);
+  expect(results.redundantUpdates).toEqual([]);
 });
 
 const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
@@ -114,14 +114,14 @@ const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
 
 test('measureRenders detects redundant initial renders', async () => {
   const results = await measureRenders(<RedundantInitialRenders repeat={1} />, { writeFile: false });
-  expect(results.redundantRenders?.initial).toBe(1);
-  expect(results.redundantRenders?.update).toBe(0);
+  expect(results.initialRenderCount).toBe(2);
+  expect(results.redundantUpdates).toEqual([]);
 });
 
 test('measureRenders detects multiple redundant initial renders', async () => {
   const results = await measureRenders(<RedundantInitialRenders repeat={5} />, { writeFile: false });
-  expect(results.redundantRenders?.initial).toBe(5);
-  expect(results.redundantRenders?.update).toBe(0);
+  expect(results.initialRenderCount).toBe(6);
+  expect(results.redundantUpdates).toEqual([]);
 });
 
 const RedundantUpdates = () => {
@@ -142,8 +142,8 @@ test('measureRenders detects redundant updates', async () => {
   };
 
   const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
-  expect(results.redundantRenders?.update).toBe(1);
-  expect(results.redundantRenders?.initial).toBe(0);
+  expect(results.redundantUpdates).toEqual([1]);
+  expect(results.initialRenderCount).toBe(1);
 });
 
 const AsyncMacroTaskEffect = () => {
@@ -162,8 +162,8 @@ const AsyncMacroTaskEffect = () => {
 
 test('ignores async macro-tasks effect', async () => {
   const results = await measureRenders(<AsyncMacroTaskEffect />, { writeFile: false });
-  expect(results.redundantRenders?.initial).toBe(0);
-  expect(results.redundantRenders?.update).toBe(0);
+  expect(results.initialRenderCount).toBe(1);
+  expect(results.redundantUpdates).toEqual([]);
 });
 
 const AsyncMicrotaskEffect = () => {
@@ -187,8 +187,8 @@ const AsyncMicrotaskEffect = () => {
 
 test('ignores async micro-tasks effect', async () => {
   const results = await measureRenders(<AsyncMicrotaskEffect />, { writeFile: false });
-  expect(results.redundantRenders?.initial).toBe(0);
-  expect(results.redundantRenders?.update).toBe(0);
+  expect(results.initialRenderCount).toBe(1);
+  expect(results.redundantUpdates).toEqual([]);
 });
 
 function Wrapper({ children }: React.PropsWithChildren<{}>) {

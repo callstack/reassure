@@ -31,23 +31,14 @@ export interface MeasureResults {
 }
 
 export interface MeasureRendersResults extends MeasureResults {
-  initialRenderCount: number;
-  redundantUpdates: number[];
-  redundantRenders: RedundantRenders;
-}
-
-/** Holds info about detected redundant re-renders. */
-export interface RedundantRenders {
   /**
-   * Re-renders that happened immediately after component was created
-   * e.g., synchronous `useEffects` containing `setState`.
-   *
+   * Renders that happened immediately after component was created e.g., synchronous `useEffects` containing `setState`.
    * This types of re-renders can be optimized by initializing the component with proper state in the initial render.
    */
-  initial: number;
+  initialRenderCount: number;
 
   /**
    * Re-renders that resulted in rendering the same output as the previous render.
    */
-  update: number;
+  redundantUpdates: number[];
 }
