@@ -92,15 +92,15 @@ test('measureRenders correctly measures regular renders', async () => {
   };
 
   const results = await measureRenders(<Regular />, { scenario, writeFile: false });
-  expect(results.initialRenderCount).toBe(1);
+  expect(results.initialUpdateCount).toBe(0);
   expect(results.redundantUpdates).toEqual([]);
 });
 
-const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
+const InitialUpdates = ({ updateCount }: { updateCount: number }) => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    if (count < repeat) {
+    if (count < updateCount) {
       setCount((c) => c + 1);
     }
   });
@@ -113,37 +113,55 @@ const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
 };
 
 test('measureRenders detects redundant initial renders', async () => {
-  const results = await measureRenders(<RedundantInitialRenders repeat={1} />, { writeFile: false });
-  expect(results.initialRenderCount).toBe(2);
+  const results = await measureRenders(<InitialUpdates updateCount={1} />, { writeFile: false });
+  expect(results.initialUpdateCount).toBe(1);
   expect(results.redundantUpdates).toEqual([]);
 });
 
 test('measureRenders detects multiple redundant initial renders', async () => {
-  const results = await measureRenders(<RedundantInitialRenders repeat={5} />, { writeFile: false });
-  expect(results.initialRenderCount).toBe(6);
+  const results = await measureRenders(<InitialUpdates updateCount={5} />, { writeFile: false });
+  expect(results.initialUpdateCount).toBe(5);
   expect(results.redundantUpdates).toEqual([]);
 });
 
 const RedundantUpdates = () => {
+  const [count, setCount] = React.useState(0);
   const [_, forceRender] = React.useState(0);
 
   return (
     <View>
       <Pressable onPress={() => forceRender((c) => c + 1)}>
+        <Text>Trigger re-render</Text>
+      </Pressable>
+      <Pressable onPress={() => setCount((c) => c + 1)}>
         <Text>Increment</Text>
       </Pressable>
+
+      <Text>Visible: {count}</Text>
     </View>
   );
 };
 
 test('measureRenders detects redundant updates', async () => {
   const scenario = async () => {
-    await fireEvent.press(screen.getByText('Increment'));
+    await fireEvent.press(screen.getByText('Trigger re-render'));
   };
 
   const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
   expect(results.redundantUpdates).toEqual([1]);
-  expect(results.initialRenderCount).toBe(1);
+  expect(results.initialUpdateCount).toBe(0);
+});
+
+test('measureRenders detects multiple redundant updates', async () => {
+  const scenario = async () => {
+    await fireEvent.press(screen.getByText('Trigger re-render'));
+    await fireEvent.press(screen.getByText('Increment'));
+    await fireEvent.press(screen.getByText('Trigger re-render'));
+  };
+
+  const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
+  expect(results.redundantUpdates).toEqual([1, 3]);
+  expect(results.initialUpdateCount).toBe(0);
 });
 
 const AsyncMacroTaskEffect = () => {
@@ -162,7 +180,7 @@ const AsyncMacroTaskEffect = () => {
 
 test('ignores async macro-tasks effect', async () => {
   const results = await measureRenders(<AsyncMacroTaskEffect />, { writeFile: false });
-  expect(results.initialRenderCount).toBe(1);
+  expect(results.initialUpdateCount).toBe(0);
   expect(results.redundantUpdates).toEqual([]);
 });
 
@@ -187,7 +205,7 @@ const AsyncMicrotaskEffect = () => {
 
 test('ignores async micro-tasks effect', async () => {
   const results = await measureRenders(<AsyncMicrotaskEffect />, { writeFile: false });
-  expect(results.initialRenderCount).toBe(1);
+  expect(results.initialUpdateCount).toBe(0);
   expect(results.redundantUpdates).toEqual([]);
 });
 

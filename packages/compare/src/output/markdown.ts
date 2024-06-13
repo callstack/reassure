@@ -187,7 +187,7 @@ function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
   const rows = entries.map((entry) => [
     entry.name,
     entry.type,
-    entry.current.initialRenderCount ?? '?',
+    entry.current.initialUpdateCount ?? '?',
     entry.current.redundantUpdates?.length ?? '?',
   ]);
 

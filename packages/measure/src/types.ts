@@ -32,13 +32,16 @@ export interface MeasureResults {
 
 export interface MeasureRendersResults extends MeasureResults {
   /**
-   * Renders that happened immediately after component was created e.g., synchronous `useEffects` containing `setState`.
-   * This types of re-renders can be optimized by initializing the component with proper state in the initial render.
+   * Update renders (re-renders) that happened immediately after component was created
+   * e.g., synchronous `useEffects` containing `setState`.
+   *
+   * This types of re-renders can be optimized by initializing the component with proper state in
+   * the initial render.
    */
-  initialRenderCount: number;
+  initialUpdateCount: number;
 
   /**
-   * Re-renders that resulted in rendering the same output as the previous render.
+   * Re-renders that resulted in rendering the same output as the previous render. This arrays contains numbers of render
    */
   redundantUpdates: number[];
 }

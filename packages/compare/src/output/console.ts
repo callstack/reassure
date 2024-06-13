@@ -63,11 +63,11 @@ function printRegularLine(entry: CompareEntry) {
 }
 
 function printRenderLine(entry: CompareEntry | AddedEntry) {
-  if (entry.current.initialRenderCount !== 1 || entry.current.redundantUpdates?.length !== 0) {
+  if (entry.current.initialUpdateCount !== 0 || entry.current.redundantUpdates?.length !== 0) {
     logger.log(
       ` - ${entry.name} [render]: | ${formatCountChange(
-        entry.current.initialRenderCount,
-        entry.baseline?.initialRenderCount
+        entry.current.initialUpdateCount,
+        entry.baseline?.initialUpdateCount
       )} | ${formatCountChange(entry.current.redundantUpdates?.length, entry.baseline?.redundantUpdates?.length)}`
     );
   }
