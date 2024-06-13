@@ -2384,12 +2384,12 @@ __metadata:
     jest: "npm:^29.7.0"
     mathjs: "npm:^12.4.2"
     prettier: "npm:^2.8.8"
+    pretty-format: "npm:^29.7.0"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.74.1"
     react-native-builder-bob: "npm:^0.23.2"
     react-test-renderer: "npm:18.2.0"
-    remeda: "npm:^2.0.0"
     strip-ansi: "npm:^6.0.1"
     typescript: "npm:^5.4.5"
   peerDependencies:
@@ -11552,15 +11552,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remeda@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "remeda@npm:2.0.0"
-  dependencies:
-    type-fest: "npm:^4.18.2"
-  checksum: 10c0/50262471a58e14c0873ddf029b32c633c994d8a8cdc3a15ecd9e4e09a02653226ab0c026ab60c7f4d1899062f89abacd01de0588562da4082996118c55c19695
-  languageName: node
-  linkType: hard
-
 "repeat-string@npm:^1.0.0":
   version: 1.6.1
   resolution: "repeat-string@npm:1.6.1"
@@ -12979,13 +12970,6 @@ __metadata:
   version: 3.13.1
   resolution: "type-fest@npm:3.13.1"
   checksum: 10c0/547d22186f73a8c04590b70dcf63baff390078c75ea8acd366bbd510fd0646e348bd1970e47ecf795b7cff0b41d26e9c475c1fedd6ef5c45c82075fbf916b629
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^4.18.2":
-  version: 4.18.3
-  resolution: "type-fest@npm:4.18.3"
-  checksum: 10c0/5d51a679a86548e8c35008f09dc8f9f8fdb0fcc79c30d116c9e6c5459a450db28a7e6e6887e6a8a6a560d2cde3757347a5984c18b871de6e739a63991ce2d8d9
   languageName: node
   linkType: hard
 

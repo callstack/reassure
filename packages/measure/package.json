@@ -37,7 +37,7 @@
   "dependencies": {
     "@callstack/reassure-logger": "1.0.0-rc.4",
     "mathjs": "^12.4.2",
-    "remeda": "^2.0.0"
+    "pretty-format": "^29.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",

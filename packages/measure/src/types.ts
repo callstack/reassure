@@ -31,6 +31,8 @@ export interface MeasureResults {
 }
 
 export interface MeasureRendersResults extends MeasureResults {
+  initialRenderCount: number;
+  redundantUpdates: number[];
   redundantRenders: RedundantRenders;
 }
 

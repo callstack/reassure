@@ -1,12 +1,11 @@
 import * as React from 'react';
-import type { ReactTestRendererJSON, ReactTestRendererNode } from 'react-test-renderer';
-import * as R from 'remeda';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureRendersResults } from './types';
+import { ElementJsonTree, detectRedundantUpdates } from './redundant-renders';
 
 logger.configure({
   verbose: process.env.REASSURE_VERBOSE === 'true' || process.env.REASSURE_VERBOSE === '1',
@@ -63,7 +62,9 @@ async function measureRendersInternal(
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
-  let renderJsonTrees: ToJsonTree[] = [];
+
+  const renderJsonTrees: ElementJsonTree[] = [];
+  let initialRenderCount = 0;
 
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
@@ -72,26 +73,37 @@ async function measureRendersInternal(
 
     let renderResult: any = null;
 
-    const captureJsonTree = () => {
-      if (testingLibrary === 'react-native' && i === 0) {
-        renderJsonTrees.push(renderResult?.toJSON() ?? null);
+    const captureRenderDetails = () => {
+      // We capture render details only on the first run
+      if (i !== 0) {
+        return;
+      }
+
+      // Initial render did not finish yet, so there is no "render" result yet and we cannot analyze the element tree.
+      if (renderResult == null) {
+        initialRenderCount += 1;
+        return;
+      }
+
+      if (testingLibrary === 'react-native') {
+        renderJsonTrees.push(renderResult.toJSON());
       }
     };
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
-      captureJsonTree();
-
       duration += actualDuration;
       count += 1;
 
       if (isFinished) {
         hasTooLateRender = true;
       }
+
+      captureRenderDetails();
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
     renderResult = render(uiToRender);
-    captureJsonTree();
+    captureRenderDetails();
 
     if (scenario) {
       await scenario(renderResult);
@@ -112,14 +124,13 @@ async function measureRendersInternal(
     );
   }
 
-  const initialRenderTrees = renderJsonTrees.filter((tree) => tree === null);
-  const regularRenderTrees = renderJsonTrees.filter((tree) => tree !== null);
-
   return {
     ...processRunResults(runResults, warmupRuns),
+    initialRenderCount,
+    redundantUpdates: detectRedundantUpdates(renderJsonTrees),
     redundantRenders: {
-      initial: initialRenderTrees.length - 1,
-      update: detectRedundantUpdates(regularRenderTrees).length,
+      initial: initialRenderCount - 1,
+      update: detectRedundantUpdates(renderJsonTrees).length,
     },
   };
 }
@@ -136,22 +147,4 @@ export function buildUiToRender(
   );
 
   return Wrapper ? <Wrapper>{uiWithProfiler}</Wrapper> : uiWithProfiler;
-}
-
-export type ToJsonTree = ReactTestRendererJSON | ReactTestRendererJSON[] | null;
-
-export function isJsonTreeEqual(a: ToJsonTree | null, b: ToJsonTree | null): boolean {
-  return R.isDeepEqual(a, b);
-}
-
-export function detectRedundantUpdates(components: ToJsonTree[]): number[] {
-  const result = [];
-
-  for (let i = 1; i < components.length; i += 1) {
-    if (isJsonTreeEqual(components[i], components[i - 1])) {
-      result.push(i);
-    }
-  }
-
-  return result;
 }
