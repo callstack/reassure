@@ -132,10 +132,10 @@ const RedundantUpdates = () => {
   return (
     <View>
       <Pressable onPress={() => forceRender((c) => c + 1)}>
-        <Text>Trigger re-render</Text>
+        <Text>Redundant</Text>
       </Pressable>
       <Pressable onPress={() => setCount((c) => c + 1)}>
-        <Text>Increment</Text>
+        <Text>Valid</Text>
       </Pressable>
 
       <Text>Visible: {count}</Text>
@@ -145,7 +145,7 @@ const RedundantUpdates = () => {
 
 test('measureRenders detects redundant updates', async () => {
   const scenario = async () => {
-    await fireEvent.press(screen.getByText('Trigger re-render'));
+    await fireEvent.press(screen.getByText('Redundant'));
   };
 
   const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
@@ -155,9 +155,9 @@ test('measureRenders detects redundant updates', async () => {
 
 test('measureRenders detects multiple redundant updates', async () => {
   const scenario = async () => {
-    await fireEvent.press(screen.getByText('Trigger re-render'));
-    await fireEvent.press(screen.getByText('Increment'));
-    await fireEvent.press(screen.getByText('Trigger re-render'));
+    await fireEvent.press(screen.getByText('Redundant'));
+    await fireEvent.press(screen.getByText('Valid'));
+    await fireEvent.press(screen.getByText('Redundant'));
   };
 
   const results = await measureRenders(<RedundantUpdates />, { scenario, writeFile: false });
