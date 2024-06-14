@@ -163,7 +163,7 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
   const renderIssues = withCurrent.filter(
-    (item) => item.current.initialUpdateCount || item.current.redundantUpdates?.length
+    (item) => item.current.issues?.initialUpdateCount || item.current.issues?.redundantUpdates?.length
   );
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));

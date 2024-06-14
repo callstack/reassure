@@ -64,12 +64,15 @@ function printRegularLine(entry: CompareEntry) {
 
 function printRenderIssuesLine(entry: CompareEntry | AddedEntry) {
   const issues = [];
-  if (entry.current.initialUpdateCount !== 0) {
-    issues.push(formatInitialUpdates(entry.current.initialUpdateCount));
+
+  const initialUpdateCount = entry.current.issues?.initialUpdateCount;
+  if (initialUpdateCount) {
+    issues.push(formatInitialUpdates(initialUpdateCount));
   }
 
-  if (entry.current.redundantUpdates?.length !== 0) {
-    issues.push(formatRedundantUpdates(entry.current.redundantUpdates));
+  const redundantUpdates = entry.current.issues?.redundantUpdates;
+  if (redundantUpdates?.length) {
+    issues.push(formatRedundantUpdates(redundantUpdates));
   }
 
   logger.log(` - ${entry.name}: ${issues.join(' | ')}`);
@@ -89,16 +92,14 @@ function printRemovedLine(entry: RemovedEntry) {
   );
 }
 
-export function formatInitialUpdates(count: number | undefined) {
-  if (count == null) return '?';
+export function formatInitialUpdates(count: number) {
   if (count === 0) return '-';
   if (count === 1) return '1 initial update 🔴';
 
   return `${count} initial updates 🔴`;
 }
 
-export function formatRedundantUpdates(redundantUpdates: number[] | undefined) {
-  if (redundantUpdates == null) return '?';
+export function formatRedundantUpdates(redundantUpdates: number[]) {
   if (redundantUpdates.length === 0) return '-';
   if (redundantUpdates.length === 1) return `1 redundant update (${redundantUpdates.join(', ')}) 🔴`;
 

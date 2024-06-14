@@ -44,6 +44,10 @@ export const MeasureEntryScheme = z.object({
   /** Array of measured render/execution counts for each run. */
   counts: z.array(z.number()),
 
-  initialUpdateCount: z.number().optional(),
-  redundantUpdates: z.array(z.number()).optional(),
+  issues: z.optional(
+    z.object({
+      initialUpdateCount: z.number().optional(),
+      redundantUpdates: z.array(z.number()).optional(),
+    })
+  ),
 });

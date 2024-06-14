@@ -31,6 +31,10 @@ export interface MeasureResults {
 }
 
 export interface MeasureRendersResults extends MeasureResults {
+  issues: RenderIssues;
+}
+
+export interface RenderIssues {
   /**
    * Update renders (re-renders) that happened immediately after component was created
    * e.g., synchronous `useEffects` containing `setState`.

@@ -126,8 +126,10 @@ async function measureRendersInternal(
 
   return {
     ...processRunResults(runResults, warmupRuns),
-    initialUpdateCount: initialRenderCount - 1,
-    redundantUpdates: detectRedundantUpdates(renderJsonTrees, initialRenderCount),
+    issues: {
+      initialUpdateCount: initialRenderCount - 1,
+      redundantUpdates: detectRedundantUpdates(renderJsonTrees, initialRenderCount),
+    },
   };
 }
 
