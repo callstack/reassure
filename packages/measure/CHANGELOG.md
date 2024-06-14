@@ -1,5 +1,15 @@
 # @callstack/reassure-measure
 
+## 1.0.0-rc.5
+
+### Minor Changes
+
+- 04be1d4: Detect render issues (initial render updates, redundant renders)
+
+### Patch Changes
+
+- @callstack/reassure-logger@1.0.0-rc.5
+
 ## 1.0.0-rc.4
 
 ### Patch Changes

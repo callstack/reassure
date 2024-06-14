@@ -1,5 +1,17 @@
 # @callstack/reassure-cli
 
+## 1.0.0-rc.5
+
+### Minor Changes
+
+- 04be1d4: Detect render issues (initial render updates, redundant renders)
+
+### Patch Changes
+
+- Updated dependencies [04be1d4]
+  - @callstack/reassure-compare@1.0.0-rc.5
+  - @callstack/reassure-logger@1.0.0-rc.5
+
 ## 1.0.0-rc.4
 
 ### Minor Changes
