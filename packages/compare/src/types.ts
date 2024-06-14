@@ -25,8 +25,6 @@ export interface CompareEntry {
   isDurationDiffSignificant: boolean;
   countDiff: number;
   relativeCountDiff: number;
-  redundantInitialRenderDiff: number;
-  redundantUpdateRenderDiff: number;
 }
 
 /**
@@ -59,7 +57,7 @@ export interface CompareResult {
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
-  redundantRenders: Array<CompareEntry | AddedEntry>;
+  renderIssues: Array<CompareEntry | AddedEntry>;
   added: AddedEntry[];
   removed: RemovedEntry[];
   errors: string[];

@@ -76,7 +76,7 @@ function buildMarkdown(data: CompareResult) {
     result += `\n${buildSummaryTable(data.countChanged)}`;
     result += `\n${buildDetailsTable(data.countChanged)}`;
     result += `\n\n${md.heading3('Render Issues')}`;
-    result += `\n${buildRedundantRendersTable(data.redundantRenders)}`;
+    result += `\n${buildRedundantRendersTable(data.renderIssues)}`;
   }
 
   result += `\n\n${md.heading3('Added Scenarios')}`;

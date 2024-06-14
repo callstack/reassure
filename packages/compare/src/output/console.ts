@@ -29,8 +29,8 @@ export function printToConsole(data: CompareResult) {
   }
 
   logger.log('\n➡️  Render issues');
-  data.redundantRenders.forEach(printRenderIssuesLine);
-  if (data.redundantRenders.length === 0) {
+  data.renderIssues.forEach(printRenderIssuesLine);
+  if (data.renderIssues.length === 0) {
     logger.log(' - (none)');
   }
 

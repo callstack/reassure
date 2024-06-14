@@ -162,9 +162,8 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   const countChanged = compared
     .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
-  const redundantRenders = withCurrent.filter(
-    (item) =>
-      item.type === 'render' && (item.current.initialUpdateCount !== 0 || item.current.redundantUpdates?.length !== 0)
+  const renderIssues = withCurrent.filter(
+    (item) => item.current.initialUpdateCount || item.current.redundantUpdates?.length
   );
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
@@ -176,23 +175,20 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     significant,
     meaningless,
     countChanged,
-    redundantRenders,
+    renderIssues,
     added,
     removed,
   };
 }
 
 /**
- * Establish statisticial significance of render/execution duration difference build compare entry.
+ * Establish statistical significance of render/execution duration difference build compare entry.
  */
 function buildCompareEntry(name: string, current: MeasureEntry, baseline: MeasureEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const relativeDurationDiff = durationDiff / baseline.meanDuration;
   const countDiff = current.meanCount - baseline.meanCount;
   const relativeCountDiff = countDiff / baseline.meanCount;
-
-  const redundantInitialRenderDiff = (current.initialUpdateCount ?? 0) - (baseline.initialUpdateCount ?? 0);
-  const redundantUpdateRenderDiff = (current.redundantUpdates?.length ?? 0) - (baseline.redundantUpdates?.length ?? 0);
 
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
   const prob = computeProbability(z);
@@ -210,8 +206,6 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
     isDurationDiffSignificant,
     countDiff,
     relativeCountDiff,
-    redundantInitialRenderDiff,
-    redundantUpdateRenderDiff,
   };
 }
 
