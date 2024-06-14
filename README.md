@@ -22,18 +22,35 @@
 - [This solution](#this-solution)
 - [Installation and setup](#installation-and-setup)
   - [Writing your first test](#writing-your-first-test)
+    - [Writing async tests](#writing-async-tests)
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
 - [CI setup](#ci-setup)
   - [Options](#options)
+    - [`--verbose` (optional)](#--verbose-optional)
+    - [`--silent` (optional)](#--silent-optional)
   - [Scaffolding](#scaffolding)
+    - [CI Script (`reassure-tests.sh`)](#ci-script-reassure-testssh)
+    - [Dangerfile](#dangerfile)
+    - [`.gitignore`](#gitignore)
   - [CI script (`reassure-tests.sh`)](#ci-script-reassure-testssh-1)
   - [Integration](#integration)
+    - [Updating existing Dangerfile](#updating-existing-dangerfile)
+    - [Creating Dangerfile](#creating-dangerfile)
+    - [Updating the CI configuration file](#updating-the-ci-configuration-file)
 - [Assessing CI stability](#assessing-ci-stability)
 - [Analyzing results](#analyzing-results)
 - [API](#api)
   - [Measurements](#measurements)
+    - [`measurePerformance` function](#measureperformance-function)
+    - [`MeasureOptions` type](#measureoptions-type)
+    - [`measureFunction` function](#measurefunction-function)
+    - [`MeasureFunctionOptions` type](#measurefunctionoptions-type)
   - [Configuration](#configuration)
+    - [Default configuration](#default-configuration)
+    - [`configure` function](#configure-function)
+    - [`resetToDefault` function](#resettodefault-function)
+    - [Environmental variables](#environmental-variables)
 - [External References](#external-references)
 - [Contributing](#contributing)
 - [License](#license)
@@ -73,10 +90,10 @@ You will also need a working [Jest](https://jestjs.io/docs/getting-started) setu
 
 You can check our example projects:
 
-- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native)
 - [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
-- [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
-- [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
+- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native-cli)
+- [React.js (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
+- [React.js (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 
 Reassure will try to detect which Testing Library you have installed. If both React Native Testing Library and React Testing Library are present, it will warn you about that and give precedence to React Native Testing Library. You can explicitly specify Testing Library to be used by using [`configure`](#configure-function) option:
 
@@ -144,13 +161,6 @@ test('Test with scenario', async () => {
 ```
 
 If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
-
-For more examples, look into our example apps:
-
-- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native)
-- [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
-- [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
-- [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 
 ### Measuring test performance
 
