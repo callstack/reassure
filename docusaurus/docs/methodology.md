@@ -44,12 +44,18 @@ Looking at the example you can notice that test scenarios can be assigned to cer
 
 ### Render issues (experimental)
 
-Reassure analyses your components render patterns during the initial test run (usually the warm up run) to spot signs of potential issues.
+:::note
 
-Currently it's able to inform you about following types of issues:
+This feature is experimental, and its behavior might change without increasing the major version of the package.
 
-- **Initial render cascade** informs about number of renders that happened immediately (synchronously) after the initial render. This is most likely caused by `useEffect` triggering immediate re-render by using set state. In the optimal case, initial render should not cause immediate re-renders by itself. Next renders should be caused by some external source: user action, system event, API call response, timers, etc.
+:::
 
-- **Redundant updates** informs about renders that resulted in the same host element tree as the previous render. This check inspects host component structure after each update and compares it the the previous structure. If they are the same, it means that the subsequent render could be avoided as it resulted in no visible change to the user.
+Reassure analyses your components' render patterns during the initial test run (usually the warm-up run) to spot signs of potential issues.
+
+Currently, it's able to inform you about the following types of issues:
+
+- **Initial render cascade** informs about the number of renders that happened immediately (synchronously) after the initial render. This is most likely caused by `useEffect` hook triggering immediate re-renders using set state. In the optimal case, the initial render should not cause immediate re-renders by itself. Next, renders should be caused by some external source: user action, system event, API call response, timers, etc.
+
+- **Redundant updates** inform about renders that resulted in the same host element tree as the previous render. After each update, this check inspects the host element structure and compares it to the previous structure. If they are the same, the subsequent render could be avoided as it resulted in no visible change to the user.
   - This feature is available on React Native at this time.
-  - The host element tree comparison ignores event handlers references. This means that only non-function props (like strings, numbers, objects, arrays, etc) are take into consideration.
+  - The host element tree comparison ignores references to event handlers. This means that only non-function props (like strings, numbers, objects, arrays, etc.) are considered.
