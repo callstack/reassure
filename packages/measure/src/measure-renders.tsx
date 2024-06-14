@@ -3,8 +3,9 @@ import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { resolveTestingLibrary } from './testing-library';
-import type { MeasureResults } from './types';
+import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
+import type { MeasureRendersResults } from './types';
+import { ElementJsonTree, detectRedundantUpdates } from './redundant-renders';
 
 logger.configure({
   verbose: process.env.REASSURE_VERBOSE === 'true' || process.env.REASSURE_VERBOSE === '1',
@@ -19,7 +20,10 @@ export interface MeasureRendersOptions {
   writeFile?: boolean;
 }
 
-export async function measureRenders(ui: React.ReactElement, options?: MeasureRendersOptions): Promise<MeasureResults> {
+export async function measureRenders(
+  ui: React.ReactElement,
+  options?: MeasureRendersOptions
+): Promise<MeasureRendersResults> {
   const stats = await measureRendersInternal(ui, options);
 
   if (options?.writeFile !== false) {
@@ -35,7 +39,7 @@ export async function measureRenders(ui: React.ReactElement, options?: MeasureRe
 export async function measurePerformance(
   ui: React.ReactElement,
   options?: MeasureRendersOptions
-): Promise<MeasureResults> {
+): Promise<MeasureRendersResults> {
   logger.warnOnce(
     'The `measurePerformance` function has been renamed to `measureRenders`.\n\nThe `measurePerformance` alias is now deprecated and will be removed in future releases.'
   );
@@ -46,21 +50,45 @@ export async function measurePerformance(
 async function measureRendersInternal(
   ui: React.ReactElement,
   options?: MeasureRendersOptions
-): Promise<MeasureResults> {
+): Promise<MeasureRendersResults> {
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
   const { render, cleanup } = resolveTestingLibrary();
+  const testingLibrary = getTestingLibrary();
 
   showFlagsOutputIfNeeded();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
+
+  const renderJsonTrees: ElementJsonTree[] = [];
+  let initialRenderCount = 0;
+
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
+
+    let renderResult: any = null;
+
+    const captureRenderDetails = () => {
+      // We capture render details only on the first run
+      if (i !== 0) {
+        return;
+      }
+
+      // Initial render did not finish yet, so there is no "render" result yet and we cannot analyze the element tree.
+      if (renderResult == null) {
+        initialRenderCount += 1;
+        return;
+      }
+
+      if (testingLibrary === 'react-native') {
+        renderJsonTrees.push(renderResult.toJSON());
+      }
+    };
 
     const handleRender = (_id: string, _phase: string, actualDuration: number) => {
       duration += actualDuration;
@@ -69,13 +97,16 @@ async function measureRendersInternal(
       if (isFinished) {
         hasTooLateRender = true;
       }
+
+      captureRenderDetails();
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
-    const screen = render(uiToRender);
+    renderResult = render(uiToRender);
+    captureRenderDetails();
 
     if (scenario) {
-      await scenario(screen);
+      await scenario(renderResult);
     }
 
     cleanup();
@@ -93,7 +124,13 @@ async function measureRendersInternal(
     );
   }
 
-  return processRunResults(runResults, warmupRuns);
+  return {
+    ...processRunResults(runResults, warmupRuns),
+    issues: {
+      initialUpdateCount: initialRenderCount - 1,
+      redundantUpdates: detectRedundantUpdates(renderJsonTrees, initialRenderCount),
+    },
+  };
 }
 
 export function buildUiToRender(

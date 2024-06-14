@@ -151,6 +151,8 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     }
   });
 
+  const withCurrent = [...compared, ...added];
+
   const significant = compared
     .filter((item) => item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
@@ -160,6 +162,9 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   const countChanged = compared
     .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
+  const renderIssues = withCurrent.filter(
+    (item) => item.current.issues?.initialUpdateCount || item.current.issues?.redundantUpdates?.length
+  );
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -170,13 +175,14 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     significant,
     meaningless,
     countChanged,
+    renderIssues,
     added,
     removed,
   };
 }
 
 /**
- * Establish statisticial significance of render/execution duration difference build compare entry.
+ * Establish statistical significance of render/execution duration difference build compare entry.
  */
 function buildCompareEntry(name: string, current: MeasureEntry, baseline: MeasureEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;

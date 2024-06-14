@@ -2384,6 +2384,7 @@ __metadata:
     jest: "npm:^29.7.0"
     mathjs: "npm:^12.4.2"
     prettier: "npm:^2.8.8"
+    pretty-format: "npm:^29.7.0"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.74.1"

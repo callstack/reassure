@@ -34,6 +34,7 @@ export interface AddedEntry {
   name: string;
   type: MeasureType;
   current: MeasureEntry;
+  baseline?: undefined;
 }
 
 /**
@@ -56,6 +57,7 @@ export interface CompareResult {
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
+  renderIssues: Array<CompareEntry | AddedEntry>;
   added: AddedEntry[];
   removed: RemovedEntry[];
   errors: string[];

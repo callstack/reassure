@@ -17,3 +17,7 @@ export function bold(text: string) {
 export function italic(text: string) {
   return `*${text}*`;
 }
+
+export function collapsibleSection(title: string, content: string) {
+  return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
+}
