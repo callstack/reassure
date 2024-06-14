@@ -32,10 +32,24 @@ You can refer to our example [GitHub workflow](https://github.com/callstack/reas
 <img src="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/report-markdown.png" width="920px" alt="Markdown report" />
 </p>
 
+### Results categorization
+
 Looking at the example you can notice that test scenarios can be assigned to certain categories:
 
 - **Significant Changes To Duration** shows test scenario where the performance change is statistically significant and **should** be looked into as it marks a potential performance loss/improvement
-- **Meaningless Changes To Duration** shows test scenarios where the performance change is not stastatistically significant
+- **Meaningless Changes To Duration** shows test scenarios where the performance change is not statistically significant
 - **Changes To Count** shows test scenarios where the render or execution count did change
 - **Added Scenarios** shows test scenarios which do not exist in the baseline measurements
 - **Removed Scenarios** shows test scenarios which do not exist in the current measurements
+
+### Render issues (experimental)
+
+Reassure analyses your components render patterns during the initial test run (usually the warm up run) to spot signs of potential issues.
+
+Currently it's able to inform you about following types of issues:
+
+- **Initial render cascade** informs about number of renders that happened immediately (synchronously) after the initial render. This is most likely caused by `useEffect` triggering immediate re-render by using set state. In the optimal case, initial render should not cause immediate re-renders by itself. Next renders should be caused by some external source: user action, system event, API call response, timers, etc.
+
+- **Redundant updates** informs about renders that resulted in the same host element tree as the previous render. This check inspects host component structure after each update and compares it the the previous structure. If they are the same, it means that the subsequent render could be avoided as it resulted in no visible change to the user.
+  - This feature is available on React Native at this time.
+  - The host element tree comparison ignores event handlers references. This means that only non-function props (like strings, numbers, objects, arrays, etc) are take into consideration.

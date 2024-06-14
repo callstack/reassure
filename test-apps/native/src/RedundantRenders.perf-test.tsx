@@ -5,35 +5,25 @@ import { measureRenders } from 'reassure';
 
 jest.setTimeout(60_000);
 
-const RedundantInitialRenders = ({ repeat }: { repeat: number }) => {
+type RenderIssuesProps = {
+  initial?: number;
+  redundant?: number;
+};
+
+const RenderIssues = ({ initial: initialUpdates = 0 }: RenderIssuesProps) => {
   const [count, setCount] = React.useState(0);
+  const [_, forceRender] = React.useState(0);
 
   React.useEffect(() => {
-    if (count < repeat) {
+    if (count < initialUpdates) {
       setCount(c => c + 1);
     }
-  }, [count, repeat]);
+  }, [count, initialUpdates]);
 
   return (
     <View>
       <Text>Count: ${count}</Text>
-    </View>
-  );
-};
 
-test('RedundantInitialRenders 1', async () => {
-  await measureRenders(<RedundantInitialRenders repeat={1} />);
-});
-
-test('RedundantInitialRenders 3', async () => {
-  await measureRenders(<RedundantInitialRenders repeat={3} />);
-});
-
-const RedundantUpdates = () => {
-  const [_, forceRender] = React.useState(0);
-
-  return (
-    <View>
       <Pressable onPress={() => forceRender(c => c + 1)}>
         <Text>Inc</Text>
       </Pressable>
@@ -41,10 +31,27 @@ const RedundantUpdates = () => {
   );
 };
 
+test('InitialRenders 1', async () => {
+  await measureRenders(<RenderIssues initial={1} />);
+});
+
+test('InitialRenders 3', async () => {
+  await measureRenders(<RenderIssues initial={3} />);
+});
+
 test('RedundantUpdates', async () => {
   const scenario = async () => {
     await fireEvent.press(screen.getByText('Inc'));
   };
 
-  await measureRenders(<RedundantUpdates />, { scenario });
+  await measureRenders(<RenderIssues />, { scenario });
+});
+
+test('ManyRenderIssues', async () => {
+  const scenario = async () => {
+    await fireEvent.press(screen.getByText('Inc'));
+    await fireEvent.press(screen.getByText('Inc'));
+  };
+
+  await measureRenders(<RenderIssues initial={2} />, { scenario });
 });

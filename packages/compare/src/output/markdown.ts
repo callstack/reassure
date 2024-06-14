@@ -75,7 +75,7 @@ function buildMarkdown(data: CompareResult) {
     result += `\n\n${md.heading3('Render Count Changes')}`;
     result += `\n${buildSummaryTable(data.countChanged)}`;
     result += `\n${buildDetailsTable(data.countChanged)}`;
-    result += `\n\n${md.heading3('Redundant Renders')}`;
+    result += `\n\n${md.heading3('Render Issues')}`;
     result += `\n${buildRedundantRendersTable(data.redundantRenders)}`;
   }
 
@@ -183,13 +183,26 @@ function formatRunDurations(values: number[]) {
 function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
   if (!entries.length) return md.italic('There are no entries');
 
-  const tableHeader = ['Name', 'Type', 'Initial', 'Update'] as const;
+  const tableHeader = ['Name', 'Initial Updates', 'Redundant Updates'] as const;
   const rows = entries.map((entry) => [
     entry.name,
-    entry.type,
-    entry.current.initialUpdateCount ?? '?',
-    entry.current.redundantUpdates?.length ?? '?',
+    formatInitialUpdates(entry.current.initialUpdateCount),
+    formatRedundantUpdates(entry.current.redundantUpdates),
   ]);
 
   return markdownTable([tableHeader, ...rows]);
+}
+
+function formatInitialUpdates(count: number | undefined) {
+  if (count == null) return '?';
+  if (count === 0) return '-';
+
+  return `${count} 🔴`;
+}
+
+function formatRedundantUpdates(redundantUpdates: number[] | undefined) {
+  if (redundantUpdates == null) return '?';
+  if (redundantUpdates.length === 0) return '-';
+
+  return `${redundantUpdates.length} (${redundantUpdates.join(', ')}) 🔴`;
 }
