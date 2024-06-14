@@ -16,6 +16,7 @@ yarn install
 yarn reassure --baseline
 
 # Gather current perf measurements & compare results
+git stash # Get rid of any local changes
 git switch --detach -
 
 # Next line is required because Reassure packages are imported from this monorepo and might require rebuilding.
