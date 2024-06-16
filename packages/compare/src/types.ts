@@ -1,10 +1,11 @@
 /** Parsed performance results file. */
 import type { z } from 'zod';
-import type { MeasureEntryScheme, MeasureHeaderScheme, MeasureMetadataScheme } from './type-schemas';
+import type { MeasureEntryScheme, MeasureHeaderScheme, MeasureMetadataScheme, RenderIssueScheme } from './type-schemas';
 
 export type MeasureHeader = z.infer<typeof MeasureHeaderScheme>;
 export type MeasureMetadata = z.infer<typeof MeasureMetadataScheme>;
 export type MeasureEntry = z.infer<typeof MeasureEntryScheme>;
+export type RenderIssue = z.infer<typeof RenderIssueScheme>;
 export type MeasureType = MeasureEntry['type'];
 
 export interface MeasureResults {
