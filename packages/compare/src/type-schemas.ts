@@ -12,7 +12,7 @@ export const MeasureHeaderScheme = z.object({
   metadata: MeasureMetadataScheme,
 });
 
-export const RenderIssueScheme = z.object({
+export const RenderIssuesScheme = z.object({
   initialUpdateCount: z.number().optional(),
   redundantUpdates: z.array(z.number()).optional(),
 });
@@ -49,5 +49,5 @@ export const MeasureEntryScheme = z.object({
   /** Array of measured render/execution counts for each run. */
   counts: z.array(z.number()),
 
-  issues: z.optional(RenderIssueScheme),
+  issues: z.optional(RenderIssuesScheme),
 });

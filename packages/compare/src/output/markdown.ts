@@ -19,7 +19,7 @@ import type {
   RemovedEntry,
   MeasureEntry,
   MeasureMetadata,
-  RenderIssue,
+  RenderIssues,
 } from '../types';
 import { collapsibleSection } from '../utils/markdown';
 
@@ -203,7 +203,7 @@ function buildRenderIssuesTable(entries: Array<CompareEntry | AddedEntry>) {
   return markdownTable([tableHeader, ...rows]);
 }
 
-function buildRenderIssuesList(issues: RenderIssue | undefined) {
+function buildRenderIssuesList(issues: RenderIssues | undefined) {
   if (issues == null) return '';
 
   const output = [];

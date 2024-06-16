@@ -10,5 +10,5 @@ export type {
   CompareEntry,
   AddedEntry,
   RemovedEntry,
-  RenderIssue,
+  RenderIssues,
 } from './types';
