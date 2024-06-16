@@ -166,7 +166,7 @@ function buildDurationDetails(title: string, entry: MeasureEntry) {
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
-    entry.warmupDurations ? `Warmup: ${formatRunDurations(entry.warmupDurations)}` : '',
+    entry.warmupDurations ? `Warmup runs: ${formatRunDurations(entry.warmupDurations)}` : '',
   ]
     .filter(Boolean)
     .join(`<br/>`);
@@ -206,15 +206,15 @@ function buildRenderIssuesTable(entries: Array<CompareEntry | AddedEntry>) {
 function buildRenderIssuesList(issues: RenderIssues | undefined) {
   if (issues == null) return '';
 
-  const output = [];
+  const output = ['Render issues:'];
   if (issues?.initialUpdateCount) {
-    output.push(`* Initial updates: ${formatInitialUpdates(issues.initialUpdateCount)}`);
+    output.push(` - Initial updates: ${formatInitialUpdates(issues.initialUpdateCount)}`);
   }
   if (issues?.redundantUpdates) {
-    output.push(`* Redundant updates: ${formatRedundantUpdates(issues.redundantUpdates)}`);
+    output.push(` - Redundant updates: ${formatRedundantUpdates(issues.redundantUpdates)}`);
   }
 
-  return output.join('\n');
+  return output.join('<br/>');
 }
 
 function formatInitialUpdates(count: number | undefined) {
