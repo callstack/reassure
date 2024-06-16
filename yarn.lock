@@ -2288,7 +2288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@callstack/reassure-cli@npm:1.0.0-rc.5, @callstack/reassure-cli@workspace:packages/cli":
+"@callstack/reassure-cli@npm:1.0.0, @callstack/reassure-cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-cli@workspace:packages/cli"
   dependencies:
@@ -2297,8 +2297,8 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.5"
     "@babel/preset-typescript": "npm:^7.24.1"
     "@babel/runtime": "npm:^7.24.5"
-    "@callstack/reassure-compare": "npm:1.0.0-rc.5"
-    "@callstack/reassure-logger": "npm:1.0.0-rc.5"
+    "@callstack/reassure-compare": "npm:1.0.0"
+    "@callstack/reassure-logger": "npm:1.0.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:^18.2.46"
@@ -2317,7 +2317,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-compare@npm:1.0.0-rc.5, @callstack/reassure-compare@workspace:packages/compare":
+"@callstack/reassure-compare@npm:1.0.0, @callstack/reassure-compare@workspace:packages/compare":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-compare@workspace:packages/compare"
   dependencies:
@@ -2326,7 +2326,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.5"
     "@babel/preset-typescript": "npm:^7.24.1"
     "@babel/runtime": "npm:^7.24.5"
-    "@callstack/reassure-logger": "npm:1.0.0-rc.5"
+    "@callstack/reassure-logger": "npm:1.0.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:^18.2.46"
@@ -2342,7 +2342,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-danger@npm:1.0.0-rc.5, @callstack/reassure-danger@workspace:packages/danger":
+"@callstack/reassure-danger@npm:1.0.0, @callstack/reassure-danger@workspace:packages/danger":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-danger@workspace:packages/danger"
   dependencies:
@@ -2352,7 +2352,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-logger@npm:1.0.0-rc.5, @callstack/reassure-logger@workspace:packages/logger":
+"@callstack/reassure-logger@npm:1.0.0, @callstack/reassure-logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-logger@workspace:packages/logger"
   dependencies:
@@ -2363,7 +2363,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-measure@npm:1.0.0-rc.5, @callstack/reassure-measure@workspace:packages/measure":
+"@callstack/reassure-measure@npm:1.0.0, @callstack/reassure-measure@workspace:packages/measure":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-measure@workspace:packages/measure"
   dependencies:
@@ -2373,7 +2373,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.24.1"
     "@babel/preset-typescript": "npm:^7.24.1"
     "@babel/runtime": "npm:^7.24.5"
-    "@callstack/reassure-logger": "npm:1.0.0-rc.5"
+    "@callstack/reassure-logger": "npm:1.0.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@testing-library/react": "npm:^15.0.7"
     "@testing-library/react-native": "npm:^12.5.0"
@@ -4362,33 +4362,6 @@ __metadata:
   checksum: 10c0/8209c937cb39119f44eb63cf90c0b73e7c754209a6411c707be08e50e29ee81356dca1a848a405c8bdeebfe2f5e4f831ad310ae1689eeef65e7445c090c6657d
   languageName: node
   linkType: hard
-
-"ReassureNativeTester@workspace:test-apps/native":
-  version: 0.0.0-use.local
-  resolution: "ReassureNativeTester@workspace:test-apps/native"
-  dependencies:
-    "@babel/core": "npm:^7.24.5"
-    "@babel/preset-env": "npm:^7.24.5"
-    "@babel/runtime": "npm:^7.24.5"
-    "@react-native/babel-preset": "npm:0.74.83"
-    "@react-native/eslint-config": "npm:0.74.83"
-    "@react-native/metro-config": "npm:0.74.83"
-    "@react-native/typescript-config": "npm:0.74.83"
-    "@testing-library/react-native": "npm:^12.5.0"
-    "@types/react": "npm:^18.2.46"
-    "@types/react-test-renderer": "npm:^18.0.0"
-    babel-jest: "npm:^29.7.0"
-    eslint: "npm:^8.57.0"
-    eslint-plugin-ft-flow: "npm:^3.0.9"
-    jest: "npm:^29.7.0"
-    prettier: "npm:^2.8.8"
-    react: "npm:18.2.0"
-    react-native: "npm:0.74.1"
-    react-test-renderer: "npm:18.2.0"
-    reassure: "workspace:^"
-    typescript: "npm:^5.4.5"
-  languageName: unknown
-  linkType: soft
 
 "abbrev@npm:^2.0.0":
   version: 2.0.0
@@ -11406,6 +11379,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"reassure-test-app-native@workspace:test-apps/native":
+  version: 0.0.0-use.local
+  resolution: "reassure-test-app-native@workspace:test-apps/native"
+  dependencies:
+    "@babel/core": "npm:^7.24.5"
+    "@babel/preset-env": "npm:^7.24.5"
+    "@babel/runtime": "npm:^7.24.5"
+    "@react-native/babel-preset": "npm:0.74.83"
+    "@react-native/eslint-config": "npm:0.74.83"
+    "@react-native/metro-config": "npm:0.74.83"
+    "@react-native/typescript-config": "npm:0.74.83"
+    "@testing-library/react-native": "npm:^12.5.0"
+    "@types/react": "npm:^18.2.46"
+    "@types/react-test-renderer": "npm:^18.0.0"
+    babel-jest: "npm:^29.7.0"
+    eslint: "npm:^8.57.0"
+    eslint-plugin-ft-flow: "npm:^3.0.9"
+    jest: "npm:^29.7.0"
+    prettier: "npm:^2.8.8"
+    react: "npm:18.2.0"
+    react-native: "npm:0.74.1"
+    react-test-renderer: "npm:18.2.0"
+    reassure: "workspace:^"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
 "reassure@workspace:^, reassure@workspace:packages/reassure":
   version: 0.0.0-use.local
   resolution: "reassure@workspace:packages/reassure"
@@ -11415,10 +11415,10 @@ __metadata:
     "@babel/preset-env": "npm:^7.24.5"
     "@babel/preset-typescript": "npm:^7.24.1"
     "@babel/runtime": "npm:^7.24.5"
-    "@callstack/reassure-cli": "npm:1.0.0-rc.5"
-    "@callstack/reassure-compare": "npm:1.0.0-rc.5"
-    "@callstack/reassure-danger": "npm:1.0.0-rc.5"
-    "@callstack/reassure-measure": "npm:1.0.0-rc.5"
+    "@callstack/reassure-cli": "npm:1.0.0"
+    "@callstack/reassure-compare": "npm:1.0.0"
+    "@callstack/reassure-danger": "npm:1.0.0"
+    "@callstack/reassure-measure": "npm:1.0.0"
     "@types/react": "npm:^18.2.46"
     del-cli: "npm:^5.1.0"
     import-local: "npm:^3.1.0"
