@@ -42,8 +42,8 @@
 - [Analyzing results](#analyzing-results)
 - [API](#api)
   - [Measurements](#measurements)
-    - [`measurePerformance` function](#measureperformance-function)
-    - [`MeasureOptions` type](#measureoptions-type)
+    - [`measureRenders` function](#measurerenders-function)
+    - [`MeasureRendersOptions` type](#measurerendersoptions-type)
     - [`measureFunction` function](#measurefunction-function)
     - [`MeasureFunctionOptions` type](#measurefunctionoptions-type)
   - [Configuration](#configuration)
@@ -161,13 +161,6 @@ test('Test with scenario', async () => {
 ```
 
 If your test contains any async changes, you will need to make sure that the scenario waits for these changes to settle, e.g. using `findBy` queries, `waitFor` or `waitForElementToBeRemoved` functions from RNTL.
-
-For more examples, look into our example apps:
-
-- [React Native (CLI)](https://github.com/callstack/reassure-examples/tree/main/examples/native-cli)
-- [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
-- [React (Next.js)](https://github.com/callstack/reassure-examples/tree/main/examples/web-nextjs)
-- [React (Vite)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
 
 ### Measuring test performance
 
