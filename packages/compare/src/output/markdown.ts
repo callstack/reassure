@@ -208,25 +208,25 @@ function buildRenderIssuesList(issues: RenderIssues | undefined) {
 
   const output = ['Render issues:'];
   if (issues?.initialUpdateCount) {
-    output.push(` - Initial updates: ${formatInitialUpdates(issues.initialUpdateCount)}`);
+    output.push(` - Initial updates: ${formatInitialUpdates(issues.initialUpdateCount, false)}`);
   }
-  if (issues?.redundantUpdates) {
-    output.push(` - Redundant updates: ${formatRedundantUpdates(issues.redundantUpdates)}`);
+  if (issues?.redundantUpdates?.length) {
+    output.push(` - Redundant updates: ${formatRedundantUpdates(issues.redundantUpdates, false)}`);
   }
 
   return output.join('<br/>');
 }
 
-function formatInitialUpdates(count: number | undefined) {
+function formatInitialUpdates(count: number | undefined, showSymbol: boolean = true) {
   if (count == null) return '?';
   if (count === 0) return '-';
 
-  return `${count} 🔴`;
+  return `${count}${showSymbol ? ' 🔴' : ''}`;
 }
 
-function formatRedundantUpdates(redundantUpdates: number[] | undefined) {
+function formatRedundantUpdates(redundantUpdates: number[] | undefined, showSymbol: boolean = true) {
   if (redundantUpdates == null) return '?';
   if (redundantUpdates.length === 0) return '-';
 
-  return `${redundantUpdates.length} (${redundantUpdates.join(', ')}) 🔴`;
+  return `${redundantUpdates.length} (${redundantUpdates.join(', ')})${showSymbol ? ' 🔴' : ''}`;
 }
