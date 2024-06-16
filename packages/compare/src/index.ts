@@ -1,4 +1,13 @@
 export { compare } from './compare';
 export { formatMetadata } from './utils/format';
 
-export type { PerformanceHeader, PerformanceMetadata, PerformanceEntry } from './types';
+export type {
+  MeasureHeader,
+  MeasureMetadata,
+  MeasureEntry,
+  CompareResult,
+  CompareMetadata,
+  CompareEntry,
+  AddedEntry,
+  RemovedEntry,
+} from './types';

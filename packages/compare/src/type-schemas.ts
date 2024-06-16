@@ -1,19 +1,19 @@
 import { z } from 'zod';
 
 /** Metadata information for performance results. */
-export const performanceMetadataSchema = z.object({
+export const MeasureMetadataScheme = z.object({
   branch: z.string().optional(),
   commitHash: z.string().optional(),
   creationDate: z.string().datetime().optional(),
 });
 
 /** Header of performance results file. */
-export const performanceHeaderSchema = z.object({
-  metadata: performanceMetadataSchema,
+export const MeasureHeaderScheme = z.object({
+  metadata: MeasureMetadataScheme,
 });
 
 /** Entry in the performance results file. */
-export const performanceEntrySchema = z.object({
+export const MeasureEntryScheme = z.object({
   /** Name of the test scenario. */
   name: z.string(),
 
@@ -32,6 +32,9 @@ export const performanceEntrySchema = z.object({
   /** Array of measured render/execution durations for each run. */
   durations: z.array(z.number()),
 
+  /** Array of measured render/execution durations for each run. */
+  warmupDurations: z.optional(z.array(z.number())),
+
   /** Arithmetic average of measured render/execution counts for each run. */
   meanCount: z.number(),
 
@@ -40,4 +43,11 @@ export const performanceEntrySchema = z.object({
 
   /** Array of measured render/execution counts for each run. */
   counts: z.array(z.number()),
+
+  issues: z.optional(
+    z.object({
+      initialUpdateCount: z.number().optional(),
+      redundantUpdates: z.array(z.number()).optional(),
+    })
+  ),
 });

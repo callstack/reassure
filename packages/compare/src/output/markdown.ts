@@ -12,14 +12,8 @@ import {
   formatDurationChange,
 } from '../utils/format';
 import * as md from '../utils/markdown';
-import type {
-  AddedEntry,
-  CompareEntry,
-  CompareResult,
-  RemovedEntry,
-  PerformanceEntry,
-  PerformanceMetadata,
-} from '../types';
+import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, MeasureMetadata } from '../types';
+import { collapsibleSection } from '../utils/markdown';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'] as const;
 
@@ -73,9 +67,18 @@ function buildMarkdown(data: CompareResult) {
   result += `\n\n${md.heading3('Meaningless Changes To Duration')}`;
   result += `\n${buildSummaryTable(data.meaningless, true)}`;
   result += `\n${buildDetailsTable(data.meaningless)}`;
-  result += `\n\n${md.heading3('Changes To Count')}`;
-  result += `\n${buildSummaryTable(data.countChanged)}`;
-  result += `\n${buildDetailsTable(data.countChanged)}`;
+
+  // Skip renders counts if user only has function measurements
+  const allEntries = [...data.significant, ...data.meaningless, ...data.added, ...data.removed];
+  const hasRenderEntries = allEntries.some((e) => e.type === 'render');
+  if (hasRenderEntries) {
+    result += `\n\n${md.heading3('Render Count Changes')}`;
+    result += `\n${buildSummaryTable(data.countChanged)}`;
+    result += `\n${buildDetailsTable(data.countChanged)}`;
+    result += `\n\n${md.heading3('Render Issues')}`;
+    result += `\n${buildRedundantRendersTable(data.renderIssues)}`;
+  }
+
   result += `\n\n${md.heading3('Added Scenarios')}`;
   result += `\n${buildSummaryTable(data.added)}`;
   result += `\n${buildDetailsTable(data.added)}`;
@@ -87,7 +90,7 @@ function buildMarkdown(data: CompareResult) {
   return result;
 }
 
-function buildMetadataMarkdown(name: string, metadata: PerformanceMetadata | undefined) {
+function buildMetadataMarkdown(name: string, metadata: MeasureMetadata | undefined) {
   return ` - ${md.bold(name)}: ${formatMetadata(metadata)}`;
 }
 
@@ -115,22 +118,23 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatDurationChange(entry);
-  if ('baseline' in entry) return formatDuration(entry.baseline.meanDuration);
+  if (entry.baseline != null && 'current' in entry) return formatDurationChange(entry);
+  if (entry.baseline != null) return formatDuration(entry.baseline.meanDuration);
   if ('current' in entry) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if ('baseline' in entry && 'current' in entry) return formatCountChange(entry);
-  if ('baseline' in entry) return formatCount(entry.baseline.meanCount);
+  if (entry.baseline != null && 'current' in entry)
+    return formatCountChange(entry.current.meanCount, entry.baseline.meanCount);
+  if (entry.baseline != null) return formatCount(entry.baseline.meanCount);
   if ('current' in entry) return formatCount(entry.current.meanCount);
   return '';
 }
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return [
-    'baseline' in entry ? buildDurationDetails('Baseline', entry.baseline) : '',
+    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline) : '',
     'current' in entry ? buildDurationDetails('Current', entry.current) : '',
   ]
     .filter(Boolean)
@@ -139,14 +143,14 @@ function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEnt
 
 function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return [
-    'baseline' in entry ? buildCountDetails('Baseline', entry.baseline) : '',
+    entry.baseline != null ? buildCountDetails('Baseline', entry.baseline) : '',
     'current' in entry ? buildCountDetails('Current', entry.current) : '',
   ]
     .filter(Boolean)
     .join('<br/><br/>');
 }
 
-function buildDurationDetails(title: string, entry: PerformanceEntry) {
+function buildDurationDetails(title: string, entry: MeasureEntry) {
   const relativeStdev = entry.stdevDuration / entry.meanDuration;
 
   return [
@@ -159,7 +163,7 @@ function buildDurationDetails(title: string, entry: PerformanceEntry) {
     .join(`<br/>`);
 }
 
-function buildCountDetails(title: string, entry: PerformanceEntry) {
+function buildCountDetails(title: string, entry: MeasureEntry) {
   const relativeStdev = entry.stdevCount / entry.meanCount;
 
   return [
@@ -172,10 +176,33 @@ function buildCountDetails(title: string, entry: PerformanceEntry) {
     .join(`<br/>`);
 }
 
-export function collapsibleSection(title: string, content: string) {
-  return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
+function formatRunDurations(values: number[]) {
+  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
 }
 
-export function formatRunDurations(values: number[]) {
-  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
+function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
+  if (!entries.length) return md.italic('There are no entries');
+
+  const tableHeader = ['Name', 'Initial Updates', 'Redundant Updates'] as const;
+  const rows = entries.map((entry) => [
+    entry.name,
+    formatInitialUpdates(entry.current.issues?.initialUpdateCount),
+    formatRedundantUpdates(entry.current.issues?.redundantUpdates),
+  ]);
+
+  return markdownTable([tableHeader, ...rows]);
+}
+
+function formatInitialUpdates(count: number | undefined) {
+  if (count == null) return '?';
+  if (count === 0) return '-';
+
+  return `${count} 🔴`;
+}
+
+function formatRedundantUpdates(redundantUpdates: number[] | undefined) {
+  if (redundantUpdates == null) return '?';
+  if (redundantUpdates.length === 0) return '-';
+
+  return `${redundantUpdates.length} (${redundantUpdates.join(', ')}) 🔴`;
 }

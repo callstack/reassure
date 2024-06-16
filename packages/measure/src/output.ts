@@ -47,6 +47,6 @@ export function showFlagsOutputIfNeeded() {
   hasShownFlagsOutput = true;
 }
 
-export function resetHasShownFlagsOutput() {
-  hasShownFlagsOutput = false;
+export function setHasShownFlagsOutput(value: boolean) {
+  hasShownFlagsOutput = value;
 }

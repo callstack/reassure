@@ -1,21 +1,20 @@
 {
   "name": "@callstack/reassure-logger",
-  "version": "0.11.0",
+  "version": "1.0.0-rc.5",
   "description": "Logger for Reassure project",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
   "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index",
-  "source": "src/index",
+  "source": "src/index.ts",
   "files": [
-    "src",
     "lib",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__"
   ],
   "scripts": {
-    "build": "bob build"
+    "build": "bob build",
+    "clean": "del lib"
   },
   "keywords": [
     "react-native",
@@ -36,7 +35,11 @@
   "dependencies": {
     "chalk": "4.1.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "del-cli": "^5.1.0",
+    "react-native-builder-bob": "^0.23.2",
+    "typescript": "^5.4.5"
+  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",

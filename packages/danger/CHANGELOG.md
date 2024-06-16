@@ -1,5 +1,27 @@
 # @callstack/reassure-danger
 
+## 1.0.0-rc.5
+
+## 1.0.0-rc.4
+
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 2ef5f4d: chore: fix version deps
+
+## 1.0.0-rc.2
+
+### Minor Changes
+
+- f722a6d: chore: migrate to Yarn Berry (4.x)
+
+## 1.0.0 RC
+
+### Major Changes
+
+- v1.0
+
 ## 0.11.0
 
 ## 0.1.1

@@ -5,15 +5,15 @@ import type {
   RemovedEntry,
   CompareEntry,
   CompareResult,
-  PerformanceResults,
-  PerformanceEntry,
-  PerformanceHeader,
+  MeasureResults,
+  MeasureEntry,
+  MeasureHeader,
 } from './types';
 import { printToConsole } from './output/console';
 import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
-import { parseHeader, parsePerformanceEntries } from './utils/validate';
+import { parseHeader, parseMeasureEntries } from './utils/validate';
 
 /**
  * Probability threshold for considering given difference significant.
@@ -57,7 +57,7 @@ export async function compare({
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
-  let currentResults: PerformanceResults;
+  let currentResults: MeasureResults;
   try {
     currentResults = loadFile(currentFile);
   } catch (error) {
@@ -72,7 +72,7 @@ export async function compare({
     );
   }
 
-  let baselineResults: PerformanceResults | null = null;
+  let baselineResults: MeasureResults | null = null;
   if (hasBaselineFile) {
     try {
       baselineResults = loadFile(baselineFile);
@@ -98,7 +98,7 @@ export async function compare({
 /**
  * Load performance file and parse it to `PerformanceRecord` object.
  */
-export function loadFile(path: string): PerformanceResults {
+export function loadFile(path: string): MeasureResults {
   const contents = fsSync.readFileSync(path, 'utf8');
 
   const lines = contents
@@ -106,18 +106,18 @@ export function loadFile(path: string): PerformanceResults {
     .filter((line) => !!line.trim())
     .map((line) => JSON.parse(line));
 
-  let header: PerformanceHeader | null = null;
-  let entries: PerformanceEntry[] = [];
+  let header: MeasureHeader | null = null;
+  let entries: MeasureEntry[] = [];
 
   const hasHeader = lines[0].metadata !== undefined;
   if (hasHeader) {
     header = parseHeader(lines[0]);
-    entries = parsePerformanceEntries(lines.slice(1));
+    entries = parseMeasureEntries(lines.slice(1));
   } else {
-    entries = parsePerformanceEntries(lines);
+    entries = parseMeasureEntries(lines);
   }
 
-  const keyedEntries: Record<string, PerformanceEntry> = {};
+  const keyedEntries: Record<string, MeasureEntry> = {};
   entries.forEach((entry) => {
     keyedEntries[entry.name] = entry;
   });
@@ -131,7 +131,7 @@ export function loadFile(path: string): PerformanceResults {
 /**
  * Compare results between baseline and current entries and categorize.
  */
-function compareResults(current: PerformanceResults, baseline: PerformanceResults | null): CompareResult {
+function compareResults(current: MeasureResults, baseline: MeasureResults | null): CompareResult {
   // Unique test scenario names
   const names = [...new Set([...Object.keys(current.entries), ...Object.keys(baseline?.entries || {})])];
   const compared: CompareEntry[] = [];
@@ -151,6 +151,8 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     }
   });
 
+  const withCurrent = [...compared, ...added];
+
   const significant = compared
     .filter((item) => item.isDurationDiffSignificant)
     .sort((a, b) => b.durationDiff - a.durationDiff);
@@ -160,6 +162,9 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
   const countChanged = compared
     .filter((item) => Math.abs(item.countDiff) > COUNT_DIFF_THRESHOLD)
     .sort((a, b) => b.countDiff - a.countDiff);
+  const renderIssues = withCurrent.filter(
+    (item) => item.current.issues?.initialUpdateCount || item.current.issues?.redundantUpdates?.length
+  );
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -170,15 +175,16 @@ function compareResults(current: PerformanceResults, baseline: PerformanceResult
     significant,
     meaningless,
     countChanged,
+    renderIssues,
     added,
     removed,
   };
 }
 
 /**
- * Establish statisticial significance of render/execution duration difference build compare entry.
+ * Establish statistical significance of render/execution duration difference build compare entry.
  */
-function buildCompareEntry(name: string, current: PerformanceEntry, baseline: PerformanceEntry): CompareEntry {
+function buildCompareEntry(name: string, current: MeasureEntry, baseline: MeasureEntry): CompareEntry {
   const durationDiff = current.meanDuration - baseline.meanDuration;
   const relativeDurationDiff = durationDiff / baseline.meanDuration;
   const countDiff = current.meanCount - baseline.meanCount;

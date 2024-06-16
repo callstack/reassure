@@ -1,15 +1,15 @@
 /** Parsed performance results file. */
 import type { z } from 'zod';
-import type { performanceEntrySchema, performanceHeaderSchema, performanceMetadataSchema } from './type-schemas';
+import type { MeasureEntryScheme, MeasureHeaderScheme, MeasureMetadataScheme } from './type-schemas';
 
-export type PerformanceHeader = z.infer<typeof performanceHeaderSchema>;
-export type PerformanceMetadata = z.infer<typeof performanceMetadataSchema>;
-export type PerformanceEntry = z.infer<typeof performanceEntrySchema>;
-export type MeasureType = PerformanceEntry['type'];
+export type MeasureHeader = z.infer<typeof MeasureHeaderScheme>;
+export type MeasureMetadata = z.infer<typeof MeasureMetadataScheme>;
+export type MeasureEntry = z.infer<typeof MeasureEntryScheme>;
+export type MeasureType = MeasureEntry['type'];
 
-export interface PerformanceResults {
-  metadata?: PerformanceMetadata;
-  entries: Record<string, PerformanceEntry>;
+export interface MeasureResults {
+  metadata?: MeasureMetadata;
+  entries: Record<string, MeasureEntry>;
 }
 
 /**
@@ -18,8 +18,8 @@ export interface PerformanceResults {
 export interface CompareEntry {
   name: string;
   type: MeasureType;
-  current: PerformanceEntry;
-  baseline: PerformanceEntry;
+  current: MeasureEntry;
+  baseline: MeasureEntry;
   durationDiff: number;
   relativeDurationDiff: number;
   isDurationDiffSignificant: boolean;
@@ -33,7 +33,8 @@ export interface CompareEntry {
 export interface AddedEntry {
   name: string;
   type: MeasureType;
-  current: PerformanceEntry;
+  current: MeasureEntry;
+  baseline?: undefined;
 }
 
 /**
@@ -42,12 +43,12 @@ export interface AddedEntry {
 export interface RemovedEntry {
   name: string;
   type: MeasureType;
-  baseline: PerformanceEntry;
+  baseline: MeasureEntry;
 }
 
 export interface CompareMetadata {
-  current?: PerformanceMetadata;
-  baseline?: PerformanceMetadata;
+  current?: MeasureMetadata;
+  baseline?: MeasureMetadata;
 }
 
 /** Output of compare function. */
@@ -56,6 +57,7 @@ export interface CompareResult {
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
+  renderIssues: Array<CompareEntry | AddedEntry>;
   added: AddedEntry[];
   removed: RemovedEntry[];
   errors: string[];

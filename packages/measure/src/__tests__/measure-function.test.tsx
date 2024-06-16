@@ -1,6 +1,6 @@
 import stripAnsi from 'strip-ansi';
 import { measureFunction } from '../measure-function';
-import { resetHasShownFlagsOutput } from '../output';
+import { setHasShownFlagsOutput } from '../output';
 
 // Exponentially slow function
 function fib(n: number): number {
@@ -56,7 +56,7 @@ beforeEach(() => {
 });
 
 test('measureFunction should log error when running under incorrect node flags', async () => {
-  resetHasShownFlagsOutput();
+  setHasShownFlagsOutput(false);
   const results = await measureFunction(jest.fn(), { runs: 1, writeFile: false });
 
   expect(results.runs).toBe(1);

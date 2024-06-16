@@ -1,5 +1,55 @@
 # @callstack/reassure-cli
 
+## 1.0.0-rc.5
+
+### Minor Changes
+
+- 04be1d4: Detect render issues (initial render updates, redundant renders)
+
+### Patch Changes
+
+- Updated dependencies [04be1d4]
+  - @callstack/reassure-compare@1.0.0-rc.5
+  - @callstack/reassure-logger@1.0.0-rc.5
+
+## 1.0.0-rc.4
+
+### Minor Changes
+
+- ea761f8: `reassure` enables WASM support by default and runs using v8 baseline compilers: sparkplug and liftoff (WASM)
+  - @callstack/reassure-compare@1.0.0-rc.4
+  - @callstack/reassure-logger@1.0.0-rc.4
+
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 2ef5f4d: chore: fix version deps
+
+### Patch Changes
+
+- Updated dependencies [2ef5f4d]
+  - @callstack/reassure-compare@1.0.0-rc.3
+  - @callstack/reassure-logger@1.0.0-rc.3
+
+## 1.0.0-rc.2
+
+### Minor Changes
+
+- f722a6d: chore: migrate to Yarn Berry (4.x)
+
+### Patch Changes
+
+- Updated dependencies [f722a6d]
+  - @callstack/reassure-compare@1.0.0-rc.2
+  - @callstack/reassure-logger@1.0.0-rc.2
+
+## 1.0.0 RC
+
+### Major Changes
+
+- v1.0
+
 ## 0.11.0
 
 ### Patch Changes

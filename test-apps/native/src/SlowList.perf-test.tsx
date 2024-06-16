@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { fireEvent, screen } from '@testing-library/react-native';
-import { measurePerformance } from 'reassure';
+import { measureRenders } from 'reassure';
 import { SlowList } from './SlowList';
 
 const AsyncComponent = () => {
   const [count, setCount] = React.useState(0);
 
   const handlePress = () => {
-    setTimeout(() => setCount((c) => c + 1), 10);
+    setTimeout(() => setCount(c => c + 1), 10);
   };
 
   return (
@@ -42,5 +42,5 @@ test('Async Component', async () => {
     await screen.findByText('Count: 5');
   };
 
-  await measurePerformance(<AsyncComponent />, { scenario });
+  await measureRenders(<AsyncComponent />, { scenario });
 });

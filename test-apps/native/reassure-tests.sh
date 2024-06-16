@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e 
 
-BASELINE_BRANCH=${BASELINE_BRANCH:="main"}
+BASELINE_BRANCH=${GITHUB_BASE_REF:="main"}
 
 # Required for `git switch` on CI
 git fetch origin
@@ -10,16 +10,17 @@ git fetch origin
 git switch "$BASELINE_BRANCH"
 
 # Next line is required because Reassure packages are imported from this monorepo and might require rebuilding.
-pushd ../.. && yarn install --force && yarn turbo run build && popd
+pushd ../.. && yarn install && yarn turbo run build && popd
 
-yarn install --force
+yarn install
 yarn reassure --baseline
 
 # Gather current perf measurements & compare results
+git stash # Get rid of any local changes
 git switch --detach -
 
 # Next line is required because Reassure packages are imported from this monorepo and might require rebuilding.
-pushd ../.. && yarn install --force && yarn turbo run build && popd
+pushd ../.. && yarn install && yarn turbo run build && popd
 
-yarn install --force
-yarn reassure --branch
+yarn install
+yarn reassure

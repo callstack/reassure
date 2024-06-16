@@ -1,5 +1,55 @@
 # @callstack/reassure-measure
 
+## 1.0.0-rc.5
+
+### Minor Changes
+
+- 04be1d4: Detect render issues (initial render updates, redundant renders)
+
+### Patch Changes
+
+- @callstack/reassure-logger@1.0.0-rc.5
+
+## 1.0.0-rc.4
+
+### Patch Changes
+
+- @callstack/reassure-logger@1.0.0-rc.4
+
+## 1.0.0-rc.3
+
+### Minor Changes
+
+- 2ef5f4d: chore: fix version deps
+
+### Patch Changes
+
+- Updated dependencies [2ef5f4d]
+  - @callstack/reassure-logger@1.0.0-rc.3
+
+## 1.0.0-rc.2
+
+### Minor Changes
+
+- f722a6d: chore: migrate to Yarn Berry (4.x)
+
+### Patch Changes
+
+- Updated dependencies [f722a6d]
+  - @callstack/reassure-logger@1.0.0-rc.2
+
+## 1.0.0 RC
+
+### Major Changes
+
+- v1.0
+- Rename `measurePerformance` to `measureRenders`.
+
+### Patch Changes
+
+- Updated dependencies [f9116d0]
+  - @callstack/reassure-logger@1.0.0-rc.1
+
 ## 0.11.0
 
 ### Minor Changes
