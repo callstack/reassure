@@ -47,7 +47,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@babel/runtime": "^7.24.5",
     "@relmify/jest-serializer-strip-ansi": "^1.0.2",
-    "@testing-library/react": "^15.0.7",
+    "@testing-library/react": "^16.0.0",
     "@testing-library/react-native": "^12.5.0",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.46",
