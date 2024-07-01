@@ -2164,12 +2164,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.24.4, @babel/runtime@npm:^7.24.5, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.24.5, @babel/runtime@npm:^7.8.4":
   version: 7.24.5
   resolution: "@babel/runtime@npm:7.24.5"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
   checksum: 10c0/05730e43e8ba6550eae9fd4fb5e7d9d3cb91140379425abcb2a1ff9cebad518a280d82c4c4b0f57ada26a863106ac54a748d90c775790c0e2cd0ddd85ccdf346
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.24.7":
+  version: 7.24.7
+  resolution: "@babel/runtime@npm:7.24.7"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/b6fa3ec61a53402f3c1d75f4d808f48b35e0dfae0ec8e2bb5c6fc79fb95935da75766e0ca534d0f1c84871f6ae0d2ebdd950727cfadb745a2cdbef13faef5513
   languageName: node
   linkType: hard
 
@@ -2382,7 +2391,7 @@ __metadata:
     babel-jest: "npm:^29.7.0"
     del-cli: "npm:^5.1.0"
     jest: "npm:^29.7.0"
-    mathjs: "npm:^12.4.2"
+    mathjs: "npm:^13.0.1"
     prettier: "npm:^2.8.8"
     pretty-format: "npm:^29.7.0"
     react: "npm:18.2.0"
@@ -7221,10 +7230,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fraction.js@npm:4.3.4":
-  version: 4.3.4
-  resolution: "fraction.js@npm:4.3.4"
-  checksum: 10c0/095f60a914637b996ee1a4758edd529bee7379aecd528d3cf641402ec1225c3146ec2b4a8575d58aa48600c5ee79dcc9e7dd799076acff4cfdeed8e73541cdf1
+"fraction.js@npm:^4.3.7":
+  version: 4.3.7
+  resolution: "fraction.js@npm:4.3.7"
+  checksum: 10c0/df291391beea9ab4c263487ffd9d17fed162dbb736982dee1379b2a8cc94e4e24e46ed508c6d278aded9080ba51872f1bc5f3a5fd8d7c74e5f105b508ac28711
   languageName: node
   linkType: hard
 
@@ -9618,22 +9627,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^12.4.2":
-  version: 12.4.2
-  resolution: "mathjs@npm:12.4.2"
+"mathjs@npm:^13.0.1":
+  version: 13.0.1
+  resolution: "mathjs@npm:13.0.1"
   dependencies:
-    "@babel/runtime": "npm:^7.24.4"
+    "@babel/runtime": "npm:^7.24.7"
     complex.js: "npm:^2.1.1"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
-    fraction.js: "npm:4.3.4"
+    fraction.js: "npm:^4.3.7"
     javascript-natural-sort: "npm:^0.7.1"
     seedrandom: "npm:^3.0.5"
     tiny-emitter: "npm:^2.1.0"
-    typed-function: "npm:^4.1.1"
+    typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/78a8e2897bd50cfbfcabd34b3fc51ab3bde6205493fbf3a390784b69399fbc8ec46df6696c798dda780c848fd6363068d6ba414092eeaf0cc1b1bec6984d735b
+  checksum: 10c0/0babc12a85070e04d452d978025d9a6686df3386043d4dc527c272f4bc24deda405a980cfc3e67dee882f40f87016141885a4f88e778eb24ce25b4ad54d1e8c6
   languageName: node
   linkType: hard
 
@@ -13039,10 +13048,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typed-function@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "typed-function@npm:4.1.1"
-  checksum: 10c0/139bf8c4a28333fb4c643ff28c5b38bfa6a01aa46b76235938e1dba63121140fbaddef1bba6b98f3941eec01eb9dacbc37de6705b2259664f5e1943c888812e2
+"typed-function@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "typed-function@npm:4.2.1"
+  checksum: 10c0/0b4e9a359e456f7df50f3d7cc53e2408d23a516f27b50c2c0654f388110ecf407c0595b1bf2296d3d8667fae6aae311ec2af90c602385777d12fe724bae99156
   languageName: node
   linkType: hard
 
