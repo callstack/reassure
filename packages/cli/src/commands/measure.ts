@@ -21,7 +21,8 @@ export interface MeasureOptions extends CommonOptions {
   commitHash?: string;
   testMatch?: string[];
   testRegex?: string[];
-  enableWasm?: boolean;
+  /** Rest argument used for flags after `--` separator, will be passed to test runner. */
+  _?: string[];
 }
 
 export async function run(options: MeasureOptions) {
@@ -55,12 +56,13 @@ export async function run(options: MeasureOptions) {
     return;
   }
 
-  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
+  const baseTestRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
+  const passthroughArgs = options._ ?? [];
 
   const nodeMajorVersion = getNodeMajorVersion();
   logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
 
-  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, testRunnerArgs];
+  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, baseTestRunnerArgs, ...passthroughArgs];
   logger.verbose('Running tests using command:');
   logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
