@@ -56,13 +56,13 @@ export async function run(options: MeasureOptions) {
     return;
   }
 
-  const baseTestRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
-  const passthroughArgs = options._ ?? [];
+  const baseRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
+  const passthroughRunnerArgs = options._ ?? [];
 
   const nodeMajorVersion = getNodeMajorVersion();
   logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
 
-  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, baseTestRunnerArgs, ...passthroughArgs];
+  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, baseRunnerArgs, ...passthroughRunnerArgs];
   logger.verbose('Running tests using command:');
   logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
