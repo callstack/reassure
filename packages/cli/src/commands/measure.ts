@@ -63,14 +63,14 @@ export async function run(options: MeasureOptions) {
   const defaultTestMatch = '**/*.perf-test.[jt]s?(x)';
   const testMatch = options.testMatch || defaultTestMatch;
 
-  const defaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
-  const baseTestRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
-  const passthroughArgs = options._ ?? [];
+  const jestDefaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
+  const baseRunnerArgs = process.env.TEST_RUNNER_ARGS ?? jestDefaultArgs;
+  const passthroughRunnerArgs = options._ ?? [];
 
   const nodeMajorVersion = getNodeMajorVersion();
   logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
 
-  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, baseTestRunnerArgs, ...passthroughArgs];
+  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, baseRunnerArgs, ...passthroughRunnerArgs];
   logger.verbose('Running tests using command:');
   logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
