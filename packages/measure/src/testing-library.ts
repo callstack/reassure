@@ -84,7 +84,7 @@ export function resolveTestingLibrary(): TestingLibraryApi {
 
 export function getTestingLibrary(): string | null {
   if (typeof config.testingLibrary === 'string') {
-    config.testingLibrary;
+    return config.testingLibrary;
   }
 
   if (RNTL != null) {
