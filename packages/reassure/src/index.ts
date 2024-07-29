@@ -22,4 +22,5 @@ export type {
   CompareEntry,
   AddedEntry,
   RemovedEntry,
+  RenderIssues,
 } from '@callstack/reassure-compare';

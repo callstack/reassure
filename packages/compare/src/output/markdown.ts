@@ -12,7 +12,15 @@ import {
   formatDurationChange,
 } from '../utils/format';
 import * as md from '../utils/markdown';
-import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, MeasureMetadata } from '../types';
+import type {
+  AddedEntry,
+  CompareEntry,
+  CompareResult,
+  RemovedEntry,
+  MeasureEntry,
+  MeasureMetadata,
+  RenderIssues,
+} from '../types';
 import { collapsibleSection } from '../utils/markdown';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'] as const;
@@ -76,7 +84,7 @@ function buildMarkdown(data: CompareResult) {
     result += `\n${buildSummaryTable(data.countChanged)}`;
     result += `\n${buildDetailsTable(data.countChanged)}`;
     result += `\n\n${md.heading3('Render Issues')}`;
-    result += `\n${buildRedundantRendersTable(data.renderIssues)}`;
+    result += `\n${buildRenderIssuesTable(data.renderIssues)}`;
   }
 
   result += `\n\n${md.heading3('Added Scenarios')}`;
@@ -158,6 +166,7 @@ function buildDurationDetails(title: string, entry: MeasureEntry) {
     `Mean: ${formatDuration(entry.meanDuration)}`,
     `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
+    entry.warmupDurations ? `Warmup runs: ${formatRunDurations(entry.warmupDurations)}` : '',
   ]
     .filter(Boolean)
     .join(`<br/>`);
@@ -171,6 +180,7 @@ function buildCountDetails(title: string, entry: MeasureEntry) {
     `Mean: ${formatCount(entry.meanCount)}`,
     `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev)})`,
     entry.counts ? `Runs: ${entry.counts.map(formatCount).join(' ')}` : '',
+    buildRenderIssuesList(entry.issues),
   ]
     .filter(Boolean)
     .join(`<br/>`);
@@ -180,7 +190,7 @@ function formatRunDurations(values: number[]) {
   return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
 }
 
-function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
+function buildRenderIssuesTable(entries: Array<CompareEntry | AddedEntry>) {
   if (!entries.length) return md.italic('There are no entries');
 
   const tableHeader = ['Name', 'Initial Updates', 'Redundant Updates'] as const;
@@ -193,16 +203,30 @@ function buildRedundantRendersTable(entries: Array<CompareEntry | AddedEntry>) {
   return markdownTable([tableHeader, ...rows]);
 }
 
-function formatInitialUpdates(count: number | undefined) {
+function buildRenderIssuesList(issues: RenderIssues | undefined) {
+  if (issues == null) return '';
+
+  const output = ['Render issues:'];
+  if (issues?.initialUpdateCount) {
+    output.push(` - Initial updates: ${formatInitialUpdates(issues.initialUpdateCount, false)}`);
+  }
+  if (issues?.redundantUpdates?.length) {
+    output.push(` - Redundant updates: ${formatRedundantUpdates(issues.redundantUpdates, false)}`);
+  }
+
+  return output.join('<br/>');
+}
+
+function formatInitialUpdates(count: number | undefined, showSymbol: boolean = true) {
   if (count == null) return '?';
   if (count === 0) return '-';
 
-  return `${count} 🔴`;
+  return `${count}${showSymbol ? ' 🔴' : ''}`;
 }
 
-function formatRedundantUpdates(redundantUpdates: number[] | undefined) {
+function formatRedundantUpdates(redundantUpdates: number[] | undefined, showSymbol: boolean = true) {
   if (redundantUpdates == null) return '?';
   if (redundantUpdates.length === 0) return '-';
 
-  return `${redundantUpdates.length} (${redundantUpdates.join(', ')}) 🔴`;
+  return `${redundantUpdates.length} (${redundantUpdates.join(', ')})${showSymbol ? ' 🔴' : ''}`;
 }
