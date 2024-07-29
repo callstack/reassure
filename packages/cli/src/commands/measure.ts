@@ -17,7 +17,8 @@ export interface MeasureOptions extends CommonOptions {
   branch?: string;
   commitHash?: string;
   testMatch?: string;
-  enableWasm?: boolean;
+  /** Rest argument used for flags after `--` separator, will be passed to test runner. */
+  _?: string[];
 }
 
 export async function run(options: MeasureOptions) {
@@ -62,13 +63,14 @@ export async function run(options: MeasureOptions) {
   const defaultTestMatch = '**/*.perf-test.[jt]s?(x)';
   const testMatch = options.testMatch || defaultTestMatch;
 
-  const defaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
-  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
+  const jestDefaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
+  const baseRunnerArgs = process.env.TEST_RUNNER_ARGS ?? jestDefaultArgs;
+  const passthroughRunnerArgs = options._ ?? [];
 
   const nodeMajorVersion = getNodeMajorVersion();
   logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
 
-  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, testRunnerArgs];
+  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, baseRunnerArgs, ...passthroughRunnerArgs];
   logger.verbose('Running tests using command:');
   logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
