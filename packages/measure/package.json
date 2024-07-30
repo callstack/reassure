@@ -36,19 +36,19 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
     "@callstack/reassure-logger": "1.0.0",
-    "mathjs": "^12.4.2",
+    "mathjs": "^12.4.3",
     "pretty-format": "^29.7.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/plugin-transform-flow-strip-types": "^7.24.1",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/preset-react": "^7.24.1",
-    "@babel/preset-typescript": "^7.24.1",
-    "@babel/runtime": "^7.24.5",
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-flow-strip-types": "^7.25.2",
+    "@babel/preset-env": "^7.25.2",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@babel/runtime": "^7.25.0",
     "@relmify/jest-serializer-strip-ansi": "^1.0.2",
-    "@testing-library/react": "^15.0.7",
-    "@testing-library/react-native": "^12.5.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/react-native": "^12.5.2",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.46",
     "babel-jest": "^29.7.0",
@@ -57,11 +57,11 @@
     "prettier": "^2.8.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.74.1",
-    "react-native-builder-bob": "^0.23.2",
+    "react-native": "0.74.3",
+    "react-native-builder-bob": "^0.24.0",
     "react-test-renderer": "18.2.0",
     "strip-ansi": "^6.0.1",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "react": ">=18.0.0"
