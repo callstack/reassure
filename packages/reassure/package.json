@@ -51,15 +51,15 @@
     "import-local": "^3.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
-    "@babel/plugin-transform-flow-strip-types": "^7.24.1",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/preset-typescript": "^7.24.1",
-    "@babel/runtime": "^7.24.5",
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-flow-strip-types": "^7.25.2",
+    "@babel/preset-env": "^7.25.2",
+    "@babel/preset-typescript": "^7.24.7",
+    "@babel/runtime": "^7.25.0",
     "@types/react": "^18.2.46",
     "del-cli": "^5.1.0",
     "react-native-builder-bob": "^0.23.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4"
   },
   "react-native-builder-bob": {
     "source": "src",

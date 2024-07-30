@@ -47,7 +47,7 @@
     "prettier": "^2.8.8",
     "reassure": "workspace:^",
     "turbo": "^1.13.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4"
   },
   "eslintIgnore": [
     "node_modules/",
