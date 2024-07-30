@@ -3482,14 +3482,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@callstack/eslint-config@npm:^14.1.1":
-  version: 14.1.1
-  resolution: "@callstack/eslint-config@npm:14.1.1"
+"@callstack/eslint-config@npm:^14.2.0":
+  version: 14.2.0
+  resolution: "@callstack/eslint-config@npm:14.2.0"
   dependencies:
     "@babel/core": "npm:^7.22.20"
     "@babel/eslint-parser": "npm:^7.22.15"
     "@babel/plugin-syntax-flow": "npm:^7.22.5"
     "@babel/plugin-transform-react-jsx": "npm:^7.22.15"
+    "@react-native/eslint-plugin": "npm:^0.74.0 || ^0.73.0 || ^0.72.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.7.2"
     "@typescript-eslint/parser": "npm:^6.7.2"
     eslint-config-prettier: "npm:^9.0.0"
@@ -3506,7 +3507,7 @@ __metadata:
     prettier: "npm:^3.0.3"
   peerDependencies:
     eslint: ">=8.1.0"
-  checksum: 10c0/48e4bf7c6b1cd6a15fa5bc114a219a91fe4c0980b8263eb718cb5f73cde67523dce2c4aa97218feaad16cb3decc8c8f98b4324b3db260ee2d6c4044e6fc67965
+  checksum: 10c0/3f11c426976173ed01a43c9bb81633cd2983f41d04b8fa6c82dfededb5f29dc89a68aef42c4f9b3efce9ebce74317e02500b04bf09dd8dd1c6801eb154fe15a9
   languageName: node
   linkType: hard
 
@@ -4932,7 +4933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native/eslint-plugin@npm:0.74.85":
+"@react-native/eslint-plugin@npm:0.74.85, @react-native/eslint-plugin@npm:^0.74.0 || ^0.73.0 || ^0.72.0":
   version: 0.74.85
   resolution: "@react-native/eslint-plugin@npm:0.74.85"
   checksum: 10c0/1c0ed395d4344b0c1f8da69eebbbc7a6ea24f8f76c5a8c2eed88b995f632d031fa402a1cc532b9129b1f458da1b2c9f46bc85cab4fc5ca94dfd620a2907cfb2c
@@ -7914,16 +7915,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-ft-flow@npm:^3.0.9":
-  version: 3.0.9
-  resolution: "eslint-plugin-ft-flow@npm:3.0.9"
+"eslint-plugin-ft-flow@npm:^3.0.11":
+  version: 3.0.11
+  resolution: "eslint-plugin-ft-flow@npm:3.0.11"
   dependencies:
     lodash: "npm:^4.17.21"
     string-natural-compare: "npm:^3.0.1"
   peerDependencies:
-    eslint: ^8.56.0
+    eslint: ^8.56.0 || ^9.0.0
     hermes-eslint: ">=0.15.0"
-  checksum: 10c0/d28791088f88fdbccd6e5740a86a166eb69202b9960c3e3c7e3be75014e0d8cbb90cc0c068bc19b7e296fb7b52a94409459aa29ebb13a77db1ffd66d6b614bf3
+  checksum: 10c0/025b3736d99d2831c6d493421fbfa880b0aeef9752d3b677972c7100e5ba424368525bc15b34604f02d18807bfa7b1bcaa2c3f37552381f2ce45283faa5989d5
   languageName: node
   linkType: hard
 
@@ -12747,7 +12748,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "reassure-root@workspace:."
   dependencies:
-    "@callstack/eslint-config": "npm:^14.1.1"
+    "@callstack/eslint-config": "npm:^14.2.0"
     "@changesets/cli": "npm:^2.27.1"
     check-dependency-version-consistency: "npm:^4.1.0"
     danger: "npm:^12.2.0"
@@ -12778,7 +12779,7 @@ __metadata:
     "@types/react-test-renderer": "npm:^18.0.0"
     babel-jest: "npm:^29.7.0"
     eslint: "npm:^8.57.0"
-    eslint-plugin-ft-flow: "npm:^3.0.9"
+    eslint-plugin-ft-flow: "npm:^3.0.11"
     jest: "npm:^29.7.0"
     prettier: "npm:^2.8.8"
     react: "npm:18.2.0"

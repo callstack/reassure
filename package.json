@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
-    "@callstack/eslint-config": "^14.1.1",
+    "@callstack/eslint-config": "^14.2.0",
     "@changesets/cli": "^2.27.1",
     "check-dependency-version-consistency": "^4.1.0",
     "danger": "^12.2.0",
