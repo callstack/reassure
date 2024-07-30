@@ -1,5 +1,15 @@
 # @callstack/reassure-cli
 
+## 1.1.0
+
+### Patch Changes
+
+- 0adb9cc: chore: update deps
+- Updated dependencies [0adb9cc]
+- Updated dependencies [d1d3617]
+  - @callstack/reassure-compare@1.1.0
+  - @callstack/reassure-logger@1.1.0
+
 ## 1.0.0
 
 ### Minor Changes

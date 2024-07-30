@@ -1,5 +1,22 @@
 # reassure
 
+## 1.1.0
+
+### Minor Changes
+
+- d1d3617: Expose "Warmup Runs" and "Render Issues" in markdown report
+
+### Patch Changes
+
+- 0adb9cc: chore: update deps
+- Updated dependencies [068951b]
+- Updated dependencies [0adb9cc]
+- Updated dependencies [d1d3617]
+  - @callstack/reassure-measure@1.1.0
+  - @callstack/reassure-compare@1.1.0
+  - @callstack/reassure-danger@1.1.0
+  - @callstack/reassure-cli@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

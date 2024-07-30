@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 1.1.0
+
+### Patch Changes
+
+- 0adb9cc: chore: update deps
+
 ## 1.0.0
 
 ### Minor Changes

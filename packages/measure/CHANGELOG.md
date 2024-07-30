@@ -1,5 +1,14 @@
 # @callstack/reassure-measure
 
+## 1.1.0
+
+### Patch Changes
+
+- 068951b: fix: respect to the "testingLibrary" config option
+- 0adb9cc: chore: update deps
+- Updated dependencies [0adb9cc]
+  - @callstack/reassure-logger@1.1.0
+
 ## 1.0.0
 
 ### Major Changes
