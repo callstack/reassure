@@ -1637,7 +1637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.20.1, @babel/runtime@npm:^7.24.4, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.20.1, @babel/runtime@npm:^7.24.8, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4":
   version: 7.25.0
   resolution: "@babel/runtime@npm:7.25.0"
   dependencies:
@@ -1719,7 +1719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@callstack/reassure-cli@npm:1.0.0, @callstack/reassure-cli@workspace:packages/cli":
+"@callstack/reassure-cli@npm:1.1.0, @callstack/reassure-cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-cli@workspace:packages/cli"
   dependencies:
@@ -1728,8 +1728,8 @@ __metadata:
     "@babel/preset-env": "npm:^7.25.2"
     "@babel/preset-typescript": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.25.0"
-    "@callstack/reassure-compare": "npm:1.0.0"
-    "@callstack/reassure-logger": "npm:1.0.0"
+    "@callstack/reassure-compare": "npm:1.1.0"
+    "@callstack/reassure-logger": "npm:1.1.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:^18.2.46"
@@ -1748,7 +1748,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-compare@npm:1.0.0, @callstack/reassure-compare@workspace:packages/compare":
+"@callstack/reassure-compare@npm:1.1.0, @callstack/reassure-compare@workspace:packages/compare":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-compare@workspace:packages/compare"
   dependencies:
@@ -1757,7 +1757,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.25.2"
     "@babel/preset-typescript": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.25.0"
-    "@callstack/reassure-logger": "npm:1.0.0"
+    "@callstack/reassure-logger": "npm:1.1.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^29.5.12"
     "@types/react": "npm:^18.2.46"
@@ -1773,7 +1773,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-danger@npm:1.0.0, @callstack/reassure-danger@workspace:packages/danger":
+"@callstack/reassure-danger@npm:1.1.0, @callstack/reassure-danger@workspace:packages/danger":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-danger@workspace:packages/danger"
   dependencies:
@@ -1783,7 +1783,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-logger@npm:1.0.0, @callstack/reassure-logger@workspace:packages/logger":
+"@callstack/reassure-logger@npm:1.1.0, @callstack/reassure-logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-logger@workspace:packages/logger"
   dependencies:
@@ -1794,7 +1794,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-measure@npm:1.0.0, @callstack/reassure-measure@workspace:packages/measure":
+"@callstack/reassure-measure@npm:1.1.0, @callstack/reassure-measure@workspace:packages/measure":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-measure@workspace:packages/measure"
   dependencies:
@@ -1804,7 +1804,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.24.7"
     "@babel/preset-typescript": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.25.0"
-    "@callstack/reassure-logger": "npm:1.0.0"
+    "@callstack/reassure-logger": "npm:1.1.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@testing-library/react": "npm:^16.0.0"
     "@testing-library/react-native": "npm:^12.5.2"
@@ -1813,7 +1813,7 @@ __metadata:
     babel-jest: "npm:^29.7.0"
     del-cli: "npm:^5.1.0"
     jest: "npm:^29.7.0"
-    mathjs: "npm:^12.4.3"
+    mathjs: "npm:^13.0.3"
     prettier: "npm:^2.8.8"
     pretty-format: "npm:^29.7.0"
     react: "npm:18.2.0"
@@ -6439,10 +6439,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fraction.js@npm:4.3.4":
-  version: 4.3.4
-  resolution: "fraction.js@npm:4.3.4"
-  checksum: 10c0/095f60a914637b996ee1a4758edd529bee7379aecd528d3cf641402ec1225c3146ec2b4a8575d58aa48600c5ee79dcc9e7dd799076acff4cfdeed8e73541cdf1
+"fraction.js@npm:^4.3.7":
+  version: 4.3.7
+  resolution: "fraction.js@npm:4.3.7"
+  checksum: 10c0/df291391beea9ab4c263487ffd9d17fed162dbb736982dee1379b2a8cc94e4e24e46ed508c6d278aded9080ba51872f1bc5f3a5fd8d7c74e5f105b508ac28711
   languageName: node
   linkType: hard
 
@@ -8806,22 +8806,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mathjs@npm:^12.4.3":
-  version: 12.4.3
-  resolution: "mathjs@npm:12.4.3"
+"mathjs@npm:^13.0.3":
+  version: 13.0.3
+  resolution: "mathjs@npm:13.0.3"
   dependencies:
-    "@babel/runtime": "npm:^7.24.4"
+    "@babel/runtime": "npm:^7.24.8"
     complex.js: "npm:^2.1.1"
     decimal.js: "npm:^10.4.3"
     escape-latex: "npm:^1.2.0"
-    fraction.js: "npm:4.3.4"
+    fraction.js: "npm:^4.3.7"
     javascript-natural-sort: "npm:^0.7.1"
     seedrandom: "npm:^3.0.5"
     tiny-emitter: "npm:^2.1.0"
-    typed-function: "npm:^4.1.1"
+    typed-function: "npm:^4.2.1"
   bin:
     mathjs: bin/cli.js
-  checksum: 10c0/b5b7c64b851a92729a9374f068b73e7d771a47be83caadb1e6b22235fbf5d75661e0a0891242a2b5c7e79b8b652b119d32860b87dfec895049d238e748436738
+  checksum: 10c0/ad270e980bf5d63b890e1d415bab50d2e68c561e4fb96f62a4ad75043af601475e10dd13fba2a6287b0cfda6cc8f6adfa84969e0e090a073bdd5849bedfa236a
   languageName: node
   linkType: hard
 
@@ -10505,10 +10505,10 @@ __metadata:
     "@babel/preset-env": "npm:^7.25.2"
     "@babel/preset-typescript": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.25.0"
-    "@callstack/reassure-cli": "npm:1.0.0"
-    "@callstack/reassure-compare": "npm:1.0.0"
-    "@callstack/reassure-danger": "npm:1.0.0"
-    "@callstack/reassure-measure": "npm:1.0.0"
+    "@callstack/reassure-cli": "npm:1.1.0"
+    "@callstack/reassure-compare": "npm:1.1.0"
+    "@callstack/reassure-danger": "npm:1.1.0"
+    "@callstack/reassure-measure": "npm:1.1.0"
     "@types/react": "npm:^18.2.46"
     del-cli: "npm:^5.1.0"
     import-local: "npm:^3.2.0"
@@ -11961,7 +11961,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typed-function@npm:^4.1.1":
+"typed-function@npm:^4.2.1":
   version: 4.2.1
   resolution: "typed-function@npm:4.2.1"
   checksum: 10c0/0b4e9a359e456f7df50f3d7cc53e2408d23a516f27b50c2c0654f388110ecf407c0595b1bf2296d3d8667fae6aae311ec2af90c602385777d12fe724bae99156
