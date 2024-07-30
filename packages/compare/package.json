@@ -53,7 +53,7 @@
     "del-cli": "^5.1.0",
     "jest": "^29.7.0",
     "prettier": "^2.8.8",
-    "react-native-builder-bob": "^0.23.2",
+    "react-native-builder-bob": "^0.24.0",
     "typescript": "^5.5.4"
   },
   "react-native-builder-bob": {

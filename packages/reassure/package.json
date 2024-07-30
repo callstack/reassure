@@ -48,7 +48,7 @@
     "@callstack/reassure-compare": "1.0.0",
     "@callstack/reassure-danger": "1.0.0",
     "@callstack/reassure-measure": "1.0.0",
-    "import-local": "^3.1.0"
+    "import-local": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -58,7 +58,7 @@
     "@babel/runtime": "^7.25.0",
     "@types/react": "^18.2.46",
     "del-cli": "^5.1.0",
-    "react-native-builder-bob": "^0.23.2",
+    "react-native-builder-bob": "^0.24.0",
     "typescript": "^5.5.4"
   },
   "react-native-builder-bob": {
