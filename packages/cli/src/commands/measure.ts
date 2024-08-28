@@ -17,6 +17,7 @@ export interface MeasureOptions extends CommonOptions {
   branch?: string;
   commitHash?: string;
   testMatch?: string;
+  testRegex?: string;
   enableWasm?: boolean;
 }
 
@@ -142,7 +143,13 @@ export const command: CommandModule<{}, MeasureOptions> = {
       .option('testMatch', {
         type: 'string',
         default: undefined,
-        describe: 'Run performance tests for a specific test file',
+        describe: 'The glob patterns Reassure uses to detect perf test',
+      })
+      .option('testRegex', {
+        type: 'string',
+        array: true,
+        default: undefined,
+        describe: 'A string or array of string regexp patterns that Reassure uses to detect test files.',
       });
   },
   handler: (args) => run(args),
