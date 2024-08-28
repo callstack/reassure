@@ -35,7 +35,7 @@ The signature of the function did not change. Old name is no longer available.
 
 ## Testing environment
 
-Reassure v0 used Node.js JIT-less mode (`--jitless` node flag), optionally using different flags if `--enable-wasp` experimental option was passed. Reassure V1 runs tests using Node.js's non-optimized compilation to better reflect React Native runtime environment.
+Reassure v0 used Node.js JIT-less mode (`--jitless` node flag), optionally using different flags if `--enable-wasm` experimental option was passed. Reassure V1 runs tests using Node.js's non-optimized compilation to better reflect React Native runtime environment.
 
 This means that:
 

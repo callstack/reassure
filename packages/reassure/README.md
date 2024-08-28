@@ -26,9 +26,6 @@
   - [Measuring test performance](#measuring-test-performance)
   - [Write performance testing script](#write-performance-testing-script)
 - [CI setup](#ci-setup)
-  - [Options](#options)
-    - [`--verbose` (optional)](#--verbose-optional)
-    - [`--silent` (optional)](#--silent-optional)
   - [Scaffolding](#scaffolding)
     - [CI Script (`reassure-tests.sh`)](#ci-script-reassure-testssh)
     - [Dangerfile](#dangerfile)
@@ -49,7 +46,7 @@
   - [Configuration](#configuration)
     - [Default configuration](#default-configuration)
     - [`configure` function](#configure-function)
-    - [`resetToDefault` function](#resettodefault-function)
+    - [`resetToDefaults` function](#resettodefaults-function)
     - [Environmental variables](#environmental-variables)
 - [External References](#external-references)
 - [Contributing](#contributing)
@@ -88,6 +85,8 @@ npm install --save-dev reassure
 
 You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
+See [Installation guide](https://callstack.github.io/reassure/docs/installation).
+
 You can check our example projects:
 
 - [React Native (Expo)](https://github.com/callstack/reassure-examples/tree/main/examples/native-expo)
@@ -121,7 +120,7 @@ test('Simple test', async () => {
 
 This test will measure render times of `ComponentUnderTest` during mounting and resulting sync effects.
 
-> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"<rootDir>/**/*.perf-test.[jt]s?(x)"`. However, if you want to pass a custom `--testMatch` option, you may add it to the `reassure measure` script to pass your own glob. More about `--testMatch` in [Jest docs](https://jestjs.io/docs/configuration#testmatch-arraystring)
+> **Note**: Reassure will automatically match test filenames using Jest's `--testMatch` option with value `"**/__perf__/**/*.[jt]s?(x)", "**/*.(perf|perf-test).[jt]s?(x)"`. However, if you want to pass a custom `--testMatch` or `--testRegex` option, you may add it to the `reassure measure` script to pass your own glob. More about `--testMatch` and `--testRegex` in [Jest docs](https://jestjs.io/docs/configuration#testmatch-arraystring)
 
 #### Writing async tests
 
@@ -226,18 +225,6 @@ This will generate the following file structure
 │   ├── dangerfile.ts/js (or dangerfile.reassure.ts/js if dangerfile.ts/js already present)
 │   └── .gitignore
 ```
-
-### Options
-
-You can also use the following options to adjust the script further
-
-#### `--verbose` (optional)
-
-This is one of the options controlling the level of logs printed into the command prompt while running reassure scripts. It will
-
-#### `--silent` (optional)
-
-Just like the previous, this option also controls the level of logs. It will suppress all logs besides explicit errors.
 
 ### Scaffolding
 
@@ -474,7 +461,7 @@ Reset the current config to the original `defaultConfig` object
 You can use available environmental variables to alter your test runner settings.
 
 - `TEST_RUNNER_PATH`: an alternative path for your test runner. Defaults to `'node_modules/.bin/jest'` or on Windows `'node_modules/jest/bin/jest'`
-- `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"'`
+- `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "**/__perf__/**/*.[jt]s?(x)", "**/*.(perf|perf-test).[jt]s?(x)"'`
 
 Example:
 
@@ -484,7 +471,7 @@ TEST_RUNNER_PATH=myOwnPath/jest/bin yarn reassure
 
 ## External References
 
-- [The Ultimate Guide to React Native Optimization 2023 Edition](https://www.callstack.com/campaigns/download-the-ultimate-guide-to-react-native-optimization?utm_campaign=RN_Performance&utm_source=readme_reassure) - Mentioned in "Make your app consistently fast" chapter.
+- [The Ultimate Guide to React Native Optimization 2024 Edition](https://www.callstack.com/campaigns/download-the-ultimate-guide-to-react-native-optimization?utm_campaign=RN_Performance&utm_source=readme_reassure) - Mentioned in "Make your app consistently fast" chapter.
 
 ## Contributing
 

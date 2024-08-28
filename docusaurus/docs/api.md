@@ -167,7 +167,7 @@ Reset current config to the original `defaultConfig` object. You can call `reset
 The `reassure` CLI can be parametrized using available environmental variables:
 
 - `TEST_RUNNER_PATH`: an alternative path for your test runner. Defaults to `'node_modules/.bin/jest'` or on Windows `'node_modules/jest/bin/jest'`
-- `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "<rootDir>/**/*.perf-test.[jt]s?(x)"'`
+- `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "**/__perf__/**/*.[jt]s?(x)", "**/*.(perf|perf-test).[jt]s?(x)"`
 
 Example:
 
