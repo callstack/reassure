@@ -11,12 +11,16 @@ import { getGitBranch, getGitCommitHash } from '../utils/git';
 import { configureLoggerOptions } from '../utils/logger';
 import { getJestBinPath, getNodeFlags, getNodeMajorVersion } from '../utils/node';
 
+// Jest default testMatch: [ "**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ]
+const DEFAULT_TEST_MATCH = ['**/*.perf-test.[jt]s?(x)'];
+
 export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
   compare?: boolean;
   branch?: string;
   commitHash?: string;
-  testMatch?: string;
+  testMatch?: string[];
+  testRegex?: string[];
   enableWasm?: boolean;
 }
 
@@ -51,19 +55,7 @@ export async function run(options: MeasureOptions) {
     return;
   }
 
-  // NOTE: Consider updating the default testMatch to better reflect
-  // default patterns used in Jest and allow users to also place their
-  // performance tests into specific /__perf__/ directory without the need
-  // of adding the *.perf-test. prefix
-  // ---
-  // [ **/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ]
-  // ---
-  // GH: https://github.com/callstack/reassure/issues/363
-  const defaultTestMatch = '**/*.perf-test.[jt]s?(x)';
-  const testMatch = options.testMatch || defaultTestMatch;
-
-  const defaultArgs = `--runInBand --testMatch "<rootDir>/${testMatch}"`;
-  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? defaultArgs;
+  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
 
   const nodeMajorVersion = getNodeMajorVersion();
   logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
@@ -141,9 +133,44 @@ export const command: CommandModule<{}, MeasureOptions> = {
       })
       .option('testMatch', {
         type: 'string',
-        default: undefined,
-        describe: 'Run performance tests for a specific test file',
+        array: true,
+        describe: 'The glob patterns Reassure uses to detect perf test files',
+      })
+      .option('testRegex', {
+        type: 'string',
+        array: true,
+        describe: 'The regexp patterns Reassure uses to detect perf test files',
       });
   },
   handler: (args) => run(args),
 };
+
+function buildDefaultTestRunnerArgs(options: MeasureOptions) {
+  if (options.testMatch && options.testRegex) {
+    logger.error('Configuration options "testMatch" and "testRegex" cannot be used together.');
+    process.exit(1);
+  }
+
+  const commonArgs = '--runInBand';
+
+  if (options.testMatch) {
+    return `${commonArgs} --testMatch=${toShellArray(options.testMatch)}`;
+  }
+
+  if (options.testRegex) {
+    return `${commonArgs} --testRegex=${toShellArray(options.testRegex)}`;
+  }
+
+  return `${commonArgs} --testMatch=${toShellArray(DEFAULT_TEST_MATCH)}`;
+}
+
+function toShellArray(texts: string[]): string {
+  return texts
+    .map(shellEscape)
+    .map((text) => `"${text}"`)
+    .join(' ');
+}
+
+function shellEscape(text: string) {
+  return text.replace(/(["'$`\\])/g, '\\$1');
+}
