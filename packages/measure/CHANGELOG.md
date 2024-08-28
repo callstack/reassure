@@ -1,5 +1,12 @@
 # @callstack/reassure-measure
 
+## 1.2.0
+
+### Patch Changes
+
+- Updated dependencies [ce30981]
+  - @callstack/reassure-logger@1.2.0
+
 ## 1.1.0
 
 ### Patch Changes

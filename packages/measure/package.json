@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-measure",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Performance measurement library for React and React Native",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
-    "@callstack/reassure-logger": "1.1.0",
+    "@callstack/reassure-logger": "1.2.0",
     "mathjs": "^12.4.3",
     "pretty-format": "^29.7.0"
   },

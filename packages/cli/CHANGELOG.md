@@ -1,5 +1,19 @@
 # @callstack/reassure-cli
 
+## 1.2.0
+
+### Minor Changes
+
+- cd71fa7: Extent default testMatch: `**/__perf__/*.(js|ts)` and `*/*.perf.(js|ts)`
+- ce30981: --textRegex CLI option
+- 018cd40: Passthrough args after -- to Jest
+
+### Patch Changes
+
+- Updated dependencies [ce30981]
+  - @callstack/reassure-logger@1.2.0
+  - @callstack/reassure-compare@1.2.0
+
 ## 1.1.0
 
 ### Patch Changes
