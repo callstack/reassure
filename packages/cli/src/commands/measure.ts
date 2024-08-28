@@ -12,7 +12,7 @@ import { configureLoggerOptions } from '../utils/logger';
 import { getJestBinPath, getNodeFlags, getNodeMajorVersion } from '../utils/node';
 
 // Jest default testMatch: [ "**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ]
-const DEFAULT_TEST_MATCH = ['**/*.perf-test.[jt]s?(x)'];
+const DEFAULT_TEST_MATCH = ['**/__perf__/**/*.[jt]s?(x)', '**/*.(perf|perf-test).[jt]s?(x)'];
 
 export interface MeasureOptions extends CommonOptions {
   baseline?: boolean;
