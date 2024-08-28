@@ -21,7 +21,8 @@ export interface MeasureOptions extends CommonOptions {
   commitHash?: string;
   testMatch?: string[];
   testRegex?: string[];
-  enableWasm?: boolean;
+  /** Rest argument used for flags after `--` separator, will be passed to test runner. */
+  _?: string[];
 }
 
 export async function run(options: MeasureOptions) {
@@ -46,6 +47,9 @@ export async function run(options: MeasureOptions) {
   const header = { metadata };
   writeFileSync(outputFile, JSON.stringify(header) + '\n');
 
+  const nodeMajorVersion = getNodeMajorVersion();
+  logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
+
   const testRunnerPath = process.env.TEST_RUNNER_PATH ?? getJestBinPath();
   if (!testRunnerPath) {
     logger.error(
@@ -55,12 +59,15 @@ export async function run(options: MeasureOptions) {
     return;
   }
 
-  const testRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
+  const baseTestRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
+  const passthroughTestRunnerArgs = options._ ?? [];
 
-  const nodeMajorVersion = getNodeMajorVersion();
-  logger.verbose(`Node.js version: ${nodeMajorVersion} (${process.versions.node})`);
-
-  const nodeArgs = [...getNodeFlags(nodeMajorVersion), testRunnerPath, testRunnerArgs];
+  const nodeArgs = [
+    ...getNodeFlags(nodeMajorVersion),
+    testRunnerPath,
+    ...baseTestRunnerArgs,
+    ...passthroughTestRunnerArgs,
+  ];
   logger.verbose('Running tests using command:');
   logger.verbose(`$ node \\\n    ${nodeArgs.join(' \\\n    ')}\n`);
 
@@ -145,23 +152,23 @@ export const command: CommandModule<{}, MeasureOptions> = {
   handler: (args) => run(args),
 };
 
-function buildDefaultTestRunnerArgs(options: MeasureOptions) {
+function buildDefaultTestRunnerArgs(options: MeasureOptions): string[] {
   if (options.testMatch && options.testRegex) {
     logger.error('Configuration options "testMatch" and "testRegex" cannot be used together.');
     process.exit(1);
   }
 
-  const commonArgs = '--runInBand';
+  const commonArgs = ['--runInBand'];
 
   if (options.testMatch) {
-    return `${commonArgs} --testMatch=${toShellArray(options.testMatch)}`;
+    return [...commonArgs, `--testMatch=${toShellArray(options.testMatch)}`];
   }
 
   if (options.testRegex) {
-    return `${commonArgs} --testRegex=${toShellArray(options.testRegex)}`;
+    return [...commonArgs, `--testRegex=${toShellArray(options.testRegex)}`];
   }
 
-  return `${commonArgs} --testMatch=${toShellArray(DEFAULT_TEST_MATCH)}`;
+  return [...commonArgs, `--testMatch=${toShellArray(DEFAULT_TEST_MATCH)}`];
 }
 
 function toShellArray(texts: string[]): string {
