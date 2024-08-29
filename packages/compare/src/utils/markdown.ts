@@ -1,23 +1,25 @@
-export function heading1(text: string) {
-  return `# ${text}\n`;
+import { lineBreak } from 'ts-markdown-builder';
+
+/**
+ * Join blocks of text into a single markdown document (string).
+ *
+ * @param blocks - The blocks of text to join.
+ * @returns Markdown document string.
+ */
+export function joinBlocks(blocks: readonly string[]): string {
+  return blocks.filter(Boolean).map(trimBlock).join('\n\n');
 }
 
-export function heading2(text: string) {
-  return `## ${text}\n`;
+/**
+ * Join lines of text into a single paragraph string with line breaks.
+ *
+ * @param lines - The lines of text to join.
+ * @returns Paragraph string.
+ */
+export function joinLines(lines: string[]) {
+  return lines.filter(Boolean).join(lineBreak);
 }
 
-export function heading3(text: string) {
-  return `### ${text}\n`;
-}
-
-export function bold(text: string) {
-  return `**${text}**`;
-}
-
-export function italic(text: string) {
-  return `*${text}*`;
-}
-
-export function collapsibleSection(title: string, content: string) {
-  return `<details>\n<summary>${title}</summary>\n\n${content}\n</details>\n\n`;
+function trimBlock(block: string): string {
+  return block.replace(/^\n+|\n+$/g, '');
 }
