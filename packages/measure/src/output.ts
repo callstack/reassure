@@ -22,7 +22,7 @@ export async function writeTestStats(
 export async function clearTestStats(outputFilePath: string = config.outputFile): Promise<void> {
   try {
     await fs.unlink(outputFilePath);
-  } catch (error) {
+  } catch {
     logger.warn(`Cannot remove ${outputFilePath}. File doesn't exist or cannot be removed`);
   }
 }

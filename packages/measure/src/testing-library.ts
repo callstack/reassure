@@ -10,7 +10,7 @@ let RNTL: TestingLibraryApi | undefined;
 try {
   // eslint-disable-next-line import/no-extraneous-dependencies
   RNTL = require('@testing-library/react-native');
-} catch (error) {
+} catch {
   // Do nothing
 }
 
@@ -18,7 +18,7 @@ let RTL: TestingLibraryApi | undefined;
 try {
   // eslint-disable-next-line import/no-extraneous-dependencies
   RTL = require('@testing-library/react');
-} catch (error) {
+} catch {
   // Do nothing
 }
 

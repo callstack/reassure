@@ -53,10 +53,10 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/plugin-transform-flow-strip-types": "^7.25.2",
-    "@babel/preset-env": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
     "@babel/preset-typescript": "^7.24.7",
-    "@babel/runtime": "^7.25.0",
-    "@types/react": "^18.2.46",
+    "@babel/runtime": "^7.25.6",
+    "@types/react": "^18.3.5",
     "del-cli": "^5.1.0",
     "react-native-builder-bob": "^0.24.0",
     "typescript": "^5.5.4"
