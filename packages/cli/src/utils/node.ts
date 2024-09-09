@@ -6,7 +6,7 @@ export function getJestBinPath() {
     const jestPackageJson = require('jest/package.json');
     const jestPackagePath = dirname(require.resolve('jest/package.json'));
     return resolve(jestPackagePath, jestPackageJson.bin.jest || jestPackageJson.bin);
-  } catch (error) {
+  } catch {
     return null;
   }
 }
