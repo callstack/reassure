@@ -65,7 +65,7 @@ export async function run(options: MeasureOptions) {
   const nodeArgs = [
     ...getNodeFlags(nodeMajorVersion),
     testRunnerPath,
-    ...baseTestRunnerArgs,
+    typeof baseTestRunnerArgs === 'string' ? baseTestRunnerArgs : ...baseTestRunnerArgs,
     ...passthroughTestRunnerArgs,
   ];
   logger.verbose('Running tests using command:');
