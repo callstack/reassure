@@ -59,13 +59,14 @@ export async function run(options: MeasureOptions) {
     return;
   }
 
-  const baseTestRunnerArgs = process.env.TEST_RUNNER_ARGS ?? buildDefaultTestRunnerArgs(options);
+  const baseTestRunnerArgs =
+    process.env.TEST_RUNNER_ARGS !== undefined ? [process.env.TEST_RUNNER_ARGS] : buildDefaultTestRunnerArgs(options);
   const passthroughTestRunnerArgs = options._ ?? [];
 
   const nodeArgs = [
     ...getNodeFlags(nodeMajorVersion),
     testRunnerPath,
-    typeof baseTestRunnerArgs === 'string' ? baseTestRunnerArgs : ...baseTestRunnerArgs,
+    ...baseTestRunnerArgs,
     ...passthroughTestRunnerArgs,
   ];
   logger.verbose('Running tests using command:');
