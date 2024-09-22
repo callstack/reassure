@@ -1,5 +1,15 @@
 # @callstack/reassure-cli
 
+## 1.2.1
+
+### Patch Changes
+
+- e1ffeb2: fix: TEST_RUNNER_ARGS env variable support
+- 75dc782: chore: update deps
+- Updated dependencies [75dc782]
+  - @callstack/reassure-compare@1.2.1
+  - @callstack/reassure-logger@1.2.1
+
 ## 1.2.0
 
 ### Minor Changes

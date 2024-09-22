@@ -1,5 +1,12 @@
 # @callstack/reassure-measure
 
+## 1.2.1
+
+### Patch Changes
+
+- 75dc782: chore: update deps
+  - @callstack/reassure-logger@1.2.1
+
 ## 1.2.0
 
 ### Patch Changes
