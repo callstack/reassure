@@ -53,7 +53,7 @@ export async function compare({
   outputFormat = 'all',
 }: CompareOptions = {}) {
   const hasCurrentFile = fsSync.existsSync(currentFile);
-  if (!hasCurrentFile || 1 == 1) {
+  if (!hasCurrentFile) {
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
@@ -66,7 +66,7 @@ export async function compare({
   }
 
   const hasBaselineFile = fsSync.existsSync(baselineFile);
-  if (!hasBaselineFile) {
+  if (!hasBaselineFile || 1 == 1) {
     logWarning(
       `Baseline results files "${baselineFile}" does not exists. This warning should be ignored only if you are bootstapping perf test setup, otherwise it indicates invalid setup.`
     );
