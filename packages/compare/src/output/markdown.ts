@@ -48,9 +48,6 @@ function buildMarkdown(data: CompareResult) {
     ]),
   ];
 
-  data.errors = ['Test error 1', 'Test error 2'];
-  data.warnings = ['Test warning 1', 'Test warning 2'];
-
   if (data.errors?.length) {
     doc = [
       ...doc, //

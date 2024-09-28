@@ -53,7 +53,7 @@ export async function compare({
   outputFormat = 'all',
 }: CompareOptions = {}) {
   const hasCurrentFile = fsSync.existsSync(currentFile);
-  if (!hasCurrentFile) {
+  if (!hasCurrentFile || 1 == 1) {
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
     process.exit(1);
   }
