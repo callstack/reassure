@@ -15,7 +15,7 @@ import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntr
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
 
-export const writeToMarkdown = async (filePath: string, data: CompareResult) => {
+export async function writeToMarkdown(filePath: string, data: CompareResult) {
   try {
     const markdown = buildMarkdown(data);
     await writeToFile(filePath, markdown);
@@ -23,7 +23,7 @@ export const writeToMarkdown = async (filePath: string, data: CompareResult) => 
     logger.error(error);
     throw error;
   }
-};
+}
 
 async function writeToFile(filePath: string, content: string) {
   try {
@@ -48,12 +48,23 @@ function buildMarkdown(data: CompareResult) {
     ]),
   ];
 
+  data.errors = ['Test error 1', 'Test error 2'];
+  data.warnings = ['Test warning 1', 'Test warning 2'];
+
   if (data.errors?.length) {
-    doc = [...doc, md.heading('Errors', { level: 2 }), md.list(data.errors)];
+    doc = [
+      ...doc, //
+      md.heading('Errors', { level: 2 }),
+      md.list(data.errors.map((text) => `🛑 ${text}`)),
+    ];
   }
 
   if (data.warnings?.length) {
-    doc = [...doc, md.heading('Warnings', { level: 2 }), md.list(data.warnings)];
+    doc = [
+      ...doc, //
+      md.heading('Warnings', { level: 2 }),
+      md.list(data.warnings.map((text) => `🟡 ${text}`)),
+    ];
   }
 
   doc = [
@@ -62,7 +73,7 @@ function buildMarkdown(data: CompareResult) {
     buildSummaryTable(data.significant),
     buildDetailsTable(data.significant),
     md.heading('Meaningless Changes To Duration', { level: 3 }),
-    buildSummaryTable(data.meaningless, true),
+    buildSummaryTable(data.meaningless, { open: false }),
     buildDetailsTable(data.meaningless),
   ];
 
@@ -90,14 +101,17 @@ function buildMarkdown(data: CompareResult) {
     buildDetailsTable(data.removed),
   ];
 
-  return joinBlocks(doc.filter(Boolean));
+  return joinBlocks(doc);
 }
 
-function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, collapse: boolean = false) {
+function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
   if (!entries.length) return md.italic('There are no entries');
 
+  const open = options?.open ?? true;
+
   const rows = entries.map((entry) => [entry.name, entry.type, formatEntryDuration(entry), formatEntryCount(entry)]);
-  return md.disclosure('Show entries', md.table(tableHeader, rows), { open: !collapse });
+  const tableContent = md.table(tableHeader, rows);
+  return md.disclosure('Show entries', tableContent, { open });
 }
 
 function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>) {
@@ -114,31 +128,31 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 }
 
 function formatEntryDuration(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if (entry.baseline != null && 'current' in entry) return formatDurationChange(entry);
+  if (entry.baseline != null && entry.current != null) return formatDurationChange(entry);
   if (entry.baseline != null) return formatDuration(entry.baseline.meanDuration);
-  if ('current' in entry) return formatDuration(entry.current.meanDuration);
+  if (entry.current != null) return formatDuration(entry.current.meanDuration);
   return '';
 }
 
 function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  if (entry.baseline != null && 'current' in entry)
+  if (entry.baseline != null && entry.current != null)
     return formatCountChange(entry.current.meanCount, entry.baseline.meanCount);
   if (entry.baseline != null) return formatCount(entry.baseline.meanCount);
-  if ('current' in entry) return formatCount(entry.current.meanCount);
+  if (entry.current != null) return formatCount(entry.current.meanCount);
   return '';
 }
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return joinBlocks([
     entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline) : '',
-    'current' in entry ? buildDurationDetails('Current', entry.current) : '',
+    entry.current != null ? buildDurationDetails('Current', entry.current) : '',
   ]);
 }
 
 function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return joinBlocks([
     entry.baseline != null ? buildCountDetails('Baseline', entry.baseline) : '',
-    'current' in entry ? buildCountDetails('Current', entry.current) : '',
+    entry.current != null ? buildCountDetails('Current', entry.current) : '',
   ]);
 }
 
