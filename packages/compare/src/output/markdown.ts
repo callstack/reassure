@@ -10,7 +10,7 @@ import {
   formatCountChange,
   formatDurationChange,
 } from '../utils/format';
-import { joinBlocks, joinLines } from '../utils/markdown';
+import { joinLines } from '../utils/markdown';
 import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, RenderIssues } from '../types';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
@@ -98,7 +98,7 @@ function buildMarkdown(data: CompareResult) {
     buildDetailsTable(data.removed),
   ];
 
-  return joinBlocks(doc);
+  return md.joinBlocks(doc);
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
@@ -140,14 +140,14 @@ function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
 }
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  return joinBlocks([
+  return md.joinBlocks([
     entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline) : '',
     entry.current != null ? buildDurationDetails('Current', entry.current) : '',
   ]);
 }
 
 function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
-  return joinBlocks([
+  return md.joinBlocks([
     entry.baseline != null ? buildCountDetails('Baseline', entry.baseline) : '',
     entry.current != null ? buildCountDetails('Current', entry.current) : '',
   ]);
