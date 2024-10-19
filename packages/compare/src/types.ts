@@ -50,6 +50,7 @@ export interface RemovedEntry {
   name: string;
   type: MeasureType;
   baseline: MeasureEntry;
+  current?: undefined;
 }
 
 export interface CompareMetadata {
