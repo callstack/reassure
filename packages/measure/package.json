@@ -13,7 +13,7 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest --maxWorkers=2",
     "build": "bob build",
     "clean": "del lib"
   },

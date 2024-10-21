@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --maxWorkers=2",
     "perf-test": "reassure",
     "typecheck": "tsc --noEmit"
   },

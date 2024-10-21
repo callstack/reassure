@@ -15,7 +15,7 @@
   "scripts": {
     "build": "bob build",
     "clean": "del lib",
-    "test": "jest"
+    "test": "jest --maxWorkers=2"
   },
   "keywords": [
     "react-native",
