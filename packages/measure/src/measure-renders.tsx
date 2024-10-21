@@ -123,6 +123,10 @@ async function measureRendersInternal(
     if (hasMinRuns && hasMinDuration) {
       break;
     }
+
+    if (runs > 100) {
+      break;
+    }
   }
 
   if (hasTooLateRender) {
