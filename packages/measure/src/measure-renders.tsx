@@ -1,3 +1,4 @@
+import { performance as perf } from 'perf_hooks';
 import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
@@ -59,6 +60,7 @@ async function measureRendersInternal(
   const testingLibrary = getTestingLibrary();
 
   showFlagsOutputIfNeeded();
+  ensurePreciseMeasurements();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
@@ -145,4 +147,9 @@ export function buildUiToRender(
   );
 
   return Wrapper ? <Wrapper>{uiWithProfiler}</Wrapper> : uiWithProfiler;
+}
+
+//https://github.com/facebook/react/blob/65a56d0e99261481c721334a3ec4561d173594cd/packages/react-devtools-shared/src/backend/fiber/renderer.js#L294
+function ensurePreciseMeasurements() {
+  globalThis.performance.now = () => perf.now();
 }
