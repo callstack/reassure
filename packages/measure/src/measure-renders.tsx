@@ -60,13 +60,14 @@ async function measureRendersInternal(
   const testingLibrary = getTestingLibrary();
 
   showFlagsOutputIfNeeded();
-  ensurePreciseMeasurements();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
 
   const renderJsonTrees: ElementJsonTree[] = [];
   let initialRenderCount = 0;
+
+  installPerformanceNow();
 
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     let duration = 0;
@@ -119,6 +120,8 @@ async function measureRendersInternal(
     runResults.push({ duration, count });
   }
 
+  restorePerformanceNow();
+
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
     logger.warn(
@@ -149,7 +152,18 @@ export function buildUiToRender(
   return Wrapper ? <Wrapper>{uiWithProfiler}</Wrapper> : uiWithProfiler;
 }
 
+let originalNow: () => number;
+
 //https://github.com/facebook/react/blob/65a56d0e99261481c721334a3ec4561d173594cd/packages/react-devtools-shared/src/backend/fiber/renderer.js#L294
-function ensurePreciseMeasurements() {
+function installPerformanceNow() {
+  originalNow = globalThis.performance.now;
   globalThis.performance.now = () => perf.now();
+}
+
+function restorePerformanceNow() {
+  if (originalNow == null) {
+    throw new Error('Called "restorePerformanceNow" without calling "installPerformanceNow" first');
+  }
+
+  globalThis.performance.now = originalNow;
 }
