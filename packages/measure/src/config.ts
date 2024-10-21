@@ -13,7 +13,7 @@ type Config = {
 
 const defaultConfig: Config = {
   runs: 10,
-  minBenchmarkDuration: 100,
+  minBenchmarkDuration: 25,
   warmupRuns: 1,
   outputFile: process.env.REASSURE_OUTPUT_FILE ?? '.reassure/current.perf',
   testingLibrary: undefined,
