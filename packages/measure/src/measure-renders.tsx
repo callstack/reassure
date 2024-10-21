@@ -66,7 +66,8 @@ async function measureRendersInternal(
   const renderJsonTrees: ElementJsonTree[] = [];
   let initialRenderCount = 0;
 
-  for (let i = 0; i < runs + warmupRuns; i += 1) {
+  let totalDuration = 0;
+  for (let i = 0; ; i += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
@@ -115,6 +116,13 @@ async function measureRendersInternal(
     global.gc?.();
 
     runResults.push({ duration, count });
+
+    totalDuration += duration;
+    const hasMinRuns = i >= runs + warmupRuns;
+    const hasMinDuration = totalDuration >= config.minBenchmarkDuration;
+    if (hasMinRuns && hasMinDuration) {
+      break;
+    }
   }
 
   if (hasTooLateRender) {
