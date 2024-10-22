@@ -50,4 +50,6 @@ export const MeasureEntryScheme = z.object({
   counts: z.array(z.number()),
 
   issues: z.optional(RenderIssuesScheme),
+
+  warnings: z.optional(z.array(z.string())),
 });
