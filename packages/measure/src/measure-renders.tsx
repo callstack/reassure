@@ -3,7 +3,7 @@ import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
-import { applyRenderPolyfills, restoreRenderPolyfills } from './polyfils';
+import { applyRenderPolyfills, revertRenderPolyfills } from './polyfills';
 import { ElementJsonTree, detectRedundantUpdates } from './redundant-renders';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureRendersResults } from './types';
@@ -126,7 +126,7 @@ async function measureRendersInternal(
     );
   }
 
-  restoreRenderPolyfills();
+  revertRenderPolyfills();
 
   return {
     ...processRunResults(runResults, warmupRuns),

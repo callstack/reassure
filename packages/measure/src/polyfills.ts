@@ -8,7 +8,7 @@ export function applyRenderPolyfills() {
   }
 }
 
-export function restoreRenderPolyfills() {
+export function revertRenderPolyfills() {
   const testingLibrary = getTestingLibrary();
   if (testingLibrary === 'react-native') {
     restorePerformanceNow();
