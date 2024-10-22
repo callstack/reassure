@@ -28,6 +28,12 @@ export interface MeasureResults {
 
   /** Array of measured render/execution count for each run */
   counts: number[];
+
+  /** Errors that occurred during the test */
+  errors?: string[];
+
+  /** Warnings that occurred during the test */
+  warnings?: string[];
 }
 
 export interface MeasureRendersResults extends MeasureResults {

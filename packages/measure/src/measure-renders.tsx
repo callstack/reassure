@@ -63,6 +63,7 @@ async function measureRendersInternal(
   applyRenderPolyfills();
 
   const runResults: RunResult[] = [];
+  const warnings: string[] = [];
   let hasTooLateRender = false;
 
   const renderJsonTrees: ElementJsonTree[] = [];
@@ -121,8 +122,11 @@ async function measureRendersInternal(
 
   if (hasTooLateRender) {
     const testName = expect.getState().currentTestName;
+    warnings.push(
+      'Test still re-renders after test scenario finished. Update your code to wait for all renders to finish.'
+    );
     logger.warn(
-      `test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
+      `test "${testName}" still re-renders after test scenario finished.\n\nUpdate your code to wait for all renders to finish.`
     );
   }
 
@@ -134,6 +138,7 @@ async function measureRendersInternal(
       initialUpdateCount: initialRenderCount - 1,
       redundantUpdates: detectRedundantUpdates(renderJsonTrees, initialRenderCount),
     },
+    warnings: warnings.length > 0 ? warnings : undefined,
   };
 }
 

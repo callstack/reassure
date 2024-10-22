@@ -137,6 +137,7 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   const compared: CompareEntry[] = [];
   const added: AddedEntry[] = [];
   const removed: RemovedEntry[] = [];
+  const currentWarnings: string[] = [];
 
   names.forEach((name) => {
     const currentEntry = current.entries[name];
@@ -148,6 +149,10 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
       added.push({ name, type: currentEntry.type, current: currentEntry });
     } else if (baselineEntry) {
       removed.push({ name, type: baselineEntry.type, baseline: baselineEntry });
+    }
+
+    if (currentEntry?.warnings) {
+      currentWarnings.push(...currentEntry.warnings.map((warning) => `${currentEntry.name}: ${warning}`));
     }
   });
 
@@ -171,7 +176,7 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   return {
     metadata: { current: current.metadata, baseline: baseline?.metadata },
     errors,
-    warnings,
+    warnings: [...warnings, ...currentWarnings],
     significant,
     meaningless,
     countChanged,
