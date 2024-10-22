@@ -21,14 +21,6 @@ import { parseHeader, parseMeasureEntries } from './utils/validate';
 const PROBABILITY_CONSIDERED_SIGNIFICANT = 0.02;
 
 /**
- * Duration threshold (in ms) for treating given difference as significant.
- *
- * This is additional filter, in addition to probability threshold above.
- * Too small duration difference might be result of measurement grain of 1 ms.
- */
-const DURATION_DIFF_THRESHOLD_SIGNIFICANT = 4;
-
-/**
  * Threshold for considering render or execution count change as significant. This implies inclusion
  * of scenario results in Count Changed output section.
  */
@@ -192,9 +184,7 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
 
   const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
   const prob = computeProbability(z);
-
-  const isDurationDiffSignificant =
-    prob < PROBABILITY_CONSIDERED_SIGNIFICANT && Math.abs(durationDiff) >= DURATION_DIFF_THRESHOLD_SIGNIFICANT;
+  const isDurationDiffSignificant = prob < PROBABILITY_CONSIDERED_SIGNIFICANT;
 
   return {
     name,
