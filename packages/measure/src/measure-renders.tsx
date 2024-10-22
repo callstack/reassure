@@ -3,9 +3,10 @@ import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
+import { applyRenderPolyfills, revertRenderPolyfills } from './polyfills';
+import { ElementJsonTree, detectRedundantUpdates } from './redundant-renders';
 import { resolveTestingLibrary, getTestingLibrary } from './testing-library';
 import type { MeasureRendersResults } from './types';
-import { ElementJsonTree, detectRedundantUpdates } from './redundant-renders';
 
 logger.configure({
   verbose: process.env.REASSURE_VERBOSE === 'true' || process.env.REASSURE_VERBOSE === '1',
@@ -59,6 +60,7 @@ async function measureRendersInternal(
   const testingLibrary = getTestingLibrary();
 
   showFlagsOutputIfNeeded();
+  applyRenderPolyfills();
 
   const runResults: RunResult[] = [];
   let hasTooLateRender = false;
@@ -66,7 +68,7 @@ async function measureRendersInternal(
   const renderJsonTrees: ElementJsonTree[] = [];
   let initialRenderCount = 0;
 
-  for (let i = 0; i < runs + warmupRuns; i += 1) {
+  for (let iteration = 0; iteration < runs + warmupRuns; iteration += 1) {
     let duration = 0;
     let count = 0;
     let isFinished = false;
@@ -75,7 +77,7 @@ async function measureRendersInternal(
 
     const captureRenderDetails = () => {
       // We capture render details only on the first run
-      if (i !== 0) {
+      if (iteration !== 0) {
         return;
       }
 
@@ -123,6 +125,8 @@ async function measureRendersInternal(
       `test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
     );
   }
+
+  revertRenderPolyfills();
 
   return {
     ...processRunResults(runResults, warmupRuns),
