@@ -26,7 +26,7 @@ const AsyncComponent = () => {
 };
 
 jest.setTimeout(600_000);
-test('Other Component 10', async () => {
+test('Other Component', async () => {
   const scenario = async () => {
     const button = screen.getByText('Action');
 
@@ -38,19 +38,7 @@ test('Other Component 10', async () => {
   await measureRenders(<AsyncComponent />, { scenario, runs: 10 });
 });
 
-test('Other Component 10 legacy scenario', async () => {
-  const scenario = async () => {
-    const button = screen.getByText('Action');
-
-    fireEvent.press(button);
-    fireEvent.press(button);
-    await screen.findByText('Count: 2');
-  };
-
-  await measureRenders(<AsyncComponent />, { scenario, runs: 10 });
-});
-
-test('Other Component 20', async () => {
+test('Other Component 20 run', async () => {
   const scenario = async () => {
     const button = screen.getByText('Action');
 
