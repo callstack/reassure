@@ -63,16 +63,12 @@ async function measureRendersInternal(
   applyRenderPolyfills();
 
   const runResults: RunResult[] = [];
-  let hasTooLateRender = false;
-
   const renderJsonTrees: ElementJsonTree[] = [];
   let initialRenderCount = 0;
 
   for (let iteration = 0; iteration < runs + warmupRuns; iteration += 1) {
     let duration = 0;
     let count = 0;
-    let isFinished = false;
-
     let renderResult: any = null;
 
     const captureRenderDetails = () => {
@@ -96,10 +92,6 @@ async function measureRendersInternal(
       duration += actualDuration;
       count += 1;
 
-      if (isFinished) {
-        hasTooLateRender = true;
-      }
-
       captureRenderDetails();
     };
 
@@ -112,18 +104,9 @@ async function measureRendersInternal(
     }
 
     cleanup();
-
-    isFinished = true;
     global.gc?.();
 
     runResults.push({ duration, count });
-  }
-
-  if (hasTooLateRender) {
-    const testName = expect.getState().currentTestName;
-    logger.warn(
-      `test "${testName}" still re-renders after test scenario finished.\n\nPlease update your code to wait for all renders to finish.`
-    );
   }
 
   revertRenderPolyfills();
