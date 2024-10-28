@@ -1,5 +1,15 @@
 # @callstack/reassure-measure
 
+## 1.3.0
+
+### Minor Changes
+
+- 63f1f35: improve `measureRenders` precision on React Native
+
+### Patch Changes
+
+- @callstack/reassure-logger@1.3.0
+
 ## 1.2.1
 
 ### Patch Changes
