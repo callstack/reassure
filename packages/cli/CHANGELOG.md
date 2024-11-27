@@ -1,5 +1,13 @@
 # @callstack/reassure-cli
 
+## 1.3.1
+
+### Patch Changes
+
+- aa608ae: fix: support test runner paths with spaces
+  - @callstack/reassure-compare@1.3.1
+  - @callstack/reassure-logger@1.3.1
+
 ## 1.3.0
 
 ### Patch Changes
