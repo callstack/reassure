@@ -65,7 +65,7 @@ export async function run(options: MeasureOptions) {
 
   const nodeArgs = [
     ...getNodeFlags(nodeMajorVersion),
-    testRunnerPath,
+    `"${testRunnerPath}"`,
     ...baseTestRunnerArgs,
     ...passthroughTestRunnerArgs,
   ];
