@@ -42,8 +42,13 @@ export function formatCount(value?: number) {
 
 export function formatCountDiff(current: number, baseline: number): string {
   const diff = current - baseline;
-  if (diff > 0) return `+${diff}`;
-  if (diff < 0) return `${diff}`;
+  if (diff > 0) {
+    return `+${formatCount(diff)}`;
+  }
+  if (diff < 0) {
+    return `${formatCount(diff)}`;
+  }
+
   return '±0';
 }
 
