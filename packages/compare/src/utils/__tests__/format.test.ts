@@ -13,7 +13,7 @@ test('formatCountDiff', () => {
   expect(formatCountDiff(0, 1)).toMatchInlineSnapshot('"-1"');
   expect(formatCountDiff(2, 2)).toMatchInlineSnapshot('"±0"');
 
-  expect(formatCountDiff(1.01, 2.01)).toMatchInlineSnapshot('"+1.01"');
-  expect(formatCountDiff(0.01, 1.01)).toMatchInlineSnapshot('"-1.01"');
+  expect(formatCountDiff(1.01, 2.23)).toMatchInlineSnapshot(`"-1.22"`);
+  expect(formatCountDiff(0.01, 5.54)).toMatchInlineSnapshot(`"-5.53"`);
   expect(formatCountDiff(1.01, 1.01)).toMatchInlineSnapshot('"±0"');
 });
