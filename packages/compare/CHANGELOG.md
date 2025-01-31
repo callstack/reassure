@@ -1,5 +1,12 @@
 # @callstack/reassure-compare
 
+## 1.3.2
+
+### Patch Changes
+
+- fix: fractional render count formatting in markdown/console
+  - @callstack/reassure-logger@1.3.2
+
 ## 1.3.1
 
 ### Patch Changes
