@@ -13,6 +13,7 @@
     "lint:deps": "yarn check-dependency-version-consistency .",
     "clean": "turbo run clean",
     "build": "turbo run build",
+    "validate": "yarn lint && yarn lint:deps && yarn typecheck && yarn test",
     "changeset": "changeset",
     "version": "changeset version",
     "publish": "yarn build && changeset publish",
