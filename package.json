@@ -15,7 +15,7 @@
     "build": "turbo run build",
     "validate": "yarn lint && yarn lint:deps && yarn typecheck && yarn test",
     "changeset": "changeset",
-    "version": "changeset version",
+    "version": "changeset version && yarn install",
     "publish": "yarn build && changeset publish",
     "danger:local": "danger local -b main"
   },
