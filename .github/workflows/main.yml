@@ -7,24 +7,15 @@ on:
     branches: ['**']
 
 jobs:
-  build-validate-pref-tests:
-    name: Build, validate & run performance tests
+  validate:
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          cache: 'yarn'
-
-      - name: Install and build
-        run: yarn install --immutable
+      - name: Setup Deps
+        uses: ./.github/actions/setup-deps
 
       - name: Validate TypeScript
         run: yarn typecheck && yarn typecheck:test-app
@@ -36,9 +27,26 @@ jobs:
         run: yarn test && yarn test:test-app
 
       - name: Run performance tests
-        run: cd test-apps/native && ./reassure-tests.sh
+        working-directory: ./test-apps/native
+        run: ./reassure-tests.sh
 
       - name: Run Danger.js
         run: yarn danger ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  check-changeset:
+    name: Check Changeset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Deps
+        uses: ./.github/actions/setup-deps
+
+      - name: Check changeset
+        if: github.ref != 'refs/heads/main'
+        run: yarn changeset status --since=origin/${{ github.base_ref }}

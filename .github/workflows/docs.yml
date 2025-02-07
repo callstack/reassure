@@ -2,10 +2,14 @@ name: Deploy Docs to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+    branches: [main]
+    paths:
+      - 'docusaurus/**'
+  pull_request:
+    branches: ['**']
+    paths:
+      - 'docusaurus/**'
+    
 
 jobs:
   deploy:
@@ -15,24 +19,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Deps
+        uses: ./.github/actions/setup-deps
         with:
-          node-version: 20
-          cache: yarn
+          working-directory: ./docusaurus
 
-      - name: Install dependencies
-        run: cd ./docusaurus && yarn install --immutable
       - name: Build website
-        run: cd ./docusaurus && yarn build
+        working-directory: ./docusaurus
+        run: yarn build
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
