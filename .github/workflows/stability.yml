@@ -10,17 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          cache: 'yarn'
-
-      - name: Install and build
-        run: yarn install
+      - name: Setup Deps
+        uses: ./.github/actions/setup-deps
 
       - name: Run stability checks
-        run: cd test-apps/native && yarn reassure check-stability
+        working-directory: ./test-apps/native
+        run: yarn reassure check-stability
