@@ -106,7 +106,12 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
 
   const open = options?.open ?? true;
 
-  const rows = entries.map((entry) => [entry.name, entry.type, formatEntryDuration(entry), formatEntryCount(entry)]);
+  const rows = entries.map((entry) => [
+    md.escape(entry.name),
+    md.escape(entry.type),
+    formatEntryDuration(entry),
+    formatEntryCount(entry),
+  ]);
   const tableContent = md.table(tableHeader, rows);
   return md.disclosure('Show entries', tableContent, { open });
 }
@@ -115,8 +120,8 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
   if (!entries.length) return '';
 
   const rows = entries.map((entry) => [
-    entry.name,
-    entry.type,
+    md.escape(entry.name),
+    md.escape(entry.type),
     buildDurationDetailsEntry(entry),
     buildCountDetailsEntry(entry),
   ]);
@@ -186,7 +191,7 @@ function buildRenderIssuesTable(entries: Array<CompareEntry | AddedEntry>) {
 
   const tableHeader = ['Name', 'Initial Updates', 'Redundant Updates'];
   const rows = entries.map((entry) => [
-    entry.name,
+    md.escape(entry.name),
     formatInitialUpdates(entry.current.issues?.initialUpdateCount),
     formatRedundantUpdates(entry.current.issues?.redundantUpdates),
   ]);

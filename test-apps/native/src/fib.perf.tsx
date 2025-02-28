@@ -10,14 +10,16 @@ function fib(n: number): number {
 
 jest.setTimeout(60_000);
 
-test('fib 30', async () => {
-  await measureFunction(() => fib(30));
-});
+describe('`fib` function', () => {
+  test('fib(30)', async () => {
+    await measureFunction(() => fib(30));
+  });
 
-test('fib 31', async () => {
-  await measureFunction(() => fib(31));
-});
+  test('fib(31)', async () => {
+    await measureFunction(() => fib(31));
+  });
 
-test('fib 32', async () => {
-  await measureFunction(() => fib(32));
+  test('fib(32)', async () => {
+    await measureFunction(() => fib(32));
+  });
 });
