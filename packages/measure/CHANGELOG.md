@@ -1,5 +1,11 @@
 # @callstack/reassure-measure
 
+## 1.3.3
+
+### Patch Changes
+
+- @callstack/reassure-logger@1.3.3
+
 ## 1.3.2
 
 ### Patch Changes

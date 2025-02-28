@@ -1,5 +1,15 @@
 # reassure
 
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [cbeca72]
+  - @callstack/reassure-compare@1.3.3
+  - @callstack/reassure-cli@1.3.3
+  - @callstack/reassure-danger@1.3.3
+  - @callstack/reassure-measure@1.3.3
+
 ## 1.3.2
 
 ### Patch Changes

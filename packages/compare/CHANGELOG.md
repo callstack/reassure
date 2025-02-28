@@ -1,5 +1,12 @@
 # @callstack/reassure-compare
 
+## 1.3.3
+
+### Patch Changes
+
+- cbeca72: fix: markdown escaping in GH perf report
+  - @callstack/reassure-logger@1.3.3
+
 ## 1.3.2
 
 ### Patch Changes
