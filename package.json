@@ -4,7 +4,6 @@
   "version": "0.0.0",
   "description": "Performance testing companion for React and React Native",
   "scripts": {
-    "postinstall": "yarn build",
     "test": "turbo run test",
     "test:test-app": "cd ./test-apps/native && yarn test",
     "typecheck": "tsc --noEmit",
