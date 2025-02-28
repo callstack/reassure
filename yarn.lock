@@ -1696,7 +1696,7 @@ __metadata:
     jest: "npm:^29.7.0"
     prettier: "npm:^2.8.8"
     react-native-builder-bob: "npm:^0.24.0"
-    ts-markdown-builder: "npm:0.4.0"
+    ts-markdown-builder: "npm:0.4.1"
     ts-regex-builder: "npm:^1.8.2"
     typescript: "npm:^5.5.4"
     zod: "npm:^3.23.8"
@@ -11684,10 +11684,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-markdown-builder@npm:0.4.0":
-  version: 0.4.0
-  resolution: "ts-markdown-builder@npm:0.4.0"
-  checksum: 10c0/6814c9ae5435637a13a5562bea3aed6894e746fbd8e39eb15e2a469247e7c2e8e2f08db86af39a4fdc7e4906441b75758a30f1b0aae1914c230bea124b1a5814
+"ts-markdown-builder@npm:0.4.1":
+  version: 0.4.1
+  resolution: "ts-markdown-builder@npm:0.4.1"
+  checksum: 10c0/9ceaeb38548f8fea67e8108c14f02b2dd92163fdc3dfa6e0652aa89d574ec70393428f04f17fc37b0b46b4a38f526debde2a52ed8f1c955db9b6b2f215d9e121
   languageName: node
   linkType: hard
 
