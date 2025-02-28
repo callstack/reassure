@@ -20,7 +20,7 @@ runs:
         node-version: 20.x
         cache: 'yarn'
 
-    - name: Install and build
+    - name: Install
       working-directory: ${{ inputs.working-directory }}
       run: yarn install --immutable
       shell: bash

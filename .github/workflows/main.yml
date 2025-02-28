@@ -17,6 +17,9 @@ jobs:
       - name: Setup Deps
         uses: ./.github/actions/setup-deps
 
+      - name: Build
+        run: yarn build
+
       - name: Validate TypeScript
         run: yarn typecheck && yarn typecheck:test-app
 
