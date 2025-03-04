@@ -1,6 +1,7 @@
 export {
   measureRenders,
   measureFunction,
+  measureAsyncFunction,
   configure,
   resetToDefaults,
   measurePerformance,
@@ -11,6 +12,7 @@ export type {
   MeasureResults,
   MeasureRendersOptions,
   MeasureFunctionOptions,
+  MeasureAsyncFunctionOptions,
   MeasureType,
 } from '@callstack/reassure-measure';
 export type {

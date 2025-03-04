@@ -99,6 +99,53 @@ interface MeasureFunctionOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
 - **`writeFile`**: (default `true`) should write output to file.
 
+### `measureAsyncFunction` function {#measure-async-function}
+
+Allows you to wrap any **asynchronous** function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
+
+:::info
+
+Measuring asynchronous functions can be useful when, during its execution, they rely or need to get some data from async providers e.g. storage / network and we are purposely disconsidering their impact during the test as we want only to measure the rest of the function's logic. **With that in mind, make sure these providers are properly mocked during test environment so they don't pollute your measurements.**
+
+:::
+
+```ts
+async function measureAsyncFunction(
+  fn: () => Promise<any>,
+  options?: MeasureAsyncFunctionOptions,
+): Promise<MeasureResults> {
+```
+
+#### Example {#measure-async-function-example}
+
+```ts
+// sample.perf-test.tsx
+import { measureAsyncFunction } from 'reassure';
+import { fib } from './fib';
+
+test('fib 30', async () => {
+  await measureAsyncFunction(async () => {
+    const asyncLogic = () => Promise.resolve(30);
+    const result = await asyncLogic();
+    fib(result);
+  });
+});
+```
+
+### `MeasureAsyncFunctionOptions` type {#measure-async-function-options}
+
+```ts
+interface MeasureAsyncFunctionOptions {
+  runs?: number;
+  warmupRuns?: number;
+  writeFile?: boolean;
+}
+```
+
+- **`runs`**: number of runs per series for the particular test
+- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
+
 ## Configuration
 
 ### Default configuration

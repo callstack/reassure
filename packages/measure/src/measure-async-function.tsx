@@ -2,15 +2,15 @@ import { config } from './config';
 import type { MeasureResults } from './types';
 import { type RunResult, getCurrentTime, processRunResults } from './measure-helpers';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
+import { MeasureFunctionOptions } from './measure-function';
 
-export interface MeasureFunctionOptions {
-  runs?: number;
-  warmupRuns?: number;
-  writeFile?: boolean;
-}
+export interface MeasureAsyncFunctionOptions extends MeasureFunctionOptions {}
 
-export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
-  const stats = measureFunctionInternal(fn, options);
+export async function measureAsyncFunction(
+  fn: () => Promise<any>,
+  options?: MeasureAsyncFunctionOptions
+): Promise<MeasureResults> {
+  const stats = await measureAsyncFunctionInternal(fn, options);
 
   if (options?.writeFile !== false) {
     await writeTestStats(stats, 'function');
@@ -19,7 +19,10 @@ export async function measureFunction(fn: () => void, options?: MeasureFunctionO
   return stats;
 }
 
-function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
+async function measureAsyncFunctionInternal(
+  fn: () => Promise<any>,
+  options?: MeasureAsyncFunctionOptions
+): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
 
@@ -28,7 +31,7 @@ function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOption
   const runResults: RunResult[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
     const timeStart = getCurrentTime();
-    fn();
+    await fn();
     const timeEnd = getCurrentTime();
 
     const duration = timeEnd - timeStart;
