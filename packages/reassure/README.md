@@ -43,6 +43,8 @@
     - [`MeasureRendersOptions` type](#measurerendersoptions-type)
     - [`measureFunction` function](#measurefunction-function)
     - [`MeasureFunctionOptions` type](#measurefunctionoptions-type)
+    - [`measureAsyncFunction` function](#measureasyncfunction-function)
+    - [`MeasureAsyncFunctionOptions` type](#measureasyncfunctionoptions-type)
   - [Configuration](#configuration)
     - [Default configuration](#default-configuration)
     - [`configure` function](#configure-function)
@@ -397,11 +399,40 @@ async function measureFunction(
 interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
+  writeFile?: boolean;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
+
+#### `measureAsyncFunction` function
+
+Allows you to wrap any **asynchronous** function, measure its execution times and write results to the output file. You can use optional `options` to customize aspects of the testing. Note: the execution count will always be one.
+
+> **Note**: Measuring asynchronous functions can be useful when, during its execution, they rely or need to get some data from async providers e.g. storage / network and we are purposely disconsidering their impact during the test as we want only to measure the rest of the function's logic. **With that in mind, make sure these providers are properly mocked during test environment so they don't pollute your measurements.**
+
+```ts
+async function measureAsyncFunction(
+  fn: () => Promise<any>,
+  options?: MeasureAsyncFunctionOptions
+): Promise<MeasureResults> {
+```
+
+#### `MeasureAsyncFunctionOptions` type
+
+```ts
+interface MeasureAsyncFunctionOptions {
+  runs?: number;
+  warmupRuns?: number;
+  writeFile?: boolean;
+}
+```
+
+- **`runs`**: number of runs per series for the particular test
+- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
 
 ### Configuration
 
