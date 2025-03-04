@@ -1,9 +1,14 @@
+import { performance } from 'perf_hooks';
 import * as math from 'mathjs';
 import type { MeasureResults } from './types';
 
 export interface RunResult {
   duration: number;
   count: number;
+}
+
+export function getCurrentTime() {
+  return performance.now();
 }
 
 export function processRunResults(inputResults: RunResult[], warmupRuns: number): MeasureResults {
