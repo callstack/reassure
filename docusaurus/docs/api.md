@@ -101,11 +101,11 @@ interface MeasureFunctionOptions {
 
 ### `measureAsyncFunction` function {#measure-async-function}
 
-Allows you to wrap any **asynchronous** function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
+Allows you to wrap any asynchronous function, measure its performance and write results to the output file. You can use optional `options` to customize aspects of the testing.
 
 :::info
 
-Measuring asynchronous functions can be useful when, during its execution, they rely or need to get some data from async providers e.g. storage / network and we are purposely disconsidering their impact during the test as we want only to measure the rest of the function's logic. **With that in mind, make sure these providers are properly mocked during test environment so they don't pollute your measurements.**
+Measuring performance of asynchronous functions can be tricky. These functions often depend on external conditions like I/O operations, network requests, or storage access, which introduce unpredictable timing variations in your measurements. For stable and meaningful performance metrics, **always ensure all external calls are properly mocked in your test environment to avoid polluting your performance measurements with uncontrollable factors.**
 
 :::
 
