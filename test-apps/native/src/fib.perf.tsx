@@ -18,8 +18,20 @@ describe('`fib` function', () => {
     await measureFunction(() => fib(30));
   });
 
+  test('fib(30) async', async () => {
+    await measureAsyncFunction(async () =>
+      Promise.resolve().then(() => fib(30)),
+    );
+  });
+
   test('fib(31)', async () => {
     await measureFunction(() => fib(31));
+  });
+
+  test('fib(31) async', async () => {
+    await measureAsyncFunction(async () =>
+      Promise.resolve().then(() => fib(31)),
+    );
   });
 
   test('fib(32)', async () => {
@@ -27,10 +39,8 @@ describe('`fib` function', () => {
   });
 
   test('fib(32) async', async () => {
-    await measureAsyncFunction(async () => {
-      const asyncLogic = () => Promise.resolve(32);
-      const result = await asyncLogic();
-      fib(result);
-    });
+    await measureAsyncFunction(async () =>
+      Promise.resolve().then(() => fib(32)),
+    );
   });
 });
