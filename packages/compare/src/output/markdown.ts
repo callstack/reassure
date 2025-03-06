@@ -184,6 +184,8 @@ function buildCountDetails(title: string, entry: MeasureEntry) {
 }
 
 function formatRunDurations(values: number[]) {
+  if (values.length === 0) return '*(none)*';
+
   return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
 }
 
