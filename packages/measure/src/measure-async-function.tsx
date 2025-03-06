@@ -25,6 +25,7 @@ async function measureAsyncFunctionInternal(
 ): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
+  const dropOutliers = options?.dropOutliers ?? config.dropOutliers;
 
   showFlagsOutputIfNeeded();
 
@@ -38,5 +39,5 @@ async function measureAsyncFunctionInternal(
     runResults.push({ duration, count: 1 });
   }
 
-  return processRunResults(runResults, warmupRuns);
+  return processRunResults(runResults, { warmupRuns, dropOutliers });
 }

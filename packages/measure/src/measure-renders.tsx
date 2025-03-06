@@ -16,6 +16,7 @@ logger.configure({
 export interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
+  dropOutliers?: boolean;
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
   writeFile?: boolean;
@@ -55,6 +56,7 @@ async function measureRendersInternal(
   const runs = options?.runs ?? config.runs;
   const scenario = options?.scenario;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
+  const dropOutliers = options?.dropOutliers ?? config.dropOutliers;
 
   const { render, cleanup } = resolveTestingLibrary();
   const testingLibrary = getTestingLibrary();
@@ -112,7 +114,7 @@ async function measureRendersInternal(
   revertRenderPolyfills();
 
   return {
-    ...processRunResults(runResults, warmupRuns),
+    ...processRunResults(runResults, { warmupRuns, dropOutliers }),
     issues: {
       initialUpdateCount: initialRenderCount - 1,
       redundantUpdates: detectRedundantUpdates(renderJsonTrees, initialRenderCount),
