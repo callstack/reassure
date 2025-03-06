@@ -7,6 +7,7 @@ import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 export interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
+  dropOutliers?: boolean;
   writeFile?: boolean;
 }
 
@@ -23,6 +24,7 @@ export async function measureFunction(fn: () => void, options?: MeasureFunctionO
 function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
+  const dropOutliers = options?.dropOutliers ?? config.dropOutliers;
 
   showFlagsOutputIfNeeded();
 
@@ -36,7 +38,7 @@ function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOption
     runResults.push({ duration, count: 1 });
   }
 
-  return processRunResults(runResults, warmupRuns);
+  return processRunResults(runResults, { warmupRuns, dropOutliers });
 }
 
 function getCurrentTime() {

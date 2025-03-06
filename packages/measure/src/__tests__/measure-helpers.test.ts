@@ -7,7 +7,7 @@ test('processRunResults calculates correct means and stdevs', () => {
     { duration: 14, count: 2 },
   ];
 
-  expect(processRunResults(input, 0)).toMatchInlineSnapshot(`
+  expect(processRunResults(input, { warmupRuns: 0 })).toMatchInlineSnapshot(`
     {
       "counts": [
         2,
@@ -21,6 +21,7 @@ test('processRunResults calculates correct means and stdevs', () => {
       ],
       "meanCount": 2,
       "meanDuration": 12,
+      "outlierDurations": undefined,
       "runs": 3,
       "stdevCount": 0,
       "stdevDuration": 2,
@@ -37,7 +38,7 @@ test('processRunResults applies warmupRuns option', () => {
     { duration: 22, count: 5 },
   ];
 
-  expect(processRunResults(input, 1)).toMatchInlineSnapshot(`
+  expect(processRunResults(input, { warmupRuns: 1 })).toMatchInlineSnapshot(`
     {
       "counts": [
         5,
@@ -51,6 +52,7 @@ test('processRunResults applies warmupRuns option', () => {
       ],
       "meanCount": 5,
       "meanDuration": 22,
+      "outlierDurations": undefined,
       "runs": 3,
       "stdevCount": 0,
       "stdevDuration": 2,

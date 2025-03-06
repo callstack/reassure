@@ -20,6 +20,9 @@ export interface MeasureResults {
   /** Array of measured render/execution durations for each warmup run   */
   warmupDurations: number[];
 
+  /** Array of statistical outlier durations */
+  outlierDurations?: number[];
+
   /** Arithmetic average of measured render/execution count for each run */
   meanCount: number;
 

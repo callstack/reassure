@@ -188,7 +188,7 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
   const countDiff = current.meanCount - baseline.meanCount;
   const relativeCountDiff = countDiff / baseline.meanCount;
 
-  const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.runs);
+  const z = computeZ(baseline.meanDuration, baseline.stdevDuration, current.meanDuration, current.durations.length);
   const prob = computeProbability(z);
 
   const isDurationDiffSignificant =

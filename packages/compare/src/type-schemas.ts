@@ -40,6 +40,9 @@ export const MeasureEntryScheme = z.object({
   /** Array of measured render/execution durations for each run. */
   warmupDurations: z.optional(z.array(z.number())),
 
+  /** Array of statistical outlier durations. */
+  outlierDurations: z.optional(z.array(z.number())),
+
   /** Arithmetic average of measured render/execution counts for each run. */
   meanCount: z.number(),
 
