@@ -2,6 +2,10 @@ name: Test Performance Stability
 
 on: [workflow_dispatch]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !contains(github.ref, 'main')}}
+
 jobs:
   test:
     name: Install and test
