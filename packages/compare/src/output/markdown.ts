@@ -178,15 +178,15 @@ function buildCountDetails(title: string, entry: MeasureEntry) {
     md.bold(title),
     `Mean: ${formatCount(entry.meanCount)}`,
     `Stdev: ${formatCount(entry.stdevCount)} (${formatPercent(relativeStdev)})`,
-    entry.counts ? `Runs: ${entry.counts.map(formatCount).join(' ')}` : '',
+    entry.counts ? `Runs: ${entry.counts.map(formatCount).join(', ')}` : '',
     buildRenderIssuesList(entry.issues),
   ]);
 }
 
 function formatRunDurations(values: number[]) {
-  if (values.length === 0) return '*(none)*';
+  if (values.length === 0) return '(none)';
 
-  return values.map((v) => (Number.isInteger(v) ? `${v}` : `${v.toFixed(1)}`)).join(' ');
+  return values.map((v) => `${v.toFixed(1)}`).join(', ');
 }
 
 function buildRenderIssuesTable(entries: Array<CompareEntry | AddedEntry>) {
