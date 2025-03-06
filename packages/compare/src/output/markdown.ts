@@ -167,7 +167,7 @@ function buildDurationDetails(title: string, entry: MeasureEntry) {
     `Stdev: ${formatDuration(entry.stdevDuration)} (${formatPercent(relativeStdev)})`,
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
     entry.warmupDurations ? `Warmup runs: ${formatRunDurations(entry.warmupDurations)}` : '',
-    entry.outlierDurations ? `Outliers: ${formatRunDurations(entry.outlierDurations)}` : '',
+    entry.outlierDurations ? `Removed outliers: ${formatRunDurations(entry.outlierDurations)}` : '',
   ]);
 }
 
