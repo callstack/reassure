@@ -1,5 +1,24 @@
 # reassure
 
+## 1.4.0-next.0
+
+### Minor Changes
+
+- c51fb5f: feat: add measureAsyncFunction
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+- 7ad16cb: chore: tweak markdown report
+- Updated dependencies [0870117]
+- Updated dependencies [7ad16cb]
+- Updated dependencies [c51fb5f]
+- Updated dependencies [59b21d4]
+  - @callstack/reassure-compare@1.4.0-next.0
+  - @callstack/reassure-measure@1.4.0-next.0
+  - @callstack/reassure-danger@1.4.0-next.0
+  - @callstack/reassure-cli@1.4.0-next.0
+
 ## 1.3.3
 
 ### Patch Changes

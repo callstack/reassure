@@ -1,5 +1,14 @@
 # @callstack/reassure-compare
 
+## 1.4.0-next.0
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+- 7ad16cb: chore: tweak markdown report
+- Updated dependencies [0870117]
+  - @callstack/reassure-logger@1.4.0-next.0
+
 ## 1.3.3
 
 ### Patch Changes

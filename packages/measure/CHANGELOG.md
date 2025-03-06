@@ -1,5 +1,18 @@
 # @callstack/reassure-measure
 
+## 1.4.0-next.0
+
+### Minor Changes
+
+- c51fb5f: feat: add measureAsyncFunction
+- 59b21d4: Added a `dropOutliers` option to detect and drop statistical outliers
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+- Updated dependencies [0870117]
+  - @callstack/reassure-logger@1.4.0-next.0
+
 ## 1.3.3
 
 ### Patch Changes
