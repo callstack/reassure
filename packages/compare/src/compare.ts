@@ -213,10 +213,10 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
  *
  * Based on :: https://github.com/v8/v8/blob/master/test/benchmarks/csuite/compare-baseline.py
  */
-function computeZ(baselineMean: number, baselineStdev: number, currentMean: number, runs: number) {
+function computeZ(baselineMean: number, baselineStdev: number, currentMean: number, currentRuns: number) {
   if (baselineStdev == 0) return 1000;
 
-  return Math.abs((currentMean - baselineMean) / (baselineStdev / Math.sqrt(runs)));
+  return Math.abs((currentMean - baselineMean) / (baselineStdev / Math.sqrt(currentRuns)));
 }
 
 /**

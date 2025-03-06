@@ -30,7 +30,7 @@ export function processRunResults(inputResults: RunResult[], options: ProcessRun
   const stdevCount = math.std(...counts);
 
   return {
-    runs: results.length,
+    runs: runResults.length,
     meanDuration,
     stdevDuration,
     durations,

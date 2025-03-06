@@ -5,7 +5,7 @@ export type MeasureType = 'render' | 'function' | 'async function';
  * Type representing the result of `measure*` functions.
  */
 export interface MeasureResults {
-  /** Number of times the test subject was run */
+  /** @deprecated Use `durations.length` instead */
   runs: number;
 
   /** Arithmetic average of measured render/execution durations for each run */
