@@ -22,8 +22,8 @@ export const MeasureEntryScheme = z.object({
   /** Name of the test scenario. */
   name: z.string(),
 
-  /** Type of the measured characteristic (render, function execution). */
-  type: z.enum(['render', 'function']).default('render'),
+  /** Type of the measured characteristic (render, function execution, async function execution). */
+  type: z.enum(['render', 'function', 'async function']).default('render'),
 
   /** Number of times the measurement test was run. */
   runs: z.number(),

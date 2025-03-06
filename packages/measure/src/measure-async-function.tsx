@@ -13,7 +13,7 @@ export async function measureAsyncFunction(
   const stats = await measureAsyncFunctionInternal(fn, options);
 
   if (options?.writeFile !== false) {
-    await writeTestStats(stats, 'function');
+    await writeTestStats(stats, 'async function');
   }
 
   return stats;
