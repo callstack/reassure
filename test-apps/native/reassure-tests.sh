@@ -24,3 +24,10 @@ pushd ../.. && yarn install && yarn turbo run build && popd
 
 yarn install
 yarn reassure
+
+# Print the output file path
+echo "🔷 Output file: .reassure/output.json"
+cat .reassure/output.json
+
+echo "🔷 Output file: .reassure/output.md"
+cat .reassure/output.md
