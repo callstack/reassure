@@ -1,5 +1,5 @@
 /** Type of measured performance characteristic. */
-export type MeasureType = 'render' | 'function';
+export type MeasureType = 'render' | 'function' | 'async function';
 
 /**
  * Type representing the result of `measure*` functions.

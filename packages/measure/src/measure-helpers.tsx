@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import * as math from 'mathjs';
 import type { MeasureResults } from './types';
 import { findOutliers } from './outlier-helpers';
@@ -39,4 +40,8 @@ export function processRunResults(inputResults: RunResult[], options: ProcessRun
     stdevCount,
     counts,
   };
+}
+
+export function getCurrentTime() {
+  return performance.now();
 }
