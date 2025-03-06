@@ -23,9 +23,8 @@ test('measureFunction captures results', async () => {
 
 test('measureAsyncFunction captures results', async () => {
   const fn = jest.fn(async () => {
-    const asyncLogic = () => Promise.resolve(5);
-    const result = await asyncLogic();
-    fib(result);
+    await Promise.resolve();
+    return fib(5);
   });
   const results = await measureAsyncFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
 

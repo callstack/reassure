@@ -415,7 +415,7 @@ Allows you to wrap any **asynchronous** function, measure its execution times an
 
 ```ts
 async function measureAsyncFunction(
-  fn: () => Promise<any>,
+  fn: () => Promise<unknown>,
   options?: MeasureAsyncFunctionOptions
 ): Promise<MeasureResults> {
 ```

@@ -7,7 +7,7 @@ import { MeasureFunctionOptions } from './measure-function';
 export interface MeasureAsyncFunctionOptions extends MeasureFunctionOptions {}
 
 export async function measureAsyncFunction(
-  fn: () => Promise<any>,
+  fn: () => Promise<unknown>,
   options?: MeasureAsyncFunctionOptions
 ): Promise<MeasureResults> {
   const stats = await measureAsyncFunctionInternal(fn, options);
@@ -20,7 +20,7 @@ export async function measureAsyncFunction(
 }
 
 async function measureAsyncFunctionInternal(
-  fn: () => Promise<any>,
+  fn: () => Promise<unknown>,
   options?: MeasureAsyncFunctionOptions
 ): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;

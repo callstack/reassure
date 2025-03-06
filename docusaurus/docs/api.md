@@ -111,7 +111,7 @@ Measuring performance of asynchronous functions can be tricky. These functions o
 
 ```ts
 async function measureAsyncFunction(
-  fn: () => Promise<any>,
+  fn: () => Promise<unknown>,
   options?: MeasureAsyncFunctionOptions,
 ): Promise<MeasureResults> {
 ```
@@ -125,9 +125,7 @@ import { fib } from './fib';
 
 test('fib 30', async () => {
   await measureAsyncFunction(async () => {
-    const asyncLogic = () => Promise.resolve(30);
-    const result = await asyncLogic();
-    fib(result);
+    return Promise.resolve().then(() => fib(30));
   });
 });
 ```
