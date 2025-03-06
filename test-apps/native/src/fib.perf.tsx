@@ -1,4 +1,7 @@
-import { measureFunction } from '@callstack/reassure-measure';
+import {
+  measureFunction,
+  measureAsyncFunction,
+} from '@callstack/reassure-measure';
 
 function fib(n: number): number {
   if (n <= 1) {
@@ -15,11 +18,29 @@ describe('`fib` function', () => {
     await measureFunction(() => fib(30));
   });
 
+  test('fib(30) async', async () => {
+    await measureAsyncFunction(async () =>
+      Promise.resolve().then(() => fib(30)),
+    );
+  });
+
   test('fib(31)', async () => {
     await measureFunction(() => fib(31));
   });
 
+  test('fib(31) async', async () => {
+    await measureAsyncFunction(async () =>
+      Promise.resolve().then(() => fib(31)),
+    );
+  });
+
   test('fib(32)', async () => {
     await measureFunction(() => fib(32));
+  });
+
+  test('fib(32) async', async () => {
+    await measureAsyncFunction(async () =>
+      Promise.resolve().then(() => fib(32)),
+    );
   });
 });

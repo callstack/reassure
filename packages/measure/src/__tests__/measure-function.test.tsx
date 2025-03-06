@@ -1,5 +1,6 @@
 import stripAnsi from 'strip-ansi';
 import { measureFunction } from '../measure-function';
+import { measureAsyncFunction } from '../measure-async-function';
 import { setHasShownFlagsOutput } from '../output';
 
 // Exponentially slow function
@@ -14,6 +15,18 @@ function fib(n: number): number {
 test('measureFunction captures results', async () => {
   const fn = jest.fn(() => fib(5));
   const results = await measureFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
+
+  expect(fn).toHaveBeenCalledTimes(1);
+  expect(results.runs).toBe(1);
+  expect(results.counts).toEqual([1]);
+});
+
+test('measureAsyncFunction captures results', async () => {
+  const fn = jest.fn(async () => {
+    await Promise.resolve();
+    return fib(5);
+  });
+  const results = await measureAsyncFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(1);
   expect(results.runs).toBe(1);

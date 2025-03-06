@@ -43,6 +43,8 @@
     - [`MeasureRendersOptions` type](#measurerendersoptions-type)
     - [`measureFunction` function](#measurefunction-function)
     - [`MeasureFunctionOptions` type](#measurefunctionoptions-type)
+    - [`measureAsyncFunction` function](#measureasyncfunction-function)
+    - [`MeasureAsyncFunctionOptions` type](#measureasyncfunctionoptions-type)
   - [Configuration](#configuration)
     - [Default configuration](#default-configuration)
     - [`configure` function](#configure-function)
@@ -397,11 +399,40 @@ async function measureFunction(
 interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
+  writeFile?: boolean;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
+
+#### `measureAsyncFunction` function
+
+Allows you to wrap any **asynchronous** function, measure its execution times and write results to the output file. You can use optional `options` to customize aspects of the testing. Note: the execution count will always be one.
+
+> **Note**: Measuring performance of asynchronous functions can be tricky. These functions often depend on external conditions like I/O operations, network requests, or storage access, which introduce unpredictable timing variations in your measurements. For stable and meaningful performance metrics, **always ensure all external calls are properly mocked in your test environment to avoid polluting your performance measurements with uncontrollable factors.**
+
+```ts
+async function measureAsyncFunction(
+  fn: () => Promise<unknown>,
+  options?: MeasureAsyncFunctionOptions
+): Promise<MeasureResults> {
+```
+
+#### `MeasureAsyncFunctionOptions` type
+
+```ts
+interface MeasureAsyncFunctionOptions {
+  runs?: number;
+  warmupRuns?: number;
+  writeFile?: boolean;
+}
+```
+
+- **`runs`**: number of runs per series for the particular test
+- **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs.
+- **`writeFile`**: (default `true`) should write output to file.
 
 ### Configuration
 
