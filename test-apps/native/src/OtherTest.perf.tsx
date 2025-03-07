@@ -31,6 +31,7 @@ test('<AsyncComponent />: 10 runs', async () => {
     const button = screen.getByText('Action');
 
     fireEvent.press(button);
+    await screen.findByText('Count: 1');
     fireEvent.press(button);
     await screen.findByText('Count: 2');
   };
@@ -43,6 +44,7 @@ test('<AsyncComponent />: 20 runs', async () => {
     const button = screen.getByText('Action');
 
     fireEvent.press(button);
+    await screen.findByText('Count: 1');
     fireEvent.press(button);
     await screen.findByText('Count: 2');
   };
