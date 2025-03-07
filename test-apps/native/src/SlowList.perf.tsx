@@ -32,12 +32,12 @@ test('Async Component', async () => {
 
     fireEvent.press(button);
     await screen.findByText('Count: 1');
-
     fireEvent.press(button);
     await screen.findByText('Count: 2');
-
     fireEvent.press(button);
+    await screen.findByText('Count: 3');
     fireEvent.press(button);
+    await screen.findByText('Count: 4');
     fireEvent.press(button);
     await screen.findByText('Count: 5');
   };
