@@ -14,7 +14,7 @@ type Config = {
 const defaultConfig: Config = {
   runs: 10,
   warmupRuns: 1,
-  dropOutliers: false,
+  dropOutliers: true,
   outputFile: process.env.REASSURE_OUTPUT_FILE ?? '.reassure/current.perf',
   testingLibrary: undefined,
 };
