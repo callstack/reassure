@@ -38,6 +38,7 @@
   "devDependencies": {
     "@callstack/eslint-config": "^15.0.0",
     "@changesets/cli": "^2.28.1",
+    "babel-jest": "^29.7.0",
     "check-dependency-version-consistency": "^4.1.1",
     "danger": "^12.3.4",
     "eslint": "^8.57.1",
@@ -48,6 +49,9 @@
     "reassure": "workspace:^",
     "turbo": "^2.4.4",
     "typescript": "^5.8.2"
+  },
+  "resolutions": {
+    "react-is": "^19.0.0"
   },
   "eslintIgnore": [
     "node_modules/",
