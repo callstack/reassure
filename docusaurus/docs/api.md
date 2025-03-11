@@ -64,7 +64,7 @@ interface MeasureRendersOptions {
 - **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
-- **`writeFile`**: (default `true`) should write output to file.
+- **`writeFile`**: should write output to file (default `true`)
 - **`beforeEach`**: function to execute before each test run.
 - **`afterEach`**: function to execute after each test run.
 
