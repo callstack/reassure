@@ -54,6 +54,8 @@ interface MeasureRendersOptions {
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
   writeFile?: boolean;
+  beforeEachRun?: () => Promise<void> | void;
+  afterEachRun?: () => Promise<void> | void;
 }
 ```
 
@@ -62,7 +64,9 @@ interface MeasureRendersOptions {
 - **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
-- **`writeFile`**: should write output to file (default `true`)
+- **`writeFile`**: (default `true`) should write output to file.
+- **`beforeEachRun`**: function to execute before each test run.
+- **`afterEachRun`**: function to execute after each test run.
 
 ### `measureFunction` function {#measure-function}
 
@@ -95,6 +99,8 @@ interface MeasureFunctionOptions {
   warmupRuns?: number;
   removeOutliers?: boolean;
   writeFile?: boolean;
+  beforeEachRun?: () => Promise<void> | void;
+  afterEachRun?: () => Promise<void> | void;
 }
 ```
 
@@ -102,6 +108,8 @@ interface MeasureFunctionOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs
 - **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`writeFile`**: should write output to file (default `true`)
+- **`beforeEachRun`**: function to execute before each test run.
+- **`afterEachRun`**: function to execute after each test run.
 
 ### `measureAsyncFunction` function {#measure-async-function}
 
@@ -142,6 +150,8 @@ interface MeasureAsyncFunctionOptions {
   warmupRuns?: number;
   removeOutliers?: boolean;
   writeFile?: boolean;
+  beforeEachRun?: () => Promise<void> | void;
+  afterEachRun?: () => Promise<void> | void;
 }
 ```
 
@@ -149,6 +159,8 @@ interface MeasureAsyncFunctionOptions {
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs
 - **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`writeFile`**: (default `true`) should write output to file
+- **`beforeEachRun`**: function to execute before each test run.
+- **`afterEachRun`**: function to execute after each test run.
 
 ## Configuration
 

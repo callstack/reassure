@@ -8,10 +8,12 @@ export interface MeasureFunctionOptions {
   warmupRuns?: number;
   removeOutliers?: boolean;
   writeFile?: boolean;
+  beforeEachRun?: () => Promise<void> | void;
+  afterEachRun?: () => Promise<void> | void;
 }
 
 export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
-  const stats = measureFunctionInternal(fn, options);
+  const stats = await measureFunctionInternal(fn, options);
 
   if (options?.writeFile !== false) {
     await writeTestStats(stats, 'function');
@@ -20,7 +22,7 @@ export async function measureFunction(fn: () => void, options?: MeasureFunctionO
   return stats;
 }
 
-function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): MeasureResults {
+async function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
   const runs = options?.runs ?? config.runs;
   const warmupRuns = options?.warmupRuns ?? config.warmupRuns;
   const removeOutliers = options?.removeOutliers ?? config.removeOutliers;
@@ -29,9 +31,13 @@ function measureFunctionInternal(fn: () => void, options?: MeasureFunctionOption
 
   const runResults: RunResult[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
+    await options?.beforeEachRun?.();
+
     const timeStart = getCurrentTime();
     fn();
     const timeEnd = getCurrentTime();
+
+    await options?.afterEachRun?.();
 
     const duration = timeEnd - timeStart;
     runResults.push({ duration, count: 1 });

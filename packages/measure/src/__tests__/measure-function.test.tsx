@@ -57,6 +57,49 @@ test('measureFunction applies "warmupRuns" option', async () => {
   expect(results.stdevCount).toBe(0);
 });
 
+test('measureFunction executes setup and cleanup functions for each run', async () => {
+  const fn = jest.fn(() => fib(5));
+  const beforeFn = jest.fn();
+  const afterFn = jest.fn();
+  const results = await measureFunction(fn, {
+    runs: 10,
+    warmupRuns: 1,
+    writeFile: false,
+    beforeEachRun: beforeFn,
+    afterEachRun: afterFn,
+  });
+
+  expect(beforeFn).toHaveBeenCalledTimes(11);
+  expect(fn).toHaveBeenCalledTimes(11);
+  expect(afterFn).toHaveBeenCalledTimes(11);
+  expect(results.runs).toBe(10);
+  expect(results.durations).toHaveLength(10);
+  expect(results.counts).toHaveLength(10);
+});
+
+test('measureAsyncFunction executes setup and cleanup functions for each run', async () => {
+  const fn = jest.fn(async () => {
+    await Promise.resolve();
+    return fib(5);
+  });
+  const beforeFn = jest.fn();
+  const afterFn = jest.fn();
+  const results = await measureAsyncFunction(fn, {
+    runs: 10,
+    warmupRuns: 1,
+    writeFile: false,
+    beforeEachRun: beforeFn,
+    afterEachRun: afterFn,
+  });
+
+  expect(beforeFn).toHaveBeenCalledTimes(11);
+  expect(fn).toHaveBeenCalledTimes(11);
+  expect(afterFn).toHaveBeenCalledTimes(11);
+  expect(results.runs).toBe(10);
+  expect(results.durations).toHaveLength(10);
+  expect(results.counts).toHaveLength(10);
+});
+
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
 const realConsole = jest.requireActual('console') as Console;
 
