@@ -47,8 +47,8 @@ test('measureRenders executes setup and cleanup functions for each run', async (
     warmupRuns: 1,
     scenario,
     writeFile: false,
-    beforeEachRun: beforeFn,
-    afterEachRun: afterFn,
+    beforeEach: beforeFn,
+    afterEach: afterFn,
   });
 
   expect(beforeFn).toHaveBeenCalledTimes(11);

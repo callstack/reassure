@@ -20,8 +20,8 @@ export interface MeasureRendersOptions {
   wrapper?: React.ComponentType<{ children: React.ReactElement }>;
   scenario?: (screen: any) => Promise<any>;
   writeFile?: boolean;
-  beforeEachRun?: () => Promise<void> | void;
-  afterEachRun?: () => Promise<void> | void;
+  beforeEach?: () => Promise<void> | void;
+  afterEach?: () => Promise<void> | void;
 }
 
 export async function measureRenders(
@@ -71,7 +71,7 @@ async function measureRendersInternal(
   let initialRenderCount = 0;
 
   for (let iteration = 0; iteration < runs + warmupRuns; iteration += 1) {
-    await options?.beforeEachRun?.();
+    await options?.beforeEach?.();
 
     let duration = 0;
     let count = 0;
@@ -112,7 +112,7 @@ async function measureRendersInternal(
     cleanup();
     global.gc?.();
 
-    await options?.afterEachRun?.();
+    await options?.afterEach?.();
 
     runResults.push({ duration, count });
   }

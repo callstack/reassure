@@ -8,8 +8,8 @@ export interface MeasureFunctionOptions {
   warmupRuns?: number;
   removeOutliers?: boolean;
   writeFile?: boolean;
-  beforeEachRun?: () => Promise<void> | void;
-  afterEachRun?: () => Promise<void> | void;
+  beforeEach?: () => Promise<void> | void;
+  afterEach?: () => Promise<void> | void;
 }
 
 export async function measureFunction(fn: () => void, options?: MeasureFunctionOptions): Promise<MeasureResults> {
@@ -31,13 +31,13 @@ async function measureFunctionInternal(fn: () => void, options?: MeasureFunction
 
   const runResults: RunResult[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
-    await options?.beforeEachRun?.();
+    await options?.beforeEach?.();
 
     const timeStart = getCurrentTime();
     fn();
     const timeEnd = getCurrentTime();
 
-    await options?.afterEachRun?.();
+    await options?.afterEach?.();
 
     const duration = timeEnd - timeStart;
     runResults.push({ duration, count: 1 });

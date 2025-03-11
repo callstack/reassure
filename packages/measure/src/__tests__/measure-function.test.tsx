@@ -65,8 +65,8 @@ test('measureFunction executes setup and cleanup functions for each run', async 
     runs: 10,
     warmupRuns: 1,
     writeFile: false,
-    beforeEachRun: beforeFn,
-    afterEachRun: afterFn,
+    beforeEach: beforeFn,
+    afterEach: afterFn,
   });
 
   expect(beforeFn).toHaveBeenCalledTimes(11);
@@ -88,8 +88,8 @@ test('measureAsyncFunction executes setup and cleanup functions for each run', a
     runs: 10,
     warmupRuns: 1,
     writeFile: false,
-    beforeEachRun: beforeFn,
-    afterEachRun: afterFn,
+    beforeEach: beforeFn,
+    afterEach: afterFn,
   });
 
   expect(beforeFn).toHaveBeenCalledTimes(11);

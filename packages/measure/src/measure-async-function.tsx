@@ -31,13 +31,13 @@ async function measureAsyncFunctionInternal(
 
   const runResults: RunResult[] = [];
   for (let i = 0; i < runs + warmupRuns; i += 1) {
-    await options?.beforeEachRun?.();
+    await options?.beforeEach?.();
 
     const timeStart = getCurrentTime();
     await fn();
     const timeEnd = getCurrentTime();
 
-    await options?.afterEachRun?.();
+    await options?.afterEach?.();
 
     const duration = timeEnd - timeStart;
     runResults.push({ duration, count: 1 });
