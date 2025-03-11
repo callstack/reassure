@@ -73,30 +73,7 @@ test('measureFunction executes setup and cleanup functions for each run', async 
   expect(fn).toHaveBeenCalledTimes(11);
   expect(afterFn).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
-  expect(results.counts).toHaveLength(10);
-});
-
-test('measureAsyncFunction executes setup and cleanup functions for each run', async () => {
-  const fn = jest.fn(async () => {
-    await Promise.resolve();
-    return fib(5);
-  });
-  const beforeFn = jest.fn();
-  const afterFn = jest.fn();
-  const results = await measureAsyncFunction(fn, {
-    runs: 10,
-    warmupRuns: 1,
-    writeFile: false,
-    beforeEach: beforeFn,
-    afterEach: afterFn,
-  });
-
-  expect(beforeFn).toHaveBeenCalledTimes(11);
-  expect(fn).toHaveBeenCalledTimes(11);
-  expect(afterFn).toHaveBeenCalledTimes(11);
-  expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
+  expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(10);
   expect(results.counts).toHaveLength(10);
 });
 

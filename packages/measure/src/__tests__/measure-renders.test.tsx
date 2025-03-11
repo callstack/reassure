@@ -55,7 +55,7 @@ test('measureRenders executes setup and cleanup functions for each run', async (
   expect(scenario).toHaveBeenCalledTimes(11);
   expect(afterFn).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
+  expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(10);
   expect(results.counts).toHaveLength(10);
 });
 
