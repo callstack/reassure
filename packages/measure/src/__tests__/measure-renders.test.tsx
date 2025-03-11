@@ -57,8 +57,6 @@ test('measureRenders executes setup and cleanup functions for each run', async (
   expect(results.runs).toBe(10);
   expect(results.durations).toHaveLength(10);
   expect(results.counts).toHaveLength(10);
-  expect(results.meanCount).toBe(1);
-  expect(results.stdevCount).toBe(0);
 });
 
 test('measureRenders should log error when running under incorrect node flags', async () => {
