@@ -6,7 +6,7 @@ export type Cleanup = () => void;
 type Config = {
   runs: number;
   warmupRuns: number;
-  dropOutliers: boolean;
+  removeOutliers: boolean;
   outputFile: string;
   testingLibrary?: TestingLibrary;
 };
@@ -14,7 +14,7 @@ type Config = {
 const defaultConfig: Config = {
   runs: 10,
   warmupRuns: 1,
-  dropOutliers: true,
+  removeOutliers: true,
   outputFile: process.env.REASSURE_OUTPUT_FILE ?? '.reassure/current.perf',
   testingLibrary: undefined,
 };

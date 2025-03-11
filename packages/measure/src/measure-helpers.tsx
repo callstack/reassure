@@ -10,23 +10,23 @@ export interface RunResult {
 
 type ProcessRunResultsOptions = {
   warmupRuns: number;
-  dropOutliers?: boolean;
+  removeOutliers?: boolean;
 };
 
 export function processRunResults(inputResults: RunResult[], options: ProcessRunResultsOptions): MeasureResults {
   const warmupResults = inputResults.slice(0, options.warmupRuns);
   const runResults = inputResults.slice(options.warmupRuns);
 
-  const { results, outliers } = options.dropOutliers ? findOutliers(runResults) : { results: runResults };
+  const { results, outliers } = options.removeOutliers ? findOutliers(runResults) : { results: runResults };
 
   const durations = results.map((result) => result.duration);
-  const meanDuration = math.mean(durations) as number;
+  const meanDuration = math.mean(...durations) as number;
   const stdevDuration = math.std(...durations);
   const warmupDurations = warmupResults.map((result) => result.duration);
   const outlierDurations = outliers?.map((result) => result.duration);
 
   const counts = runResults.map((result) => result.count);
-  const meanCount = math.mean(counts) as number;
+  const meanCount = math.mean(...counts) as number;
   const stdevCount = math.std(...counts);
 
   return {

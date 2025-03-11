@@ -50,7 +50,7 @@ test('Test with scenario', async () => {
 interface MeasureRendersOptions {
   runs?: number;
   warmupRuns?: number;
-  dropOutliers?: boolean;
+  removeOutliers?: boolean;
   wrapper?: React.ComponentType<{ children: ReactElement }>;
   scenario?: (view?: RenderResult) => Promise<any>;
   writeFile?: boolean;
@@ -59,7 +59,7 @@ interface MeasureRendersOptions {
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs (default: 1)
-- **`dropOutliers`**: should remove statistical outlier results (default: `true`)
+- **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`wrapper`**: React component, such as a `Provider`, which the `ui` will be wrapped with. Note: the render duration of the `wrapper` itself is excluded from the results, only the wrapped component is measured.
 - **`scenario`**: a custom async function, which defines user interaction within the ui by utilized RNTL functions
 - **`writeFile`**: should write output to file (default `true`)
@@ -93,14 +93,14 @@ test('fib 30', async () => {
 interface MeasureFunctionOptions {
   runs?: number;
   warmupRuns?: number;
-  dropOutliers?: boolean;
+  removeOutliers?: boolean;
   writeFile?: boolean;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs
-- **`dropOutliers`**: should remove statistical outlier results (default: `true`)
+- **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`writeFile`**: should write output to file (default `true`)
 
 ### `measureAsyncFunction` function {#measure-async-function}
@@ -140,14 +140,14 @@ test('fib 30', async () => {
 interface MeasureAsyncFunctionOptions {
   runs?: number;
   warmupRuns?: number;
-  dropOutliers?: boolean;
+  removeOutliers?: boolean;
   writeFile?: boolean;
 }
 ```
 
 - **`runs`**: number of runs per series for the particular test
 - **`warmupRuns`**: number of additional warmup runs that will be done and discarded before the actual runs
-- **`dropOutliers`**: should remove statistical outlier results (default: `true`)
+- **`removeOutliers`**: should remove statistical outlier results (default: `true`)
 - **`writeFile`**: (default `true`) should write output to file
 
 ## Configuration
