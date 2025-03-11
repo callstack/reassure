@@ -38,6 +38,27 @@ test('measureRenders applies "warmupRuns" option', async () => {
   expect(results.stdevCount).toBe(0);
 });
 
+test('measureRenders executes setup and cleanup functions for each run', async () => {
+  const scenario = jest.fn(() => Promise.resolve(null));
+  const beforeFn = jest.fn();
+  const afterFn = jest.fn();
+  const results = await measureRenders(<View />, {
+    runs: 10,
+    warmupRuns: 1,
+    scenario,
+    writeFile: false,
+    beforeEach: beforeFn,
+    afterEach: afterFn,
+  });
+
+  expect(beforeFn).toHaveBeenCalledTimes(11);
+  expect(scenario).toHaveBeenCalledTimes(11);
+  expect(afterFn).toHaveBeenCalledTimes(11);
+  expect(results.runs).toBe(10);
+  expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(10);
+  expect(results.counts).toHaveLength(10);
+});
+
 test('measureRenders should log error when running under incorrect node flags', async () => {
   jest.spyOn(realConsole, 'error').mockImplementation((message) => {
     if (!errorsToIgnore.some((error) => message.includes(error))) {
