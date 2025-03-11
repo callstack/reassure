@@ -5,7 +5,7 @@
 ### Minor Changes
 
 - c51fb5f: feat: add measureAsyncFunction
-- 59b21d4: Added a `dropOutliers` option to detect and drop statistical outliers
+- 59b21d4: Added a `removeOutliers` option to detect and drop statistical outliers
 
 ### Patch Changes
 

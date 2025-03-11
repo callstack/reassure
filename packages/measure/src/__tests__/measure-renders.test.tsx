@@ -17,7 +17,7 @@ test('measureRenders run test given number of times', async () => {
   const scenario = jest.fn(() => Promise.resolve(null));
   const results = await measureRenders(<View />, { runs: 20, scenario, writeFile: false });
   expect(results.runs).toBe(20);
-  expect(results.durations).toHaveLength(20);
+  expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(20);
   expect(results.counts).toHaveLength(20);
   expect(results.meanCount).toBe(1);
   expect(results.stdevCount).toBe(0);
@@ -32,7 +32,7 @@ test('measureRenders applies "warmupRuns" option', async () => {
 
   expect(scenario).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
+  expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(10);
   expect(results.counts).toHaveLength(10);
   expect(results.meanCount).toBe(1);
   expect(results.stdevCount).toBe(0);
@@ -63,9 +63,9 @@ function IgnoreChildren(_: React.PropsWithChildren<{}>) {
 
 test('measureRenders does not measure wrapper execution', async () => {
   const results = await measureRenders(<View />, { wrapper: IgnoreChildren, writeFile: false });
-  expect(results.runs).toBe(10);
-  expect(results.durations).toHaveLength(10);
   expect(results.counts).toHaveLength(10);
+  expect(results.runs).toBe(10);
+  expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(10);
   expect(results.meanDuration).toBe(0);
   expect(results.meanCount).toBe(0);
   expect(results.stdevDuration).toBe(0);

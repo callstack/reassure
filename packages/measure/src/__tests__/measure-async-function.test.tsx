@@ -1,5 +1,5 @@
+/* eslint-disable promise/prefer-await-to-then */
 import stripAnsi from 'strip-ansi';
-import { measureFunction } from '../measure-function';
 import { measureAsyncFunction } from '../measure-async-function';
 import { setHasShownFlagsOutput } from '../output';
 
@@ -12,20 +12,8 @@ function fib(n: number): number {
   return fib(n - 1) + fib(n - 2);
 }
 
-test('measureFunction captures results', async () => {
-  const fn = jest.fn(() => fib(5));
-  const results = await measureFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
-
-  expect(fn).toHaveBeenCalledTimes(1);
-  expect(results.runs).toBe(1);
-  expect(results.counts).toEqual([1]);
-});
-
 test('measureAsyncFunction captures results', async () => {
-  const fn = jest.fn(async () => {
-    await Promise.resolve();
-    return fib(5);
-  });
+  const fn = jest.fn(() => Promise.resolve().then(() => fib(5)));
   const results = await measureAsyncFunction(fn, { runs: 1, warmupRuns: 0, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(1);
@@ -33,9 +21,9 @@ test('measureAsyncFunction captures results', async () => {
   expect(results.counts).toEqual([1]);
 });
 
-test('measureFunction runs specified number of times', async () => {
-  const fn = jest.fn(() => fib(5));
-  const results = await measureFunction(fn, { runs: 20, warmupRuns: 0, writeFile: false });
+test('measureAsyncFunction runs specified number of times', async () => {
+  const fn = jest.fn(() => Promise.resolve().then(() => fib(5)));
+  const results = await measureAsyncFunction(fn, { runs: 20, warmupRuns: 0, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(20);
   expect(results.runs).toBe(20);
@@ -45,9 +33,9 @@ test('measureFunction runs specified number of times', async () => {
   expect(results.stdevCount).toBe(0);
 });
 
-test('measureFunction applies "warmupRuns" option', async () => {
-  const fn = jest.fn(() => fib(5));
-  const results = await measureFunction(fn, { runs: 10, warmupRuns: 1, writeFile: false });
+test('measureAsyncFunction applies "warmupRuns" option', async () => {
+  const fn = jest.fn(() => Promise.resolve().then(() => fib(5)));
+  const results = await measureAsyncFunction(fn, { runs: 10, warmupRuns: 1, writeFile: false });
 
   expect(fn).toHaveBeenCalledTimes(11);
   expect(results.runs).toBe(10);
@@ -68,9 +56,9 @@ beforeEach(() => {
   });
 });
 
-test('measureFunction should log error when running under incorrect node flags', async () => {
+test('measureAsyncFunction should log error when running under incorrect node flags', async () => {
   setHasShownFlagsOutput(false);
-  const results = await measureFunction(jest.fn(), { runs: 1, writeFile: false });
+  const results = await measureAsyncFunction(jest.fn(), { runs: 1, writeFile: false });
 
   expect(results.runs).toBe(1);
   const consoleErrorCalls = jest.mocked(realConsole.error).mock.calls;
