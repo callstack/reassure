@@ -1,5 +1,16 @@
 # @callstack/reassure-cli
 
+## 1.4.0
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+- Updated dependencies [0870117]
+- Updated dependencies [7ad16cb]
+- Updated dependencies [b34459f]
+  - @callstack/reassure-compare@1.4.0
+  - @callstack/reassure-logger@1.4.0
+
 ## 1.4.0-next.0
 
 ### Patch Changes

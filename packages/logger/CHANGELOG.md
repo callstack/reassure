@@ -1,5 +1,11 @@
 # @callstack/reassure-logger
 
+## 1.4.0
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+
 ## 1.4.0-next.0
 
 ### Patch Changes

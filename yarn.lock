@@ -1557,7 +1557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@callstack/reassure-cli@npm:1.4.0-next.0, @callstack/reassure-cli@workspace:packages/cli":
+"@callstack/reassure-cli@npm:1.4.0, @callstack/reassure-cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-cli@workspace:packages/cli"
   dependencies:
@@ -1566,8 +1566,8 @@ __metadata:
     "@babel/preset-env": "npm:^7.26.9"
     "@babel/preset-typescript": "npm:^7.26.0"
     "@babel/runtime": "npm:^7.26.9"
-    "@callstack/reassure-compare": "npm:1.4.0-next.0"
-    "@callstack/reassure-logger": "npm:1.4.0-next.0"
+    "@callstack/reassure-compare": "npm:1.4.0"
+    "@callstack/reassure-logger": "npm:1.4.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^29.5.14"
     "@types/react": "npm:^19.0.0"
@@ -1586,7 +1586,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-compare@npm:1.4.0-next.0, @callstack/reassure-compare@workspace:packages/compare":
+"@callstack/reassure-compare@npm:1.4.0, @callstack/reassure-compare@workspace:packages/compare":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-compare@workspace:packages/compare"
   dependencies:
@@ -1595,7 +1595,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.26.9"
     "@babel/preset-typescript": "npm:^7.26.0"
     "@babel/runtime": "npm:^7.26.9"
-    "@callstack/reassure-logger": "npm:1.4.0-next.0"
+    "@callstack/reassure-logger": "npm:1.4.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^29.5.14"
     "@types/react": "npm:^19.0.0"
@@ -1611,7 +1611,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-danger@npm:1.4.0-next.0, @callstack/reassure-danger@workspace:packages/danger":
+"@callstack/reassure-danger@npm:1.4.0, @callstack/reassure-danger@workspace:packages/danger":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-danger@workspace:packages/danger"
   dependencies:
@@ -1621,7 +1621,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-logger@npm:1.4.0-next.0, @callstack/reassure-logger@workspace:packages/logger":
+"@callstack/reassure-logger@npm:1.4.0, @callstack/reassure-logger@workspace:packages/logger":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-logger@workspace:packages/logger"
   dependencies:
@@ -1632,7 +1632,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@callstack/reassure-measure@npm:1.4.0-next.0, @callstack/reassure-measure@workspace:packages/measure":
+"@callstack/reassure-measure@npm:1.4.0, @callstack/reassure-measure@workspace:packages/measure":
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-measure@workspace:packages/measure"
   dependencies:
@@ -1642,7 +1642,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.26.3"
     "@babel/preset-typescript": "npm:^7.26.0"
     "@babel/runtime": "npm:^7.26.9"
-    "@callstack/reassure-logger": "npm:1.4.0-next.0"
+    "@callstack/reassure-logger": "npm:1.4.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@testing-library/react": "npm:^16.2.0"
     "@testing-library/react-native": "npm:^13.2.0"
@@ -10294,10 +10294,10 @@ __metadata:
     "@babel/preset-env": "npm:^7.26.9"
     "@babel/preset-typescript": "npm:^7.26.0"
     "@babel/runtime": "npm:^7.26.9"
-    "@callstack/reassure-cli": "npm:1.4.0-next.0"
-    "@callstack/reassure-compare": "npm:1.4.0-next.0"
-    "@callstack/reassure-danger": "npm:1.4.0-next.0"
-    "@callstack/reassure-measure": "npm:1.4.0-next.0"
+    "@callstack/reassure-cli": "npm:1.4.0"
+    "@callstack/reassure-compare": "npm:1.4.0"
+    "@callstack/reassure-danger": "npm:1.4.0"
+    "@callstack/reassure-measure": "npm:1.4.0"
     "@types/react": "npm:^19.0.0"
     del-cli: "npm:^5.1.0"
     import-local: "npm:^3.2.0"

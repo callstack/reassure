@@ -1,5 +1,20 @@
 # @callstack/reassure-measure
 
+## 1.4.0
+
+### Minor Changes
+
+- c51fb5f: feat: add measureAsyncFunction
+- 59b21d4: feat: add `removeOutliers` option to detect and drop statistical outliers
+- db535ea: feat: add support for setup/cleanup functions during each test run
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+- b34459f: enable outlier detection by default
+- Updated dependencies [0870117]
+  - @callstack/reassure-logger@1.4.0
+
 ## 1.4.0-next.0
 
 ### Minor Changes

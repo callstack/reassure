@@ -1,5 +1,12 @@
 # example-native
 
+## 1.4.0
+
+### Patch Changes
+
+- 0870117: chore: upgrade deps
+- 4d7071c: chore: update test app
+
 ## 1.4.0-next.0
 
 ### Patch Changes
