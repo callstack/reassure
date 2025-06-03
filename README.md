@@ -1,9 +1,8 @@
-<p align="center">
+<a href="https://www.callstack.com/open-source" align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/logo-dark.png">
-    <img src="https://github.com/callstack/reassure/raw/main/packages/reassure/docs/logo.png" width="400px" alt="Reassure" />
+    <img src="https://github.com/user-attachments/assets/a07e542e-a301-4079-b2cb-f3603f6abb6a" alt="Reassure" />
   </picture>
-</p>
+</a>
 <p align="center">Performance testing companion for React and React Native.</p>
 <p align="center">
   <picture>
