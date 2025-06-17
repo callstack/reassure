@@ -1,4 +1,4 @@
-<a href="https://www.callstack.com/open-source" align="center">
+<a href="https://www.callstack.com/open-source?utm_campaign=generic&utm_source=github&utm_medium=referral&utm_content=reassure" align="center">
   <picture>
     <img src="https://github.com/user-attachments/assets/a07e542e-a301-4079-b2cb-f3603f6abb6a" alt="Reassure" />
   </picture>
