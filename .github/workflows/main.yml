@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ['**']
 
+permissions:
+  pull-requests: write # required for Danger to post comments
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ !contains(github.ref, 'main')}}

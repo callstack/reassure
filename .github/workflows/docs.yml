@@ -10,6 +10,9 @@ on:
     paths:
       - 'docusaurus/**'
 
+permissions:
+  contents: write # required to deploy to GitHub Pages
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ !contains(github.ref, 'main')}}
