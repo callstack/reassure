@@ -3,7 +3,7 @@ import { processRunResults } from '../measure-helpers';
 test('processRunResults calculates correct means and stdevs', () => {
   const input = [
     { duration: 10, count: 2 },
-    { duration: 12, count: 2 },
+    { duration: 12, count: 3 },
     { duration: 14, count: 2 },
   ];
 
@@ -11,7 +11,7 @@ test('processRunResults calculates correct means and stdevs', () => {
     {
       "counts": [
         2,
-        2,
+        3,
         2,
       ],
       "durations": [
@@ -34,7 +34,7 @@ test('processRunResults applies warmupRuns option', () => {
   const input = [
     { duration: 23, count: 1 },
     { duration: 20, count: 5 },
-    { duration: 24, count: 5 },
+    { duration: 24, count: 6 },
     { duration: 22, count: 5 },
   ];
 
@@ -42,7 +42,7 @@ test('processRunResults applies warmupRuns option', () => {
     {
       "counts": [
         5,
-        5,
+        6,
         5,
       ],
       "durations": [
