@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { renderAsync, screen, cleanup } from '@testing-library/react-native';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
