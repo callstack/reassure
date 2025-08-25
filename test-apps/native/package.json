@@ -24,7 +24,7 @@
     "@react-native/eslint-config": "0.78.0",
     "@react-native/metro-config": "0.78.0",
     "@react-native/typescript-config": "0.78.0",
-    "@testing-library/react-native": "^13.2.0",
+    "@testing-library/react-native": "^13.3.0",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.0.0",
     "@types/react-test-renderer": "^19.0.0",
