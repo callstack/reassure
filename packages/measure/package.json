@@ -48,7 +48,7 @@
     "@babel/runtime": "^7.26.9",
     "@relmify/jest-serializer-strip-ansi": "^1.0.2",
     "@testing-library/react": "^16.2.0",
-    "@testing-library/react-native": "^13.2.0",
+    "@testing-library/react-native": "^13.3.0",
     "@types/jest": "^30.0.0",
     "@types/react": "^19.0.0",
     "babel-jest": "^30.0.2",
@@ -63,7 +63,13 @@
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
+    "@react-native/testing-library": "^13.3.0",
     "react": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@react-native/testing-library": {
+      "optional": true
+    }
   },
   "react-native-builder-bob": {
     "source": "src",

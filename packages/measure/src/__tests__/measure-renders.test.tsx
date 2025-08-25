@@ -2,7 +2,8 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { fireEvent, screen } from '@testing-library/react-native';
 import stripAnsi from 'strip-ansi';
-import { buildUiToRender, measureRenders } from '../measure-renders';
+import { measureRenders } from '../measure-renders';
+import { buildUiToRender } from '../measure-renders-common';
 import { setHasShownFlagsOutput } from '../output';
 
 const errorsToIgnore = ['❌ Measure code is running under incorrect Node.js configuration.'];
@@ -225,9 +226,9 @@ const AsyncMicrotaskEffect = () => {
   );
 };
 
-test('ignores async micro-tasks effect', async () => {
+test('does not ignore async micro-tasks effect', async () => {
   const results = await measureRenders(<AsyncMicrotaskEffect />, { writeFile: false });
-  expect(results.issues.initialUpdateCount).toBe(0);
+  expect(results.issues.initialUpdateCount).toBe(1);
   expect(results.issues.redundantUpdates).toEqual([]);
 });
 
