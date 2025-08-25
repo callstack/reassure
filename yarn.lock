@@ -3409,26 +3409,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react-native@npm:^13.2.0":
-  version: 13.2.0
-  resolution: "@testing-library/react-native@npm:13.2.0"
-  dependencies:
-    chalk: "npm:^4.1.2"
-    jest-matcher-utils: "npm:^29.7.0"
-    pretty-format: "npm:^29.7.0"
-    redent: "npm:^3.0.0"
-  peerDependencies:
-    jest: ">=29.0.0"
-    react: ">=18.2.0"
-    react-native: ">=0.71"
-    react-test-renderer: ">=18.2.0"
-  peerDependenciesMeta:
-    jest:
-      optional: true
-  checksum: 10c0/5ed8e09f82f45c057f12a716008f31abf934e6a3d84955540e2ab96d7534c82b9afdb0af050e986d8b63ae9dd8272f8a752c45ecb847a11e7549f30de3d84427
-  languageName: node
-  linkType: hard
-
 "@testing-library/react-native@npm:^13.3.0":
   version: 13.3.2
   resolution: "@testing-library/react-native@npm:13.3.2"
@@ -5728,13 +5708,6 @@ __metadata:
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: 10c0/c38cfc8eeb9fda09febb44bcd85e467c970d4e3bf526095394e5a4f18bc26dd0cf6b22c69c1fa9969261521c593836db335c2795218f6d781a512aea2fb8209d
-  languageName: node
-  linkType: hard
-
-"diff-sequences@npm:^29.6.3":
-  version: 29.6.3
-  resolution: "diff-sequences@npm:29.6.3"
-  checksum: 10c0/32e27ac7dbffdf2fb0eb5a84efd98a9ad084fbabd5ac9abb8757c6770d5320d2acd172830b28c4add29bb873d59420601dfc805ac4064330ce59b1adfd0593b2
   languageName: node
   linkType: hard
 
@@ -8315,18 +8288,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-diff@npm:29.7.0"
-  dependencies:
-    chalk: "npm:^4.0.0"
-    diff-sequences: "npm:^29.6.3"
-    jest-get-type: "npm:^29.6.3"
-    pretty-format: "npm:^29.7.0"
-  checksum: 10c0/89a4a7f182590f56f526443dde69acefb1f2f0c9e59253c61d319569856c4931eae66b8a3790c443f529267a0ddba5ba80431c585deed81827032b2b2a1fc999
-  languageName: node
-  linkType: hard
-
 "jest-docblock@npm:30.0.1":
   version: 30.0.1
   resolution: "jest-docblock@npm:30.0.1"
@@ -8449,18 +8410,6 @@ __metadata:
     jest-diff: "npm:30.0.2"
     pretty-format: "npm:30.0.2"
   checksum: 10c0/6e862dfe259c30f066fe800cc302cad8cdb4ff92dad73538ce099960ecffd5ba119282af933521765ce24fb3d99b5338d7fa64261df08f9e8505350e9d112424
-  languageName: node
-  linkType: hard
-
-"jest-matcher-utils@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-matcher-utils@npm:29.7.0"
-  dependencies:
-    chalk: "npm:^4.0.0"
-    jest-diff: "npm:^29.7.0"
-    jest-get-type: "npm:^29.6.3"
-    pretty-format: "npm:^29.7.0"
-  checksum: 10c0/0d0e70b28fa5c7d4dce701dc1f46ae0922102aadc24ed45d594dd9b7ae0a8a6ef8b216718d1ab79e451291217e05d4d49a82666e1a3cc2b428b75cd9c933244e
   languageName: node
   linkType: hard
 
@@ -11038,7 +10987,7 @@ __metadata:
     "@react-native/eslint-config": "npm:0.78.0"
     "@react-native/metro-config": "npm:0.78.0"
     "@react-native/typescript-config": "npm:0.78.0"
-    "@testing-library/react-native": "npm:^13.2.0"
+    "@testing-library/react-native": "npm:^13.3.0"
     "@types/jest": "npm:^30.0.0"
     "@types/react": "npm:^19.0.0"
     "@types/react-test-renderer": "npm:^19.0.0"
