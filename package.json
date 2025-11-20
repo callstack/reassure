@@ -50,6 +50,9 @@
     "turbo": "^2.6.1",
     "typescript": "^5.9.3"
   },
+  "resolutions": {
+    "react-is": "19.1.1"
+  },
   "eslintIgnore": [
     "node_modules/",
     "lib/"
