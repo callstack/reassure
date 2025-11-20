@@ -56,8 +56,8 @@
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
     "@babel/runtime": "^7.28.4",
-    "@types/react": "~19.1.0",
-    "del-cli": "^5.1.0",
+    "@types/react": "~19.1.17",
+    "del-cli": "^7.0.0",
     "react-native-builder-bob": "^0.24.0",
     "typescript": "^5.9.3"
   },
