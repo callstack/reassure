@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const MeasureMetadataScheme = z.object({
   branch: z.string().optional(),
   commitHash: z.string().optional(),
-  creationDate: z.string().datetime().optional(),
+  creationDate: z.iso.datetime().optional(),
 });
 
 /** Header of performance results file. */

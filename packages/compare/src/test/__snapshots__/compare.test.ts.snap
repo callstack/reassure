@@ -1,28 +1,26 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`loadFile should fail for file with invalid JSON structure 1`] = `"Unexpected non-whitespace character after JSON at position 6"`;
+exports[`loadFile should fail for file with invalid JSON structure 1`] = `"Unexpected non-whitespace character after JSON at position 6 (line 1 column 7)"`;
 
 exports[`loadFile should fail for file with invalid entry 1`] = `
 "[
   {
-    "code": "invalid_type",
     "expected": "number",
-    "received": "string",
+    "code": "invalid_type",
     "path": [
       1,
       "runs"
     ],
-    "message": "Expected number, received string"
+    "message": "Invalid input: expected number, received string"
   },
   {
-    "code": "invalid_type",
     "expected": "number",
-    "received": "undefined",
+    "code": "invalid_type",
     "path": [
       1,
       "meanDuration"
     ],
-    "message": "Required"
+    "message": "Invalid input: expected number, received undefined"
   }
 ]"
 `;
