@@ -102,14 +102,14 @@ async function measureRendersInternal(
     };
 
     const uiToRender = buildUiToRender(ui, handleRender, options?.wrapper);
-    renderResult = render(uiToRender);
+    renderResult = await render(uiToRender);
     captureRenderDetails();
 
     if (scenario) {
       await scenario(renderResult);
     }
 
-    cleanup();
+    await cleanup();
     global.gc?.();
 
     await options?.afterEach?.();

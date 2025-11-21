@@ -1,15 +1,19 @@
 import * as logger from '@callstack/reassure-logger';
-import { config, Render, Cleanup } from './config';
+import { config, Render, Cleanup, RenderAsync, CleanupAsync } from './config';
 
 type TestingLibraryApi = {
-  render: Render;
-  cleanup: Cleanup;
+  render: Render | RenderAsync;
+  cleanup: Cleanup | CleanupAsync;
 };
 
 let RNTL: TestingLibraryApi | undefined;
 try {
   // eslint-disable-next-line import/no-extraneous-dependencies
-  RNTL = require('@testing-library/react-native');
+  const _rntl = require('@testing-library/react-native');
+  RNTL = {
+    render: _rntl.renderAsync ?? _rntl.render,
+    cleanup: _rntl.cleanupAsync ?? _rntl.cleanup,
+  };
 } catch {
   // Do nothing
 }
