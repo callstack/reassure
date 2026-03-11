@@ -1573,7 +1573,7 @@ __metadata:
     jest: "npm:^30.2.0"
     prettier: "npm:^3.6.2"
     react-native-builder-bob: "npm:^0.24.0"
-    simple-git: "npm:^3.30.0"
+    simple-git: "npm:^3.32.3"
     typescript: "npm:^5.9.3"
     yargs: "npm:^17.7.2"
   bin:
@@ -10902,14 +10902,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^3.30.0":
-  version: 3.30.0
-  resolution: "simple-git@npm:3.30.0"
+"simple-git@npm:^3.32.3":
+  version: 3.32.3
+  resolution: "simple-git@npm:3.32.3"
   dependencies:
     "@kwsites/file-exists": "npm:^1.1.1"
     "@kwsites/promise-deferred": "npm:^1.1.1"
     debug: "npm:^4.4.0"
-  checksum: 10c0/ca123580944d55c7f93d17f7a89b39cd43245916b35ed3a8b1269d1f2ae9200e17f098e42af4a2572313726f1273641cbe0748a1ea37d8c803c181fb69068b1d
+  checksum: 10c0/b08ad0811b82d69a9b150109cbf29247bc13f8d5fb5380dcb834a5e0467124c3b5a41a2b9a5dd3c16f1edc9af7fae9add5182ac6476ef0d50e2341c7820fa0f0
   languageName: node
   linkType: hard
 
