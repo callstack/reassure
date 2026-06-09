@@ -36,7 +36,7 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
     "@callstack/reassure-logger": "1.4.0",
-    "mathjs": "^15.1.0",
+    "mathjs": "^15.2.0",
     "pretty-format": "^30.4.1"
   },
   "devDependencies": {
@@ -46,6 +46,7 @@
     "@babel/preset-react": "^7.29.7",
     "@babel/preset-typescript": "^7.29.7",
     "@babel/runtime": "^7.29.7",
+    "@react-native/jest-preset": "^0.85.3",
     "@relmify/jest-serializer-strip-ansi": "^1.0.2",
     "@testing-library/react": "^16.3.2",
     "@testing-library/react-native": "^14.0.0",
@@ -55,8 +56,8 @@
     "del-cli": "^7.0.0",
     "jest": "^30.4.2",
     "prettier": "^3.8.3",
-    "react": "19.1.1",
-    "react-native": "0.82.1",
+    "react": "19.2.3",
+    "react-native": "0.85.3",
     "react-native-builder-bob": "^0.24.0",
     "strip-ansi": "^6.0.1",
     "test-renderer": "1.2.0",
