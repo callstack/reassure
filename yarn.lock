@@ -23,7 +23,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.18.5, @babel/core@npm:^7.22.20, @babel/core@npm:^7.23.9, @babel/core@npm:^7.25.2, @babel/core@npm:^7.27.4, @babel/core@npm:^7.28.5":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.18.5, @babel/core@npm:^7.22.20, @babel/core@npm:^7.23.9, @babel/core@npm:^7.25.2, @babel/core@npm:^7.27.4, @babel/core@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/core@npm:7.29.7"
   dependencies:
@@ -834,7 +834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-flow-strip-types@npm:^7.25.2, @babel/plugin-transform-flow-strip-types@npm:^7.27.1, @babel/plugin-transform-flow-strip-types@npm:^7.29.7":
+"@babel/plugin-transform-flow-strip-types@npm:^7.25.2, @babel/plugin-transform-flow-strip-types@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/plugin-transform-flow-strip-types@npm:7.29.7"
   dependencies:
@@ -1346,7 +1346,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:^7.18.2, @babel/preset-env@npm:^7.28.5":
+"@babel/preset-env@npm:^7.18.2, @babel/preset-env@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/preset-env@npm:7.29.7"
   dependencies:
@@ -1453,7 +1453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-react@npm:^7.17.12, @babel/preset-react@npm:^7.28.5":
+"@babel/preset-react@npm:^7.17.12, @babel/preset-react@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/preset-react@npm:7.29.7"
   dependencies:
@@ -1469,7 +1469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.17.12, @babel/preset-typescript@npm:^7.28.5":
+"@babel/preset-typescript@npm:^7.17.12, @babel/preset-typescript@npm:^7.29.7":
   version: 7.29.7
   resolution: "@babel/preset-typescript@npm:7.29.7"
   dependencies:
@@ -1484,7 +1484,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.26.10, @babel/runtime@npm:^7.28.4, @babel/runtime@npm:^7.5.5":
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.26.10, @babel/runtime@npm:^7.29.7, @babel/runtime@npm:^7.5.5":
   version: 7.29.7
   resolution: "@babel/runtime@npm:7.29.7"
   checksum: 10c0/ca11572f7146b21e0bde6a9ed4bb6a89eafbee5f0944c7eb54d0d8a2dac962c33638a1d611e14faa71dfbb92b4b5f9236232208568a6b7d5c6f3f39ddb91771e
@@ -1569,24 +1569,24 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-cli@workspace:packages/cli"
   dependencies:
-    "@babel/core": "npm:^7.28.5"
-    "@babel/plugin-transform-flow-strip-types": "npm:^7.27.1"
-    "@babel/preset-env": "npm:^7.28.5"
-    "@babel/preset-typescript": "npm:^7.28.5"
-    "@babel/runtime": "npm:^7.28.4"
+    "@babel/core": "npm:^7.29.7"
+    "@babel/plugin-transform-flow-strip-types": "npm:^7.29.7"
+    "@babel/preset-env": "npm:^7.29.7"
+    "@babel/preset-typescript": "npm:^7.29.7"
+    "@babel/runtime": "npm:^7.29.7"
     "@callstack/reassure-compare": "npm:1.4.0"
     "@callstack/reassure-logger": "npm:1.4.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^30.0.0"
-    "@types/react": "npm:~19.1.17"
+    "@types/react": "npm:~19.2.17"
     "@types/yargs": "npm:^17.0.35"
     babel-jest: "npm:^30.4.1"
     chalk: "npm:4.1.2"
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
-    prettier: "npm:^3.6.2"
+    prettier: "npm:^3.8.3"
     react-native-builder-bob: "npm:^0.24.0"
-    simple-git: "npm:^3.32.3"
+    simple-git: "npm:^3.36.0"
     typescript: "npm:^5.9.3"
     yargs: "npm:^17.7.2"
   bin:
@@ -1598,21 +1598,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-compare@workspace:packages/compare"
   dependencies:
-    "@babel/core": "npm:^7.28.5"
-    "@babel/plugin-transform-flow-strip-types": "npm:^7.27.1"
-    "@babel/preset-env": "npm:^7.28.5"
-    "@babel/preset-typescript": "npm:^7.28.5"
-    "@babel/runtime": "npm:^7.28.4"
+    "@babel/core": "npm:^7.29.7"
+    "@babel/plugin-transform-flow-strip-types": "npm:^7.29.7"
+    "@babel/preset-env": "npm:^7.29.7"
+    "@babel/preset-typescript": "npm:^7.29.7"
+    "@babel/runtime": "npm:^7.29.7"
     "@callstack/reassure-logger": "npm:1.4.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
     "@types/jest": "npm:^30.0.0"
-    "@types/react": "npm:~19.1.17"
+    "@types/react": "npm:~19.2.17"
     babel-jest: "npm:^30.4.1"
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
-    prettier: "npm:^3.6.2"
+    prettier: "npm:^3.8.3"
     react-native-builder-bob: "npm:^0.24.0"
-    ts-markdown-builder: "npm:0.5.0"
+    ts-markdown-builder: "npm:0.6.0"
     ts-regex-builder: "npm:^1.8.2"
     typescript: "npm:^5.9.3"
     zod: "npm:^4.1.12"
@@ -1644,23 +1644,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@callstack/reassure-measure@workspace:packages/measure"
   dependencies:
-    "@babel/core": "npm:^7.28.5"
-    "@babel/plugin-transform-flow-strip-types": "npm:^7.27.1"
-    "@babel/preset-env": "npm:^7.28.5"
-    "@babel/preset-react": "npm:^7.28.5"
-    "@babel/preset-typescript": "npm:^7.28.5"
-    "@babel/runtime": "npm:^7.28.4"
+    "@babel/core": "npm:^7.29.7"
+    "@babel/plugin-transform-flow-strip-types": "npm:^7.29.7"
+    "@babel/preset-env": "npm:^7.29.7"
+    "@babel/preset-react": "npm:^7.29.7"
+    "@babel/preset-typescript": "npm:^7.29.7"
+    "@babel/runtime": "npm:^7.29.7"
     "@callstack/reassure-logger": "npm:1.4.0"
     "@relmify/jest-serializer-strip-ansi": "npm:^1.0.2"
-    "@testing-library/react": "npm:^16.3.0"
+    "@testing-library/react": "npm:^16.3.2"
     "@testing-library/react-native": "npm:^14.0.0"
     "@types/jest": "npm:^30.0.0"
-    "@types/react": "npm:~19.1.17"
+    "@types/react": "npm:~19.2.17"
     babel-jest: "npm:^30.4.1"
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
     mathjs: "npm:^15.1.0"
-    prettier: "npm:^3.6.2"
+    prettier: "npm:^3.8.3"
     pretty-format: "npm:^30.4.1"
     react: "npm:19.1.1"
     react-native: "npm:0.82.1"
@@ -3411,7 +3411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^16.3.0":
+"@testing-library/react@npm:^16.3.2":
   version: 16.3.2
   resolution: "@testing-library/react@npm:16.3.2"
   dependencies:
@@ -3620,12 +3620,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:~19.1.17":
-  version: 19.1.17
-  resolution: "@types/react@npm:19.1.17"
+"@types/react@npm:~19.2.17":
+  version: 19.2.17
+  resolution: "@types/react@npm:19.2.17"
   dependencies:
-    csstype: "npm:^3.0.2"
-  checksum: 10c0/8a8369ea00fc961f0884be4d1da4a039b2b6445de9c8b690ed0ebe15acfb0b1f27005278fef1fe39a1722a30f4415778b790d0089e2b30019371c61355ea316f
+    csstype: "npm:^3.2.2"
+  checksum: 10c0/bc2c4af96b3e480604424de70d5ebda90c5f4b485df471858c0bc2d7d70364b606ec3c4d8579f94f01aa0c6c0591f56bcf14cba5689f5eea4b74250ccdc3a232
   languageName: node
   linkType: hard
 
@@ -5175,7 +5175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2":
+"csstype@npm:^3.2.2":
   version: 3.2.3
   resolution: "csstype@npm:3.2.3"
   checksum: 10c0/cd29c51e70fa822f1cecd8641a1445bed7063697469d35633b516e60fe8c1bde04b08f6c5b6022136bb669b64c63d4173af54864510fbb4ee23281801841a3ce
@@ -9801,7 +9801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.0.3, prettier@npm:^3.6.2":
+"prettier@npm:^3.0.3, prettier@npm:^3.8.3":
   version: 3.8.3
   resolution: "prettier@npm:3.8.3"
   bin:
@@ -10145,9 +10145,9 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-flowtype: "npm:^8.0.3"
     eslint-plugin-prettier: "npm:^5.5.4"
-    prettier: "npm:^3.6.2"
+    prettier: "npm:^3.8.3"
     reassure: "workspace:^"
-    turbo: "npm:^2.6.1"
+    turbo: "npm:^2.9.16"
     typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
@@ -10156,9 +10156,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "reassure-test-app@workspace:test-apps/native"
   dependencies:
-    "@babel/core": "npm:^7.28.5"
-    "@babel/preset-env": "npm:^7.28.5"
-    "@babel/runtime": "npm:^7.28.4"
+    "@babel/core": "npm:^7.29.7"
+    "@babel/preset-env": "npm:^7.29.7"
+    "@babel/runtime": "npm:^7.29.7"
     "@react-native-community/cli": "npm:20.0.2"
     "@react-native-community/cli-platform-android": "npm:20.0.2"
     "@react-native-community/cli-platform-ios": "npm:20.0.2"
@@ -10168,10 +10168,10 @@ __metadata:
     "@react-native/typescript-config": "npm:0.82.1"
     "@testing-library/react-native": "npm:^14.0.0"
     "@types/jest": "npm:^30.0.0"
-    "@types/react": "npm:~19.1.17"
+    "@types/react": "npm:~19.2.17"
     eslint: "npm:^8.57.1"
     jest: "npm:^30.4.2"
-    prettier: "npm:^3.6.2"
+    prettier: "npm:^3.8.3"
     react: "npm:19.1.1"
     react-native: "npm:0.82.1"
     reassure: "workspace:^"
@@ -10184,16 +10184,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "reassure@workspace:packages/reassure"
   dependencies:
-    "@babel/core": "npm:^7.28.5"
-    "@babel/plugin-transform-flow-strip-types": "npm:^7.27.1"
-    "@babel/preset-env": "npm:^7.28.5"
-    "@babel/preset-typescript": "npm:^7.28.5"
-    "@babel/runtime": "npm:^7.28.4"
+    "@babel/core": "npm:^7.29.7"
+    "@babel/plugin-transform-flow-strip-types": "npm:^7.29.7"
+    "@babel/preset-env": "npm:^7.29.7"
+    "@babel/preset-typescript": "npm:^7.29.7"
+    "@babel/runtime": "npm:^7.29.7"
     "@callstack/reassure-cli": "npm:1.4.0"
     "@callstack/reassure-compare": "npm:1.4.0"
     "@callstack/reassure-danger": "npm:1.4.0"
     "@callstack/reassure-measure": "npm:1.4.0"
-    "@types/react": "npm:~19.1.17"
+    "@types/react": "npm:~19.2.17"
     del-cli: "npm:^7.0.0"
     import-local: "npm:^3.2.0"
     react-native-builder-bob: "npm:^0.24.0"
@@ -10719,7 +10719,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^3.32.3":
+"simple-git@npm:^3.36.0":
   version: 3.36.0
   resolution: "simple-git@npm:3.36.0"
   dependencies:
@@ -11255,10 +11255,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-markdown-builder@npm:0.5.0":
-  version: 0.5.0
-  resolution: "ts-markdown-builder@npm:0.5.0"
-  checksum: 10c0/7858338e9d883e654b45987e10713c9aa09f520111ea02185cfa053e311f0df4488fae18921f7c6b0639ff7f7591c6cb7e20399a190202d08a11b36b267744cc
+"ts-markdown-builder@npm:0.6.0":
+  version: 0.6.0
+  resolution: "ts-markdown-builder@npm:0.6.0"
+  checksum: 10c0/cb8aefdf961f311f1b21bed86da63c127050ec28fbc54b6d32934cd30d7bc204512d63b2f0f63df9f52c3e86878f89b45d471a786b3ad9667ba7b71b5f24e0c1
   languageName: node
   linkType: hard
 
@@ -11288,7 +11288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo@npm:^2.6.1":
+"turbo@npm:^2.9.16":
   version: 2.9.16
   resolution: "turbo@npm:2.9.16"
   dependencies:
