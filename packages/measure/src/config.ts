@@ -1,4 +1,7 @@
-export type TestingLibrary = 'react' | 'react-native' | { render: Render; cleanup: Cleanup };
+export type TestingLibrary =
+  | 'react'
+  | 'react-native'
+  | { render: Render | RenderAsync; cleanup: Cleanup | CleanupAsync };
 
 export type Render = (component: React.ReactElement<any>) => any;
 export type Cleanup = () => void;

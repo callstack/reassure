@@ -48,7 +48,7 @@
     "@babel/runtime": "^7.28.4",
     "@relmify/jest-serializer-strip-ansi": "^1.0.2",
     "@testing-library/react": "^16.3.0",
-    "@testing-library/react-native": "^13.3.3",
+    "@testing-library/react-native": "^14.0.0",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.17",
     "babel-jest": "^30.2.0",
