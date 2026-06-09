@@ -9,11 +9,7 @@ type TestingLibraryApi = {
 let RNTL: TestingLibraryApi | undefined;
 try {
   // eslint-disable-next-line import/no-extraneous-dependencies
-  const _rntl = require('@testing-library/react-native');
-  RNTL = {
-    render: _rntl.renderAsync ?? _rntl.render,
-    cleanup: _rntl.cleanupAsync ?? _rntl.cleanup,
-  };
+  RNTL = require('@testing-library/react-native');
 } catch {
   // Do nothing
 }

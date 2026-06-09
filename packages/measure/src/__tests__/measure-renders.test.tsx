@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { fireEvent, screen } from '@testing-library/react-native';
 import stripAnsi from 'strip-ansi';
+import { configure } from '../config';
 import { buildUiToRender, measureRenders } from '../measure-renders';
 import { setHasShownFlagsOutput } from '../output';
 
@@ -11,6 +12,10 @@ const realConsole = jest.requireActual('console') as Console;
 beforeEach(() => {
   setHasShownFlagsOutput(true);
   jest.mocked(realConsole.error).mockRestore?.();
+});
+
+afterEach(() => {
+  configure({ testingLibrary: 'react-native' });
 });
 
 test('measureRenders run test given number of times', async () => {
@@ -57,6 +62,36 @@ test('measureRenders executes setup and cleanup functions for each run', async (
   expect(results.runs).toBe(10);
   expect(results.durations.length + (results.outlierDurations?.length ?? 0)).toBe(10);
   expect(results.counts).toHaveLength(10);
+});
+
+test('measureRenders supports async custom render and cleanup functions', async () => {
+  const calls: string[] = [];
+  const render = jest.fn(() => {
+    calls.push('render');
+    return Promise.resolve({ toJSON: () => null });
+  });
+  const cleanup = jest.fn(() => {
+    calls.push('cleanup');
+    return Promise.resolve();
+  });
+  const scenario = jest.fn(() => {
+    calls.push('scenario');
+    return Promise.resolve();
+  });
+
+  configure({ testingLibrary: { render, cleanup } });
+
+  await measureRenders(<View />, {
+    runs: 1,
+    warmupRuns: 0,
+    scenario,
+    writeFile: false,
+  });
+
+  expect(render).toHaveBeenCalledTimes(1);
+  expect(scenario).toHaveBeenCalledTimes(1);
+  expect(cleanup).toHaveBeenCalledTimes(1);
+  expect(calls).toEqual(['render', 'scenario', 'cleanup']);
 });
 
 test('measureRenders should log error when running under incorrect node flags', async () => {
