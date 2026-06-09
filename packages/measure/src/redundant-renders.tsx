@@ -1,7 +1,7 @@
-import type { ReactTestRendererJSON } from 'react-test-renderer';
+import type { JsonElement } from 'test-renderer';
 import { format as prettyFormat, plugins } from 'pretty-format';
 
-export type ElementJsonTree = ReactTestRendererJSON | ReactTestRendererJSON[] | null;
+export type ElementJsonTree = JsonElement | JsonElement[] | null;
 
 export function detectRedundantUpdates(elementTrees: ElementJsonTree[], initialRenderCount: number): number[] {
   const result = [];
