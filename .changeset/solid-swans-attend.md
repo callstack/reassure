@@ -2,4 +2,4 @@
 '@callstack/reassure-measure': minor
 ---
 
-feat: use `renderAsync` from RNTL if available.
+feat: support async `render` and `cleanup` from React Native Testing Library v14.

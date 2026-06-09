@@ -1,13 +1,7 @@
-export type TestingLibrary =
-  | 'react'
-  | 'react-native'
-  | { render: Render | RenderAsync; cleanup: Cleanup | CleanupAsync };
+export type TestingLibrary = 'react' | 'react-native' | { render: Render; cleanup: Cleanup };
 
-export type Render = (component: React.ReactElement<any>) => any;
-export type Cleanup = () => void;
-
-export type RenderAsync = (component: React.ReactElement<any>) => Promise<any>;
-export type CleanupAsync = () => Promise<void>;
+export type Render = (component: React.ReactElement<any>) => any | Promise<any>;
+export type Cleanup = () => void | Promise<void>;
 
 type Config = {
   runs: number;

@@ -1,9 +1,9 @@
 import * as logger from '@callstack/reassure-logger';
-import { config, Render, Cleanup, RenderAsync, CleanupAsync } from './config';
+import { config, Render, Cleanup } from './config';
 
 type TestingLibraryApi = {
-  render: Render | RenderAsync;
-  cleanup: Cleanup | CleanupAsync;
+  render: Render;
+  cleanup: Cleanup;
 };
 
 let RNTL: TestingLibraryApi | undefined;

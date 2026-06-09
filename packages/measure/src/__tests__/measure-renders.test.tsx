@@ -221,51 +221,6 @@ test('measureRenders detects multiple redundant updates', async () => {
   expect(results.issues.initialUpdateCount).toBe(0);
 });
 
-// const AsyncMacroTaskEffect = () => {
-//   const [count, setCount] = React.useState(0);
-
-//   React.useEffect(() => {
-//     setTimeout(() => setCount(1), 0);
-//   }, []);
-
-//   return (
-//     <View>
-//       <Text>Count: ${count}</Text>
-//     </View>
-//   );
-// };
-
-// test('ignores async macro-tasks effect', async () => {
-//   const results = await measureRenders(<AsyncMacroTaskEffect />, { writeFile: false });
-//   expect(results.issues.initialUpdateCount).toBe(1);
-//   expect(results.issues.redundantUpdates).toEqual([]);
-// });
-
-// const AsyncMicrotaskEffect = () => {
-//   const [count, setCount] = React.useState(0);
-
-//   React.useEffect(() => {
-//     const asyncSet = async () => {
-//       await Promise.resolve();
-//       setCount(1);
-//     };
-
-//     void asyncSet();
-//   }, []);
-
-//   return (
-//     <View>
-//       <Text>Count: ${count}</Text>
-//     </View>
-//   );
-// };
-
-// test('handles async micro-tasks effect', async () => {
-//   const results = await measureRenders(<AsyncMicrotaskEffect />, { writeFile: false });
-//   expect(results.issues.initialUpdateCount).toBe(0);
-//   expect(results.issues.redundantUpdates).toEqual([]);
-// });
-
 function Wrapper({ children }: React.PropsWithChildren<{}>) {
   return <View testID="wrapper">{children}</View>;
 }
