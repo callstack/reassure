@@ -39,7 +39,7 @@
     "@callstack/eslint-config": "^15.0.0",
     "@changesets/cli": "^2.31.0",
     "babel-jest": "^30.4.1",
-    "check-dependency-version-consistency": "^5.0.1",
+    "check-dependency-version-consistency": "^6.0.0",
     "danger": "^13.0.7",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.2",
@@ -48,7 +48,7 @@
     "prettier": "^3.8.3",
     "reassure": "workspace:^",
     "turbo": "^2.9.16",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "resolutions": {
     "react-is": "19.1.1",
