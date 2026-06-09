@@ -38,7 +38,7 @@
   "devDependencies": {
     "@callstack/eslint-config": "^15.0.0",
     "@changesets/cli": "^2.29.7",
-    "babel-jest": "^30.2.0",
+    "babel-jest": "^30.4.1",
     "check-dependency-version-consistency": "^5.0.1",
     "danger": "^13.0.5",
     "eslint": "^8.57.1",
@@ -51,7 +51,9 @@
     "typescript": "^5.9.3"
   },
   "resolutions": {
-    "react-is": "19.1.1"
+    "react-is": "19.1.1",
+    "jest-mock": "30.4.1",
+    "jest-environment-node": "30.4.1"
   },
   "eslintIgnore": [
     "node_modules/",

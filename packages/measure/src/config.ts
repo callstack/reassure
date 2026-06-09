@@ -1,7 +1,7 @@
 export type TestingLibrary = 'react' | 'react-native' | { render: Render; cleanup: Cleanup };
 
-export type Render = (component: React.ReactElement<any>) => any;
-export type Cleanup = () => void;
+export type Render = (component: React.ReactElement<any>) => any | Promise<any>;
+export type Cleanup = () => void | Promise<void>;
 
 type Config = {
   runs: number;

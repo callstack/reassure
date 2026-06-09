@@ -468,7 +468,10 @@ type Config = {
   testingLibrary?:
     | 'react-native'
     | 'react'
-    | { render: (component: React.ReactElement<any>) => any; cleanup: () => any };
+    | {
+        render: (component: React.ReactElement<any>) => any | Promise<any>;
+        cleanup: () => void | Promise<void>;
+      };
 };
 ```
 

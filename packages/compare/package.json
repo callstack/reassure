@@ -49,9 +49,9 @@
     "@relmify/jest-serializer-strip-ansi": "^1.0.2",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.17",
-    "babel-jest": "^30.2.0",
+    "babel-jest": "^30.4.1",
     "del-cli": "^7.0.0",
-    "jest": "^30.2.0",
+    "jest": "^30.4.2",
     "prettier": "^3.6.2",
     "react-native-builder-bob": "^0.24.0",
     "typescript": "^5.9.3"
