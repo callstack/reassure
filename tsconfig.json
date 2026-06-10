@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./",
     "isolatedModules": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -10,7 +9,16 @@
     "jsx": "react",
     "lib": ["esnext"],
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "types": ["node", "jest"],
+    "paths": {
+      "@callstack/reassure-cli": ["./packages/cli/src/index.ts"],
+      "@callstack/reassure-compare": ["./packages/compare/src/index.ts"],
+      "@callstack/reassure-danger": ["./packages/danger/src/index.ts"],
+      "@callstack/reassure-logger": ["./packages/logger/src/index.ts"],
+      "@callstack/reassure-measure": ["./packages/measure/src/index.ts"],
+      "reassure": ["./packages/reassure/src/index.ts"]
+    },
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,

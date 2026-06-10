@@ -1,4 +1,5 @@
 import readline from 'readline';
+import rawConsole from 'console';
 import chalk from 'chalk';
 import { colors } from './colors';
 
@@ -25,8 +26,7 @@ export function configure(options: Partial<LoggerOptions>) {
   config = { ...config, ...options };
 }
 
-// Jest is wrapping console.* calls, so we need to get the raw console object
-const rawConsole = require('console') as typeof console;
+// Jest is wrapping console.* calls, so we need to get the raw console object.
 
 export function error(message: string, ...args: unknown[]) {
   rawConsole.error(colorError(message, ...args));

@@ -1,4 +1,4 @@
-import type yargs from 'yargs';
+import type { Argv } from 'yargs';
 
 export interface CommonOptions {
   /** Silent all non-error messages. */
@@ -8,7 +8,7 @@ export interface CommonOptions {
   verbose: boolean;
 }
 
-export function applyCommonOptions(yargs: yargs.Argv<{}>) {
+export function applyCommonOptions(yargs: Argv<{}>) {
   return yargs
     .option('silent', {
       type: 'boolean',
