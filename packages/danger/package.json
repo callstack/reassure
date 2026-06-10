@@ -37,7 +37,7 @@
   "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
     "del-cli": "^7.0.0",
-    "react-native-builder-bob": "^0.24.0",
+    "react-native-builder-bob": "^0.41.0",
     "typescript": "^6.0.3"
   },
   "react-native-builder-bob": {
