@@ -28,7 +28,7 @@
     "@testing-library/react-native": "^14.0.0",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.2.17",
-    "eslint": "^8.57.1",
+    "eslint": "^10.4.1",
     "jest": "^30.4.2",
     "prettier": "^3.8.3",
     "reassure": "workspace:^",

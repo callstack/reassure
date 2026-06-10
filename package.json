@@ -38,11 +38,13 @@
   "devDependencies": {
     "@callstack/eslint-config": "^15.0.0",
     "@changesets/cli": "^2.31.0",
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
     "babel-jest": "^30.4.1",
     "check-dependency-version-consistency": "^6.0.0",
     "danger": "^13.0.7",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.2",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-prettier": "^5.5.6",
     "prettier": "^3.8.3",
@@ -55,10 +57,6 @@
     "jest-mock": "30.4.1",
     "jest-environment-node": "30.4.1"
   },
-  "eslintIgnore": [
-    "node_modules/",
-    "lib/"
-  ],
   "workspaces": {
     "packages": [
       "packages/*",
