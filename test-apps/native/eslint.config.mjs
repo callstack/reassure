@@ -1,39 +1,28 @@
 import { fixupPluginRules } from '@eslint/compat';
 import reactNativeConfig from '@react-native/eslint-config/flat';
 
-const patchedReactNativeConfig = reactNativeConfig
-  .filter(
-    (configItem) =>
-      !(
-        configItem.files?.includes('**/*.js') &&
-        configItem.languageOptions?.parser
-      ) && !configItem.files?.includes('**/*.jsx')
-  )
-  .map((configItem) => {
-    if (
-      !configItem.plugins?.['eslint-comments'] &&
-      !configItem.plugins?.react &&
-      !configItem.plugins?.['react-native']
-    ) {
-      return configItem;
-    }
+function patchLegacyPlugins(configItem) {
+  const { plugins } = configItem;
+  if (!plugins) {
+    return configItem;
+  }
 
-    return {
-      ...configItem,
-      plugins: {
-        ...configItem.plugins,
-        ...(configItem.plugins['eslint-comments'] && {
-          'eslint-comments': fixupPluginRules(configItem.plugins['eslint-comments']),
-        }),
-        ...(configItem.plugins.react && {
-          react: fixupPluginRules(configItem.plugins.react),
-        }),
-        ...(configItem.plugins['react-native'] && {
-          'react-native': fixupPluginRules(configItem.plugins['react-native']),
-        }),
-      },
-    };
-  });
+  let patchedPlugins = plugins;
+
+  for (const pluginName of ['eslint-comments', 'react', 'react-native']) {
+    if (plugins[pluginName]) {
+      patchedPlugins =
+        patchedPlugins === plugins ? { ...plugins } : patchedPlugins;
+      patchedPlugins[pluginName] = fixupPluginRules(plugins[pluginName]);
+    }
+  }
+
+  return patchedPlugins === plugins
+    ? configItem
+    : { ...configItem, plugins: patchedPlugins };
+}
+
+const patchedReactNativeConfig = reactNativeConfig.map(patchLegacyPlugins);
 
 export default [
   {

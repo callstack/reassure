@@ -8,7 +8,7 @@
     "test:test-app": "cd ./test-apps/native && yarn test",
     "typecheck": "tsc --noEmit",
     "typecheck:test-app": "yarn --cwd ./test-apps/native typecheck",
-    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:deps": "yarn check-dependency-version-consistency .",
     "clean": "turbo run clean",
     "build": "turbo run build",
@@ -53,6 +53,7 @@
     "typescript": "^6.0.3"
   },
   "resolutions": {
+    "@eslint/compat": "^2.1.0",
     "react-is": "19.1.1",
     "jest-mock": "30.4.1",
     "jest-environment-node": "30.4.1"
