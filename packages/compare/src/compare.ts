@@ -105,15 +105,12 @@ export function loadFile(path: string): MeasureResults {
     .map((line) => JSON.parse(line));
 
   let header: MeasureHeader | null = null;
-  let entries: MeasureEntry[] = [];
 
   const hasHeader = lines[0].metadata !== undefined;
   if (hasHeader) {
     header = parseHeader(lines[0]);
-    entries = parseMeasureEntries(lines.slice(1));
-  } else {
-    entries = parseMeasureEntries(lines);
   }
+  const entries = parseMeasureEntries(hasHeader ? lines.slice(1) : lines);
 
   const keyedEntries: Record<string, MeasureEntry> = {};
   entries.forEach((entry) => {
