@@ -52,8 +52,7 @@
     "@callstack/reassure-cli": "1.4.0",
     "@callstack/reassure-compare": "1.4.0",
     "@callstack/reassure-danger": "1.4.0",
-    "@callstack/reassure-measure": "1.4.0",
-    "import-local": "^3.2.0"
+    "@callstack/reassure-measure": "1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

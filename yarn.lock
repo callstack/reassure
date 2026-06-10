@@ -10285,7 +10285,6 @@ __metadata:
     "@callstack/reassure-measure": "npm:1.4.0"
     "@types/react": "npm:~19.2.17"
     del-cli: "npm:^7.0.0"
-    import-local: "npm:^3.2.0"
     react-native-builder-bob: "npm:^0.41.0"
     typescript: "npm:^6.0.3"
   bin:
