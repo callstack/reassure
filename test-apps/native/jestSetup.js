@@ -6,6 +6,7 @@ configure({
 });
 
 beforeAll(() => {
+  // part 1
   const React = require('react');
   // __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE IS the
   // ReactSharedInternals object — the same reference React reads internally.
@@ -19,5 +20,6 @@ beforeAll(() => {
     });
   }
 
-  delete console.createTask;
+  // part 2
+  // delete console.createTask;
 });
