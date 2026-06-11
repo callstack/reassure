@@ -1,5 +1,23 @@
 # @callstack/reassure-cli
 
+## 1.5.0
+
+### Minor Changes
+
+- d14732b: update deps
+
+### Patch Changes
+
+- 7f6c9d4: chore: Jest 30 support
+- 7999170: bump simple-git
+- 41b6e24: chore: upgrade deps
+- Updated dependencies [86343e4]
+- Updated dependencies [7f6c9d4]
+- Updated dependencies [41b6e24]
+- Updated dependencies [d14732b]
+  - @callstack/reassure-compare@1.5.0
+  - @callstack/reassure-logger@1.5.0
+
 ## 1.4.0
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # example-native
 
+## 1.5.0
+
+### Minor Changes
+
+- d14732b: update deps
+
+### Patch Changes
+
+- 86343e4: update eslint to v10
+- 7f6c9d4: chore: Jest 30 support
+- 41b6e24: chore: upgrade deps
+
 ## 1.4.0
 
 ### Patch Changes

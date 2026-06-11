@@ -1,5 +1,21 @@
 # @callstack/reassure-measure
 
+## 1.5.0
+
+### Minor Changes
+
+- 557da7e: feat: support async `render` and `cleanup` from React Native Testing Library v14.
+- d14732b: update deps
+
+### Patch Changes
+
+- 86343e4: update eslint to v10
+- 7f6c9d4: chore: Jest 30 support
+- 41b6e24: chore: upgrade deps
+- Updated dependencies [41b6e24]
+- Updated dependencies [d14732b]
+  - @callstack/reassure-logger@1.5.0
+
 ## 1.4.0
 
 ### Minor Changes

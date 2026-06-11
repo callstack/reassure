@@ -1,5 +1,25 @@
 # reassure
 
+## 1.5.0
+
+### Minor Changes
+
+- d14732b: update deps
+
+### Patch Changes
+
+- 41b6e24: chore: upgrade deps
+- Updated dependencies [86343e4]
+- Updated dependencies [7f6c9d4]
+- Updated dependencies [7999170]
+- Updated dependencies [41b6e24]
+- Updated dependencies [557da7e]
+- Updated dependencies [d14732b]
+  - @callstack/reassure-compare@1.5.0
+  - @callstack/reassure-measure@1.5.0
+  - @callstack/reassure-cli@1.5.0
+  - @callstack/reassure-danger@1.5.0
+
 ## 1.4.0
 
 ### Minor Changes

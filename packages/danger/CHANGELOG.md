@@ -1,5 +1,15 @@
 # @callstack/reassure-danger
 
+## 1.5.0
+
+### Minor Changes
+
+- d14732b: update deps
+
+### Patch Changes
+
+- 41b6e24: chore: upgrade deps
+
 ## 1.4.0
 
 ### Patch Changes
