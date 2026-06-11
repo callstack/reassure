@@ -1,11 +1,10 @@
 {
   "name": "@callstack/reassure-danger",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Performance testing companion for React and React Native",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "types": "lib/typescript/commonjs/index.d.ts",
-  "react-native": "src/index",
   "source": "src/index.ts",
   "files": [
     "src",
@@ -16,10 +15,6 @@
   ],
   "exports": {
     ".": {
-      "react-native": {
-        "types": "./lib/typescript/module/index.d.ts",
-        "default": "./src/index.ts"
-      },
       "import": {
         "types": "./lib/typescript/module/index.d.ts",
         "default": "./lib/module/index.js"

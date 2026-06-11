@@ -1,5 +1,11 @@
 # @callstack/reassure-danger
 
+## 1.5.1
+
+### Patch Changes
+
+- fix: remove `react-native` export condition that caused Jest to load raw TypeScript source
+
 ## 1.5.0
 
 ### Minor Changes

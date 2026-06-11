@@ -1,5 +1,12 @@
 # reassure
 
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @callstack/reassure-danger@1.5.1
+
 ## 1.5.0
 
 ### Minor Changes
