@@ -1,25 +1,12 @@
 import { configure } from 'reassure';
+import { configure as configureRtc } from 'react-test-config';
 
 configure({
   testingLibrary: 'react-native',
   verbose: true,
 });
 
-beforeAll(() => {
-  // part 1
-  const React = require('react');
-  // __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE IS the
-  // ReactSharedInternals object — the same reference React reads internally.
-  const internals =
-    React.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
-  if (internals != null && 'recentlyCreatedOwnerStacks' in internals) {
-    Object.defineProperty(internals, 'recentlyCreatedOwnerStacks', {
-      get: () => Infinity,
-      set: () => {},
-      configurable: true,
-    });
-  }
+configureRtc({
+  enableOwnerStacks: false,
+})
 
-  // part 2
-  // delete console.createTask;
-});

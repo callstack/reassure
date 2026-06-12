@@ -10209,6 +10209,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-test-config@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "react-test-config@npm:0.1.0"
+  peerDependencies:
+    react: ^19.0.0
+  checksum: 10c0/ab5559ceb2900374ea56286b9679ccc6e292acd8611f2bb763c661f64981d15dc508defe4c2887817843e8e7c85c595bd0503d3f4db02896bba6f34103b58f25
+  languageName: node
+  linkType: hard
+
 "react@npm:19.2.3":
   version: 19.2.3
   resolution: "react@npm:19.2.3"
@@ -10291,6 +10300,7 @@ __metadata:
     prettier: "npm:^3.8.3"
     react: "npm:19.2.3"
     react-native: "npm:0.85.3"
+    react-test-config: "npm:^0.1.0"
     reassure: "workspace:^"
     test-renderer: "npm:1.2.0"
     typescript: "npm:^6.0.3"

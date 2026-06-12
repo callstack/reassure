@@ -31,6 +31,7 @@
     "eslint": "^10.4.1",
     "jest": "^30.4.2",
     "prettier": "^3.8.3",
+    "react-test-config": "^0.1.0",
     "reassure": "workspace:^",
     "test-renderer": "1.2.0",
     "typescript": "^6.0.3"
