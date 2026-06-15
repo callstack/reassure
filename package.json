@@ -52,7 +52,6 @@
     "check-dependency-version-consistency": "^6.0.0",
     "danger": "^13.0.7",
     "eslint": "^10.4.1",
-    "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-oxfmt": "^0.10.0",
     "oxfmt": "^0.54.0",
     "reassure": "workspace:^",

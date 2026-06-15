@@ -1586,7 +1586,6 @@ __metadata:
     chalk: "npm:4.1.2"
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
-    prettier: "npm:^3.8.3"
     react-native-builder-bob: "npm:^0.41.0"
     simple-git: "npm:^3.36.0"
     typescript: "npm:^6.0.3"
@@ -1612,7 +1611,6 @@ __metadata:
     babel-jest: "npm:^30.4.1"
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
-    prettier: "npm:^3.8.3"
     react-native-builder-bob: "npm:^0.41.0"
     ts-markdown-builder: "npm:0.6.0"
     ts-regex-builder: "npm:^1.8.2"
@@ -1663,7 +1661,6 @@ __metadata:
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
     mathjs: "npm:^15.2.0"
-    prettier: "npm:^3.8.3"
     pretty-format: "npm:^30.4.1"
     react: "npm:19.2.3"
     react-native: "npm:0.85.3"
@@ -10187,7 +10184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.0.3, prettier@npm:^3.8.3":
+"prettier@npm:^3.0.3":
   version: 3.8.3
   resolution: "prettier@npm:3.8.3"
   bin:
@@ -10543,7 +10540,6 @@ __metadata:
     check-dependency-version-consistency: "npm:^6.0.0"
     danger: "npm:^13.0.7"
     eslint: "npm:^10.4.1"
-    eslint-plugin-flowtype: "npm:^8.0.3"
     eslint-plugin-oxfmt: "npm:^0.10.0"
     oxfmt: "npm:^0.54.0"
     reassure: "workspace:^"

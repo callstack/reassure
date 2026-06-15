@@ -71,7 +71,6 @@
     "babel-jest": "^30.4.1",
     "del-cli": "^7.0.0",
     "jest": "^30.4.2",
-    "prettier": "^3.8.3",
     "react": "19.2.3",
     "react-native": "0.85.3",
     "react-native-builder-bob": "^0.41.0",
