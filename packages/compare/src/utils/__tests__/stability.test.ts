@@ -1,5 +1,5 @@
 import type { MeasureResults } from '../../types';
-import { calculateEntryCV, calculateRunStability } from '../stability';
+import { calculateEntryStability, calculateRunStability } from '../stability';
 
 describe('calculateRunStability', () => {
   it('calculates mean-duration-weighted average CV', () => {
@@ -25,7 +25,7 @@ describe('calculateRunStability', () => {
   });
 });
 
-describe('calculateEntryCV', () => {
+describe('calculateEntryStability', () => {
   it('includes removed outlier durations', () => {
     const entry = buildEntry({
       name: 'with outlier',
@@ -33,7 +33,7 @@ describe('calculateEntryCV', () => {
       outlierDurations: [40],
     });
 
-    expect(calculateEntryCV(entry)).toBeCloseTo(0.866);
+    expect(calculateEntryStability(entry).current).toBeCloseTo(0.866);
   });
 
   it('does not include warmup durations', () => {
@@ -43,7 +43,7 @@ describe('calculateEntryCV', () => {
       warmupDurations: [40],
     });
 
-    expect(calculateEntryCV(entry)).toBe(0);
+    expect(calculateEntryStability(entry).current).toBe(0);
   });
 });
 

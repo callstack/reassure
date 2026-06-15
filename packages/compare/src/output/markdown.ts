@@ -18,7 +18,6 @@ import type {
   RemovedEntry,
   MeasureEntry,
   RenderIssues,
-  RunStability,
 } from '../types';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
@@ -121,15 +120,11 @@ function buildStabilitySection(data: CompareResult) {
     [
       [
         'Weighted Average',
-        data.stability.baseline ? formatWeightedAverageCV(data.stability.baseline) : '',
-        formatWeightedAverageCV(data.stability.current),
+        data.stability.baseline ? formatPercent(data.stability.baseline.weightedAverage) : '',
+        formatPercent(data.stability.current.weightedAverage),
       ],
     ]
   );
-}
-
-function formatWeightedAverageCV(stability: RunStability) {
-  return formatPercent(stability.weightedAverage);
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
@@ -189,7 +184,7 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
   ]);
 }
 
-function buildDurationDetails(title: string, entry: MeasureEntry, stabilityCV?: number) {
+function buildDurationDetails(title: string, entry: MeasureEntry, stability?: number) {
   const relativeStdev = entry.stdevDuration / entry.meanDuration;
 
   return joinLines([
@@ -199,7 +194,7 @@ function buildDurationDetails(title: string, entry: MeasureEntry, stabilityCV?: 
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
     entry.warmupDurations ? `Warmup runs: ${formatRunDurations(entry.warmupDurations)}` : '',
     entry.outlierDurations ? `Removed outliers: ${formatRunDurations(entry.outlierDurations)}` : '',
-    stabilityCV != null ? `Stability: ${formatPercent(stabilityCV)}` : '',
+    stability != null ? `Stability: ${formatPercent(stability)}` : '',
   ]);
 }
 
