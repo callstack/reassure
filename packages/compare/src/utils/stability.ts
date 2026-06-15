@@ -1,14 +1,15 @@
+import * as math from 'mathjs';
 import type { EntryStability, MeasureEntry, MeasureResults, RunStability } from '../types';
 
 export function calculateRunStability(results: MeasureResults): RunStability {
   const entries = Object.values(results.entries)
     .map((entry) => {
-      const cv = calculateEntryCV(entry);
-      if (cv == null) return undefined;
+      const stats = calculateEntryStabilityStats(entry);
+      if (stats == null) return undefined;
 
       return {
-        cv,
-        meanDuration: entry.meanDuration,
+        cv: stats.cv,
+        meanDuration: stats.meanDuration,
       };
     })
     .filter(isStabilityEntry);
@@ -22,9 +23,20 @@ export function calculateRunStability(results: MeasureResults): RunStability {
 }
 
 export function calculateEntryCV(entry: MeasureEntry): number | undefined {
-  if (entry.meanDuration <= 0) return undefined;
+  return calculateEntryStabilityStats(entry)?.cv;
+}
 
-  return entry.stdevDuration / entry.meanDuration;
+function calculateEntryStabilityStats(entry: MeasureEntry) {
+  const durations = [...entry.durations, ...(entry.outlierDurations ?? [])];
+  if (durations.length === 0) return undefined;
+
+  const meanDuration = math.mean(...durations) as number;
+  if (meanDuration <= 0) return undefined;
+
+  return {
+    meanDuration,
+    cv: math.std(...durations) / meanDuration,
+  };
 }
 
 export function calculateEntryStability(current?: MeasureEntry, baseline?: MeasureEntry): EntryStability {

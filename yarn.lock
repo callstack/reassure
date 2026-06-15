@@ -1611,6 +1611,7 @@ __metadata:
     babel-jest: "npm:^30.4.1"
     del-cli: "npm:^7.0.0"
     jest: "npm:^30.4.2"
+    mathjs: "npm:^15.2.0"
     react-native-builder-bob: "npm:^0.41.0"
     ts-markdown-builder: "npm:0.6.0"
     ts-regex-builder: "npm:^1.8.2"
