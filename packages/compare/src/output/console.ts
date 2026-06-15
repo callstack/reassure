@@ -1,11 +1,10 @@
 import * as logger from '@callstack/reassure-logger';
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, RunStability, EntryStability } from '../types';
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, EntryStability } from '../types';
 import {
   formatCount,
   formatDuration,
   formatMetadata,
   formatPercent,
-  formatPercentPointDiff,
   formatCountChange,
   formatDurationChange,
 } from '../utils/format';
@@ -55,10 +54,7 @@ export function printToConsole(data: CompareResult) {
   }
 
   logger.log('\n➡️  Stability');
-  printStability('Current', data.stability.current);
-  if (data.stability.baseline) {
-    printStability('Baseline', data.stability.baseline);
-  }
+  printStability(data);
 
   logger.newLine();
 }
@@ -67,8 +63,11 @@ function printMetadata(name: string, metadata?: MeasureMetadata) {
   logger.log(` - ${name}: ${formatMetadata(metadata)}`);
 }
 
-function printStability(name: string, stability: RunStability) {
-  logger.log(` - ${name}: ${formatPercent(stability.weightedAverageCV)} weighted CV`);
+function printStability(data: CompareResult) {
+  const current = formatPercent(data.stability.current.weightedAverage);
+  const baseline = data.stability.baseline ? `${formatPercent(data.stability.baseline.weightedAverage)} => ` : '';
+
+  logger.log(` - Weighted Average: ${baseline}${current}`);
 }
 
 function printRegularLine(entry: CompareEntry) {
@@ -115,14 +114,12 @@ function printRemovedLine(entry: RemovedEntry) {
 }
 
 function formatEntryStability(stability: EntryStability) {
-  if (stability.baselineCV != null && stability.currentCV != null) {
-    return `${formatPercent(stability.baselineCV)} → ${formatPercent(stability.currentCV)} (${formatPercentPointDiff(
-      stability.cvDiff ?? 0
-    )})`;
+  if (stability.baseline != null && stability.current != null) {
+    return `${formatPercent(stability.baseline)} → ${formatPercent(stability.current)}`;
   }
 
-  if (stability.currentCV != null) return formatPercent(stability.currentCV);
-  if (stability.baselineCV != null) return formatPercent(stability.baselineCV);
+  if (stability.current != null) return formatPercent(stability.current);
+  if (stability.baseline != null) return formatPercent(stability.baseline);
 
   return '?';
 }

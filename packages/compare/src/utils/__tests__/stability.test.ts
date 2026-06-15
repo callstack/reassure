@@ -10,7 +10,7 @@ describe('calculateRunStability', () => {
       },
     };
 
-    expect(calculateRunStability(results).weightedAverageCV).toBeCloseTo(0.1556);
+    expect(calculateRunStability(results).weightedAverage).toBeCloseTo(0.1556);
   });
 
   it('ignores entries with zero mean duration', () => {
@@ -21,7 +21,7 @@ describe('calculateRunStability', () => {
       },
     };
 
-    expect(calculateRunStability(results).weightedAverageCV).toBeCloseTo(0.1414);
+    expect(calculateRunStability(results).weightedAverage).toBeCloseTo(0.1414);
   });
 });
 

@@ -129,7 +129,7 @@ function buildStabilitySection(data: CompareResult) {
 }
 
 function formatWeightedAverageCV(stability: RunStability) {
-  return `${formatPercent(stability.weightedAverageCV)} weighted CV`;
+  return formatPercent(stability.weightedAverage);
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
@@ -177,8 +177,8 @@ function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return md.joinBlocks([
-    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline, entry.stability.baselineCV) : '',
-    entry.current != null ? buildDurationDetails('Current', entry.current, entry.stability.currentCV) : '',
+    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline, entry.stability.baseline) : '',
+    entry.current != null ? buildDurationDetails('Current', entry.current, entry.stability.current) : '',
   ]);
 }
 

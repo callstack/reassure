@@ -18,7 +18,7 @@ export function calculateRunStability(results: MeasureResults): RunStability {
   const weightedCVSum = entries.reduce((sum, entry) => sum + entry.cv * entry.meanDuration, 0);
 
   return {
-    weightedAverageCV: totalMeanDuration > 0 ? weightedCVSum / totalMeanDuration : 0,
+    weightedAverage: totalMeanDuration > 0 ? weightedCVSum / totalMeanDuration : 0,
   };
 }
 
@@ -44,9 +44,8 @@ export function calculateEntryStability(current?: MeasureEntry, baseline?: Measu
   const baselineCV = baseline ? calculateEntryCV(baseline) : undefined;
 
   return {
-    currentCV,
-    baselineCV,
-    cvDiff: currentCV != null && baselineCV != null ? currentCV - baselineCV : undefined,
+    current: currentCV,
+    baseline: baselineCV,
   };
 }
 

@@ -62,13 +62,12 @@ export interface CompareMetadata {
 }
 
 export interface EntryStability {
-  currentCV?: number;
-  baselineCV?: number;
-  cvDiff?: number;
+  current?: number;
+  baseline?: number;
 }
 
 export interface RunStability {
-  weightedAverageCV: number;
+  weightedAverage: number;
 }
 
 export interface CompareStability {
