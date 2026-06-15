@@ -19,6 +19,9 @@ Custom wrapper for the RNTL/RTL's `render` function responsible for rendering th
 measuring its performance and writing results to the output file. You can use optional `options` object allows customizing aspects
 of the testing.
 
+During render measurements, Reassure disables React owner-stack collection to reduce React test overhead and improve measurement stability.
+Set `RTC_SKIP_DISABLE_OWNER_STACKS` to any truthy value to skip this behavior and leave owner stacks enabled.
+
 ```ts
 async function measureRenders(
   ui: React.ReactElement,
@@ -234,6 +237,7 @@ The `reassure` CLI can be parametrized using available environmental variables:
 
 - `TEST_RUNNER_PATH`: an alternative path for your test runner. Defaults to `'node_modules/.bin/jest'` or on Windows `'node_modules/jest/bin/jest'`
 - `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "**/__perf__/**/*.[jt]s?(x)", "**/*.(perf|perf-test).[jt]s?(x)"`
+- `RTC_SKIP_DISABLE_OWNER_STACKS`: set to any truthy value to skip disabling React owner-stack collection during render measurements
 
 Example:
 

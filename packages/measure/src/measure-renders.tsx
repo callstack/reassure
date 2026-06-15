@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as logger from '@callstack/reassure-logger';
 import { config } from './config';
 import { RunResult, processRunResults } from './measure-helpers';
+import { disableOwnerStacksIfNeeded } from './owner-stacks';
 import { showFlagsOutputIfNeeded, writeTestStats } from './output';
 import { applyRenderPolyfills, revertRenderPolyfills } from './polyfills';
 import { ElementJsonTree, detectRedundantUpdates } from './redundant-renders';
@@ -63,6 +64,7 @@ async function measureRendersInternal(
   const { render, cleanup } = resolveTestingLibrary();
   const testingLibrary = getTestingLibrary();
 
+  disableOwnerStacksIfNeeded();
   showFlagsOutputIfNeeded();
   applyRenderPolyfills();
 
