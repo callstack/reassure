@@ -116,13 +116,16 @@ function buildMarkdown(data: CompareResult) {
 }
 
 function buildStabilitySection(data: CompareResult) {
-  return md.table(['Name', 'Baseline', 'Current'], [
+  return md.table(
+    ['Name', 'Baseline', 'Current'],
     [
-      'Weighted Average',
-      data.stability.baseline ? formatWeightedAverageCV(data.stability.baseline) : '',
-      formatWeightedAverageCV(data.stability.current),
-    ],
-  ]);
+      [
+        'Weighted Average',
+        data.stability.baseline ? formatWeightedAverageCV(data.stability.baseline) : '',
+        formatWeightedAverageCV(data.stability.current),
+      ],
+    ]
+  );
 }
 
 function formatWeightedAverageCV(stability: RunStability) {
