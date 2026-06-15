@@ -70,12 +70,6 @@ export function formatCountChange(current?: number, baseline?: number): string {
   return output;
 }
 
-export function formatChange(value: number): string {
-  if (value > 0) return `+${value}`;
-  if (value < 0) return `${value}`;
-  return '0';
-}
-
 export function formatDurationChange(entry: CompareEntry) {
   const { baseline, current } = entry;
 

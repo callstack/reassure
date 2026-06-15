@@ -14,6 +14,7 @@ import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
 import { parseHeader, parseMeasureEntries } from './utils/validate';
+import { calculateEntryStability, calculateRunStability } from './utils/stability';
 
 /**
  * Probability threshold for considering given difference significant.
@@ -140,9 +141,19 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     if (currentEntry && baselineEntry) {
       compared.push(buildCompareEntry(name, currentEntry, baselineEntry));
     } else if (currentEntry) {
-      added.push({ name, type: currentEntry.type, current: currentEntry });
+      added.push({
+        name,
+        type: currentEntry.type,
+        current: currentEntry,
+        stability: calculateEntryStability(currentEntry),
+      });
     } else if (baselineEntry) {
-      removed.push({ name, type: baselineEntry.type, baseline: baselineEntry });
+      removed.push({
+        name,
+        type: baselineEntry.type,
+        baseline: baselineEntry,
+        stability: calculateEntryStability(undefined, baselineEntry),
+      });
     }
   });
 
@@ -163,6 +174,9 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
 
+  const currentStability = calculateRunStability(current);
+  const baselineStability = baseline ? calculateRunStability(baseline) : undefined;
+
   return {
     metadata: { current: current.metadata, baseline: baseline?.metadata },
     errors,
@@ -173,6 +187,10 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     renderIssues,
     added,
     removed,
+    stability: {
+      current: currentStability,
+      baseline: baselineStability,
+    },
   };
 }
 
@@ -197,6 +215,7 @@ function buildCompareEntry(name: string, current: MeasureEntry, baseline: Measur
     type: current.type,
     baseline,
     current,
+    stability: calculateEntryStability(current, baseline),
     durationDiff,
     relativeDurationDiff,
     isDurationDiffSignificant,

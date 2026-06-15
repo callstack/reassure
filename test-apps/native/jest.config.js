@@ -1,5 +1,5 @@
 module.exports = {
   preset: 'react-native',
-  setupFilesAfterEnv: ['./jestSetup.js'],
+  setupFilesAfterEnv: ['./jest-setup.js'],
   clearMocks: true,
 };

@@ -22,6 +22,7 @@ Reassure is a performance testing toolkit for React and React Native, structured
 ## Further reading
 
 - [Project structure](docs/agents/structure.md)
+- [Domain language](docs/agents/domain.md)
 - [Coding style](docs/agents/style.md)
 - [Testing patterns](docs/agents/testing.md)
 - [Git & PR workflow](docs/agents/git-workflow.md)

@@ -1,6 +1,13 @@
 import * as logger from '@callstack/reassure-logger';
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
-import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, EntryStability } from '../types';
+import {
+  formatCount,
+  formatDuration,
+  formatMetadata,
+  formatPercent,
+  formatCountChange,
+  formatDurationChange,
+} from '../utils/format';
 import type { MeasureMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
@@ -46,6 +53,9 @@ export function printToConsole(data: CompareResult) {
     logger.log(' - (none)');
   }
 
+  logger.log('\n➡️  Stability');
+  printStability(data);
+
   logger.newLine();
 }
 
@@ -53,12 +63,19 @@ function printMetadata(name: string, metadata?: MeasureMetadata) {
   logger.log(` - ${name}: ${formatMetadata(metadata)}`);
 }
 
+function printStability(data: CompareResult) {
+  const current = formatPercent(data.stability.current.weightedAverage);
+  const baseline = data.stability.baseline ? `${formatPercent(data.stability.baseline.weightedAverage)} => ` : '';
+
+  logger.log(` - Weighted Average: ${baseline}${current}`);
+}
+
 function printRegularLine(entry: CompareEntry) {
   logger.log(
     ` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(
       entry.current.meanCount,
       entry.baseline.meanCount
-    )}`
+    )} | stability ${formatEntryStability(entry.stability)}`
   );
 }
 
@@ -81,25 +98,40 @@ function printRenderIssuesLine(entry: CompareEntry | AddedEntry) {
 function printAddedLine(entry: AddedEntry) {
   const { current } = entry;
   logger.log(
-    ` - ${entry.name} [${entry.type}]: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(current.meanDuration)} | ${formatCount(
+      current.meanCount
+    )} | stability ${formatEntryStability(entry.stability)}`
   );
 }
 
 function printRemovedLine(entry: RemovedEntry) {
   const { baseline } = entry;
   logger.log(
-    ` - ${entry.name} [${entry.type}]: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(baseline.meanDuration)} | ${formatCount(
+      baseline.meanCount
+    )} | stability ${formatEntryStability(entry.stability)}`
   );
 }
 
-export function formatInitialUpdates(count: number) {
+function formatEntryStability(stability: EntryStability) {
+  if (stability.baseline != null && stability.current != null) {
+    return `${formatPercent(stability.baseline)} → ${formatPercent(stability.current)}`;
+  }
+
+  if (stability.current != null) return formatPercent(stability.current);
+  if (stability.baseline != null) return formatPercent(stability.baseline);
+
+  return '?';
+}
+
+function formatInitialUpdates(count: number) {
   if (count === 0) return '-';
   if (count === 1) return '1 initial update 🔴';
 
   return `${count} initial updates 🔴`;
 }
 
-export function formatRedundantUpdates(redundantUpdates: number[]) {
+function formatRedundantUpdates(redundantUpdates: number[]) {
   if (redundantUpdates.length === 0) return '-';
   if (redundantUpdates.length === 1) return `1 redundant update (${redundantUpdates.join(', ')}) 🔴`;
 

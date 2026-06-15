@@ -5,11 +5,11 @@ import { measureRenders } from 'reassure';
 
 import { SlowList } from './SlowList';
 
-const AsyncComponent = () => {
+const TestComponent = ({ size = 200 }) => {
   const [count, setCount] = React.useState(0);
 
   const handlePress = () => {
-    setTimeout(() => setCount(c => c + 1), 10);
+    setCount(c => c + 1);
   };
 
   return (
@@ -20,13 +20,14 @@ const AsyncComponent = () => {
 
       <Text>Count: {count}</Text>
 
-      <SlowList count={200} />
+      <SlowList count={size} />
     </View>
   );
 };
 
 jest.setTimeout(600_000);
-test('<AsyncComponent />: 10 runs', async () => {
+
+test('<TestComponent size={50} />: 10 runs', async () => {
   const scenario = async () => {
     const button = screen.getByText('Action');
 
@@ -36,10 +37,10 @@ test('<AsyncComponent />: 10 runs', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await measureRenders(<AsyncComponent />, { scenario, runs: 10 });
+  await measureRenders(<TestComponent />, { scenario, runs: 10 });
 });
 
-test('<AsyncComponent />: 20 runs', async () => {
+test('<TestComponent size={50} />: 50 runs', async () => {
   const scenario = async () => {
     const button = screen.getByText('Action');
 
@@ -49,5 +50,18 @@ test('<AsyncComponent />: 20 runs', async () => {
     await screen.findByText('Count: 2');
   };
 
-  await measureRenders(<AsyncComponent />, { scenario, runs: 20 });
+  await measureRenders(<TestComponent />, { scenario, runs: 50 });
+});
+
+test('<TestComponent size={500} />: 10 runs', async () => {
+  const scenario = async () => {
+    const button = screen.getByText('Action');
+
+    fireEvent.press(button);
+    await screen.findByText('Count: 1');
+    fireEvent.press(button);
+    await screen.findByText('Count: 2');
+  };
+
+  await measureRenders(<TestComponent />, { scenario, runs: 10 });
 });

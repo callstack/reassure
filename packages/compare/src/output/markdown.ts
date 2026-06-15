@@ -98,7 +98,26 @@ function buildMarkdown(data: CompareResult) {
     buildDetailsTable(data.removed),
   ];
 
+  doc = [
+    ...doc, //
+    md.heading('Stability', { level: 3 }),
+    buildStabilitySection(data),
+  ];
+
   return md.joinBlocks(doc);
+}
+
+function buildStabilitySection(data: CompareResult) {
+  return md.table(
+    ['Name', 'Baseline', 'Current'],
+    [
+      [
+        'Weighted Average',
+        data.stability.baseline ? formatPercent(data.stability.baseline.weightedAverage) : '-',
+        formatPercent(data.stability.current.weightedAverage),
+      ],
+    ]
+  );
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
@@ -146,8 +165,8 @@ function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return md.joinBlocks([
-    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline) : '',
-    entry.current != null ? buildDurationDetails('Current', entry.current) : '',
+    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline, entry.stability.baseline) : '',
+    entry.current != null ? buildDurationDetails('Current', entry.current, entry.stability.current) : '',
   ]);
 }
 
@@ -158,7 +177,7 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
   ]);
 }
 
-function buildDurationDetails(title: string, entry: MeasureEntry) {
+function buildDurationDetails(title: string, entry: MeasureEntry, stability?: number) {
   const relativeStdev = entry.stdevDuration / entry.meanDuration;
 
   return joinLines([
@@ -168,6 +187,7 @@ function buildDurationDetails(title: string, entry: MeasureEntry) {
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
     entry.warmupDurations ? `Warmup runs: ${formatRunDurations(entry.warmupDurations)}` : '',
     entry.outlierDurations ? `Removed outliers: ${formatRunDurations(entry.outlierDurations)}` : '',
+    stability != null ? `Stability: ${formatPercent(stability)}` : '',
   ]);
 }
 
