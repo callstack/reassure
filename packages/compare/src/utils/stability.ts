@@ -1,32 +1,46 @@
-import type { MeasureEntry, MeasureResults, RunStability, StabilityEntry } from '../types';
+import type { EntryStability, MeasureEntry, MeasureResults, RunStability } from '../types';
 
 export function calculateRunStability(results: MeasureResults): RunStability {
-  const entries = Object.values(results.entries).map(calculateStabilityEntry).filter(isStabilityEntry);
+  const entries = Object.values(results.entries)
+    .map((entry) => {
+      const cv = calculateEntryCV(entry);
+      if (cv == null) return undefined;
+
+      return {
+        cv,
+        meanDuration: entry.meanDuration,
+      };
+    })
+    .filter(isStabilityEntry);
 
   const totalMeanDuration = entries.reduce((sum, entry) => sum + entry.meanDuration, 0);
   const weightedCVSum = entries.reduce((sum, entry) => sum + entry.cv * entry.meanDuration, 0);
-  const worstEntry = entries.reduce<StabilityEntry | undefined>((worst, entry) => {
-    if (worst == null || entry.cv > worst.cv) return entry;
-    return worst;
-  }, undefined);
 
   return {
     weightedAverageCV: totalMeanDuration > 0 ? weightedCVSum / totalMeanDuration : 0,
-    worstEntry,
   };
 }
 
-function calculateStabilityEntry(entry: MeasureEntry): StabilityEntry | undefined {
+export function calculateEntryCV(entry: MeasureEntry): number | undefined {
   if (entry.meanDuration <= 0) return undefined;
 
+  return entry.stdevDuration / entry.meanDuration;
+}
+
+export function calculateEntryStability(current?: MeasureEntry, baseline?: MeasureEntry): EntryStability {
+  const currentCV = current ? calculateEntryCV(current) : undefined;
+  const baselineCV = baseline ? calculateEntryCV(baseline) : undefined;
+
   return {
-    name: entry.name,
-    cv: entry.stdevDuration / entry.meanDuration,
-    meanDuration: entry.meanDuration,
-    stdevDuration: entry.stdevDuration,
+    currentCV,
+    baselineCV,
+    cvDiff: currentCV != null && baselineCV != null ? currentCV - baselineCV : undefined,
   };
 }
 
-function isStabilityEntry(entry: StabilityEntry | undefined): entry is StabilityEntry {
+function isStabilityEntry(entry: { cv: number; meanDuration: number } | undefined): entry is {
+  cv: number;
+  meanDuration: number;
+} {
   return entry != null;
 }

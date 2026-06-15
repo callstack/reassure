@@ -26,6 +26,7 @@ export interface CompareEntry {
   type: MeasureType;
   current: MeasureEntry;
   baseline: MeasureEntry;
+  stability: EntryStability;
   durationDiff: number;
   relativeDurationDiff: number;
   isDurationDiffSignificant: boolean;
@@ -40,6 +41,7 @@ export interface AddedEntry {
   name: string;
   type: MeasureType;
   current: MeasureEntry;
+  stability: EntryStability;
   baseline?: undefined;
 }
 
@@ -50,6 +52,7 @@ export interface RemovedEntry {
   name: string;
   type: MeasureType;
   baseline: MeasureEntry;
+  stability: EntryStability;
   current?: undefined;
 }
 
@@ -58,16 +61,14 @@ export interface CompareMetadata {
   baseline?: MeasureMetadata;
 }
 
-export interface StabilityEntry {
-  name: string;
-  cv: number;
-  meanDuration: number;
-  stdevDuration: number;
+export interface EntryStability {
+  currentCV?: number;
+  baselineCV?: number;
+  cvDiff?: number;
 }
 
 export interface RunStability {
   weightedAverageCV: number;
-  worstEntry?: StabilityEntry;
 }
 
 export interface CompareStability {
@@ -79,7 +80,6 @@ export interface CompareStability {
 /** Output of compare function. */
 export interface CompareResult {
   metadata: CompareMetadata;
-  stability: CompareStability;
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];
@@ -88,4 +88,5 @@ export interface CompareResult {
   removed: RemovedEntry[];
   errors: string[];
   warnings: string[];
+  stability: CompareStability;
 }

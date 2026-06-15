@@ -2,7 +2,7 @@ import type { MeasureResults } from '../../types';
 import { calculateRunStability } from '../stability';
 
 describe('calculateRunStability', () => {
-  it('calculates mean-duration-weighted average CV and worst entry', () => {
+  it('calculates mean-duration-weighted average CV', () => {
     const results: MeasureResults = {
       entries: {
         fast: buildEntry({ name: 'fast', meanDuration: 10, stdevDuration: 2 }),
@@ -10,15 +10,7 @@ describe('calculateRunStability', () => {
       },
     };
 
-    expect(calculateRunStability(results)).toEqual({
-      weightedAverageCV: 0.11,
-      worstEntry: {
-        name: 'fast',
-        cv: 0.2,
-        meanDuration: 10,
-        stdevDuration: 2,
-      },
-    });
+    expect(calculateRunStability(results)).toEqual({ weightedAverageCV: 0.11 });
   });
 
   it('ignores entries with zero mean duration', () => {
@@ -29,15 +21,7 @@ describe('calculateRunStability', () => {
       },
     };
 
-    expect(calculateRunStability(results)).toEqual({
-      weightedAverageCV: 0.1,
-      worstEntry: {
-        name: 'regular',
-        cv: 0.1,
-        meanDuration: 50,
-        stdevDuration: 5,
-      },
-    });
+    expect(calculateRunStability(results)).toEqual({ weightedAverageCV: 0.1 });
   });
 });
 

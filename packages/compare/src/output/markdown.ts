@@ -20,9 +20,10 @@ import type {
   MeasureEntry,
   RenderIssues,
   RunStability,
+  EntryStability,
 } from '../types';
 
-const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
+const tableHeader = ['Name', 'Type', 'Duration', 'Count', 'Stability'];
 
 export async function writeToMarkdown(filePath: string, data: CompareResult) {
   try {
@@ -74,12 +75,6 @@ function buildMarkdown(data: CompareResult) {
   }
 
   doc = [
-    ...doc, //
-    md.heading('Stability', { level: 2 }),
-    buildStabilitySection(data),
-  ];
-
-  doc = [
     ...doc,
     md.heading('Significant Changes To Duration', { level: 3 }),
     buildSummaryTable(data.significant),
@@ -113,6 +108,12 @@ function buildMarkdown(data: CompareResult) {
     buildDetailsTable(data.removed),
   ];
 
+  doc = [
+    ...doc, //
+    md.heading('Stability', { level: 3 }),
+    buildStabilitySection(data),
+  ];
+
   return md.joinBlocks(doc);
 }
 
@@ -128,11 +129,7 @@ function buildStabilitySection(data: CompareResult) {
 }
 
 function buildStabilityLine(title: string, stability: RunStability) {
-  const worstEntry = stability.worstEntry
-    ? `; worst: ${formatPercent(stability.worstEntry.cv)} in ${md.escape(stability.worstEntry.name)}`
-    : '';
-
-  return `${md.bold(title)}: ${formatPercent(stability.weightedAverageCV)} weighted CV${worstEntry}`;
+  return `${md.bold(title)}: ${formatPercent(stability.weightedAverageCV)} weighted CV`;
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
@@ -145,6 +142,7 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
     md.escape(entry.type),
     formatEntryDuration(entry),
     formatEntryCount(entry),
+    formatEntryStability(entry.stability),
   ]);
   const tableContent = md.table(tableHeader, rows);
   return md.disclosure('Show entries', tableContent, { open });
@@ -158,6 +156,7 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
     md.escape(entry.type),
     buildDurationDetailsEntry(entry),
     buildCountDetailsEntry(entry),
+    formatEntryStability(entry.stability),
   ]);
 
   return md.disclosure('Show details', md.table(tableHeader, rows));
@@ -176,6 +175,19 @@ function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
   if (entry.baseline != null) return formatCount(entry.baseline.meanCount);
   if (entry.current != null) return formatCount(entry.current.meanCount);
   return '';
+}
+
+function formatEntryStability(stability: EntryStability) {
+  if (stability.baselineCV != null && stability.currentCV != null) {
+    return `${formatPercent(stability.baselineCV)} → ${formatPercent(stability.currentCV)} (${formatPercentPointDiff(
+      stability.cvDiff ?? 0
+    )})`;
+  }
+
+  if (stability.currentCV != null) return formatPercent(stability.currentCV);
+  if (stability.baselineCV != null) return formatPercent(stability.baselineCV);
+
+  return '?';
 }
 
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {

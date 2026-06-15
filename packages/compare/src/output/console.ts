@@ -1,5 +1,5 @@
 import * as logger from '@callstack/reassure-logger';
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, RunStability } from '../types';
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, RunStability, EntryStability } from '../types';
 import {
   formatCount,
   formatDuration,
@@ -17,13 +17,6 @@ export function printToConsole(data: CompareResult) {
   logger.log('❇️  Performance comparison results:');
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
-
-  logger.log('\n➡️  Stability');
-  printStability('Current', data.stability.current);
-  if (data.stability.baseline) {
-    printStability('Baseline', data.stability.baseline);
-    logger.log(` - Change: ${formatPercentPointDiff(data.stability.weightedAverageCVDiff ?? 0)}`);
-  }
 
   logger.log('\n➡️  Significant changes to duration');
   data.significant.forEach(printRegularLine);
@@ -61,6 +54,13 @@ export function printToConsole(data: CompareResult) {
     logger.log(' - (none)');
   }
 
+  logger.log('\n➡️  Stability');
+  printStability('Current', data.stability.current);
+  if (data.stability.baseline) {
+    printStability('Baseline', data.stability.baseline);
+    logger.log(` - Change: ${formatPercentPointDiff(data.stability.weightedAverageCVDiff ?? 0)}`);
+  }
+
   logger.newLine();
 }
 
@@ -69,11 +69,7 @@ function printMetadata(name: string, metadata?: MeasureMetadata) {
 }
 
 function printStability(name: string, stability: RunStability) {
-  const worstEntry = stability.worstEntry
-    ? ` | worst: ${formatPercent(stability.worstEntry.cv)} in ${stability.worstEntry.name}`
-    : '';
-
-  logger.log(` - ${name}: ${formatPercent(stability.weightedAverageCV)} weighted CV${worstEntry}`);
+  logger.log(` - ${name}: ${formatPercent(stability.weightedAverageCV)} weighted CV`);
 }
 
 function printRegularLine(entry: CompareEntry) {
@@ -81,7 +77,7 @@ function printRegularLine(entry: CompareEntry) {
     ` - ${entry.name} [${entry.type}]: ${formatDurationChange(entry)} | ${formatCountChange(
       entry.current.meanCount,
       entry.baseline.meanCount
-    )}`
+    )} | stability ${formatEntryStability(entry.stability)}`
   );
 }
 
@@ -104,15 +100,32 @@ function printRenderIssuesLine(entry: CompareEntry | AddedEntry) {
 function printAddedLine(entry: AddedEntry) {
   const { current } = entry;
   logger.log(
-    ` - ${entry.name} [${entry.type}]: ${formatDuration(current.meanDuration)} | ${formatCount(current.meanCount)}`
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(current.meanDuration)} | ${formatCount(
+      current.meanCount
+    )} | stability ${formatEntryStability(entry.stability)}`
   );
 }
 
 function printRemovedLine(entry: RemovedEntry) {
   const { baseline } = entry;
   logger.log(
-    ` - ${entry.name} [${entry.type}]: ${formatDuration(baseline.meanDuration)} | ${formatCount(baseline.meanCount)}`
+    ` - ${entry.name} [${entry.type}]: ${formatDuration(baseline.meanDuration)} | ${formatCount(
+      baseline.meanCount
+    )} | stability ${formatEntryStability(entry.stability)}`
   );
+}
+
+function formatEntryStability(stability: EntryStability) {
+  if (stability.baselineCV != null && stability.currentCV != null) {
+    return `${formatPercent(stability.baselineCV)} → ${formatPercent(stability.currentCV)} (${formatPercentPointDiff(
+      stability.cvDiff ?? 0
+    )})`;
+  }
+
+  if (stability.currentCV != null) return formatPercent(stability.currentCV);
+  if (stability.baselineCV != null) return formatPercent(stability.baselineCV);
+
+  return '?';
 }
 
 export function formatInitialUpdates(count: number) {

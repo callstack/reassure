@@ -12,6 +12,6 @@ export type {
   AddedEntry,
   RemovedEntry,
   RunStability,
-  StabilityEntry,
+  EntryStability,
   RenderIssues,
 } from './types';
