@@ -32,6 +32,7 @@
     "eslint-plugin-oxfmt": "^0.10.0",
     "jest": "^30.4.2",
     "oxfmt": "^0.54.0",
+    "react-test-config": "^0.3.0",
     "reassure": "workspace:^",
     "test-renderer": "1.2.0",
     "typescript": "^6.0.3"
