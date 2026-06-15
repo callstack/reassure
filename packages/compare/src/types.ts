@@ -74,7 +74,6 @@ export interface RunStability {
 export interface CompareStability {
   current: RunStability;
   baseline?: RunStability;
-  weightedAverageCVDiff?: number;
 }
 
 /** Output of compare function. */

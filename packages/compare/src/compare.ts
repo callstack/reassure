@@ -190,9 +190,6 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
     stability: {
       current: currentStability,
       baseline: baselineStability,
-      weightedAverageCVDiff: baselineStability
-        ? currentStability.weightedAverageCV - baselineStability.weightedAverageCV
-        : undefined,
     },
   };
 }

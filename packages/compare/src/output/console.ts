@@ -58,7 +58,6 @@ export function printToConsole(data: CompareResult) {
   printStability('Current', data.stability.current);
   if (data.stability.baseline) {
     printStability('Baseline', data.stability.baseline);
-    logger.log(` - Change: ${formatPercentPointDiff(data.stability.weightedAverageCVDiff ?? 0)}`);
   }
 
   logger.newLine();

@@ -7,7 +7,6 @@ import {
   formatDuration,
   formatMetadata,
   formatPercent,
-  formatPercentPointDiff,
   formatCountChange,
   formatDurationChange,
 } from '../utils/format';
@@ -20,10 +19,9 @@ import type {
   MeasureEntry,
   RenderIssues,
   RunStability,
-  EntryStability,
 } from '../types';
 
-const tableHeader = ['Name', 'Type', 'Duration', 'Count', 'Stability'];
+const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
 
 export async function writeToMarkdown(filePath: string, data: CompareResult) {
   try {
@@ -118,18 +116,17 @@ function buildMarkdown(data: CompareResult) {
 }
 
 function buildStabilitySection(data: CompareResult) {
-  const entries = [buildStabilityLine('Current', data.stability.current)];
-
-  if (data.stability.baseline) {
-    entries.push(buildStabilityLine('Baseline', data.stability.baseline));
-    entries.push(`Change: ${formatPercentPointDiff(data.stability.weightedAverageCVDiff ?? 0)}`);
-  }
-
-  return md.list(entries);
+  return md.table(['Name', 'Baseline', 'Current'], [
+    [
+      'Weighted Average',
+      data.stability.baseline ? formatWeightedAverageCV(data.stability.baseline) : '',
+      formatWeightedAverageCV(data.stability.current),
+    ],
+  ]);
 }
 
-function buildStabilityLine(title: string, stability: RunStability) {
-  return `${md.bold(title)}: ${formatPercent(stability.weightedAverageCV)} weighted CV`;
+function formatWeightedAverageCV(stability: RunStability) {
+  return `${formatPercent(stability.weightedAverageCV)} weighted CV`;
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {
@@ -142,7 +139,6 @@ function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
     md.escape(entry.type),
     formatEntryDuration(entry),
     formatEntryCount(entry),
-    formatEntryStability(entry.stability),
   ]);
   const tableContent = md.table(tableHeader, rows);
   return md.disclosure('Show entries', tableContent, { open });
@@ -156,7 +152,6 @@ function buildDetailsTable(entries: Array<CompareEntry | AddedEntry | RemovedEnt
     md.escape(entry.type),
     buildDurationDetailsEntry(entry),
     buildCountDetailsEntry(entry),
-    formatEntryStability(entry.stability),
   ]);
 
   return md.disclosure('Show details', md.table(tableHeader, rows));
@@ -177,23 +172,10 @@ function formatEntryCount(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return '';
 }
 
-function formatEntryStability(stability: EntryStability) {
-  if (stability.baselineCV != null && stability.currentCV != null) {
-    return `${formatPercent(stability.baselineCV)} → ${formatPercent(stability.currentCV)} (${formatPercentPointDiff(
-      stability.cvDiff ?? 0
-    )})`;
-  }
-
-  if (stability.currentCV != null) return formatPercent(stability.currentCV);
-  if (stability.baselineCV != null) return formatPercent(stability.baselineCV);
-
-  return '?';
-}
-
 function buildDurationDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry) {
   return md.joinBlocks([
-    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline) : '',
-    entry.current != null ? buildDurationDetails('Current', entry.current) : '',
+    entry.baseline != null ? buildDurationDetails('Baseline', entry.baseline, entry.stability.baselineCV) : '',
+    entry.current != null ? buildDurationDetails('Current', entry.current, entry.stability.currentCV) : '',
   ]);
 }
 
@@ -204,7 +186,7 @@ function buildCountDetailsEntry(entry: CompareEntry | AddedEntry | RemovedEntry)
   ]);
 }
 
-function buildDurationDetails(title: string, entry: MeasureEntry) {
+function buildDurationDetails(title: string, entry: MeasureEntry, stabilityCV?: number) {
   const relativeStdev = entry.stdevDuration / entry.meanDuration;
 
   return joinLines([
@@ -214,6 +196,7 @@ function buildDurationDetails(title: string, entry: MeasureEntry) {
     entry.durations ? `Runs: ${formatRunDurations(entry.durations)}` : '',
     entry.warmupDurations ? `Warmup runs: ${formatRunDurations(entry.warmupDurations)}` : '',
     entry.outlierDurations ? `Removed outliers: ${formatRunDurations(entry.outlierDurations)}` : '',
+    stabilityCV != null ? `Stability: ${formatPercent(stabilityCV)}` : '',
   ]);
 }
 
