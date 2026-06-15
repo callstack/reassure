@@ -38,9 +38,16 @@ export function getNodeFlags(nodeMajorVersion: number): string[] {
     ];
   }
 
-  return [
+  const flags = [
     ...COMMON_NODE_FLAGS,
     // Disable optimizing compilers, keep the baseline compilers: sparkplug (JS), liftoff (WASM)
     '--max-opt=1',
   ];
+
+  if (nodeMajorVersion >= 22) {
+    // Disable concurrent marking for young generation (Minor Mark-Sweep); added in V8 12.x / Node 22
+    flags.push('--no-concurrent-minor-ms-marking');
+  }
+
+  return flags;
 }
