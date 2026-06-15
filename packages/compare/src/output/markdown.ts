@@ -7,11 +7,20 @@ import {
   formatDuration,
   formatMetadata,
   formatPercent,
+  formatPercentPointDiff,
   formatCountChange,
   formatDurationChange,
 } from '../utils/format';
 import { joinLines } from '../utils/markdown';
-import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, RenderIssues } from '../types';
+import type {
+  AddedEntry,
+  CompareEntry,
+  CompareResult,
+  RemovedEntry,
+  MeasureEntry,
+  RenderIssues,
+  RunStability,
+} from '../types';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
 
@@ -65,6 +74,12 @@ function buildMarkdown(data: CompareResult) {
   }
 
   doc = [
+    ...doc, //
+    md.heading('Stability', { level: 2 }),
+    buildStabilitySection(data),
+  ];
+
+  doc = [
     ...doc,
     md.heading('Significant Changes To Duration', { level: 3 }),
     buildSummaryTable(data.significant),
@@ -99,6 +114,25 @@ function buildMarkdown(data: CompareResult) {
   ];
 
   return md.joinBlocks(doc);
+}
+
+function buildStabilitySection(data: CompareResult) {
+  const entries = [buildStabilityLine('Current', data.stability.current)];
+
+  if (data.stability.baseline) {
+    entries.push(buildStabilityLine('Baseline', data.stability.baseline));
+    entries.push(`Change: ${formatPercentPointDiff(data.stability.weightedAverageCVDiff ?? 0)}`);
+  }
+
+  return md.list(entries);
+}
+
+function buildStabilityLine(title: string, stability: RunStability) {
+  const worstEntry = stability.worstEntry
+    ? `; worst: ${formatPercent(stability.worstEntry.cv)} in ${md.escape(stability.worstEntry.name)}`
+    : '';
+
+  return `${md.bold(title)}: ${formatPercent(stability.weightedAverageCV)} weighted CV${worstEntry}`;
 }
 
 function buildSummaryTable(entries: Array<CompareEntry | AddedEntry | RemovedEntry>, options?: { open?: boolean }) {

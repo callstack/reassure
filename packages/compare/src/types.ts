@@ -58,9 +58,28 @@ export interface CompareMetadata {
   baseline?: MeasureMetadata;
 }
 
+export interface StabilityEntry {
+  name: string;
+  cv: number;
+  meanDuration: number;
+  stdevDuration: number;
+}
+
+export interface RunStability {
+  weightedAverageCV: number;
+  worstEntry?: StabilityEntry;
+}
+
+export interface CompareStability {
+  current: RunStability;
+  baseline?: RunStability;
+  weightedAverageCVDiff?: number;
+}
+
 /** Output of compare function. */
 export interface CompareResult {
   metadata: CompareMetadata;
+  stability: CompareStability;
   significant: CompareEntry[];
   meaningless: CompareEntry[];
   countChanged: CompareEntry[];

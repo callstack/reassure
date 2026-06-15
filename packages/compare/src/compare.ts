@@ -14,6 +14,7 @@ import { writeToJson } from './output/json';
 import { writeToMarkdown } from './output/markdown';
 import { errors, warnings, logError, logWarning } from './utils/logs';
 import { parseHeader, parseMeasureEntries } from './utils/validate';
+import { calculateRunStability } from './utils/stability';
 
 /**
  * Probability threshold for considering given difference significant.
@@ -163,8 +164,18 @@ function compareResults(current: MeasureResults, baseline: MeasureResults | null
   added.sort((a, b) => a.name.localeCompare(b.name));
   removed.sort((a, b) => a.name.localeCompare(b.name));
 
+  const currentStability = calculateRunStability(current);
+  const baselineStability = baseline ? calculateRunStability(baseline) : undefined;
+
   return {
     metadata: { current: current.metadata, baseline: baseline?.metadata },
+    stability: {
+      current: currentStability,
+      baseline: baselineStability,
+      weightedAverageCVDiff: baselineStability
+        ? currentStability.weightedAverageCV - baselineStability.weightedAverageCV
+        : undefined,
+    },
     errors,
     warnings,
     significant,

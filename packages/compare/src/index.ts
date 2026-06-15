@@ -7,8 +7,11 @@ export type {
   MeasureEntry,
   CompareResult,
   CompareMetadata,
+  CompareStability,
   CompareEntry,
   AddedEntry,
   RemovedEntry,
+  RunStability,
+  StabilityEntry,
   RenderIssues,
 } from './types';

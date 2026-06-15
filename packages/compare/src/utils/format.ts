@@ -18,6 +18,15 @@ export function formatPercentChange(value: number): string {
   return `${value >= 0 ? '+' : '-'}${formatPercent(absValue)}`;
 }
 
+export function formatPercentPointDiff(value: number): string {
+  const valueAsPercentPoints = value * 100;
+  const absValue = Math.abs(valueAsPercentPoints);
+
+  if (absValue < 0.05) return '±0.0 pp';
+
+  return `${value >= 0 ? '+' : '-'}${absValue.toFixed(1)} pp`;
+}
+
 export function formatDuration(duration: number): string {
   return `${duration.toFixed(1)} ms`;
 }

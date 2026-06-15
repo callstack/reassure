@@ -1,6 +1,14 @@
 import * as logger from '@callstack/reassure-logger';
-import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry } from '../types';
-import { formatCount, formatDuration, formatMetadata, formatCountChange, formatDurationChange } from '../utils/format';
+import type { AddedEntry, CompareResult, CompareEntry, RemovedEntry, RunStability } from '../types';
+import {
+  formatCount,
+  formatDuration,
+  formatMetadata,
+  formatPercent,
+  formatPercentPointDiff,
+  formatCountChange,
+  formatDurationChange,
+} from '../utils/format';
 import type { MeasureMetadata } from '../types';
 
 export function printToConsole(data: CompareResult) {
@@ -9,6 +17,13 @@ export function printToConsole(data: CompareResult) {
   logger.log('❇️  Performance comparison results:');
   printMetadata('Current', data.metadata.current);
   printMetadata('Baseline', data.metadata.baseline);
+
+  logger.log('\n➡️  Stability');
+  printStability('Current', data.stability.current);
+  if (data.stability.baseline) {
+    printStability('Baseline', data.stability.baseline);
+    logger.log(` - Change: ${formatPercentPointDiff(data.stability.weightedAverageCVDiff ?? 0)}`);
+  }
 
   logger.log('\n➡️  Significant changes to duration');
   data.significant.forEach(printRegularLine);
@@ -51,6 +66,14 @@ export function printToConsole(data: CompareResult) {
 
 function printMetadata(name: string, metadata?: MeasureMetadata) {
   logger.log(` - ${name}: ${formatMetadata(metadata)}`);
+}
+
+function printStability(name: string, stability: RunStability) {
+  const worstEntry = stability.worstEntry
+    ? ` | worst: ${formatPercent(stability.worstEntry.cv)} in ${stability.worstEntry.name}`
+    : '';
+
+  logger.log(` - ${name}: ${formatPercent(stability.weightedAverageCV)} weighted CV${worstEntry}`);
 }
 
 function printRegularLine(entry: CompareEntry) {
