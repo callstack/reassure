@@ -13,10 +13,21 @@ describe('calculateRunStability', () => {
     expect(calculateRunStability(results).weightedAverage).toBeCloseTo(0.1556);
   });
 
-  it('ignores entries with zero mean duration', () => {
+  it('ignores entries with empty durations', () => {
     const results: MeasureResults = {
       entries: {
         zero: buildEntry({ name: 'zero', meanDuration: 0, stdevDuration: 1 }),
+        regular: buildEntry({ name: 'regular', durations: [45, 55] }),
+      },
+    };
+
+    expect(calculateRunStability(results).weightedAverage).toBeCloseTo(0.1414);
+  });
+
+  it('ignores entries with zero mean duration', () => {
+    const results: MeasureResults = {
+      entries: {
+        zero: buildEntry({ name: 'zero', durations: [0, 0, 0] }),
         regular: buildEntry({ name: 'regular', durations: [45, 55] }),
       },
     };

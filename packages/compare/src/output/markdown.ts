@@ -113,7 +113,7 @@ function buildStabilitySection(data: CompareResult) {
     [
       [
         'Weighted Average',
-        data.stability.baseline ? formatPercent(data.stability.baseline.weightedAverage) : '',
+        data.stability.baseline ? formatPercent(data.stability.baseline.weightedAverage) : '-',
         formatPercent(data.stability.current.weightedAverage),
       ],
     ]
