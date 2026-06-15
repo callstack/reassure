@@ -24,12 +24,12 @@ function calculateEntryStabilityStats(entry: MeasureEntry) {
   const durations = [...entry.durations, ...(entry.outlierDurations ?? [])];
   if (durations.length === 0) return undefined;
 
-  const meanDuration = math.mean(...durations) as number;
+  const meanDuration = math.mean(durations) as number;
   if (meanDuration <= 0) return undefined;
 
   return {
     meanDuration,
-    value: math.std(...durations) / meanDuration,
+    value: (math.std(durations) as number) / meanDuration,
   };
 }
 
