@@ -1,13 +1,38 @@
 {
   "name": "reassure-root",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "description": "Performance testing companion for React and React Native",
+  "keywords": [
+    "android",
+    "ios",
+    "react-native"
+  ],
+  "homepage": "https://github.com/callstack/reassure#readme",
+  "bugs": {
+    "url": "https://github.com/callstack/reassure/issues"
+  },
+  "license": "MIT",
+  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
+  "contributors": [
+    "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
+    "Tomasz Krzyżowski <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
+    "Michał Pierzchała <thymikee@gmail.com> (https://github.com/thymikee)"
+  ],
+  "repository": "https://github.com/callstack/reassure",
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "test-apps/native"
+    ]
+  },
   "scripts": {
     "test": "turbo run test",
     "test:test-app": "cd ./test-apps/native && yarn test",
     "typecheck": "tsc --noEmit",
     "typecheck:test-app": "yarn --cwd ./test-apps/native typecheck",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "lint": "eslint \"**/*.{ts,tsx}\"",
     "lint:deps": "yarn check-dependency-version-consistency .",
     "clean": "turbo run clean",
@@ -18,23 +43,6 @@
     "publish": "yarn build && changeset publish",
     "danger:local": "danger local -b main"
   },
-  "keywords": [
-    "react-native",
-    "ios",
-    "android"
-  ],
-  "repository": "https://github.com/callstack/reassure",
-  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
-  "contributors": [
-    "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
-    "Tomasz Krzyżowski <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
-    "Michał Pierzchała <thymikee@gmail.com> (https://github.com/thymikee)"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/callstack/reassure/issues"
-  },
-  "homepage": "https://github.com/callstack/reassure#readme",
   "devDependencies": {
     "@callstack/eslint-config": "^15.0.0",
     "@changesets/cli": "^2.31.0",
@@ -44,25 +52,17 @@
     "check-dependency-version-consistency": "^6.0.0",
     "danger": "^13.0.7",
     "eslint": "^10.4.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-prettier": "^5.5.6",
-    "prettier": "^3.8.3",
+    "eslint-plugin-oxfmt": "^0.10.0",
+    "oxfmt": "^0.54.0",
     "reassure": "workspace:^",
     "turbo": "^2.9.16",
     "typescript": "^6.0.3"
   },
   "resolutions": {
     "@eslint/compat": "^2.1.0",
-    "react-is": "19.1.1",
+    "jest-environment-node": "30.4.1",
     "jest-mock": "30.4.1",
-    "jest-environment-node": "30.4.1"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "test-apps/native"
-    ]
+    "react-is": "19.1.1"
   },
   "packageManager": "yarn@4.11.0"
 }
