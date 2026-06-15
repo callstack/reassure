@@ -2,23 +2,21 @@ import * as math from 'mathjs';
 import type { EntryStability, MeasureEntry, MeasureResults, RunStability } from '../types';
 
 export function calculateRunStability(results: MeasureResults): RunStability {
-  const entries = Object.values(results.entries)
-    .map((entry) => {
-      const stability = calculateEntryStabilityStats(entry);
-      if (stability == null) return undefined;
+  const stability = Object.values(results.entries).reduce(
+    (acc, entry) => {
+      const entryStability = calculateEntryStabilityStats(entry);
+      if (entryStability == null) return acc;
 
       return {
-        value: stability.value,
-        meanDuration: stability.meanDuration,
+        totalMeanDuration: acc.totalMeanDuration + entryStability.meanDuration,
+        weightedStabilitySum: acc.weightedStabilitySum + entryStability.value * entryStability.meanDuration,
       };
-    })
-    .filter(isStabilityEntry);
-
-  const totalMeanDuration = entries.reduce((sum, entry) => sum + entry.meanDuration, 0);
-  const weightedStabilitySum = entries.reduce((sum, entry) => sum + entry.value * entry.meanDuration, 0);
+    },
+    { totalMeanDuration: 0, weightedStabilitySum: 0 }
+  );
 
   return {
-    weightedAverage: totalMeanDuration > 0 ? weightedStabilitySum / totalMeanDuration : 0,
+    weightedAverage: stability.totalMeanDuration > 0 ? stability.weightedStabilitySum / stability.totalMeanDuration : 0,
   };
 }
 
@@ -40,11 +38,4 @@ export function calculateEntryStability(current?: MeasureEntry, baseline?: Measu
     current: current ? calculateEntryStabilityStats(current)?.value : undefined,
     baseline: baseline ? calculateEntryStabilityStats(baseline)?.value : undefined,
   };
-}
-
-function isStabilityEntry(entry: { value: number; meanDuration: number } | undefined): entry is {
-  value: number;
-  meanDuration: number;
-} {
-  return entry != null;
 }

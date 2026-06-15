@@ -124,14 +124,14 @@ function formatEntryStability(stability: EntryStability) {
   return '?';
 }
 
-export function formatInitialUpdates(count: number) {
+function formatInitialUpdates(count: number) {
   if (count === 0) return '-';
   if (count === 1) return '1 initial update 🔴';
 
   return `${count} initial updates 🔴`;
 }
 
-export function formatRedundantUpdates(redundantUpdates: number[]) {
+function formatRedundantUpdates(redundantUpdates: number[]) {
   if (redundantUpdates.length === 0) return '-';
   if (redundantUpdates.length === 1) return `1 redundant update (${redundantUpdates.join(', ')}) 🔴`;
 

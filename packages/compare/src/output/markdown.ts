@@ -11,14 +11,7 @@ import {
   formatDurationChange,
 } from '../utils/format';
 import { joinLines } from '../utils/markdown';
-import type {
-  AddedEntry,
-  CompareEntry,
-  CompareResult,
-  RemovedEntry,
-  MeasureEntry,
-  RenderIssues,
-} from '../types';
+import type { AddedEntry, CompareEntry, CompareResult, RemovedEntry, MeasureEntry, RenderIssues } from '../types';
 
 const tableHeader = ['Name', 'Type', 'Duration', 'Count'];
 
