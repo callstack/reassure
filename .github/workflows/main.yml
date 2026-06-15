@@ -8,7 +8,7 @@ on:
 
 permissions:
   pull-requests: write # required for Danger to post comments
-  statuses: write      # required for Danger to post commit statuses
+  statuses: write # required for Danger to post commit statuses
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

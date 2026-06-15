@@ -29,8 +29,9 @@
     "@types/jest": "^30.0.0",
     "@types/react": "~19.2.17",
     "eslint": "^10.4.1",
+    "eslint-plugin-oxfmt": "^0.10.0",
     "jest": "^30.4.2",
-    "prettier": "^3.8.3",
+    "oxfmt": "^0.54.0",
     "reassure": "workspace:^",
     "test-renderer": "1.2.0",
     "typescript": "^6.0.3"

@@ -2,9 +2,23 @@
   "name": "@callstack/reassure-measure",
   "version": "1.5.1",
   "description": "Performance measurement library for React and React Native",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/commonjs/index.d.ts",
+  "keywords": [
+    "android",
+    "ios",
+    "react-native"
+  ],
+  "homepage": "https://github.com/callstack/reassure#readme",
+  "bugs": {
+    "url": "https://github.com/callstack/reassure/issues"
+  },
+  "license": "MIT",
+  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
+  "contributors": [
+    "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
+    "Tomasz Krzyżowski <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
+    "Michał Pierzchała <thymikee@gmail.com> (https://github.com/thymikee)"
+  ],
+  "repository": "https://github.com/callstack/reassure",
   "source": "src/index.ts",
   "files": [
     "lib",
@@ -12,6 +26,9 @@
     "!**/__fixtures__",
     "!**/__mocks__"
   ],
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/commonjs/index.d.ts",
   "exports": {
     ".": {
       "import": {
@@ -25,28 +42,14 @@
     },
     "./package.json": "./package.json"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "jest",
     "build": "bob build",
     "clean": "del lib"
   },
-  "keywords": [
-    "react-native",
-    "ios",
-    "android"
-  ],
-  "repository": "https://github.com/callstack/reassure",
-  "author": "Maciej Jastrzębski <mdjastrzebski@gmail.com> (https://github.com/mdjastrzebski)",
-  "contributors": [
-    "Jakub Bujko <jakub.bujko@callstack.com> (https://github.com/Xiltyn)",
-    "Tomasz Krzyżowski <tomasz.krzyzowski@callstack.com> (https://github.com/TMaszko)",
-    "Michał Pierzchała <thymikee@gmail.com> (https://github.com/thymikee)"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/callstack/reassure/issues"
-  },
-  "homepage": "https://github.com/callstack/reassure#readme",
   "dependencies": {
     "@callstack/reassure-logger": "1.5.1",
     "mathjs": "^15.2.0",
@@ -102,8 +105,5 @@
         }
       ]
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
