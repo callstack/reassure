@@ -1,4 +1,4 @@
-import { formatCountChange, formatCountDiff } from '../format';
+import { formatCountChange, formatCountDiff, formatPercentPointDiff } from '../format';
 
 test(`formatCountChange`, () => {
   expect(formatCountChange(1, 2)).toMatchInlineSnapshot(`"2 → 1 (-1, -50.0%) 🟢"`);
@@ -16,4 +16,10 @@ test('formatCountDiff', () => {
   expect(formatCountDiff(1.01, 2.23)).toMatchInlineSnapshot(`"-1.22"`);
   expect(formatCountDiff(0.01, 5.54)).toMatchInlineSnapshot(`"-5.53"`);
   expect(formatCountDiff(1.01, 1.01)).toMatchInlineSnapshot('"±0"');
+});
+
+test('formatPercentPointDiff', () => {
+  expect(formatPercentPointDiff(0.0123)).toMatchInlineSnapshot('"+1.2 pp"');
+  expect(formatPercentPointDiff(-0.0123)).toMatchInlineSnapshot('"-1.2 pp"');
+  expect(formatPercentPointDiff(0.0001)).toMatchInlineSnapshot('"±0.0 pp"');
 });
