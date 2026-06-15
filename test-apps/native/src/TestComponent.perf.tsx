@@ -5,7 +5,7 @@ import { measureRenders } from 'reassure';
 
 import { SlowList } from './SlowList';
 
-const TestComponent = ({ size = 200}) => {
+const TestComponent = ({ size = 200 }) => {
   const [count, setCount] = React.useState(0);
 
   const handlePress = () => {

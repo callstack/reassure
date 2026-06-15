@@ -29,7 +29,7 @@ function calculateEntryStabilityStats(entry: MeasureEntry) {
 
   return {
     meanDuration,
-    value: (math.std(durations) as number) / meanDuration,
+    value: (math.std(durations) as unknown as number) / meanDuration,
   };
 }
 
