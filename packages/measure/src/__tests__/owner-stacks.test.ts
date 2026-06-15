@@ -1,5 +1,11 @@
 import * as React from 'react';
 
+const measureOptions = {
+  runs: 1,
+  warmupRuns: 0,
+  writeFile: false,
+};
+
 afterEach(() => {
   jest.dontMock('react-test-config');
   jest.dontMock('@testing-library/react-native');
@@ -32,34 +38,14 @@ function setupMeasureRendersTest(reactTestConfigFactory: () => unknown) {
   return measureRenders;
 }
 
-test('disables React owner stacks before measuring renders', async () => {
+test('disables React owner stacks once before measuring renders', async () => {
   jest.resetModules();
   const disableOwnerStacks = jest.fn();
 
   const measureRenders = setupMeasureRendersTest(() => ({ disableOwnerStacks }));
 
-  await measureRenders(React.createElement('View'), {
-    runs: 1,
-    warmupRuns: 0,
-    writeFile: false,
-  });
-
-  expect(disableOwnerStacks).toHaveBeenCalledTimes(1);
-});
-
-test('disables React owner stacks only once', async () => {
-  jest.resetModules();
-  const disableOwnerStacks = jest.fn();
-
-  const measureRenders = setupMeasureRendersTest(() => ({ disableOwnerStacks }));
-  const options = {
-    runs: 1,
-    warmupRuns: 0,
-    writeFile: false,
-  };
-
-  await measureRenders(React.createElement('View'), options);
-  await measureRenders(React.createElement('View'), options);
+  await measureRenders(React.createElement('View'), measureOptions);
+  await measureRenders(React.createElement('View'), measureOptions);
 
   expect(disableOwnerStacks).toHaveBeenCalledTimes(1);
 });
