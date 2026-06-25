@@ -39,7 +39,7 @@ yarn lint
 To fix formatting errors, run the following:
 
 ```sh
-yarn lint --fix
+yarn format
 ```
 
 Remember to add tests for your change if possible. Run the unit tests by:
@@ -50,9 +50,9 @@ yarn test
 
 ### Linting and tests
 
-[ESLint](https://eslint.org/), [Prettier](https://prettier.io/), [TypeScript](https://www.typescriptlang.org/)
+[ESLint](https://eslint.org/), [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html), [TypeScript](https://www.typescriptlang.org/)
 
-We use [TypeScript](https://www.typescriptlang.org/) for type checking, [ESLint](https://eslint.org/) with [Prettier](https://prettier.io/) for linting and formatting the code, and [Jest](https://jestjs.io/) for testing.
+We use [TypeScript](https://www.typescriptlang.org/) for type checking, [ESLint](https://eslint.org/) for linting, [oxfmt](https://oxc.rs/docs/guide/usage/formatter.html) for formatting, and [Jest](https://jestjs.io/) for testing.
 
 Our pre-commit hooks verify that the linter and tests pass when committing.
 
