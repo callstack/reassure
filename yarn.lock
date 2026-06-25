@@ -1666,7 +1666,7 @@ __metadata:
     react: "npm:19.2.3"
     react-native: "npm:0.85.3"
     react-native-builder-bob: "npm:^0.41.0"
-    react-test-config: "npm:^0.3.0"
+    react-test-config: "npm:^1.0.0"
     strip-ansi: "npm:^6.0.1"
     test-renderer: "npm:1.2.0"
     typescript: "npm:^6.0.3"
@@ -10493,12 +10493,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-test-config@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "react-test-config@npm:0.3.0"
+"react-test-config@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "react-test-config@npm:1.0.0"
   peerDependencies:
-    react: ^19.0.0
-  checksum: 10c0/82d852b6f7cf181de500dee3d6de29d32ee79a837f0aea547b7baf5f5c5b24fac958653adc08dc8d8c0d2521f8ec9a26ff8936e70237bc41c16300900cf3ea31
+    react: "*"
+  checksum: 10c0/74371e5e285ebf2045f423855d2217034964b30f91bb535d09df64f637c4ab3abf2729aa3a497c7d71f816d983e9023eb0d4655817a0673dead8c7baa0e96743
   languageName: node
   linkType: hard
 

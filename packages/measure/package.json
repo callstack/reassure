@@ -54,7 +54,7 @@
     "@callstack/reassure-logger": "1.5.1",
     "mathjs": "^15.2.0",
     "pretty-format": "^30.4.1",
-    "react-test-config": "^0.3.0"
+    "react-test-config": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
