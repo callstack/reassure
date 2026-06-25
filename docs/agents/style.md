@@ -9,6 +9,6 @@
 
 Prefer small modules. Each package exports through its `src/index.ts` — add new public symbols there explicitly.
 
-## Prettier config
+## Formatter config
 
-Single quotes, trailing commas (ES5), `printWidth: 120`. Run `yarn lint` to enforce.
+Oxfmt is the formatter. Keep shared whitespace, quote, and line-length settings in `.editorconfig` when possible; use `.oxfmtrc.json` only for options EditorConfig cannot express. Run `yarn lint` to enforce code formatting.
