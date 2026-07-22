@@ -1,5 +1,22 @@
 # reassure
 
+## 1.6.0
+
+### Minor Changes
+
+- 75c1fcb: feat: calculate stability measures for test runs
+- 9c9fb8e: feat: disable owner stacks to improve render duration stability
+
+### Patch Changes
+
+- Updated dependencies [75c1fcb]
+- Updated dependencies [5c8258f]
+- Updated dependencies [9c9fb8e]
+  - @callstack/reassure-compare@1.6.0
+  - @callstack/reassure-measure@1.6.0
+  - @callstack/reassure-cli@1.6.0
+  - @callstack/reassure-danger@1.6.0
+
 ## 1.5.1
 
 ### Patch Changes

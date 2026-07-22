@@ -1,6 +1,6 @@
 {
   "name": "@callstack/reassure-measure",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Performance measurement library for React and React Native",
   "keywords": [
     "android",
@@ -51,7 +51,7 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@callstack/reassure-logger": "1.5.1",
+    "@callstack/reassure-logger": "1.6.0",
     "mathjs": "^15.2.0",
     "pretty-format": "^30.4.1",
     "react-test-config": "^1.0.0"

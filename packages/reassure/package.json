@@ -1,6 +1,6 @@
 {
   "name": "reassure",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Performance testing companion for React and React Native",
   "keywords": [
     "android",
@@ -52,10 +52,10 @@
     "clean": "del lib"
   },
   "dependencies": {
-    "@callstack/reassure-cli": "1.5.1",
-    "@callstack/reassure-compare": "1.5.1",
-    "@callstack/reassure-danger": "1.5.1",
-    "@callstack/reassure-measure": "1.5.1"
+    "@callstack/reassure-cli": "1.6.0",
+    "@callstack/reassure-compare": "1.6.0",
+    "@callstack/reassure-danger": "1.6.0",
+    "@callstack/reassure-measure": "1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

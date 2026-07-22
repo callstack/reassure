@@ -1,5 +1,16 @@
 # @callstack/reassure-compare
 
+## 1.6.0
+
+### Minor Changes
+
+- 75c1fcb: feat: calculate stability measures for test runs
+
+### Patch Changes
+
+- 5c8258f: chore: switch to oxfmt
+  - @callstack/reassure-logger@1.6.0
+
 ## 1.5.1
 
 ## 1.5.0

@@ -1,5 +1,16 @@
 # @callstack/reassure-measure
 
+## 1.6.0
+
+### Minor Changes
+
+- 9c9fb8e: feat: disable owner stacks to improve render duration stability
+
+### Patch Changes
+
+- 5c8258f: chore: switch to oxfmt
+  - @callstack/reassure-logger@1.6.0
+
 ## 1.5.1
 
 ## 1.5.0

@@ -1,5 +1,12 @@
 # example-native
 
+## 1.6.0
+
+### Minor Changes
+
+- 75c1fcb: feat: calculate stability measures for test runs
+- 9c9fb8e: feat: disable owner stacks to improve render duration stability
+
 ## 1.5.0
 
 ### Minor Changes
