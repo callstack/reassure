@@ -26,8 +26,8 @@ export function processRunResults(inputResults: RunResult[], options: ProcessRun
   const outlierDurations = outliers?.map((result) => result.duration);
 
   const counts = runResults.map((result) => result.count);
-  const meanCount = math.mean(...counts) as number;
-  const stdevCount = math.std(...counts);
+  const meanCount = math.fix(math.mean(...counts)) as number;
+  const stdevCount = math.fix(math.std(...counts));
 
   return {
     runs: runResults.length,
