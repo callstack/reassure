@@ -1,6 +1,8 @@
-export const RESULTS_DIRECTORY = '.reassure';
-export const RESULTS_FILE = '.reassure/current.perf';
-export const BASELINE_FILE = '.reassure/baseline.perf';
+import { join } from 'node:path';
+
+export const RESULTS_DIRECTORY = process.env.REASSURE_OUTPUT_DIR ?? '.reassure';
+export const RESULTS_FILE = join(RESULTS_DIRECTORY, 'current.perf');
+export const BASELINE_FILE = join(RESULTS_DIRECTORY, 'baseline.perf');
 
 export const CI_SCRIPT = 'reassure-tests.sh';
 
