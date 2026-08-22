@@ -235,6 +235,7 @@ Reset current config to the original `defaultConfig` object. You can call `reset
 
 The `reassure` CLI can be parametrized using available environmental variables:
 
+- `REASSURE_OUTPUT_DIR`: directory for baseline, current, JSON, and Markdown result files. Defaults to `.reassure`. Set a different directory per package when running Reassure in a monorepo.
 - `TEST_RUNNER_PATH`: an alternative path for your test runner. Defaults to `'node_modules/.bin/jest'` or on Windows `'node_modules/jest/bin/jest'`
 - `TEST_RUNNER_ARGS`: a set of arguments fed to the runner. Defaults to `'--runInBand --testMatch "**/__perf__/**/*.[jt]s?(x)", "**/*.(perf|perf-test).[jt]s?(x)"`
 - `RTC_SKIP_DISABLE_OWNER_STACKS`: set to any truthy value to skip disabling React owner-stack collection during render measurements
@@ -243,4 +244,7 @@ Example:
 
 ```sh
 TEST_RUNNER_PATH=myOwnPath/jest/bin yarn reassure
+
+# Keep results for this package separate in a monorepo
+REASSURE_OUTPUT_DIR=packages/app-a/.reassure yarn reassure
 ```

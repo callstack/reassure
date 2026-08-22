@@ -1,4 +1,5 @@
 import * as fsSync from 'fs';
+import { join } from 'node:path';
 
 import type {
   AddedEntry,
@@ -45,12 +46,14 @@ type CompareOptions = {
  *
  * Responsible for loading baseline and current performance results and outputting data in various formats.
  */
-export async function compare({
-  baselineFile = '.reassure/baseline.perf',
-  currentFile = '.reassure/current.perf',
-  outputFile = '.reassure/output.json',
-  outputFormat = 'all',
-}: CompareOptions = {}) {
+export async function compare(options: CompareOptions = {}) {
+  const resultsDirectory = process.env.REASSURE_OUTPUT_DIR ?? '.reassure';
+  const {
+    baselineFile = join(resultsDirectory, 'baseline.perf'),
+    currentFile = join(resultsDirectory, 'current.perf'),
+    outputFile = join(resultsDirectory, 'output.json'),
+    outputFormat = 'all',
+  } = options;
   const hasCurrentFile = fsSync.existsSync(currentFile);
   if (!hasCurrentFile) {
     logError(`Current results files "${currentFile}" does not exists. Check your setup.`);
@@ -90,7 +93,7 @@ export async function compare({
     await writeToJson(outputFile, output);
   }
   if (outputFormat === 'markdown' || outputFormat === 'all') {
-    await writeToMarkdown('.reassure/output.md', output);
+    await writeToMarkdown(join(resultsDirectory, 'output.md'), output);
   }
 }
 

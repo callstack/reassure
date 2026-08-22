@@ -1,3 +1,5 @@
+import { join } from 'node:path';
+
 export type TestingLibrary = 'react' | 'react-native' | { render: Render; cleanup: Cleanup };
 
 export type Render = (component: React.ReactElement<any>) => any | Promise<any>;
@@ -15,7 +17,7 @@ const defaultConfig: Config = {
   runs: 10,
   warmupRuns: 1,
   removeOutliers: true,
-  outputFile: process.env.REASSURE_OUTPUT_FILE ?? '.reassure/current.perf',
+  outputFile: process.env.REASSURE_OUTPUT_FILE ?? join(process.env.REASSURE_OUTPUT_DIR ?? '.reassure', 'current.perf'),
   testingLibrary: undefined,
 };
 
