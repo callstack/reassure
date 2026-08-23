@@ -56,10 +56,27 @@ function setUpCiScript() {
     return;
   }
 
-  copyFileSync(path.join(TEMPLATE_PATH, 'reassure-tests'), CI_SCRIPT);
+  const template = usesBun() ? 'reassure-tests-bun' : 'reassure-tests';
+  copyFileSync(path.join(TEMPLATE_PATH, template), CI_SCRIPT);
   logger.clearLine();
   logger.log(`✅  CI Script: created`);
   logger.log(`🔗 ${path.resolve(CI_SCRIPT)}`);
+}
+
+function usesBun(): boolean {
+  if (existsSync('package.json')) {
+    try {
+      const packageManager = JSON.parse(readFileSync('package.json', 'utf8')).packageManager;
+
+      if (typeof packageManager === 'string') {
+        return packageManager === 'bun' || packageManager.startsWith('bun@');
+      }
+    } catch {
+      // Fall back to lockfile detection for malformed package manifests.
+    }
+  }
+
+  return existsSync('bun.lock') || existsSync('bun.lockb');
 }
 
 function setUpDangerFile() {

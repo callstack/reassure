@@ -85,6 +85,12 @@ Using npm
 npm install --save-dev reassure
 ```
 
+Using Bun
+
+```sh
+bun add --dev reassure
+```
+
 You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
 See [Installation guide](https://callstack.github.io/reassure/docs/installation).
@@ -218,6 +224,14 @@ Simply run:
 ```bash
 yarn reassure init
 ```
+
+Using Bun:
+
+```bash
+bun run reassure init
+```
+
+When the project declares Bun in the `packageManager` field or contains a `bun.lock`/`bun.lockb` file, the generated CI script uses `bun install` and `bun run reassure`. This changes only the package manager commands; Reassure continues to run performance tests with Jest.
 
 This will generate the following file structure
 
