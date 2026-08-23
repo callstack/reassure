@@ -51,7 +51,8 @@
   },
   "scripts": {
     "build": "bob build",
-    "clean": "del lib"
+    "clean": "del lib",
+    "test": "jest --config tests/jest.config.js"
   },
   "dependencies": {
     "@callstack/reassure-compare": "1.6.0",

@@ -20,6 +20,11 @@ npm install --save-dev reassure
 yarn add --dev reassure
 ```
 </TabItem>
+<TabItem value="bun" label="Bun">
+```sh
+bun add --dev reassure
+```
+</TabItem>
 </Tabs>
 
 You will also need a working [Jest](https://jestjs.io/docs/getting-started) setup as well as one of either [React Native Testing Library](https://github.com/callstack/react-native-testing-library#installation) or [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
@@ -138,9 +143,25 @@ To make setting up Reassure more convenient we have prepared a CLI command which
 
 Simply run:
 
-```bash
+<Tabs>
+<TabItem value="npm" label="npm">
+```sh
+npm exec -- reassure init
+```
+</TabItem>
+<TabItem value="yarn" label="yarn">
+```sh
 yarn reassure init
 ```
+</TabItem>
+<TabItem value="bun" label="Bun">
+```sh
+bun run reassure init
+```
+</TabItem>
+</Tabs>
+
+The generated CI script detects npm, Yarn, or Bun from the `packageManager` field or the corresponding lockfile. Yarn remains the default when no supported package manager is detected. This changes only the package manager commands; Reassure continues to run performance tests with Jest.
 
 This will generate the following file structure
 
