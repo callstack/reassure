@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, readFileSync, appendFileSync } from 'node:fs';
+import { appendFileSync, copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import * as path from 'node:path';
 import * as logger from '@callstack/reassure-logger';
 import type { CommandModule } from 'yargs';
@@ -15,6 +15,23 @@ import { ASCII_BYE, ASCII_HELLO } from '../utils/ascii';
 import { configureLoggerOptions } from '../utils/logger';
 
 const TEMPLATE_PATH = path.join(__dirname, '..', 'templates');
+
+const PACKAGE_MANAGER_COMMANDS = {
+  npm: {
+    install: 'npm install',
+    reassure: 'npm exec -- reassure',
+  },
+  yarn: {
+    install: 'yarn install',
+    reassure: 'yarn reassure',
+  },
+  bun: {
+    install: 'bun install',
+    reassure: 'bun run reassure',
+  },
+} as const;
+
+type SupportedPackageManager = keyof typeof PACKAGE_MANAGER_COMMANDS;
 
 /**
  * Generate requred Reassure files.
@@ -56,27 +73,53 @@ function setUpCiScript() {
     return;
   }
 
-  const template = usesBun() ? 'reassure-tests-bun' : 'reassure-tests';
-  copyFileSync(path.join(TEMPLATE_PATH, template), CI_SCRIPT);
+  const packageManager = detectPackageManager();
+  const commands = PACKAGE_MANAGER_COMMANDS[packageManager];
+  const template = readFileSync(path.join(TEMPLATE_PATH, 'reassure-tests'), 'utf8');
+  const script = template
+    .split('{{INSTALL_COMMAND}}')
+    .join(commands.install)
+    .split('{{REASSURE_COMMAND}}')
+    .join(commands.reassure);
+
+  writeFileSync(CI_SCRIPT, script, { mode: 0o755 });
   logger.clearLine();
   logger.log(`✅  CI Script: created`);
   logger.log(`🔗 ${path.resolve(CI_SCRIPT)}`);
 }
 
-function usesBun(): boolean {
+function detectPackageManager(): SupportedPackageManager {
   if (existsSync('package.json')) {
     try {
       const packageManager = JSON.parse(readFileSync('package.json', 'utf8')).packageManager;
 
       if (typeof packageManager === 'string') {
-        return packageManager === 'bun' || packageManager.startsWith('bun@');
+        if (packageManager === 'npm' || packageManager.startsWith('npm@')) {
+          return 'npm';
+        }
+        if (packageManager === 'yarn' || packageManager.startsWith('yarn@')) {
+          return 'yarn';
+        }
+        if (packageManager === 'bun' || packageManager.startsWith('bun@')) {
+          return 'bun';
+        }
       }
     } catch {
       // Fall back to lockfile detection for malformed package manifests.
     }
   }
 
-  return existsSync('bun.lock') || existsSync('bun.lockb');
+  if (existsSync('bun.lock') || existsSync('bun.lockb')) {
+    return 'bun';
+  }
+  if (existsSync('yarn.lock')) {
+    return 'yarn';
+  }
+  if (existsSync('package-lock.json') || existsSync('npm-shrinkwrap.json')) {
+    return 'npm';
+  }
+
+  return 'yarn';
 }
 
 function setUpDangerFile() {

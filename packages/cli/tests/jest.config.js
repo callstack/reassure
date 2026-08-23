@@ -1,5 +1,6 @@
 module.exports = {
   rootDir: '..',
+  modulePathIgnorePatterns: ['<rootDir>/lib/'],
   testMatch: ['<rootDir>/tests/**/*.test.ts'],
   transform: {
     '^.+\\.tsx?$': [

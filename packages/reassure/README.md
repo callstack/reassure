@@ -221,6 +221,14 @@ To make setting up the CI integration and all prerequisites more convenient, we 
 
 Simply run:
 
+Using npm:
+
+```bash
+npm exec -- reassure init
+```
+
+Using Yarn:
+
 ```bash
 yarn reassure init
 ```
@@ -231,7 +239,7 @@ Using Bun:
 bun run reassure init
 ```
 
-When the project declares Bun in the `packageManager` field or contains a `bun.lock`/`bun.lockb` file, the generated CI script uses `bun install` and `bun run reassure`. This changes only the package manager commands; Reassure continues to run performance tests with Jest.
+The generated CI script detects npm, Yarn, or Bun from the `packageManager` field or the corresponding lockfile. Yarn remains the default when no supported package manager is detected. This changes only the package manager commands; Reassure continues to run performance tests with Jest.
 
 This will generate the following file structure
 

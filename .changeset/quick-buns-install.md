@@ -3,4 +3,4 @@
 '@callstack/reassure-cli': minor
 ---
 
-Generate Bun-compatible CI scripts for projects that use Bun as their package manager.
+Generate package-manager-aware CI scripts for projects using npm, Yarn, or Bun.
