@@ -1,4 +1,4 @@
-import simpleGit from 'simple-git';
+import { simpleGit } from 'simple-git';
 import * as logger from '@callstack/reassure-logger';
 
 export async function getGitBranch() {
