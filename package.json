@@ -45,23 +45,23 @@
   },
   "devDependencies": {
     "@callstack/eslint-config": "^15.0.0",
-    "@changesets/cli": "^2.31.0",
-    "@eslint/compat": "^2.1.0",
+    "@changesets/cli": "^2.31.1",
+    "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
-    "babel-jest": "^30.4.1",
+    "babel-jest": "^30.5.2",
     "check-dependency-version-consistency": "^6.0.0",
-    "danger": "^13.0.7",
-    "eslint": "^10.4.1",
+    "danger": "^13.0.10",
+    "eslint": "^10.13.0",
     "eslint-plugin-oxfmt": "^0.10.0",
     "oxfmt": "^0.54.0",
     "reassure": "workspace:^",
-    "turbo": "^2.9.16",
+    "turbo": "^2.11.9",
     "typescript": "^6.0.3"
   },
   "resolutions": {
-    "@eslint/compat": "^2.1.0",
-    "jest-environment-node": "30.4.1",
-    "jest-mock": "30.4.1",
+    "@eslint/compat": "^2.1.1",
+    "jest-environment-node": "30.5.2",
+    "jest-mock": "30.5.2",
     "react-is": "19.1.1"
   },
   "packageManager": "yarn@4.11.0"
