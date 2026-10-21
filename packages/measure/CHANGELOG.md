@@ -1,5 +1,12 @@
 # @callstack/reassure-measure
 
+## 1.6.1
+
+### Patch Changes
+
+- 72e7beb: chore: bump minor and patch dependencies (yargs, zod, pretty-format)
+  - @callstack/reassure-logger@1.6.1
+
 ## 1.6.0
 
 ### Minor Changes

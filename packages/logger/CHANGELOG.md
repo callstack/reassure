@@ -1,5 +1,7 @@
 # @callstack/reassure-logger
 
+## 1.6.1
+
 ## 1.6.0
 
 ## 1.5.1

@@ -1,5 +1,15 @@
 # @callstack/reassure-cli
 
+## 1.6.1
+
+### Patch Changes
+
+- 72e7beb: chore: bump minor and patch dependencies (yargs, zod, pretty-format)
+- 509b83f: chore: bump simple-git to v4 to fix security advisories
+- Updated dependencies [72e7beb]
+  - @callstack/reassure-compare@1.6.1
+  - @callstack/reassure-logger@1.6.1
+
 ## 1.6.0
 
 ### Patch Changes
